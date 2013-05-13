@@ -1,0 +1,29 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h2>Vendors</h2>
+        
+        <a class="btn btn-primary" href="#/vendors/new">Add New Vendor</a>
+        
+        <br /><br />
+        
+        <input type="text" placeholder="Search" ng-model="searchTerm">
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in vendors | filter: searchTerm">
+                    <td>{{item.name}}</td>
+                    <td>{{item.contact}}</td>
+                    <td>Edit | View | Delete</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>

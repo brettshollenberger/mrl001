@@ -1,21 +1,31 @@
 <div class="row-fluid">
     <div class="span12">
+        <form class="form">
         <h2>New Vendor</h2>
         
-        <legend>Vendor Information</legend>
+        <legend>Basic Information</legend>
+        <img class="span2" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" />
+        <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+        
         <input type="text" placeholder="Name" ng-model="vendor.name">
-        <input type="text" placeholder="Address" ng-model="vendor.name">
-        <input type="text" placeholder="State" ng-model="vendor.name">
+        <input type="text" placeholder="Vendor ID" ng-model="vendor.vendor_id">
+        
+        <legend>Vendor Location</legend>
+        <input type="text" placeholder="Address 1" ng-model="vendor.address_1">
+        <input type="text" placeholder="Address 2" ng-model="vendor.address_2">
+        <input type="text" placeholder="City" ng-model="vendor.city">
+        <input type="text" placeholder="State" ng-model="vendor.state">
         
         <legend>Primary Contact</legend>
-        <input type="text" placeholder="Name" ng-model="vendor.name">
-        <input type="text" placeholder="Name" ng-model="vendor.name">
-        <input type="text" placeholder="Name" ng-model="vendor.name">
+        <input type="text" placeholder="Name" ng-model="vendor.primary_contact.name">
+        <input type="text" placeholder="Email" ng-model="vendor.primary_contact.email">
+        <input type="text" placeholder="Phone" ng-model="vendor.primary_contact.phone">
                 
         <hr />
         
         <a class="btn btn-primary" ng-click="cancel()">Cancel</a>
         <a class="btn btn-primary" ng-click="save()">Add Vendor</a>
         
+        </form>
     </div>
 </div>

@@ -3,8 +3,7 @@ angular
   .controller('programController', [
     '$rootScope',
     '$scope',
-    'apiService',
-    function($rootScope, $scope, api) {
+    function($rootScope, $scope) {
      /*
  api.server.then(function(response) {
         $rootScope.version = response.data.version;

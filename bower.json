@@ -8,6 +8,8 @@
     "angular-strap": "~0.7.3",
     "bootstrap": "~2.3.1",
     "html5shiv-dist": "~3.6.1",
-    "modernizr": "~2.6.2"
+    "modernizr": "~2.6.2",
+    "angular-resource" : "1.0.6",
+    "json3" : "3.2.4"
   }
 }

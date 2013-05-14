@@ -20,7 +20,7 @@
                 <tr ng-repeat="item in vendors | filter: searchTerm">
                     <td>{{item.name}}</td>
                     <td>{{item.contact}}</td>
-                    <td>Edit | View | Delete</td>
+                    <td><a ng-click="editVendor(item.id)">Edit</a> | View | Delete</td>
                 </tr>
             </tbody>
         </table>

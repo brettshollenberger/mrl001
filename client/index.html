@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:ng="http://angularjs.org"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:ng="http://angularjs.org"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:ng="http://angularjs.org"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
@@ -22,7 +22,8 @@
     <script src="components/html5shiv-dist/html5shiv.js"></script>
     <![endif]-->
   </head>
-  <body ng-app="app">
+  <!-- <body ng-app="app"> -->
+  <body>
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
@@ -48,16 +49,24 @@
         &copy; 2013 Genesis Skeleton
       </footer>
     </div>
+    
+    <!--[if lte IE 8]>
+      <script src="/components/json3/lib/json3.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
 
     <!-- build:js app/scripts/all.min.js -->
     <script src="components/angular/angular.js"></script>
     <script src="components/modernizr/modernizr.js"></script>
+    <script src="components/angular-resource/angular-resource.js"></script>
 
     <script src="app/scripts/app.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
     <script src="app/scripts/controllers/program.js"></script>
-    <script src="app/scripts/controllers/vendor.js"></script>
-    <script src="app/scripts/controllers/vendorAdd.js"></script>
+    <script src="app/scripts/controllers/vendors/vendor.js"></script>
+    <script src="app/scripts/controllers/vendors/vendorEdit.js"></script>
+    <script src="app/scripts/controllers/vendors/vendorAdd.js"></script>
     <script src="app/scripts/services/vendor.js"></script>
     <script src="app/scripts/app.templates.js"></script>
     <!-- endbuild -->

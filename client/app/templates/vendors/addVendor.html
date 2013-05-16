@@ -7,8 +7,10 @@
         <img class="span2" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" />
         <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
         
+        <br /><br />
+        
         <input type="text" placeholder="Name" ng-model="vendor.name">
-        <input type="text" placeholder="Vendor ID" ng-model="vendor.vendor_id">
+        <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id">
         
         <legend>Vendor Location</legend>
         <input type="text" placeholder="Address 1" ng-model="vendor.address_1">

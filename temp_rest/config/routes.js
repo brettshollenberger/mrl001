@@ -85,7 +85,7 @@ module.exports.routes = {
 		action		: 'update'
 	},
 	'delete /api/vendor/:id': {
-		controller	: 'user',
+		controller	: 'vendor',
 		action		: 'destroy'
 	}
 	

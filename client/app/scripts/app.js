@@ -49,7 +49,7 @@ var api = {};
         templateUrl:  'app/templates/vendors/vendors.html'
       })
       .when('/vendors/new', {
-        controller:   'vendorAddController',
+        controller:   'vendorEditController',
         templateUrl:  'app/templates/vendors/addVendor.html'
       })
       .when('/vendors/:id', {

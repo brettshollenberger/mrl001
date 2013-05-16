@@ -27,6 +27,18 @@ angular
           $scope.vendors = result;
       });
       
+      $scope.deleteVendor = function(id) {
+        Vendor.delete({vendorId: id}, function(resp) {
+            $scope.vendors = _.reject($scope.vendors, function(item) {
+                return item.id === resp.id;
+            });
+        });  
+      };
+        
+      
+      
+      
+      
       //$scope.vendors = vendorService.getAll();
 
     }

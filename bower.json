@@ -10,6 +10,7 @@
     "html5shiv-dist": "~3.6.1",
     "modernizr": "~2.6.2",
     "angular-resource" : "1.0.6",
-    "json3" : "3.2.4"
+    "json3" : "3.2.4",
+    "lodash" : "1.2.1",
   }
 }

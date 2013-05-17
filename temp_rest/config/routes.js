@@ -99,7 +99,7 @@ module.exports.routes = {
 		action		: 'index'
 	},
 	'get /api/program/:id': {
-		controller	: 'program',
+		controller	: 'Programs',
 		action		: 'find'
 	},
 	'post /api/program': {

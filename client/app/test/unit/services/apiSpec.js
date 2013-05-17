@@ -20,13 +20,13 @@ describe('apiService', function() {
   afterEach(function() {
     //$httpBackend.verifyNoOutstandingExpectation();
     //$httpBackend.verifyNoOutstandingRequest();
+
   });
 
   // Test exposed properties for `apiService`
   it('should return { client: ..., server: ... }', function() {
     //expect(apiService.client).toNotBeDefined();
     var matt = 'Matt';
-    
     expect(matt).toBeDefined();
   });
 });

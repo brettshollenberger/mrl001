@@ -21,13 +21,6 @@ describe('homeController', function() {
     });
   }));
 
-  // Test `$scope` properties
-  /*
-it('should set $scope.client & $scope.server', function() {
-    expect($scope.client).toBeDefined();
-    expect($scope.server).toBeDefined();
-  });
-*/
 
 
 // Test exposed properties for `apiService`

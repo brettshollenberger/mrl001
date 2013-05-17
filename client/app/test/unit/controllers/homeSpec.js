@@ -28,4 +28,13 @@ it('should set $scope.client & $scope.server', function() {
     expect($scope.server).toBeDefined();
   });
 */
+
+
+// Test exposed properties for `apiService`
+  it('should be matt', function() {
+    //expect(apiService.client).toNotBeDefined();
+    var matt = 'Matt';
+    
+    expect(matt).toBeDefined();
+  });
 });

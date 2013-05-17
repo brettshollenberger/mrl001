@@ -4,6 +4,7 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'components/angular/angular.js',
+  'components/angular-resource/angular-resource.js',
   'components/angular-mocks/angular-mocks.js',
   'build/app/scripts/**/*.js',
   'build/app/test/unit/**/*Spec.js'
@@ -18,3 +19,7 @@ autoWatch       = false;            // Watch for file changes
 browsers        = [ 'PhantomJS' ];  // Chrome, ChromeCanary, Firefox, Opera, Safari (only Mac), PhantomJS, IE (only Windows)
 captureTimeout  = 120 * 1000;
 singleRun       = true;             // Exit upon completion
+
+proxies = {
+  '/': 'http://localhost:3000/'
+};

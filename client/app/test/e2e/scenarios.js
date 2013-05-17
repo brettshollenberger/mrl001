@@ -1,17 +1,23 @@
 describe('App', function() {
-  describe('Home view', function() {
+
+  describe('Adding vendors', function() {
+
     beforeEach(function() {
-      browser().navigateTo('../../../');
+        browser().navigateTo('/');
+        
     });
+    
+    it('Should start with no vendors listed', function() {
+        browser().reload();
+        expect(repeater('tr').count()).toEqual(0); 
+    });
+    /*
 
-    it('should list NPM packages', function() {
-      expect(repeater('.npm.packages tr', 'package row').count()).toEqual(17);
-      expect(repeater('.npm.packages tr a', 'package link').count()).toEqual(17);
+    it('Should be able to click to add a new vendor', function() {
+        element('#addVendor').click();
+        expect(browser().location().url()).toEqual('/vendors/new'); 
     });
-
-    it('should list Bower packages', function() {
-      expect(repeater('.bower.packages tr', 'package row').count()).toEqual(7);
-      expect(repeater('.bower.packages tr a', 'package link').count()).toEqual(0);
-    });
+    
+*/
   });
 });

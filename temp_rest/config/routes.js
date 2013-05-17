@@ -45,27 +45,122 @@ module.exports.routes = {
 
 	// Standard RESTful routing
 	// (if index is not defined, findAll will be used)
-	'get /user': {
+	
+	*/	
+	
+	'get /api/application': {
+		controller	: 'application',
+		action		: 'index'
+	},
+	'get /api/application/:id': {
+		controller	: 'application',
+		action		: 'find'
+	},
+	'post /api/application': {
+		controller	: 'application',
+		action		: 'create'
+	},
+	'put /api/application/:id': {
+		controller	: 'application',
+		action		: 'update'
+	},
+	'delete /api/application/:id': {
+		controller	: 'application',
+		action		: 'destroy'
+	},
+	
+	
+	
+	'get /api/customer': {
+		controller	: 'customer',
+		action		: 'index'
+	},
+	'get /api/customer/:id': {
+		controller	: 'customer',
+		action		: 'find'
+	},
+	'post /api/customer': {
+		controller	: 'customer',
+		action		: 'create'
+	},
+	'put /api/customer/:id': {
+		controller	: 'customer',
+		action		: 'update'
+	},
+	'delete /api/customer/:id': {
+		controller	: 'customer',
+		action		: 'destroy'
+	},
+	
+	
+	
+	'get /api/program': {
+		controller	: 'program',
+		action		: 'index'
+	},
+	'get /api/program/:id': {
+		controller	: 'program',
+		action		: 'find'
+	},
+	'post /api/program': {
+		controller	: 'program',
+		action		: 'create'
+	},
+	'put /api/program/:id': {
+		controller	: 'program',
+		action		: 'update'
+	},
+	'delete /api/program/:id': {
+		controller	: 'program',
+		action		: 'destroy'
+	},
+	
+	
+	
+	'get /api/quote': {
+		controller	: 'quote',
+		action		: 'index'
+	},
+	'get /api/quote/:id': {
+		controller	: 'quote',
+		action		: 'find'
+	},
+	'post /api/quote': {
+		controller	: 'quote',
+		action		: 'create'
+	},
+	'put /api/quote/:id': {
+		controller	: 'quote',
+		action		: 'update'
+	},
+	'delete /api/quote/:id': {
+		controller	: 'quote',
+		action		: 'destroy'
+	},
+	
+	
+	
+	'get /api/user': {
 		controller	: 'user',
 		action		: 'index'
-	}
-	'get /user/:id': {
+	},
+	'get /api/user/:id': {
 		controller	: 'user',
 		action		: 'find'
-	}
-	'post /user': {
+	},
+	'post /api/user': {
 		controller	: 'user',
 		action		: 'create'
-	}
-	'put /user/:id': {
+	},
+	'put /api/user/:id': {
 		controller	: 'user',
 		action		: 'update'
-	}
-	'delete /user/:id': {
+	},
+	'delete /api/user/:id': {
 		controller	: 'user',
 		action		: 'destroy'
-	}
-	*/
+	},
+	
 	
 	
 	'get /api/vendor': {

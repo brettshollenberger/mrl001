@@ -7,20 +7,11 @@ angular
     '$location',
     'Vendor',
     function($rootScope, $scope, vendorService, $location, Vendor) {
-      /*
-      api.server.then(function(response) {
-        $rootScope.version = response.data.version;
-      });
-
-      $scope.client = api.client;
-      $scope.server = api.server;
-      */
       
       $scope.editVendor = function(id) {
         $location.url('/vendors/' + id);  
       };
       
-      console.log('Vendor controller running! ');
       Vendor.query(function(result) {
           console.log('Querying the vendor resource');
           console.log(result);
@@ -34,12 +25,6 @@ angular
             });
         });  
       };
-        
-      
-      
-      
-      
-      //$scope.vendors = vendorService.getAll();
 
     }
   ])

@@ -1,0 +1,24 @@
+<div class="row-fluid">
+    <div class="span12">
+        <form class="form">
+        <h2>New Program</h2>
+        
+        <legend>Program Info</legend>
+        
+        <label>Program Name</label>
+        <input type="text" placeholder="Name" ng-model="program.name">
+        
+        <label>Private Notes</label>
+        <textarea type="text" ng-model="program.notes_private"></textarea>
+        
+        <label>Public Notes</label>
+        <textarea type="text" ng-model="program.notes_public"></textarea>
+        
+        <hr />
+        
+        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+        
+        </form>
+    </div>
+</div>

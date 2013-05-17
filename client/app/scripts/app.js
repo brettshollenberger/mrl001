@@ -8,13 +8,26 @@ angular
                 }
               });
         }]);
+        
+        $provide.factory('Program', ['$resource', function($resource){
+            return $resource('http://localhost\\:1337/api/program/:programId', {}, {
+                update: {
+                    method: 'PUT'
+                }
+              });
+        }]);
+        
       
   })
   .config(['$routeProvider', function($router) {
     $router
+      
+      // general routes
       .when('/', {
         redirectTo: '/vendors'
       })
+      
+      // vendor routes
       .when('/vendors', {
         controller:   'vendorController',
         templateUrl:  'app/templates/vendors/vendors.html'
@@ -27,10 +40,21 @@ angular
         controller:   'vendorEditController',
         templateUrl:  'app/templates/vendors/addVendor.html'
       })
+      
+      // program routes
       .when('/programs', {
-        controller:   'programController',
-        templateUrl:  'app/templates/programs/programs.html'
+        controller:   'programListController',
+        templateUrl:  'app/templates/programs/programList.html'
       })
+      .when('/programs/new', {
+        controller:   'programEditController',
+        templateUrl:  'app/templates/programs/programEdit.html'
+      })
+      .when('/programs/:id', {
+        controller:   'programEditController',
+        templateUrl:  'app/templates/programs/programEdit.html'
+      })
+      
     ;
   }])
 ;

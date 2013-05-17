@@ -26,12 +26,34 @@
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container-fluid">
-      <header class="masthead">
+    
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container-fluid">
+            <a class="brand" href="#/vendors">MarlinQuoter</a>
+            <ul class="nav">
+              <li><a href="#/programs">Programs</a></li>
+              <li><a href="#/vendors">Vendors</a></li>
+              <li><a href="#/quotes">Quotes</a></li>
+              <li><a href="#/applications">Applications</a></li>
+            </ul>
+            
+            <ul class="nav pull-right">
+              <li><a href="#/users">Users / Permissions</a></li>
+            </ul>
+            </div>
+          </div>
+        </div>
+     
+     <div class="container-fluid">
+      
+      <!--
+<header class="masthead">
         <h3>
           <a href="http://genesis-skeleton.com/" class="muted">Genesis Skeleton</a> <small>v{{ version }}</small>
         </h3>
       </header>
+-->
 
       <hr>
 
@@ -63,10 +85,13 @@
     <script src="app/scripts/app.js"></script>
     <script src="app/scripts/app.templates.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
-    <script src="app/scripts/controllers/program.js"></script>
+    
     <script src="app/scripts/controllers/vendors/vendor.js"></script>
     <script src="app/scripts/controllers/vendors/vendorEdit.js"></script>
-    <script src="app/scripts/controllers/vendors/vendorAdd.js"></script>
+    
+    <script src="app/scripts/controllers/programs/program.js"></script>
+    <script src="app/scripts/controllers/programs/programEdit.js"></script>
+    
     <script src="app/scripts/services/vendor.js"></script>
 
     

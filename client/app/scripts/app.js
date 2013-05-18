@@ -1,5 +1,5 @@
 angular
-  .module('app', ['ngResource'], function($provide) {
+  .module('app', ['ngResource', 'firebase'], function($provide) {
 
         $provide.factory('Vendor', ['$resource', function($resource){
             return $resource('http://localhost\\:1337/api/vendor/:vendorId', {}, {

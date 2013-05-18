@@ -7,12 +7,20 @@ angular
     'Vendor',
     'Program',
     '$routeParams',
-    function($rootScope, $scope, $location, Vendor, Program, $routeParams) {
+    'angularFireCollection',
+    'angularFire',
+    function($rootScope, $scope, $location, Vendor, Program, $routeParams, angularFireCollection, angularFire) {
        
         // empty program object
-        $scope.program = {};
+        $scope.programs = angularFireCollection('https://mrl001.firebaseio.com/programs');
         
-      
+        $scope.vendors = angularFireCollection('https://mrl001.firebaseio.com/vendors');
+        
+        $scope.$watch('$scope.vendors', function() {
+            console.log($scope.vendors);
+        });
+        
+            
         // utility function to go back to the program list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
@@ -36,7 +44,25 @@ angular
         // activated when user clicks the save button
         $scope.save = function() {
             
-            // create a new program
+            
+            
+            
+            //var ids = _.pluck($scope.program.vendors, '$id');
+            
+            //console.log(ids);
+            
+            //$scope.program.vendors = ids;
+            $scope.programs.add($scope.program);
+            
+            $scope.program = null;
+            $location.url('/programs');
+            
+            
+            
+            
+            
+            /*
+// create a new program
             var program = new Program();
             
             // This will transfer all properties user has entered into form
@@ -59,6 +85,7 @@ angular
                 }); 
             }
             
+*/
         };
         
     }

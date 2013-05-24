@@ -4,12 +4,13 @@ angular
     '$rootScope',
     '$scope',
     '$location',
-    'Vendor',
     '$routeParams',
-    function($rootScope, $scope, $location, Vendor, $routeParams) {
+    'Restangular',
+    function($rootScope, $scope, $location, $routeParams, Restangular) {
        
         // empty vendor object
         $scope.vendor = {};
+        var vendor = {};
         // empty logo object, or filepicker gets mad :)
         $scope.vendor.logo = {};
       
@@ -38,37 +39,27 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
-            Vendor.get({vendorId: vendorId}, function(result) {
-               $scope.vendor = result; 
-            },
+            Restangular.one('classes/vendors', vendorId).get().then(
+            function(vendor) {
+                // success, store the vendor in scope
+                $scope.vendor = vendor;
+            }, 
             function() {
-                $location.url('/vendors');
+                // 404
             });
         }
-        
-        
+    
         // activated when user clicks the save button
         $scope.save = function() {
-            
-            // create a new vendor
-            var vendor = new Vendor();
-            
-            // This will transfer all properties user has entered into form
-            // to our new vendor. 
-            // @note we could do specific assignments here, and process, trim, validate etc. as well
-            angular.extend(vendor, $scope.vendor);
            
             if(!vendorId) {
-                // call the $resource $save method, which makes a POST request to our API
-                vendor.$save(function(){
-                    // clear the vendor, and redirect the user
-                    $scope.vendor = null;
+                // POST a new item
+                Restangular.all('classes/vendors').post($scope.vendor).then(function(){
                     $location.url('/vendors');
                 }); 
             } else {
-                $scope.vendor.$update({vendorId: vendorId}, function(){
-                    // clear the vendor, and redirect the user
-                    $scope.vendor = null;
+                // PUT and update to existing item. 
+                $scope.vendor.put().then(function(){
                     $location.url('/vendors');
                 }); 
             }

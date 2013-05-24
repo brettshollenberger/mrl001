@@ -2,21 +2,42 @@ angular
   .module('app')
   .factory('vendorService', [
     '$http',
-    function($http) {
+    'Restangular',
+    function($http, Restangular) {
       
+      // $httpProvider.defaults.headers
+      
+      ///var baseVendors = Restangular.all('classes/Vendor');
+      
+      //console.log(baseVendors);
+      
+
       var vendors = [
-            {name: 'A Vendor', contact: 'John Doe'},
-            {name: 'Another Vendor', contact: 'Jane Doe'},
-            {name: 'ABC Vending', contact: 'John Doe'},
-            {name: 'Vending Inc.', contact: 'John Doe'},
-            {name: 'Vendors Inc.', contact: 'John Doe'},
-            {name: 'Great Vednors', contact: 'John Doe'},
-            {name: 'Many Vendors', contact: 'John Doe'}
+            {
+                id: 1,
+                name: 'A Vendor', 
+                contact: 'John Smith',
+                location: 'Philadelphia, PA'
+            },
+            {
+                id: 2,
+                name: 'Another Vendor', 
+                contact: 'John Smith',
+                location: 'Philadelphia, PA'
+            },
+            {
+                id: 3,
+                name: 'A Third Vendor', 
+                contact: 'John Smith',
+                location: 'Philadelphia, PA'
+            }
         ];
       
       return {
         getAll: function() {
+            
             return vendors;
+
         },
         save: function(item) {
             vendors.push(item);

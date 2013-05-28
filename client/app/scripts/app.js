@@ -41,6 +41,21 @@ angular
         templateUrl:  'app/templates/programs/programEdit.html'
       })
       
+      
+      // user routes
+      .when('/users', {
+        controller:   'userListController',
+        templateUrl:  'app/templates/users/userList.html'
+      })
+      .when('/users/new', {
+        controller:   'userEditController',
+        templateUrl:  'app/templates/users/userEdit.html'
+      })
+      .when('/users/:id', {
+        controller:   'userEditController',
+        templateUrl:  'app/templates/users/userEdit.html'
+      })
+      
     ;
   }])
   

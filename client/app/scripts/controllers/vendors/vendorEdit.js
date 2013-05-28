@@ -5,8 +5,8 @@ angular
     '$scope',
     '$location',
     '$routeParams',
-    'Restangular',
-    function($rootScope, $scope, $location, $routeParams, Restangular) {
+    'vendorService',
+    function($rootScope, $scope, $location, $routeParams, Vendor) {
        
         // empty vendor object
         $scope.vendor = {};
@@ -39,32 +39,32 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
-            Restangular.one('classes/vendors', vendorId).get().then(
-            function(vendor) {
-                // success, store the vendor in scope
-                $scope.vendor = vendor;
-            }, 
-            function() {
-                // 404
-            });
+            // get the vendor
+            $scope.vendor = Vendor.getById(vendorId);
+            console.log($scope.vendor);
         }
     
         // activated when user clicks the save button
         $scope.save = function() {
            
             if(!vendorId) {
-                // POST a new item
-                Restangular.all('classes/vendors').post($scope.vendor).then(function(){
-                    $location.url('/vendors');
-                }); 
+                
+                // create new item
+                Vendor.add($scope.vendor);
+                
             } else {
-                // PUT and update to existing item. 
-                $scope.vendor.put().then(function(){
-                    $location.url('/vendors');
-                }); 
+            
+                // update existing item 
+                Vendor.updateById($scope.vendor.id, $scope.vendor);
+                Vendor.update($scope.vendor);
+                
             }
             
+            $location.url('/vendors');
+            
         };
+        
+        
         
     }
   ])

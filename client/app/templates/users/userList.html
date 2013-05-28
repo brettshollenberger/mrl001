@@ -1,0 +1,35 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h2>Users</h2>
+        
+        <a id="addUser" class="btn btn-primary" href="#/users/new">Add New User</a>
+        
+        <br /><br />
+        
+        <input type="text" placeholder="Search" ng-model="searchTerm">
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>email</th>
+                    <th>phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in users | filter: searchTerm">
+                    <td>{{item.username}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.phone}}</td>
+                    <td>
+                        <a ng-click="editItem(item.objectId)">Edit</a> | 
+                        <a ng-click="editItem(item.objectId)">View</a> | 
+                        <a ng-click="deleteItem(item)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>

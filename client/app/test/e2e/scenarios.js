@@ -200,21 +200,22 @@ describe('App', function() {
         
         it('Should list the programs that are currently related to a vendor', function() {
             browser().navigateTo('/vendors/1');
-            expect(repeater('#vendorPrograms li').count()).toBe(1);
+            expect(repeater('#vendorPrograms li').count()).toBe(3);
         });
     
         it('Should allow user to add a program to a vendor', function() {
-            expect(repeater('#vendorPrograms li').count()).toBe(1);
-            expect(repeater('#allPrograms li').count()).toBe(3);
+            expect(repeater('#vendorPrograms li').count()).toBe(3);
+            expect(repeater('#allPrograms li').count()).toBe(1);
             element('#allPrograms button:first').click();
-            expect(repeater('#vendorPrograms li').count()).toBe(2);
-            expect(repeater('#allPrograms li').count()).toBe(2);
+            expect(repeater('#vendorPrograms li').count()).toBe(4);
+            expect(repeater('#allPrograms li').count()).toBe(0);
         });
         
         it('Should allow user to remove a program from a vendor', function() {
-            expect(repeater('#vendorPrograms li').count()).toBe(2);
+            browser().reload();
+            expect(repeater('#vendorPrograms li').count()).toBe(3);
             element('#vendorPrograms button:first').click();
-            expect(repeater('#vendorPrograms li').count()).toBe(1);
+            expect(repeater('#vendorPrograms li').count()).toBe(2);
         });
     
     });

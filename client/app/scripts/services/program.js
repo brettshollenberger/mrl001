@@ -3,23 +3,19 @@ angular.module('app').factory('programService', ['$http', function($http) {
     // dummy data
     var itemList = [{
         id: 1,
-        name: 'The Only Program',
-        vendorIds: [1, 2, 3, 4]
+        name: 'The Only Program'
     },
     {
         id: 2,
-        name: 'A Brand New Program',
-        vendorIds: [3]
+        name: 'A Brand New Program'
     },
     {
         id: 3,
-        name: 'No One has this program',
-        vendorIds: []
+        name: 'No One has this program'
     },
     {
         id: 4,
-        name: 'Or This Program',
-        vendorIds: []
+        name: 'Or This Program'
     }];
     
     
@@ -134,6 +130,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
     
     /**
     * Removes vendor from program the id of each
+    *
     * @param int vendorId ID of the vendor
     * @param int programId ID of the program
     * @return array Updated array of programs for the vendor
@@ -148,6 +145,37 @@ angular.module('app').factory('programService', ['$http', function($http) {
         });
         
         return exports.getAllForVendorId(vendorId);
+    };
+    
+    /**
+    * Gets all programs that match an array of IDs
+    *
+    * @param array idArray Array of program ids
+    * @return array programs that match the idArray
+    */
+    exports.getManyByIds = function(idArray) {
+        var programs = [];
+        _.each(idArray, function(id) {
+            var match = _.find(itemList, function(subItem) {
+                return subItem.id == id;
+            });
+            programs.push(match);
+        });
+        return programs;
+    };
+    
+    
+    exports.getManyByNotIds = function(idArray) {
+        var returnItems = [];
+        _.each(itemList, function(item) {
+            var match = _.find(idArray, function(vendorId) {
+                return vendorId == item.id;
+            });    
+            if(!match) {
+                 returnItems.push(item);
+            }
+        });
+        return returnItems;
     };
     
     

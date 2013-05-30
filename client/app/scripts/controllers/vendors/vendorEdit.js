@@ -68,20 +68,22 @@ angular
             
         };
         
-        $scope.vendor.programs = Program.getAllForVendorId($scope.vendor.id);
-        $scope.programs = Program.getAllNotForVendorId($scope.vendor.id);
+        $scope.vendor.programs = Program.getManyByIds($scope.vendor.programIds);
+        $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
         
         
         
         $scope.addProgram = function(program) {
-            $scope.vendor.programs = Program.addVendorToProgram($scope.vendor.id, program.id);
-            $scope.programs = Program.getAllNotForVendorId($scope.vendor.id);
+            $scope.vendor.programIds = Vendor.addProgramToVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programs = Program.getManyByIds($scope.vendor.programIds);
+            $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
         };
         
         
         $scope.removeProgram = function(program) {
-            $scope.vendor.programs = Program.removeVendorFromProgram($scope.vendor.id, program.id);
-            $scope.programs = Program.getAllNotForVendorId($scope.vendor.id);
+            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programs = Program.getManyByIds($scope.vendor.programIds);
+            $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
         };
         
     }

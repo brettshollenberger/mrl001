@@ -1,6 +1,5 @@
 <div class="row-fluid">
     <div class="span12">
-        <form class="form">
         <h2>New Vendor</h2>
         
         <legend>Basic Information</legend>
@@ -22,12 +21,43 @@
         <input type="text" placeholder="Name" ng-model="vendor.primary_contact.name">
         <input type="text" placeholder="Email" ng-model="vendor.primary_contact.email">
         <input type="text" placeholder="Phone" ng-model="vendor.primary_contact.phone">
+        
+        <div class="row-fluid">
+            <div class="span12">
+                <legend>Lease Programs</legend>
+            </div>
+            
+         </div>
+         
+         <div class="row-fluid">
+            <div class="span6">
+                <strong>Current Lease Programs Associated with Vendor</strong>
+                <ul id="vendorPrograms">
+                    <li ng-repeat="item in vendor.programs">
+                        <p>{{item.name}}</p>
+                        <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                    </li>
+                </ul>
+                
+                <p ng-show="!vendor.programs.length">No programs are associated with the vendor yet</p>  
+                  
+            </div>
+            <div class="span6">
+                <strong>Lease programs not currently used by this vendor</strong>
+                <ul id="allPrograms">
+                    <li ng-repeat="item in programs">
+                        <p>{{item.name}}</p>
+                        <button ng-click="addProgram(item)" class="btn">Add</button>
+                    </li>
+                </ul>
+            </div>
+              
+        </div>  
                 
         <hr />
         
         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
         <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
         
-        </form>
     </div>
 </div>

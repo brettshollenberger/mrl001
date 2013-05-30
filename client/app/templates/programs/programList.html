@@ -19,9 +19,9 @@
                 <tr ng-repeat="item in programs | filter: searchTerm">
                     <td>{{item.name}}</td>
                     <td>
-                        <a ng-click="editItem(item.id)">Edit</a> | 
-                        <a ng-click="editItem(item.id)">View</a> | 
-                        <a ng-click="deleteItem(item.id)">Delete</a>
+                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
+                        <a class="view" ng-click="editItem(item.id)">View</a> | 
+                        <a class="delete" ng-click="deleteItem(item.id)">Delete</a>
                     </td>
                 </tr>
             </tbody>

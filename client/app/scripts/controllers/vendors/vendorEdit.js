@@ -55,7 +55,7 @@ angular
             } else {
             
                 // update existing item 
-                Vendor.updateById($scope.vendor.id, $scope.vendor);
+                //Vendor.updateById($scope.vendor.id, $scope.vendor);
                 Vendor.update($scope.vendor);
                 
             }

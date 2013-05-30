@@ -1,5 +1,5 @@
 {
-  "name": "genesis-skeleton",
+  "name": "faculty-starterkit",
   "version": "0.0.1",
   "dependencies": {
     "angular": "~1.0.6",

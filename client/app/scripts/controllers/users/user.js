@@ -20,7 +20,7 @@ angular
         // sends user to url based on item id
         $scope.editItem = function(itemId) {
             $location.url('users/' + itemId);
-        }
+        };
         
         // deletes an item. On success we need to remove the item from the list
         // @todo this seems like it should be automatic, since angular knows that $scope.vendors is a collection
@@ -35,7 +35,7 @@ angular
                 alert('Something went wrong!');
             });
 
-        }
+        };
     }
   ])
 ;

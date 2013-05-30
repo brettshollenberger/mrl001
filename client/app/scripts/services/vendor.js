@@ -33,7 +33,7 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
             return item.id == id;
         });
         return theItem ? theItem : false;
-    }
+    };
     
     // update one item by id
     // @todo check for updating the id!
@@ -43,17 +43,17 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         });
         theList = _.extend(itemList[theId], newData);
         return theList;
-    }
+    };
     
     // update one item by item 
     // @note we figure out id from item
     exports.update = function(newItem) {
         var theIndex = _.findIndex(itemList, function(item) {
-            return item.id == id;
+            return item.id == newItem.id;
         });
         theList = _.extend(itemList[theIndex], newItem);
         return theList;
-    }
+    };
     
     // add a new item
     exports.add = function(item) {

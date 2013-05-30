@@ -36,12 +36,15 @@ angular
         
         // get vendor ID for edit pages
         var vendorId = $routeParams.id;
+        $scope.formAction = 'Add';
+        
         
         // get and store the vendor 
         if(vendorId) {
             // get the vendor
             $scope.vendor = Vendor.getById(vendorId);
             console.log($scope.vendor);
+            $scope.formAction = 'Update';
         }
     
         // activated when user clicks the save button

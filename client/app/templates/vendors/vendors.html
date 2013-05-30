@@ -21,9 +21,9 @@
                     <td>{{item.name}}</td>
                     <td>{{item.contact}}</td>
                     <td>
-                        <a ng-click="editItem(item.id)">Edit</a> | 
-                        <a ng-click="editItem(item.id)">View</a> | 
-                        <a ng-click="deleteItem(item)">Delete</a>
+                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
+                        <a class="view" ng-click="editItem(item.id)">View</a> | 
+                        <a class="delete" ng-click="deleteItem(item)">Delete</a>
                     </td>
                 </tr>
             </tbody>

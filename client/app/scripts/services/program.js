@@ -161,7 +161,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
             });
             programs.push(match);
         });
-        return programs;
+        return _.clone(programs, true);
     };
     
     
@@ -175,7 +175,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
                  returnItems.push(item);
             }
         });
-        return returnItems;
+        return _.clone(returnItems, true);
     };
     
     

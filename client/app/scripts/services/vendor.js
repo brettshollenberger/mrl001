@@ -105,7 +105,6 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
     * @return array Updated array of programs for the vendor
     */
     exports.removeProgramFromVendor = function(programId, vendorId) {
-        console.log('Removinf program : ' + programId);
         // gets array key for this vendor
         var theId = _.findIndex(itemList, function(item) {
             return item.id == vendorId;

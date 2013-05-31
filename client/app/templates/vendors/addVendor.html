@@ -33,8 +33,12 @@
             <div class="span6">
                 <strong>Current Lease Programs Associated with Vendor</strong>
                 <ul id="vendorPrograms">
-                    <li ng-repeat="item in vendor.programs">
+                    <li ng-repeat="item in vendorPrograms">
                         <p>{{item.name}}</p>
+                        <pre>{{item | json}}</pre>
+                        <label>This how the program will display to end users.</label>
+                        <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
+                        <br />
                         <button ng-click="removeProgram(item)" class="btn">Remove</button>
                     </li>
                 </ul>

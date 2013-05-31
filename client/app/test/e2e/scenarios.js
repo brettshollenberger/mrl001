@@ -217,6 +217,45 @@ describe('App', function() {
             element('#vendorPrograms button:first').click();
             expect(repeater('#vendorPrograms li').count()).toBe(2);
         });
+        
+        it('Should allow user customize the displayName for the program per vendor', function() {
+            
+        });
+        
+        
+        describe('Give a program a custom displayName on a per vendor basis', function() {
+            
+            it('Should provide input form for user to enter custom display name', function() {
+                browser().navigateTo('/vendors/1');
+                expect(repeater('#vendorPrograms li:first > input').count()).toBeGreaterThan(0);
+            });
+            
+            it('Should save the displayName with the vendor', function() {
+                using('#vendorPrograms li:first').input('item.displayName').enter('Custom Display Name');
+                element('#save').click();
+                element('.edit:first').click();
+                pause();
+                expect(using('#vendorPrograms li:first').input('item.displayName').val()).toEqual('Custom Display Name');
+                
+            });
+            
+            it('Adding a program, entering a custom name, and removing it before saving the vendor should clear the custom name', function() {
+                
+            });
+            
+            it('Custom names should appear when returning to edit screen', function() {
+                
+            });
+            
+            it('Custom program names should not appear when assigning program to another vendor', function() {
+                
+            });
+            
+            
+        });
+        
+        
+        
     
     });
         

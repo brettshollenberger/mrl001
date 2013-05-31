@@ -22,14 +22,28 @@ describe('App', function() {
                 expect(element('#addQuote').count()).toBe(1);
             });
             
-            it('Should have a form for users to search quotes', function() {
+        });
+        
+        
+        describe('Filtering quotes', function() {
+            
+            it('Should have a form for users to search by description', function() {
                 var listLengthBefore = repeater('tbody tr').count();
-                input('searchTerm').enter('A Third Quote');
+                input('searchDesc').enter('I need new rockets');
                 var listLengthAfter = repeater('tbody tr').count();
                 expect(listLengthBefore).toBeGreaterThanFuture(listLengthAfter);
-                
-                input('searchTerm').enter('');
-            });
+                input('searchDesc').enter('');
+            }); 
+            
+            it('Should have buttons to filter by status', function() {
+                var listLengthBefore = repeater('tbody tr').count();
+                element('#filterArchived').click();
+                var listLengthAfter = repeater('tbody tr').count();
+                expect(listLengthBefore).toBeGreaterThanFuture(listLengthAfter);
+                expect(repeater('tbody tr').count()).toBe(2);
+                element('#filterAll').click();
+                expect(repeater('tbody tr').count()).toBe(4);
+            }); 
             
         });
         
@@ -87,10 +101,24 @@ describe('App', function() {
             });
             
             it('Quotes information should be updated', function() {
-                expect(element('tr > td:first').text()).toEqual("122");
+                expect(element('tr > td:first').text()).toEqual("$122");
                 expect(element('tr > td:eq(1)').text()).toEqual('Something new to buy equiptment for');
             });
         
+        });
+        
+        describe('Changing a quotes status', function() {
+            
+            it('Should allow user to toggle the status between open and closed', function() {
+                browser().navigateTo('/quotes');
+                element('#filterArchived').click();
+                expect(repeater('tbody tr').count()).toBe(2);
+                using('tbody tr:first ').element('.edit').click();
+                element('.btn-group .btn:first').click();
+                element('#save').click();
+                element('#filterArchived').click();
+                expect(repeater('tbody tr').count()).toBe(1);
+            });
         
         });
         

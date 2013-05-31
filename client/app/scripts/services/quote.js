@@ -4,21 +4,25 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
     var itemList = [{
         id: 1,
         totalCost: 1000,
+        status: 'Open',
         description: 'I need new rockets for my space shuttle booster.'
     },
     {
         id: 2,
         totalCost: 9900,
+        status: 'Open',
         description: 'Manaquins for my art project in the SkyBox'
     },
     {
         id: 3,
         totalCost: 2000,
+        status: 'Archived',
         description: 'Cookies for lunch for everyone!'
     },
     {
         id: 4,
         totalCost: 28000,
+        status: 'Archived',
         description: 'Security system for my office.'
     }];
     

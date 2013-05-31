@@ -16,6 +16,12 @@
         <label>Description of Equiptment</label>
         <textarea type="text" ng-model="quote.description"></textarea>
         
+        <label>Status</label>
+        <div class="btn-group">
+            <button ng-click="quote.status='Open'" class="btn" ng-class="{active: quote.status=='Open'}">Open</button>
+            <button ng-click="quote.status='Archived'" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
+        </div>
+        
     </div>
 
 </div>

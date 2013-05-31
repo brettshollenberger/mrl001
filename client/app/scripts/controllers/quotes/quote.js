@@ -10,6 +10,10 @@ angular
         // Gets all the vendors
         $scope.quotes = Quote.getAll();
         
+        $scope.searchDesc = '';
+        $scope.filterStatus = ''; // filter status
+        $scope.searchCost = '';
+        
         // sends user to url based on item id
         $scope.editItem = function(itemId) {
             $location.url('quotes/' + itemId);

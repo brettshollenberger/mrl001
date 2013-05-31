@@ -6,20 +6,33 @@
         
         <br /><br />
         
-        <input type="text" placeholder="Search" ng-model="searchTerm">
-        
+        <div class="form-inline">
+            <label>Search cost</label>
+            <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost">
+            <label>Search description</label>
+            <input type="text" placeholder="Description" ng-model="searchDesc">
+            <label>Filter by status</label>
+            <div class="btn-group">
+                <button id="filterAll" ng-click="filterStatus=''" class="btn" ng-class="{active: filterStatus==''}">All</button>
+                <button id="filterOpen" ng-click="filterStatus='Open'" class="btn" ng-class="{active: filterStatus=='Open'}">Open</button>
+                <button id="filterArchived" ng-click="filterStatus='Archived'" class="btn" ng-class="{active: filterStatus=='Archived'}">Archived</button>
+            </div>
+        </div>
+            
         <table class="table">
             <thead>
                 <tr>
                     <th>Total Cost</th>
                     <th>Description</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in quotes | filter: searchTerm">
+                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, status: filterStatus}">
                     <td>${{item.totalCost | number}}</td>
                     <td>{{item.description}}</td>
+                    <td>{{item.status}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
                         <a class="view" ng-click="editItem(item.id)">View</a> | 

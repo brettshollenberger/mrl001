@@ -32,14 +32,15 @@
          <div class="row-fluid">
             <div class="span6">
                 <strong>Current Lease Programs Associated with Vendor</strong>
-                <ul id="vendorPrograms">
+                <ul id="vendorPrograms" class="unstyled">
                     <li ng-repeat="item in vendorPrograms">
-                        <p>{{item.name}}</p>
-                        <pre>{{item | json}}</pre>
-                        <label>This how the program will display to end users.</label>
+                        <hr />
+                        <p>Name: {{item.name}}</p>
+                        <label>Display Name: This how the program will display to end users.</label>
                         <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
                         <br />
                         <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                        
                     </li>
                 </ul>
                 
@@ -48,8 +49,9 @@
             </div>
             <div class="span6">
                 <strong>Lease programs not currently used by this vendor</strong>
-                <ul id="allPrograms">
+                <ul id="allPrograms" class="unstyled">
                     <li ng-repeat="item in programs">
+                        <hr />
                         <p>{{item.name}}</p>
                         <button ng-click="addProgram(item)" class="btn">Add</button>
                     </li>

@@ -41,6 +41,20 @@ angular
         templateUrl:  'app/templates/programs/programEdit.html'
       })
       
+      // quote routes
+      .when('/quotes', {
+        controller:   'quoteListController',
+        templateUrl:  'app/templates/quotes/quoteList.html'
+      })
+      .when('/quotes/new', {
+        controller:   'quoteEditController',
+        templateUrl:  'app/templates/quotes/quoteEdit.html'
+      })
+      .when('/quotes/:id', {
+        controller:   'quoteEditController',
+        templateUrl:  'app/templates/quotes/quoteEdit.html'
+      })
+      
       
       // user routes
       .when('/users', {

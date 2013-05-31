@@ -77,7 +77,7 @@ angular
                 
             }
 
-            $location.url('/vendors');
+            $location.url('/dashboard/vendors');
             
         };
 

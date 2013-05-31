@@ -15,7 +15,7 @@ angular
         // utility function to go back to the quote list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
-            $location.url('/quotes');
+            $location.url('/dashboard/quotes');
         };
         
         // get quote ID for edit pages
@@ -27,8 +27,10 @@ angular
         if(quoteId) {
             // get the quote
             $scope.quote = Quote.getById(quoteId);
-            console.log($scope.quote);
+            if(!$scope.quote) $location.path('/dashboard/quotes');
             $scope.formAction = 'Update';
+        } else {
+            $scope.quote.status = 'Open';
         }
     
         // activated when user clicks the save button
@@ -47,7 +49,7 @@ angular
                 
             }
             
-            $location.url('/quotes');
+            $location.url('/dashboard/quotes');
             
         };
         

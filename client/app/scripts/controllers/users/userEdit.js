@@ -31,7 +31,7 @@ angular
         // utility function to go back to the vendor list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
-            $location.url('/users');
+            $location.url('/dashboard/users');
         };
         
         // get vendor ID for edit pages
@@ -55,14 +55,14 @@ angular
             if(!userId) {
                 // POST a new item
                 Restangular.all('users').post($scope.user).then(function(success){
-                    $location.url('/users');
+                    $location.url('/dashboard/users');
                 }, function(error) {
                     alert('Something went wrong');
                 }); 
             } else {
                 // PUT and update to existing item. 
                 $scope.user.put().then(function(){
-                    $location.url('/users');
+                    $location.url('/dashboard/users');
                 }); 
             }
             

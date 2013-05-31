@@ -6,7 +6,7 @@
 
 <div class="row-fluid">
 
-    <div class="span6">
+    <div class="span4">
         
         <legend>Equipment Cost Information</legend>
         
@@ -22,6 +22,41 @@
             <button ng-click="quote.status='Archived'" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
         </div>
         
+    </div>
+    
+    <div class="span4">
+        <legend>Company Information</legend>
+        
+        <label>Company Name</label>
+        <input type="text" placeholder="" ng-model="quote.company.name">
+        
+        <label>Address 1</label>
+        <input type="text" placeholder="" ng-model="quote.company.address1">
+        
+        <label>Address 2</label>
+        <input type="text" placeholder="" ng-model="quote.company.address2">
+        
+        <label>City</label>
+        <input type="text" placeholder="" ng-model="quote.company.city">
+        
+        <label>State</label>
+        <input type="text" placeholder="" ng-model="quote.company.state">
+        
+    </div>
+    
+    <div class="span4">  
+        
+        <legend>Contact Information</legend>
+    
+        <label>Contact Name</label>
+        <input type="text" placeholder="" ng-model="quote.contact.name">
+    
+        <label>Email</label>
+        <input type="text" placeholder="" ng-model="quote.contact.email">
+        
+        <label>Phone</label>
+        <input type="text" placeholder="" ng-model="quote.contact.phone">
+    
     </div>
 
 </div>

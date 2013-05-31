@@ -31,7 +31,7 @@ angular
         // utility function to go back to the program list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
-            $location.url('/programs');
+            $location.url('/dashboard/programs');
         };
         
         // get program ID for edit pages
@@ -63,7 +63,7 @@ angular
                 
             }
             
-            $location.url('/programs');
+            $location.url('/dashboard/programs');
             
         };
         

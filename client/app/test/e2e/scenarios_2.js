@@ -14,7 +14,7 @@ describe('App', function() {
         
             // check for table and button, other form elements
             it('Should list current quotes in a table', function() {
-                browser().navigateTo('/quotes');
+                browser().navigateTo('/dashboard/quotes');
                 expect(repeater('tbody tr').count()).toBeGreaterThan(1);
             });
             
@@ -50,10 +50,10 @@ describe('App', function() {
         describe('Adding a quote', function() {
             
             it('Should take user to a form when they click the add quote button', function() {
-                browser().navigateTo('/quotes');
+                browser().navigateTo('/dashboard/quotes');
                 listLengthBefore = repeater('tbody tr').count();
                 element('#addQuote').click();
-                expect(browser().location().url()).toEqual('/quotes/new');
+                expect(browser().location().url()).toEqual('/dashboard/quotes/new');
             });
             
             it('Should allow user to enter quote information in a form', function() {
@@ -69,7 +69,7 @@ describe('App', function() {
             
             it('Clicking save quote should redirect user back to quotes table', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/quotes');
+                expect(browser().location().url()).toEqual('/dashboard/quotes');
             });
             
             it('Should have one additional quote in the table', function() {
@@ -83,7 +83,7 @@ describe('App', function() {
             
             it('Clicking edit should take user to edit quote form', function() {
                 element('.edit:first').click();
-                expect(browser().location().url()).toEqual('/quotes/1');
+                expect(browser().location().url()).toEqual('/dashboard/quotes/1');
             });
             
             it('Button text should read "Save"', function() {
@@ -97,7 +97,7 @@ describe('App', function() {
             
             it('Clicking update should take user back to quote list', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/quotes');
+                expect(browser().location().url()).toEqual('/dashboard/quotes');
             });
             
             it('Quotes information should be updated', function() {
@@ -110,7 +110,7 @@ describe('App', function() {
         describe('Changing a quotes status', function() {
             
             it('Should allow user to toggle the status between open and closed', function() {
-                browser().navigateTo('/quotes');
+                browser().navigateTo('/dashboard/quotes');
                 element('#filterArchived').click();
                 expect(repeater('tbody tr').count()).toBe(2);
                 using('tbody tr:first ').element('.edit').click();
@@ -125,7 +125,7 @@ describe('App', function() {
         describe('Deleting a quote', function() {
             
             it('Clicking delete should remove the quote', function() {
-                browser().navigateTo('/quotes');
+                browser().navigateTo('/dashboard/quotes');
                 expect(repeater('tbody tr').count()).toBe(4);
                 element('.delete:first').click();
                 expect(repeater('tbody tr').count()).toBe(3);

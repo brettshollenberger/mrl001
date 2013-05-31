@@ -11,7 +11,7 @@ describe('App', function() {
         
             // check for table and button, other form elements
             it('Should list current vendors in a table', function() {
-                browser().navigateTo('/vendors');
+                browser().navigateTo('/dashboard/vendors');
                 expect(repeater('tbody tr').count()).toBeGreaterThan(1);
             });
             
@@ -31,10 +31,10 @@ describe('App', function() {
         describe('Adding a vendor', function() {
             
             it('Should take user to a form when they click the add vendor button', function() {
-                browser().navigateTo('/vendors');
+                browser().navigateTo('/dashboard/vendors');
                 listLengthBefore = repeater('tbody tr').count();
                 element('#addVendor').click();
-                expect(browser().location().url()).toEqual('/vendors/new');
+                expect(browser().location().url()).toEqual('/dashboard/vendors/new');
             });
             
             it('Should allow user to enter vendor information in a form', function() {
@@ -49,7 +49,7 @@ describe('App', function() {
             
             it('Clicking save vendor should redirect user back to vendors table', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/vendors');
+                expect(browser().location().url()).toEqual('/dashboard/vendors');
             });
             
             it('Should have one additional vendor in the table', function() {
@@ -63,7 +63,7 @@ describe('App', function() {
             
             it('Clicking edit should take user to edit vendor form', function() {
                 element('.edit:first').click();
-                expect(browser().location().url()).toEqual('/vendors/1');
+                expect(browser().location().url()).toEqual('/dashboard/vendors/1');
             });
             
             it('Button text should read "Update Vendor"', function() {
@@ -77,7 +77,7 @@ describe('App', function() {
             
             it('Clicking update should take user back to vendor list', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/vendors');
+                expect(browser().location().url()).toEqual('/dashboard/vendors');
             });
             
             it('Vendors information should be updated', function() {
@@ -90,7 +90,7 @@ describe('App', function() {
         describe('Deleting a vendor', function() {
             
             it('Clicking delete should remove the vendor', function() {
-                browser().navigateTo('/vendors');
+                browser().navigateTo('/dashboard/vendors');
                 expect(repeater('tbody tr').count()).toBe(3);
                 element('.delete:first').click();
                 expect(repeater('tbody tr').count()).toBe(2);
@@ -106,7 +106,7 @@ describe('App', function() {
         
             // check for table and button, other form elements
             it('Should list current programs in a table', function() {
-                browser().navigateTo('/programs');
+                browser().navigateTo('/dashboard/programs');
                 expect(repeater('tbody tr').count()).toBeGreaterThan(1);
             });
             
@@ -128,10 +128,10 @@ describe('App', function() {
         describe('Adding a Program', function() {
             
             it('Should take user to a form when they click the add program button', function() {
-                browser().navigateTo('/programs');
+                browser().navigateTo('/dashboard/programs');
                 listLengthBefore = repeater('tbody tr').count();
                 element('#addProgram').click();
-                expect(browser().location().url()).toEqual('/programs/new');
+                expect(browser().location().url()).toEqual('/dashboard/programs/new');
             });
             
             it('Should allow user to enter program information in a form', function() {
@@ -146,7 +146,7 @@ describe('App', function() {
             
             it('Clicking save program should redirect user back to programs table', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/programs');
+                expect(browser().location().url()).toEqual('/dashboard/programs');
             });
             
             it('Should have one additional program in the table', function() {
@@ -160,7 +160,7 @@ describe('App', function() {
             
             it('Clicking edit should take user to edit program form', function() {
                 element('.edit:first').click();
-                expect(browser().location().url()).toEqual('/programs/1');
+                expect(browser().location().url()).toEqual('/dashboard/programs/1');
             });
             
             it('Button text should read "Save"', function() {
@@ -173,7 +173,7 @@ describe('App', function() {
             
             it('Clicking update should take user back to program list', function() {
                 element('#save').click();
-                expect(browser().location().url()).toEqual('/programs');
+                expect(browser().location().url()).toEqual('/dashboard/programs');
             });
             
             it('Programs information should be updated', function() {
@@ -186,7 +186,7 @@ describe('App', function() {
         describe('Deleting a program', function() {
             
             it('Clicking delete should remove the program', function() {
-                browser().navigateTo('/programs');
+                browser().navigateTo('/dashboard/programs');
                 expect(repeater('tbody tr').count()).toBe(4);
                 element('.delete:first').click();
                 expect(repeater('tbody tr').count()).toBe(3);
@@ -199,7 +199,7 @@ describe('App', function() {
     describe('Relating programs to vendors', function() {
         
         it('Should list the programs that are currently related to a vendor', function() {
-            browser().navigateTo('/vendors/1');
+            browser().navigateTo('/dashboard/vendors/1');
             expect(repeater('#vendorPrograms li').count()).toBe(3);
         });
     
@@ -226,7 +226,7 @@ describe('App', function() {
         describe('Give a program a custom displayName on a per vendor basis', function() {
             
             it('Should provide input form for user to enter custom display name', function() {
-                browser().navigateTo('/vendors/1');
+                browser().navigateTo('/dashboard/vendors/1');
                 expect(repeater('#vendorPrograms li:first > input').count()).toBeGreaterThan(0);
             });
             

@@ -1,9 +1,9 @@
 angular
-  .module('app', function() {
+  .module('app', [ 'ui.if', function() {
 
         
       
-  })
+  }])
     
   .config(['$routeProvider', function($router) {
     $router
@@ -13,9 +13,23 @@ angular
         redirectTo: '/dashboard'
       })
       
+      
+      // Quoter tool! 
+      .when('/tools/quoter', {
+        controller:   'quoterToolController',
+        templateUrl:  'app/templates/tools/quoter/quoterTool.html'
+      })
+      .when('/tools/quoter/:id', {
+        controller:   'quoterToolController',
+        templateUrl:  'app/templates/tools/quoter/quoterTool.html'
+      })
+      
+      
+      // Auth user dashboards
       .when('/dashboard', {
         redirectTo: '/dashboard/vendors'
       })
+      
       
       // vendor routes
       .when('/dashboard/vendors', {
@@ -31,6 +45,7 @@ angular
         templateUrl:  'app/templates/vendors/addVendor.html'
       })
       
+      
       // program routes
       .when('/dashboard/programs', {
         controller:   'programListController',
@@ -44,6 +59,7 @@ angular
         controller:   'programEditController',
         templateUrl:  'app/templates/programs/programEdit.html'
       })
+      
       
       // quote routes
       .when('/dashboard/quotes', {

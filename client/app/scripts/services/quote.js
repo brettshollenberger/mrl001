@@ -5,24 +5,28 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
         id: 1,
         totalCost: 1000,
         status: 'Open',
+        vendorId: 1,
         description: 'I need new rockets for my space shuttle booster.'
     },
     {
         id: 2,
         totalCost: 9900,
         status: 'Open',
+        vendorId: 2,
         description: 'Manaquins for my art project in the SkyBox'
     },
     {
         id: 3,
         totalCost: 2000,
         status: 'Archived',
+        vendorId: 1,
         description: 'Cookies for lunch for everyone!'
     },
     {
         id: 4,
         totalCost: 28000,
         status: 'Archived',
+        vendorId: 4,
         description: 'Security system for my office.'
     }];
     
@@ -65,6 +69,8 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
     
     // add a new item
     exports.add = function(item) {
+        console.log(itemList.length);
+        
         item.id = itemList.length + 1;
         itemList.push(item);
         return item;

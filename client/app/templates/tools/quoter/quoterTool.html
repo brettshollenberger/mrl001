@@ -1,0 +1,122 @@
+<div class="row-fluid">
+     <div class="span8 offset2">
+        <h2>MarlinQuoter v0.0.1</h2>
+        <p ng-hide="didQuote">Please fill out the following form to recieve your quote.</p>
+        <p ng-show="didQuote">Thanks for your interest in out leasing options.</p>
+    </div>
+</div>
+
+
+<div class="row-fluid" >
+
+    <div class="span8 offset2">
+        
+        <legend>Vendor</legend>
+        <select ui-if="!didQuote" ng-model="quote.vendorId" ng-options="value.id as value.name for (key , value) in vendors" ></select>
+        <p ui-if="didQuote">{{vendor.name}}</p>
+        
+    </div>
+    
+</div>
+
+
+<div class="row-fluid">
+
+    <div class="span8 offset2">
+        
+        <legend>Equipment Cost Information</legend>
+        
+        <label>Total Cost</label>
+        <input type="text" placeholder="0.00" ng-model="quote.totalCost">
+        
+            <label>Description of Equipment</label>
+        <textarea type="text" ng-model="quote.description"></textarea>
+
+    </div>
+</div>
+
+<div class="row-fluid" ng-hide="didQuote">   
+ 
+    <div class="span8 offset2">
+
+        <legend>Company Information</legend>
+        
+        <label>Company Name</label>
+        <input type="text" placeholder="" ng-model="quote.company.name">
+        
+        <label>Address 1</label>
+        <input type="text" placeholder="" ng-model="quote.company.address1">
+        
+        <label>Address 2</label>
+        <input type="text" placeholder="" ng-model="quote.company.address2">
+        
+        <label>City</label>
+        <input type="text" placeholder="" ng-model="quote.company.city">
+        
+        <label>State</label>
+        <input type="text" placeholder="" ng-model="quote.company.state">
+
+        
+        <legend>Contact Information</legend>
+    
+        <label>Contact Name</label>
+        <input type="text" placeholder="" ng-model="quote.contact.name">
+    
+        <label>Email</label>
+        <input type="text" placeholder="" ng-model="quote.contact.email">
+        
+        <label>Phone</label>
+        <input type="text" placeholder="" ng-model="quote.contact.phone">
+    
+    </div>
+
+</div>
+
+<div class="row-fluid">
+        
+    <div class="span8 offset2">
+        <hr />
+        <a class="btn btn-primary btn-large" id="generateQuote" ng-click="generateQuote()">{{buttonText}}</a>
+        <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
+    </div>
+
+</div>
+
+
+<div class="row-fluid" ng-show="didQuote">
+
+    <div class="span8 offset2">
+        
+        <div ng-repeat="program in quote.programs">
+        
+            <hr />
+        
+            <h4>{{program.name}}</h4>
+        
+            <table class="table">    
+                <thead>
+                    <tr>
+                        <th class="span3">End of Lease Options</th>
+                        <th class="span1" ng-repeat="term in program.rateSheet.termLength">{{term}} {{program.rateSheet.termPeriod}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="option in program.rateSheet.buyoutOptions">
+                        <td>{{option.name}}</td>
+                        <td ng-repeat="rate in option.rates">{{rate * quote.totalCost | number:2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <hr />
+        
+        <label>Send this link to share this quote!</label>
+        <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
+        
+    </div>
+    
+</div>
+    
+    
+

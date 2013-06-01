@@ -3,19 +3,67 @@ angular.module('app').factory('programService', ['$http', function($http) {
     // dummy data
     var itemList = [{
         id: 1,
-        name: 'The Only Program'
+        name: 'Program numero uno, a Yearly plan',
+        rateSheet: {
+            termPeriod: 'Year',
+            termLength: [1, 2, 3],
+            buyoutOptions: [{ 
+                    name: '$1.00 Buyout Program', 
+                    rates: [0.9, 0.8, 0.7]
+                },
+                { 
+                    name: 'Special Buyout Program', 
+                    rates: [0.09, 0.08, 0.07]
+                }]
+        }
     },
     {
         id: 2,
-        name: 'A Brand New Program'
+        name: 'A Brand New Program thats per month',
+        rateSheet: {
+            termPeriod: 'Month',
+            termLength: [12, 24, 36, 48, 60],
+            buyoutOptions: [{ 
+                    name: '$1.00 Buyout Program', 
+                    rates: [0.9, 0.8, 0.7, 0.6, 0.5]
+                },
+                { 
+                    name: 'Special Buyout Program', 
+                    rates: [0.09, 0.08, 0.07, 0.06, 0.05]
+                }]
+        }
     },
     {
         id: 3,
-        name: 'No One has this program'
+        name: '48 month max program',
+        rateSheet: {
+            termPeriod: 'Month',
+            termLength: [12, 24, 36, 48],
+            buyoutOptions: [{ 
+                    name: '$1.00 Buyout Program', 
+                    rates: [0.9, 0.8, 0.7, 0.6]
+                },
+                { 
+                    name: 'Special Buyout Program', 
+                    rates: [0.09, 0.08, 0.07, 0.06]
+                }]
+        }
     },
     {
         id: 4,
-        name: 'Or This Program'
+        name: 'Bakers Month Program',
+        rateSheet: {
+            termPeriod: 'Month',
+            termLength: [12, 13, 24, 36, 48, 60],
+            buyoutOptions: [{ 
+                    name: '$1.00 Buyout Program', 
+                    rates: [0.9, 0.08, 0.8, 0.7, 0.6, 0.5]
+                },
+                { 
+                    name: 'Special Buyout Program', 
+                    rates: [0.09, 0.08, 0.08, 0.07, 0.06, 0.05]
+                }]
+        }
     }];
     
     

@@ -20,7 +20,7 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         name: 'A Third Vendor',
         contact: 'John Smith',
         location: 'Philadelphia, PA',
-        programIds: [],
+        programIds: [1],
         programs: []
     }];
     

@@ -1,3 +1,5 @@
+<div ng-include="'app/templates/nav.html'"></div>
+
 <div class="row-fluid">
      <div class="span12">
         <h2>New Program</h2>
@@ -6,7 +8,7 @@
 
 <div class="row-fluid">
 
-    <div class="span6">
+    <div class="span4">
         
         <legend>Program Info</legend>
         
@@ -20,21 +22,37 @@
         <textarea type="text" ng-model="program.notes_public"></textarea>
         
     </div>
-   <!--
+  
  
-    <div class="span6">
-        <legend>Program Vendors</legend>
+    <div class="span8">
+        <legend>Rate Sheet Details</legend>
     
-        <ul>
-            <li ng-repeat="vendor in program.vendors">
-                <p>{{vendor.name}}</p>
-            </li>
-        </ul>
+        <label>Term Period</label>
+        <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
+    
+        <table class="table">
+            
+            <thead>
+                <th>Buyout Options</th>
+                <th ng-repeat="term in program.rateSheet.termLength">
+                    <input type="number" class="input-small" ng-model="term"/>
+                </th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="option in program.rateSheet.buyoutOptions">
+                    <td><input class="input-large" type="text" ng-model="option.name"/></td>
+                    <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate"/></td>
+                </tr>
+            </tbody>
         
-        <p ng-show="!program.vendors.length">No vendors are associated with the program yet</p>
-    
+        </table> 
+        
+        <pre>
+            {{program.rateSheet | json}}
+        </pre>
+        
     </div>
--->
+
 
 </div>
 

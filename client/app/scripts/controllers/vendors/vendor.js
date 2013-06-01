@@ -4,8 +4,11 @@ angular
     '$rootScope',
     '$scope',
     '$location',
+    'authService',
     'vendorService',
-    function($rootScope, $scope, $location, Vendor) {
+    function($rootScope, $scope, $location, Auth, Vendor) {
+        
+        Auth.minPermissionLevel(1);
         
         // Gets all the vendors
         $scope.vendors = Vendor.getAll();

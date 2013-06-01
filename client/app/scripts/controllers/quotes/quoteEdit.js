@@ -5,8 +5,11 @@ angular
     '$scope',
     '$location',
     '$routeParams',
+    'authService',
     'quoteService',
-    function($rootScope, $scope, $location, $routeParams, Quote) {
+    function($rootScope, $scope, $location, $routeParams, Auth, Quote) {
+       
+        Auth.minPermissionLevel(1);
        
         // empty quote object
         $scope.quote = {};

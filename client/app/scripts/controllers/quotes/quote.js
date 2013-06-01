@@ -4,8 +4,11 @@ angular
     '$rootScope',
     '$scope',
     '$location',
+    'authService',
     'quoteService',
-    function($rootScope, $scope, $location, Quote) {
+    function($rootScope, $scope, $location, Auth, Quote) {
+        
+        Auth.minPermissionLevel(1);
         
         // Gets all the vendors
         $scope.quotes = Quote.getAll();

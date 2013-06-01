@@ -7,7 +7,10 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         contact: 'John Smith',
         location: 'Philadelphia, PA',
         programIds: [1,3,4],
-        programs: []
+        programs: [{
+            id: 1,
+            displayName: 'A Custom Display Name for Program 1'
+        }]
     }, {
         id: 2,
         name: 'Another Vendor',

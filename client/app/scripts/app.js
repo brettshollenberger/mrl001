@@ -6,11 +6,19 @@ angular
   }])
     
   .config(['$routeProvider', function($router) {
+        
     $router
       
       // general routes
       .when('/', {
         redirectTo: '/dashboard'
+      })
+      
+      
+      // general routes
+      .when('/login', {
+        controller:   'loginController',
+        templateUrl:  'app/templates/login.html'
       })
       
       
@@ -91,6 +99,25 @@ angular
       })
       
     ;
+  }])
+  .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
+      
+      return {
+          template: '<p class="pull-left" ng-show="isLoggedIn()">Loggin is as {{currentUser().name.first}} {{currentUser().name.last}}</p><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
+          link: function(scope, element, attrs) {
+              scope.isLoggedIn = Auth.isAuthenticated;
+              
+              scope.currentUser = Auth.getCurrentUser;
+              
+              scope.logout = function() {
+                Auth.logout();
+                $location.url('/login');
+              };
+              
+          }
+      };
+      
+      
   }])
 
     

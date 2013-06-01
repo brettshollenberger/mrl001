@@ -5,9 +5,12 @@ angular
     '$scope',
     '$location',
     '$routeParams',
+    'authService',
     'vendorService',
     'programService',
-    function($rootScope, $scope, $location, $routeParams, Vendor, Program) {
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program) {
+       
+        Auth.minPermissionLevel(1);
        
         // empty vendor object
         $scope.vendor = {};

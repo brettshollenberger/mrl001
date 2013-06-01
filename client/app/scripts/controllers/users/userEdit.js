@@ -5,8 +5,11 @@ angular
     '$scope',
     '$location',
     '$routeParams',
+    'authService',
     'Restangular',
-    function($rootScope, $scope, $location, $routeParams, Restangular) {
+    function($rootScope, $scope, $location, $routeParams, Auth, Restangular) {
+        
+        Auth.minPermissionLevel(1);
         
         // empty vendor object
         $scope.user = {};

@@ -42,6 +42,12 @@ angular
             // get programs from VendorID
             $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds);
             
+            console.log($scope.vendor);
+            
+            // ensures that custom displayNames appear if set
+            _.merge($scope.quote.programs, $scope.vendor.programs);
+            
+            
         } else {
             $scope.quote.status = 'Open';
             // get the vendors

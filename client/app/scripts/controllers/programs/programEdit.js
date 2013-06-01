@@ -5,8 +5,11 @@ angular
     '$scope',
     '$location',
     '$routeParams',
+    'authService',
     'programService',
-    function($rootScope, $scope, $location, $routeParams, Program) {
+    function($rootScope, $scope, $location, $routeParams, Auth, Program) {
+       
+        Auth.minPermissionLevel(1);
        
         // empty program object
         $scope.program = {};

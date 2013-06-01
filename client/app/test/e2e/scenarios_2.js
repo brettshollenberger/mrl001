@@ -139,7 +139,7 @@ describe('App', function() {
     
     describe('Tools: Quoter Tool', function() {
             
-        describe('Making a quote', function() {
+        describe('Generating a quote', function() {
             
             it('Should be publically accessiable', function() {
                 browser().navigateTo('/tools/quoter');
@@ -178,7 +178,7 @@ describe('App', function() {
         });
         
         
-        describe('selecting a vendor when making a quote', function() {
+        describe('Selecting a vendor when making a quote', function() {
             
             it('Should list all vendors in a dropdown', function() {
                 browser().navigateTo('/tools/quoter');
@@ -191,21 +191,27 @@ describe('App', function() {
                 browser().navigateTo('/tools/quoter');
                 expect(element('select').count()).toBe(1);
                 select('quote.vendorId').option(0);
-                pause();
                 element('#generateQuote').click();
                 expect(repeater('table').count()).toBe(3);
                 
                 // select vendor 2, has 2 programs
                 browser().navigateTo('/tools/quoter');
                 select('quote.vendorId').option(1);
-                pause();
                 element('#generateQuote').click();
                 expect(repeater('table ').count()).toBe(1);
                 
             });
+                         
+        });
+        
+        describe('Shwoing programs for a quote', function() {
             
+            it('Should use the custom display name if set for the vendor', function() {
+                browser().navigateTo('/tools/quoter/1');
+                expect(element('div > h4:first').text()).toEqual('A Custom Display Name for Program 1');
+                
+            });
             
-             
         });
         
         

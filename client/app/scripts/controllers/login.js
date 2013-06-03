@@ -8,7 +8,7 @@ angular
     function($rootScope, $scope, $location, Auth) {
         
         $scope.email = 'matt@facultycreative.com';
-        $scope.password = 'scrapple';
+        $scope.password = 'matt';
         
         $scope.login = function() {
             

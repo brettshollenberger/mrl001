@@ -13,7 +13,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
                     <th>email</th>
                     <th>phone</th>
                     <th>Actions</th>
@@ -21,12 +20,11 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in users | filter: searchTerm">
-                    <td>{{item.username}}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.phone}}</td>
                     <td>
-                        <a ng-click="editItem(item.objectId)">Edit</a> | 
-                        <a ng-click="editItem(item.objectId)">View</a> | 
+                        <a ng-click="editItem(item.id)">Edit</a> | 
+                        <a ng-click="editItem(item.id)">View</a> | 
                         <a ng-click="deleteItem(item)">Delete</a>
                     </td>
                 </tr>

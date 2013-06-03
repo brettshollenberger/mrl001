@@ -1,27 +1,17 @@
-angular.module('app').factory('userService', ['$http', function($http) {
+angular.module('app').factory('applicationService', ['$http', function($http) {
     
     // dummy data
     var itemList = [{
         id: 1,
-        name: {
-            first: 'Matt',
-            last: 'Miller'
-        },
-        email: 'matt@facultycreative.com',
-        password: 'matt',
-        status: 'Active',
-        groups: ['MarlinSalesRep']
+        name: 'Application 1',
+        quiteId: 1,
+        status: 'Open'
     },
     {
         id: 2,
-        name: {
-            first: 'Aaron',
-            last: 'Frey'
-        },
-        email: 'aaron@facultycreative.com',
-        password: 'aaron',
-        status: 'Blocked',
-        groups: ['MarlinSalesRep']
+        name: 'Application 2',
+        quiteId: 2,
+        status: 'Archived'
     }];
     
     
@@ -75,14 +65,6 @@ angular.module('app').factory('userService', ['$http', function($http) {
     };
     
     // --------
-      
-    exports.getOneBy = function(key, value) {
-        var theItem = _.find(itemList, function(item) {
-            return item[key] == value;
-        });
-        return theItem ? theItem : false;   
-    };
-        
     
     return exports;
     

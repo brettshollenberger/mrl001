@@ -1,0 +1,33 @@
+<div ng-include="'app/templates/nav.html'"></div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <h2>Applications</h2>
+        
+        <a id="addApplication" class="btn btn-primary" href="#/dashboard/programs/new">Add New Application</a>
+        
+        <br /><br />
+        
+        <input type="text" placeholder="Search" ng-model="searchTerm">
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in applications | filter: searchTerm">
+                    <td>{{item.name}}</td>
+                    <td>
+                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
+                        <a class="view" ng-click="editItem(item.id)">View</a> | 
+                        <a class="delete" ng-click="deleteItem(item.id)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</div>

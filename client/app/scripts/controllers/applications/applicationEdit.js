@@ -1,52 +1,52 @@
 angular
   .module('app')
-  .controller('userEditController', [
+  .controller('applicationEditController', [
     '$rootScope',
     '$scope',
     '$location',
     '$routeParams',
     'authService',
-    'userService',
-    function($rootScope, $scope, $location, $routeParams, Auth, User) {
+    'applicationService',
+    function($rootScope, $scope, $location, $routeParams, Auth, Application) {
        
         Auth.minPermissionLevel(1);
        
-        // empty user object
-        $scope.user = {};
-        var user = {};
+        // empty application object
+        $scope.application = {};
+        var application = {};
         // empty logo object, or filepicker gets mad :)
-        $scope.user.logo = {};
+        $scope.application.logo = {};
       
         // filepicker settings
         // @todo move to global config
         filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');
       
         // pick logo function
-        // simple callback assigans to user logo when complete
+        // simple callback assigans to application logo when complete
         $scope.pickImage = function() {
             filepicker.pick(function(FPFile){
               console.log(FPFile.url);
-              $scope.user.logo.original = FPFile.url;
+              $scope.application.logo.original = FPFile.url;
               $scope.$apply();
             });  
         };
       
-        // utility function to go back to the user list
+        // utility function to go back to the application list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
-            $location.url('/dashboard/users');
+            $location.url('/dashboard/applications');
         };
         
-        // get user ID for edit pages
-        var userId = $routeParams.id;
+        // get application ID for edit pages
+        var applicationId = $routeParams.id;
         $scope.formAction = 'Add';
         
         
-        // get and store the user 
-        if(userId) {
-            // get the user
-            $scope.user = User.getById(userId);
-            console.log($scope.user);
+        // get and store the application 
+        if(applicationId) {
+            // get the application
+            $scope.application = Application.getById(applicationId);
+            console.log($scope.application);
             $scope.formAction = 'Update';
             
         }
@@ -54,23 +54,25 @@ angular
         // activated when user clicks the save button
         $scope.save = function() {
            
-            if(!userId) {
+            if(!applicationId) {
                 
                 // create new item
-                User.add($scope.user);
+                Application.add($scope.application);
                 
             } else {
             
                 // update existing item 
-                //User.updateById($scope.user.id, $scope.user);
-                User.update($scope.user);
+                //Application.updateById($scope.application.id, $scope.application);
+                Application.update($scope.application);
                 
             }
             
-            $location.url('/dashboard/users');
+            $location.url('/dashboard/applications');
             
         };
-       
+        
+        
+        
     }
   ])
 ;

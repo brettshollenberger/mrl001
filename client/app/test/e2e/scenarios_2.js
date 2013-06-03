@@ -1,19 +1,22 @@
 describe('App', function() {
     
-    // utility functions
-    angular.scenario.matcher('toBeGreaterThanFuture', function(future) {
-        return +this.actual > +future.value;
-    });
-    angular.scenario.matcher('toBeLessThanFuture', function(future) {
-        return +this.actual < +future.value;
-    });
-    
     describe('Quote management', function() {
         
-        describe('Listing all quotes in the system', function() {
+        it('It should require logging in before any quote management', function() {
+            browser().navigateTo('/login');
+            input('email').enter('matt@facultycreative.com');
+            input('password').enter('matt');
+        });
+        
+        describe('Listing all quotes in the system', function() {            
         
             // check for table and button, other form elements
             it('Should list current quotes in a table', function() {
+                
+                browser().navigateTo('/login');
+                input('email').enter('matt@facultycreative.com');
+                input('password').enter('matt');
+                
                 browser().navigateTo('/dashboard/quotes');
                 expect(repeater('tbody tr').count()).toBeGreaterThan(1);
             });

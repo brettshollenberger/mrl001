@@ -1,5 +1,5 @@
 angular
-  .module('app', [ 'ui.if', function() {
+  .module('app', [ 'ui.if', 'ngCookies', function() {
 
         
       
@@ -20,6 +20,12 @@ angular
       .when('/login', {
         controller:   'loginController',
         templateUrl:  'app/templates/login.html'
+      })
+      
+       // general routes
+      .when('/logout', {
+        controller:   'logoutController',
+        templateUrl:  'app/templates/logout.html'
       })
       
       
@@ -85,6 +91,21 @@ angular
       })
       
       
+      // application routes
+      .when('/dashboard/applications', {
+        controller:   'applicationListController',
+        templateUrl:  'app/templates/applications/applicationList.html'
+      })
+      .when('/dashboard/applications/new', {
+        controller:   'applicationEditController',
+        templateUrl:  'app/templates/applications/applicationEdit.html'
+      })
+      .when('/dashboard/applications/:id', {
+        controller:   'applicationEditController',
+        templateUrl:  'app/templates/applications/applicationEdit.html'
+      })
+      
+      
       // user routes
       .when('/dashboard/users', {
         controller:   'userListController',
@@ -104,7 +125,7 @@ angular
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {
-          template: '<p class="pull-left" ng-show="isLoggedIn()">Loggin is as {{currentUser().name.first}} {{currentUser().name.last}}</p><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
+          template: '<p class="pull-left userTrayName" ng-show="isLoggedIn()">Loggin is as {{currentUser().name.first}} {{currentUser().name.last}}</p><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
           link: function(scope, element, attrs) {
               scope.isLoggedIn = Auth.isAuthenticated;
               

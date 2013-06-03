@@ -1,11 +1,17 @@
 describe('App', function() {
-    
-    // utility functions
-    angular.scenario.matcher('toBeGreaterThanFuture', function(future) {
-        return +this.actual > +future.value;
-    });
-    
+       
+    beforeEach(function() {
+        
+    }); 
+       
     describe('Vendor management', function() {
+        
+        it('Should require user to login before doing any management', function() {
+            browser().navigateTo('/login');
+            input('email').enter('matt@facultycreative.com');
+            input('password').enter('matt');
+            element('#login').click();  
+        });
         
         describe('Listing all vendors in the system', function() {
         

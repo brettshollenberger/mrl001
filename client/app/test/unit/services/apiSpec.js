@@ -26,7 +26,7 @@ describe('apiService', function() {
   // Test exposed properties for `apiService`
   it('should return { client: ..., server: ... }', function() {
     //expect(apiService.client).toNotBeDefined();
-    var matt = 'Matt';
+    //var matt = 'Matt';
     expect(matt).toBeDefined();
   });
 });

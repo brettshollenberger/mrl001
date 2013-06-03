@@ -1,4 +1,4 @@
-angular.module('app').factory('authService', ['$http', '$rootScope', 'userService', '$location', function($http, $rootScope, User, $location) {
+angular.module('app').factory('authService', ['$http', '$rootScope', 'userService', '$location', '$cookieStore', function($http, $rootScope, User, $location, $cookieStore) {
     
     // dummy data
     var userData = {
@@ -27,6 +27,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         userData.userId = attemptingUser.id;
         userData.isAuth = true;
         
+        $cookieStore.put('userData', userData);
+        
         return true;
         
     };
@@ -39,6 +41,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         userData.currentUser = null;
         userData.userId = null;
         userData.isAuth = false;
+        
+        $cookieStore.remove('userData');
         
     };
     
@@ -58,9 +62,19 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
     };
     
     exports.minPermissionLevel = function(level) {
+        
+        // attempt to get session data
+        var storedUser = $cookieStore.get('userData');
+        
+        // if we have a stored user, lets save them to userData
+        if(storedUser) {
+            userData = storedUser;
+        }
+        
         if(userData.isAuth) {            
             return true;
         } else {
+            //return true;
             $location.url('/login');
         }
     };

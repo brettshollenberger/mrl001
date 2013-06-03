@@ -1,0 +1,39 @@
+<div ng-include="'app/templates/nav.html'"></div>
+
+<div class="row-fluid">
+     <div class="span12">
+        <h2>New Application</h2>
+    </div>
+</div>
+
+<div class="row-fluid">
+
+    <div class="span4">
+        
+        <legend>Application Info</legend>
+        
+        <label>Application Name</label>
+        <input type="text" placeholder="" ng-model="application.name">
+        
+    </div>
+  
+ 
+    <div class="span8">
+        <legend>Rate Sheet Details</legend>        
+    </div>
+
+
+</div>
+
+<div class="row-fluid">
+        
+    <div class="span12">
+        
+        <hr />
+        
+        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+    
+    </div>
+
+</div>

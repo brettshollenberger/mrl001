@@ -1,27 +1,28 @@
 angular
   .module('app')
-  .controller('userListController', [
+  .controller('applicationListController', [
     '$rootScope',
     '$scope',
     '$location',
     'authService',
-    'userService',
-    function($rootScope, $scope, $location, Auth, User) {
+    'applicationService',
+    function($rootScope, $scope, $location, Auth, Application) {
         
         Auth.minPermissionLevel(1);
         
         // Gets all the vendors
-        $scope.users = User.getAll();
+        $scope.applications = Application.getAll();
+        console.log($scope.applications);
         
         // sends user to url based on item id
         $scope.editItem = function(itemId) {
-            $location.url('dashboard/users/' + itemId);
+            $location.url('dashboard/applications/' + itemId);
         };
         
         // deletes an item and then gets the list again to reflect the deleted item.
         $scope.deleteItem = function(item) {
-            User.remove(item);
-            $scope.users = User.getAll();
+            Application.remove(item);
+            $scope.applications = Application.getAll();
         };
 
     }

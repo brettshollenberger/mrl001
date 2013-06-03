@@ -6,14 +6,14 @@ angular.module('app').factory('programService', ['$http', function($http) {
         name: 'Program numero uno, a Yearly plan',
         rateSheet: {
             termPeriod: 'Year',
-            termLength: [1, 2, 3],
+            termLength: [{length: 1}, {length: 2}, {length: 3}],
             buyoutOptions: [{ 
                     name: '$1.00 Buyout Program', 
-                    rates: [0.9, 0.8, 0.7]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 },
                 { 
                     name: 'Special Buyout Program', 
-                    rates: [0.09, 0.08, 0.07]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 }]
         }
     },
@@ -22,14 +22,14 @@ angular.module('app').factory('programService', ['$http', function($http) {
         name: 'A Brand New Program thats per month',
         rateSheet: {
             termPeriod: 'Month',
-            termLength: [12, 24, 36, 48, 60],
+            termLength: [{length: 12}, {length: 24}, {length: 36}, {length: 48}, {length: 60}],
             buyoutOptions: [{ 
                     name: '$1.00 Buyout Program', 
-                    rates: [0.9, 0.8, 0.7, 0.6, 0.5]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}, {rate: 0.6}, {rate: 0.5}]
                 },
                 { 
                     name: 'Special Buyout Program', 
-                    rates: [0.09, 0.08, 0.07, 0.06, 0.05]
+                    rates: [{rate: 0.09}, {rate: 0.08}, {rate: 0.07}, {rate: 0.06}, {rate: 0.05}]
                 }]
         }
     },
@@ -37,15 +37,15 @@ angular.module('app').factory('programService', ['$http', function($http) {
         id: 3,
         name: '48 month max program',
         rateSheet: {
-            termPeriod: 'Month',
-            termLength: [12, 24, 36, 48],
+            termPeriod: 'Year',
+            termLength: [{length: 1}, {length: 2}, {length: 3}],
             buyoutOptions: [{ 
                     name: '$1.00 Buyout Program', 
-                    rates: [0.9, 0.8, 0.7, 0.6]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 },
                 { 
                     name: 'Special Buyout Program', 
-                    rates: [0.09, 0.08, 0.07, 0.06]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 }]
         }
     },
@@ -53,15 +53,15 @@ angular.module('app').factory('programService', ['$http', function($http) {
         id: 4,
         name: 'Bakers Month Program',
         rateSheet: {
-            termPeriod: 'Month',
-            termLength: [12, 13, 24, 36, 48, 60],
+            termPeriod: 'Year',
+            termLength: [{length: 1}, {length: 2}, {length: 3}],
             buyoutOptions: [{ 
                     name: '$1.00 Buyout Program', 
-                    rates: [0.9, 0.08, 0.8, 0.7, 0.6, 0.5]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 },
                 { 
                     name: 'Special Buyout Program', 
-                    rates: [0.09, 0.08, 0.08, 0.07, 0.06, 0.05]
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
                 }]
         }
     }];

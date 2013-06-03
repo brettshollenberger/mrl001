@@ -35,21 +35,17 @@
             <thead>
                 <th>Buyout Options</th>
                 <th ng-repeat="term in program.rateSheet.termLength">
-                    <input type="number" class="input-small" ng-model="term"/>
+                    <input type="text" class="input-small" ng-model="term.length"/>
                 </th>
             </thead>
             <tbody>
                 <tr ng-repeat="option in program.rateSheet.buyoutOptions">
                     <td><input class="input-large" type="text" ng-model="option.name"/></td>
-                    <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate"/></td>
+                    <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
                 </tr>
             </tbody>
         
-        </table> 
-        
-        <pre>
-            {{program.rateSheet | json}}
-        </pre>
+        </table>
         
     </div>
 

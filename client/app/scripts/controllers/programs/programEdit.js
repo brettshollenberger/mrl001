@@ -48,6 +48,8 @@ angular
             $scope.program = Program.getById(programId);
             console.log($scope.program);
             $scope.formAction = 'Update';
+            
+            $scope.termLength = $scope.program.rateSheet.termLength;
         }
     
         // activated when user clicks the save button

@@ -1,0 +1,136 @@
+<div class="row-fluid">
+     <div class="span8 offset2">
+        <h2>MarlinQuoter v0.0.1</h2>
+    </div>
+</div>
+
+
+<div ng-hide="selectContact">
+<div class="row-fluid">
+
+    <div class="span4 offset2">
+
+        <legend>Company Information</legend>
+        
+        <label>Full Legal Business Name</label>
+        <input type="text" placeholder="" ng-model="application.leasee.fullLegalBusineessName">
+        
+        <label>Address 1</label>
+        <input type="text" placeholder="" ng-model="application.leasee.businessAddress.address1">
+        
+        <label>Address 2</label>
+        <input type="text" placeholder="" ng-model="application.leasee.businessAddress.address2">
+        
+        <label>City</label>
+        <input type="text" placeholder="" ng-model="application.leasee.businessAddress.city">
+        
+        <label>State</label>
+        <input type="text" placeholder="" ng-model="application.leasee.businessAddress.state">
+        
+        <label>Zip</label>
+        <input type="text" placeholder="" ng-model="application.leasee.businessAddress.zip">
+
+    </div>
+     
+    <div class="span4"> 
+        
+        <legend>Primary Contact Information</legend>
+    
+        <label>Contact Name</label>
+        <input type="text" placeholder="" ng-model="application.leasee.contactPerson.name">
+    
+        <label>Email</label>
+        <input type="text" placeholder="" ng-model="application.leasee.contactPerson.email">
+        
+        <label>Phone</label>
+        <input type="text" placeholder="" ng-model="application.leasee.contactPerson.phone">
+    
+    </div>
+    
+</div>
+
+<div class="row-fluid">   
+    
+    <div class="span4 offset2">
+
+        <legend>Guarantor Address</legend>
+       
+        
+        <label>Address 1</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.address1">
+        
+        <label>Address 2</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.address2">
+        
+        <label>City</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.city">
+        
+        <label>State</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.state">
+        
+        <label>Zip</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.zip">
+
+    </div>
+     
+    <div class="span4"> 
+        
+        <legend>Guarantor Contact Information</legend>
+    
+        <label>Contact Name</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.name">
+    
+        <label>Email</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.email">
+        
+        <label>Phone</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.phone">
+
+    </div>
+
+</div>
+
+<div class="row-fluid">
+
+    <div class="span4 offset2">
+    
+        <legend>Guarantor Social Security Number</legend>
+    
+        <div class="well">
+            <label>Social Security Number</label>
+            <input type="text" placeholder="" ng-model="application.guarantorInfo.socialSecurityNumber">
+        </div>
+        
+    </div>
+    
+</div>
+
+<div class="row-fluid">
+        
+    <div class="span8 offset2">
+        <hr />
+        <a class="btn btn-primary btn-large" id="saveApplication" ng-click="saveApplication()">Submit Application</a>
+    </div>
+
+</div>
+</div>
+
+<div class="row-fluid" ng-show="selectContact">
+
+    <div class="span4 offset2">
+    
+        <h1>Thanks, someone will contact you within 48 hours.</h1>
+        <p>What is your preferred contact</p>
+        
+        <a ng-click="contactMethod = 'email'" class="btn btn-primary contact-method" ng-class="{active: contactMethod == 'email'}">Email</a>
+        <a ng-click="contactMethod = 'phone'" class="btn btn-primary contact-method" ng-class="{active: contactMethod == 'phone'}">Phone</a>
+        
+        <br /> <br />
+        
+        <a id="saveContactPref" ng-click="save()" class="btn btn-primary btn-large" ng-show="contactMethod">Finish!</a>
+        
+    </div>
+    
+</div>  
+    
+

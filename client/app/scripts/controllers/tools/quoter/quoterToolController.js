@@ -8,7 +8,8 @@ angular
     'quoteService',
     'programService',
     'vendorService',
-    function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor) {
+    'applicationService',
+    function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application) {
        
         // empty quote object
         $scope.quote = {};
@@ -81,6 +82,40 @@ angular
             
                 Quote.update($scope.quote);
             }
+            
+        };
+        
+        
+        
+        $scope.chooseRate = function(termOption, termLength, termPeriod, periodPayment) {
+            console.log('termOption: ' + termOption);
+            console.log('termLength: ' + termLength);
+            console.log('termPeriod: ' + termPeriod);
+            console.log('periodPayment: ' + periodPayment);
+            
+            // build the application for us to save
+            var application = {
+                status: 'Open',
+                quoteId: $scope.quote.id,
+                vendorId: $scope.quote.vendorId,
+                quote: {
+                    totalCost: $scope.quote.totalCost,
+                    description: $scope.quote.description,
+                    length: termLength,
+                    payment: periodPayment,
+                    period: termPeriod,
+                    option: termOption
+                },
+                leasee: $scope.quote.company
+            };
+            
+            
+            $rootScope.fromQuote = true;
+            
+            // create new item
+            var newApplication = Application.add(application);
+            $location.url('/tools/application/' + newApplication.id );
+            
             
         };
         

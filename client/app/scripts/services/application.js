@@ -2,8 +2,8 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
     
     // dummy data
     var itemList = [{
-        id: 2,
-        name: 'Application 2',
+        id: 1,
+        name: 'Application 1',
         status: 'Open',
         quoteId: 2,
         vendorId: 2,
@@ -15,9 +15,11 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
         },
         leasee: {
             fullLegalBusineessName: 'My Business Name',
-            contactPerson: 'John Smith',
-            email: 'john@smith.com',
-            phone: '556-669-4444',
+            contactPerson: {
+                name: 'John Smith',
+                email: 'john@smith.com',
+                phone: '556-669-4444',
+            },
             businessAddress: {
                 address1: '2424 York Street',
                 address2: '',

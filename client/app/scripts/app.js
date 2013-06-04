@@ -40,6 +40,17 @@ angular
       })
       
       
+      // Quoter tool! 
+      .when('/tools/application', {
+        controller:   'applicationToolController',
+        templateUrl:  'app/templates/tools/application/applicationTool.html'
+      })
+      .when('/tools/application/:id', {
+        controller:   'applicationToolController',
+        templateUrl:  'app/templates/tools/application/applicationTool.html'
+      })
+      
+      
       // Auth user dashboards
       .when('/dashboard', {
         redirectTo: '/dashboard/vendors'

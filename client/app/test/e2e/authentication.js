@@ -38,6 +38,30 @@ describe('Authentication', function() {
             expect(browser().location().url()).toEqual('/login');
         });
         
+        it('Should protect /dashboard/applications', function() {
+            
+            browser().navigateTo('/logout');
+            
+            browser().navigateTo('/dashboard/applications');
+            expect(browser().location().url()).toEqual('/login');
+            browser().navigateTo('/dashboard/applications/new');
+            expect(browser().location().url()).toEqual('/login');
+            browser().navigateTo('/dashboard/applications/1');
+            expect(browser().location().url()).toEqual('/login');
+        });
+        
+        it('Should protect /dashboard/users', function() {
+            
+            browser().navigateTo('/logout');
+            
+            browser().navigateTo('/dashboard/users');
+            expect(browser().location().url()).toEqual('/login');
+            browser().navigateTo('/dashboard/users/new');
+            expect(browser().location().url()).toEqual('/login');
+            browser().navigateTo('/dashboard/users/1');
+            expect(browser().location().url()).toEqual('/login');
+        });
+        
     }); 
     
     

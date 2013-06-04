@@ -4,7 +4,7 @@
     <div class="span12">
         <h2>Users</h2>
         
-        <a id="addUser" class="btn btn-primary" href="#/users/new">Add New User</a>
+        <a id="addUser" class="btn btn-primary" href="#/dashboard/users/new">Add New User</a>
         
         <br /><br />
         
@@ -23,9 +23,9 @@
                     <td>{{item.email}}</td>
                     <td>{{item.phone}}</td>
                     <td>
-                        <a ng-click="editItem(item.id)">Edit</a> | 
-                        <a ng-click="editItem(item.id)">View</a> | 
-                        <a ng-click="deleteItem(item)">Delete</a>
+                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
+                        <a class="view" ng-click="editItem(item.id)">View</a> | 
+                        <a class="delete" ng-click="deleteItem(item)">Delete</a>
                     </td>
                 </tr>
             </tbody>

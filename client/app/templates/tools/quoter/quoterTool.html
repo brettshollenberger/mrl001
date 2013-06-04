@@ -7,7 +7,7 @@
 </div>
 
 
-<div class="row-fluid" >
+<div class="row-fluid">
 
     <div class="span8 offset2">
         
@@ -27,9 +27,11 @@
         <legend>Equipment Cost Information</legend>
         
         <label>Total Cost</label>
-        <input type="text" placeholder="0.00" ng-model="quote.totalCost">
+        <input type="text" placeholder="0.00" ng-model="quoteCost">
         
-            <label>Description of Equipment</label>
+        <p class="alert alert-info" style="width: 200px;" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
+        
+        <label>Description of Equipment</label>
         <textarea type="text" ng-model="quote.description"></textarea>
 
     </div>
@@ -72,7 +74,7 @@
 
 </div>
 
-<div class="row-fluid">
+<div class="row-fluid" ui-if="canEdit">
         
     <div class="span8 offset2">
         <hr />
@@ -97,13 +99,13 @@
                 <thead>
                     <tr>
                         <th class="span3">End of Lease Options</th>
-                        <th class="span1" ng-repeat="term in program.rateSheet.termLength">{{term}} {{program.rateSheet.termPeriod}}</th>
+                        <th class="span1" ng-repeat="term in program.rateSheet.termLength">{{term.length}} {{program.rateSheet.termPeriod}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="option in program.rateSheet.buyoutOptions">
                         <td>{{option.name}}</td>
-                        <td ng-repeat="rate in option.rates">{{rate * quote.totalCost | number:2}}</td>
+                        <td ng-repeat="rate in option.rates">{{rate.rate * quote.totalCost | number:2}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -2,18 +2,46 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
     
     // dummy data
     var itemList = [{
-        id: 1,
-        name: 'Application 1',
-        quiteId: 1,
-        status: 'Open'
-    },
-    {
         id: 2,
         name: 'Application 2',
-        quiteId: 2,
-        status: 'Archived'
+        status: 'Open',
+        quoteId: 2,
+        vendorId: 2,
+        vendor: {},
+        quote: {
+           totalCost: 9900,
+           description: 'Manaquins for my art project in the SkyBox',
+           termInMonths: 12
+        },
+        leasee: {
+            fullLegalBusineessName: 'My Business Name',
+            contactPerson: 'John Smith',
+            email: 'john@smith.com',
+            phone: '556-669-4444',
+            businessAddress: {
+                address1: '2424 York Street',
+                address2: '',
+                city: 'Philadelphia',
+                state: 'PA',
+                zip: '19125'
+            }
+        },
+        guarantorInfo: {
+            name: 'Jane Smith',
+            email: 'jane@smith.com',
+            phone: '556-669-4444',
+            socialSecurityNumber: '111-111-1122',
+            homeAddress: {
+                address1: '123 Home Lane',
+                address2: '',
+                city: 'Philadelphia',
+                state: 'PA',
+                zip: '19125'
+            }
+        },
+        notes: {}
     }];
-    
+
     
     // create and expose service methods
     var exports = {};

@@ -23,7 +23,7 @@ describe('Tools: Quoter Tool', function() {
         it('Should display an existing quote when visting its url', function() {
             browser().navigateTo('/tools/quoter/2');
             expect(browser().location().url()).toEqual('/tools/quoter/2');
-            expect(input('quote.totalCost').val()).not().toEqual('');
+            expect(input('quoteCost').val()).not().toEqual('');
         }); 
         
         it('Should redirect user if quote permalink is invalid', function() {
@@ -65,11 +65,39 @@ describe('Tools: Quoter Tool', function() {
                      
     });
     
-    describe('Shwoing programs for a quote', function() {
+    describe('Showing programs for a quote', function() {
         
         it('Should use the custom display name if set for the vendor', function() {
             browser().navigateTo('/tools/quoter/1');
             expect(element('div > h4:first').text()).toEqual('A Custom Display Name for Program 1');
+            
+        });
+        
+    }); 
+    
+    describe('Regenerating a quote with a new value', function() {
+        
+        it('Should allow user to regenerate quote in their session.', function() {
+            browser().navigateTo('/tools/quoter');
+            input('quoteCost').enter('1000');
+            element('#generateQuote').click();
+            
+            var valueBefore = element('tbody > tr > td:eq(2)').text();
+            
+            
+            input('quoteCost').enter('2000');
+            element('#generateQuote').click();
+            
+            var valueAfter = element('tbody > tr > td:eq(2)').text();
+            
+            expect(valueBefore).not().toEqual(valueAfter);
+            
+        });
+        
+        it('Should not allow user to regenerate a quote they have not just created.', function() {
+            browser().navigateTo('/tools/quoter/1');
+            
+            expect(element('#generateQuote').count()).toEqual(0);
             
         });
         

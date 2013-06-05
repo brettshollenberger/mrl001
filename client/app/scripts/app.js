@@ -133,6 +133,14 @@ angular
       
     ;
   }])
+  .run(['$rootScope', function($rootScope) {
+  
+  
+      // global functions and variables available app wide in $rootScope go here!
+      $rootScope.version = '0.1.0';
+  
+  
+  }])
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {

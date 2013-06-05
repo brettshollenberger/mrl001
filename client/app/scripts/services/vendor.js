@@ -27,6 +27,7 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         programs: []
     }];
     
+    //initLocalStore();
     
     // create and expose service methods
     var exports = {};

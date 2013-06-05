@@ -18,6 +18,8 @@ angular
         $scope.buttonText = 'Get Quote';
         $scope.canEdit = true; 
         
+        $scope.version = $rootScope.version;
+        
       
         // utility function to go back to the quote list
         // @todo this function is used in many places, find a way to streamline it

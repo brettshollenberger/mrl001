@@ -42,6 +42,10 @@ angular
         
          $scope.save = function() {
             
+            
+            if(!$scope.application.leasee) $scope.application.leasee = {};
+            if(!$scope.application.leasee.contactPerson) $scope.application.leasee.contactPerson = {};
+            
             $scope.application.leasee.contactPerson.contactMethod = $scope.contactMethod;
             Application.update($scope.application);
             

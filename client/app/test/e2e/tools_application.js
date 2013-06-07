@@ -23,7 +23,6 @@ describe('Tools: Application Tool', function() {
             expect(browser().location().url()).toEqual('/tools/quoter/5');
             
             // start an application
-            element('#startApplication').click();
             element('.btn-select-term:first').click();
             
             // go to appication

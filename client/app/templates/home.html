@@ -1,20 +1,32 @@
 <div class="row-fluid">
     <div class="span4 offset4 center">
         
-        <h1>MarlinQuoter</h1> 
+        <h1>MarlinQuoter v{{version}}</h1> 
         
-        <h2>Please Note:</h2>
-        <p class="alert alert-info">Refreshing the browser or closing the browser window will reset the app!</p>
+        <h5>Important Notes</h5>
+        <p class="alert alert-info">Refreshing this window will reset the quoter and all data!</p>
         
         <p class="alert alert-info">Use the links in the footer to navigate between front-end and back-end at any time.</p> 
         
-        <p class="alert alert-info">Choose a path to start:</p>
-         
-         
-        <p><a class="btn btn-primary " href="#/tools/quoter">End User: Generate a Quote + Application</a></p> 
-        
-        
-        <p><a class="btn btn-primary " href="#/login">Sales Rep / Admin: Manage the system</a> </p>
-               
+        <h5>Choose a path</h5>
+     
     </div>
+
+</div>
+
+<div class="row-fluid area-start center">    
+    <div class="span4 offset2 start-button" ng-click="goTo('login')">
+        <div class="well">
+            <i class="icon icon-dashboard"></i>
+            <p>SuperAdmin Dashboard</p>
+        </div>
+    </div>
+    
+    <div class="span4 start-button" ng-click="goTo('tools/quoter')">
+        <div class="well">
+            <i class="icon icon-paste"></i> 
+            <p>Quote Tool</p>
+        </div>
+    </div>
+
 </div>

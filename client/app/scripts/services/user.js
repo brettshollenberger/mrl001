@@ -4,13 +4,14 @@ angular.module('app').factory('userService', ['$http', function($http) {
     var itemList = [{
         id: 1,
         name: {
-            first: 'Matt',
-            last: 'Miller'
+            first: 'Super',
+            last: 'Admin'
         },
-        email: 'matt@facultycreative.com',
-        password: 'matt',
+        email: 'admin@facultycreative.com',
+        username: 'admin',
+        password: 'admin',
         status: 'Active',
-        groups: ['MarlinSalesRep']
+        groups: ['SuperAdmin']
     },
     {
         id: 2,

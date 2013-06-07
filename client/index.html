@@ -24,11 +24,11 @@
     <script src="components/html5shiv-dist/html5shiv.js"></script>
     <![endif]-->
   </head>
-  <body ng-app="app">
+  <body id="ng-app" ng-app="app">
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
-     <div class="container-fluid">
+     <div class="wrapper">
 
       <noscript>
         Please enable Javascript to experience this site :)
@@ -37,16 +37,20 @@
       <div ng-view></div>
 
       <hr>
+      
+     </div>
 
-      <footer class="muted text-center">
+      <footer class="muted text-center footer">
         &copy; 2013 Marlin Leasing<br />
         version {{ version }}
-        
-        <p><a class="btn" href="#/tools/quoter">Switch to Quoter Tool</a></p> 
-        <p><a class="btn  " href="#/dashboard/quotes">Switch to Admin Interface</a> </p>
+      
+        <p class="hello"><em>Hello from the nerds at Faculty!</em>
+            <br/>We're here to guide you: <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a> or <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
+        </p>
+        <img class="nerds" src="img/nerds.png" />
       
       </footer>
-    </div>
+   
     
     <!--[if lte IE 8]>
       <script src="/components/json3/lib/json3.js"></script>

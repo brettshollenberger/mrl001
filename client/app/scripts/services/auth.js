@@ -11,9 +11,9 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
     // create and expose service methods
     var exports = {};
     
-    exports.login = function(email, password) {
+    exports.login = function(username, password) {
         
-        var attemptingUser = User.getOneBy('email', email);
+        var attemptingUser = User.getOneBy('username', username);
         
         console.log('LOGIN: Attempting user is: ');
         console.log(attemptingUser);

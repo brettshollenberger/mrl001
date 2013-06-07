@@ -13,13 +13,16 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Leasee</th>
+                    <th>Cost</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in applications | filter: searchTerm">
-                    <td>{{item.name}}</td>
+                
+                    <td>{{item.leasee.fullLegalBusineessName}}</td>
+                    <td>${{item.quote.totalCost}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
                         <a class="view" ng-click="editItem(item.id)">View</a> | 

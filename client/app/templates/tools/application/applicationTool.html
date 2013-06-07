@@ -44,7 +44,11 @@
         
         <label>Phone</label>
         <input type="text" placeholder="" ng-model="application.leasee.contactPerson.phone">
-    
+        
+        <p>Preferred contact method</p>
+        <a ng-click="application.leasee.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: application.leasee.contactPerson.contactMethod == 'email'}">Email</a>
+        <a ng-click="application.leasee.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: application.leasee.contactPerson.contactMethod == 'phone'}">Phone</a>
+        
     </div>
     
 </div>
@@ -120,14 +124,10 @@
     <div class="span4 offset2">
     
         <h1>Thanks, someone will contact you within 48 hours.</h1>
-        <p>What is your preferred contact</p>
-        
-        <a ng-click="contactMethod = 'email'" class="btn btn-primary contact-method" ng-class="{active: contactMethod == 'email'}">Email</a>
-        <a ng-click="contactMethod = 'phone'" class="btn btn-primary contact-method" ng-class="{active: contactMethod == 'phone'}">Phone</a>
         
         <br /> <br />
         
-        <a id="saveContactPref" ng-click="save()" class="btn btn-primary btn-large" ng-show="contactMethod">Finish!</a>
+        <a id="saveContactPref" ng-click="save()" class="btn btn-primary btn-large" >OK</a>
         
     </div>
     

@@ -53,7 +53,7 @@ angular
       
       // Auth user dashboards
       .when('/dashboard', {
-        redirectTo: '/dashboard/vendors'
+        redirectTo: '/dashboard/quotes'
       })
       
       
@@ -136,13 +136,31 @@ angular
   .run(['$rootScope', '$location', function($rootScope, $location) {
   
   
-      // global functions and variables available app wide in $rootScope go here!
-      $rootScope.version = '0.1.0';
-  
-  
-      $rootScope.goTo = function(urlToGoTo) {
-          $location.url(urlToGoTo);
-      };
+        // global functions and variables available app wide in $rootScope go here!
+        $rootScope.version = '0.1.0';
+        
+        
+        $rootScope.goTo = function(urlToGoTo) {
+            $location.url(urlToGoTo);
+        };
+      
+        // gets active class
+        // use as ng-class="getClass('/path')"
+        $rootScope.getClass = function(path) {
+            var cur_path = $location.path().substr(0, path.length);
+            cur_path = $location.path();
+            //console.log('Current path is: ' + cur_path + ', checked path is: ' + path);
+            if (cur_path == path) {
+                if($location.path().substr(0).length > 1 && path.length == 1 )
+                    return "";
+                else
+                    return "active";
+            } else if($location.path().indexOf(path) > -1) {
+                return "active";
+            } else {
+                return "";
+            }
+        };
   
   
   }])

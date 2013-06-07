@@ -2,8 +2,8 @@ describe('Application management', function() {
     
     it('Should require user to login before doing any management', function() {
         browser().navigateTo('/login');
-        input('email').enter('matt@facultycreative.com');
-        input('password').enter('matt');
+        input('username').enter('admin');
+        input('password').enter('admin');
         element('#login').click();  
     });
     
@@ -39,7 +39,7 @@ describe('Application management', function() {
         
         it('Should allow user to enter application information in a form', function() {
             expect(element('#save:disabled').count()).toBe(0);
-            input('application.name').enter('A Test Application!!!!!!');
+            input('application.leasee.fullLegalBusineessName').enter('A Test Application!!!!!!');
             expect(element('#save:disabled').count()).toBe(0);
         });
         
@@ -63,7 +63,7 @@ describe('Application management', function() {
         
         it('Clicking edit should take user to edit application form', function() {
             element('.edit:first').click();
-            expect(browser().location().url()).toEqual('/dashboard/applications/2');
+            expect(browser().location().url()).toEqual('/dashboard/applications/1');
         });
         
         it('Button text should read "Save"', function() {
@@ -71,7 +71,7 @@ describe('Application management', function() {
         });
         
         it('Should have editable fields', function() {
-            input('application.name').enter('Changed the application Name');
+            input('application.leasee.fullLegalBusineessName').enter('Changed the fullLegalBusineessName');
         });
         
         it('Clicking update should take user back to application list', function() {
@@ -80,7 +80,7 @@ describe('Application management', function() {
         });
         
         it('Applications information should be updated', function() {
-            expect(element('tr > td:first').text()).toEqual('Changed the application Name');
+            expect(element('tr > td:first').text()).toEqual('Changed the fullLegalBusineessName');
         });
     
     

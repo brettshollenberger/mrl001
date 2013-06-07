@@ -2,9 +2,10 @@ describe('User management', function() {
     
     it('Should require user to login before doing any management', function() {
         browser().navigateTo('/login');
-        input('email').enter('matt@facultycreative.com');
-        input('password').enter('matt');
-        element('#login').click();  
+        input('username').enter('admin');
+        input('password').enter('admin');
+        element('#login').click(); 
+        expect(browser().location().url()).toEqual('/dashboard/quotes'); 
     });
     
     describe('Listing all users in the system', function() {
@@ -21,7 +22,7 @@ describe('User management', function() {
         
         it('Should have a form for users to search users', function() {
             expect(repeater('tbody tr').count()).toBe(2);
-            input('searchTerm').enter('matt@');
+            input('searchTerm').enter('admin@');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('');
         });

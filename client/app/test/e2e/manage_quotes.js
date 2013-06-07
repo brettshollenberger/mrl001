@@ -2,8 +2,8 @@ describe('Quote management', function() {
     
     it('It should require logging in before any quote management', function() {
         browser().navigateTo('/login');
-        input('email').enter('matt@facultycreative.com');
-        input('password').enter('matt');
+        input('username').enter('admin');
+        input('password').enter('admin');
     });
     
     describe('Listing all quotes in the system', function() {            
@@ -12,8 +12,8 @@ describe('Quote management', function() {
         it('Should list current quotes in a table', function() {
             
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.com');
-            input('password').enter('matt');
+            input('username').enter('admin');
+            input('password').enter('admin');
             
             browser().navigateTo('/dashboard/quotes');
             expect(repeater('tbody tr').count()).toBeGreaterThan(1);

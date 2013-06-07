@@ -2,8 +2,8 @@ describe('Relating programs to vendors', function() {
     
     it('Should require user to login before doing any relating', function() {
         browser().navigateTo('/login');
-        input('email').enter('matt@facultycreative.com');
-        input('password').enter('matt');
+        input('username').enter('admin');
+        input('password').enter('admin');
         element('#login').click();  
     });
     

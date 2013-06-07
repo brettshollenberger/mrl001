@@ -87,12 +87,12 @@ describe('Authentication', function() {
             browser().navigateTo('/logout');
             
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.com');
+            input('username').enter('admin');
         });
         
         it('Should deny users logging in when they enter the wrong password', function() {
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.com');
+            input('username').enter('admin');
             input('password').enter('matt111');
             element('#login').click();
             expect(browser().location().url()).toEqual('/login');
@@ -100,24 +100,24 @@ describe('Authentication', function() {
         
         it('Should deny users logging in when they enter the wrong email', function() {
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.comssss');
-            input('password').enter('matt');
+            input('username').enter('admin@facultycreative.comssss');
+            input('password').enter('admin');
             element('#login').click();
             expect(browser().location().url()).toEqual('/login');
         });
         
         it('Should allow user to login with correct credentials', function() {
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.com');
-            input('password').enter('matt');
+            input('username').enter('admin');
+            input('password').enter('admin');
             element('#login').click();
-            expect(browser().location().url()).toEqual('/dashboard/vendors');
+            expect(browser().location().url()).toEqual('/dashboard/quotes');
         });
         
         it('Should allow users to logout', function() {
             browser().navigateTo('/login');
-            input('email').enter('matt@facultycreative.com');
-            input('password').enter('matt');
+            input('username').enter('admin');
+            input('password').enter('admin');
             element('#login').click();
             element('#logout').click();
             expect(browser().location().url()).toEqual('/login');

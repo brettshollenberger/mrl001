@@ -39,7 +39,9 @@
 
 <div class="row-fluid" ng-hide="didQuote">   
  
-    <div class="span8 offset2">
+    <div class="span4 offset2" >
+
+        <br /><br />
 
         <legend>Company Information</legend>
         
@@ -61,6 +63,11 @@
         <label>Zip</label>
         <input type="text" placeholder="" ng-model="quote.company.businessAddress.zip">
 
+    </div>
+    
+    <div class="span4">
+    
+        <br /><br />
         
         <legend>Contact Information</legend>
     
@@ -72,6 +79,10 @@
         
         <label>Phone</label>
         <input type="text" placeholder="" ng-model="quote.company.contactPerson.phone">
+        
+        <p>Preferred contact method</p>
+        <a ng-click="quote.company.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'email'}">Email</a>
+        <a ng-click="quote.company.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'phone'}">Phone</a>
     
     </div>
 

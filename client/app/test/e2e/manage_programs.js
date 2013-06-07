@@ -2,8 +2,8 @@ describe('Program management', function() {
     
     it('Should require user to login before doing any management', function() {
         browser().navigateTo('/login');
-        input('email').enter('matt@facultycreative.com');
-        input('password').enter('matt');
+        input('username').enter('admin');
+        input('password').enter('admin');
         element('#login').click();  
     });
     
@@ -21,7 +21,7 @@ describe('Program management', function() {
         
         it('Should have a form for users to search programs', function() {
             expect(repeater('tbody tr').count()).toBe(4);
-            input('searchTerm').enter('The Only Program');
+            input('searchTerm').enter('48 month');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('The Only Program that doesnt exist');
             expect(repeater('tbody tr').count()).toBe(0);

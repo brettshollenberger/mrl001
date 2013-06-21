@@ -60,15 +60,15 @@ angular
       // vendor routes
       .when('/dashboard/vendors', {
         controller:   'vendorController',
-        templateUrl:  'app/templates/vendors/vendors.html'
+        templateUrl:  'app/templates/vendors/vendorList.html'
       })
       .when('/dashboard/vendors/new', {
         controller:   'vendorEditController',
-        templateUrl:  'app/templates/vendors/addVendor.html'
+        templateUrl:  'app/templates/vendors/vendorEdit.html'
       })
       .when('/dashboard/vendors/:id', {
         controller:   'vendorEditController',
-        templateUrl:  'app/templates/vendors/addVendor.html'
+        templateUrl:  'app/templates/vendors/vendorEdit.html'
       })
       
       

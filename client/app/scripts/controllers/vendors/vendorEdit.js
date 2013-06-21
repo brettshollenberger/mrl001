@@ -8,7 +8,8 @@ angular
     'authService',
     'vendorService',
     'programService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program) {
+    'userService',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, User) {
        
         Auth.minPermissionLevel(1);
        
@@ -17,6 +18,11 @@ angular
         var vendor = {};
         // empty logo object, or filepicker gets mad :)
         $scope.vendor.logo = {};
+        
+      
+        // get all the reps
+        $scope.allReps = User.getAll();
+        console.log($scope.allReps);
       
         // filepicker settings
         // @todo move to global config
@@ -27,6 +33,10 @@ angular
         $scope.pickImage = function() {
             filepicker.pick(function(FPFile){
               console.log(FPFile.url);
+              
+              if(!$scope.vendor.logo) {
+                  $scope.vendor.logo = {};
+              }
               $scope.vendor.logo.original = FPFile.url;
               $scope.$apply();
             });  
@@ -45,9 +55,15 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
+            
+            // make sure we have an integer, as User.getOneWhereIn gets picky with this :)
+            vendorId = parseInt(vendorId, 10);
+        
             // get the vendor
             $scope.vendor = Vendor.getById(vendorId);
-            console.log($scope.vendor);
+            $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
+            
+            console.log($scope.vendor.salesRep);
             $scope.formAction = 'Update';
         }
     
@@ -121,6 +137,24 @@ angular
         
         // loads programs the first time
         updatePrograms();
+        
+        
+        $scope.addSalesRep = function() {
+            
+            console.log($scope.salesRepId);
+            
+            $scope.vendor.salesRep = User.getById($scope.salesRepId);
+            User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
+            
+            //$scope.vendor.salesRep = 
+             
+        };
+        
+        
+        $scope.removeSalesRep = function() {
+            User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
+            $scope.vendor.salesRep = null;
+        };
         
     }
   ])

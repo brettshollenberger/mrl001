@@ -7,22 +7,61 @@ angular.module('app').factory('userService', ['$http', function($http) {
             first: 'Super',
             last: 'Admin'
         },
+        fullname: 'Super Admin',
         email: 'admin@facultycreative.com',
         username: 'admin',
         password: 'admin',
         status: 'Active',
-        groups: ['SuperAdmin']
+        groups: ['SuperAdmin'],
+        vendorIds: []
     },
     {
         id: 2,
         name: {
+            first: 'Gavin',
+            last: 'Potts'
+        },
+        fullname: 'Gavin Potts',
+        email: 'gpotts@marlinleasing.com',
+        password: 'demo',
+        avatar: {
+            original: 'https://www.filepicker.io/api/file/s6XT8eSVSz21ZdFdlgge'
+        },
+        status: 'Active',
+        groups: ['MarlinSalesRep'],
+        vendorIds: [1]
+    },
+    {
+        id: 3,
+        name: {
+            first: 'Matt',
+            last: 'Miller'
+        },
+        avatar: {
+            original: 'https://www.filepicker.io/api/file/NDFnKwv5T3K9uxHEAfQD'
+        }, 
+        fullname: 'Matt Miller',
+        email: 'mmiller@marlinleasing.com',
+        password: 'demo',
+        status: 'Active',
+        groups: ['MarlinSalesRep'],
+        vendorIds: [3]
+    },
+    {
+        id: 4,
+        name: {
             first: 'Aaron',
             last: 'Frey'
         },
-        email: 'aaron@facultycreative.com',
-        password: 'aaron',
-        status: 'Blocked',
-        groups: ['MarlinSalesRep']
+        avatar: {
+            original: 'https://www.filepicker.io/api/file/uxRaqvM5SFeD9s6eovYC '
+        }, 
+        fullname: 'Aaron Frey',
+        email: 'afrey@marlinleasing.com',
+        password: 'demo',
+        status: 'Active',
+        groups: ['MarlinSalesRep'],
+        vendorIds: []
     }];
     
     
@@ -82,6 +121,49 @@ angular.module('app').factory('userService', ['$http', function($http) {
             return item[key] == value;
         });
         return theItem ? theItem : false;   
+    };
+    
+    exports.getOneWhereIn = function(key, value) {
+        var theItem = _.find(itemList, function(item) {
+            return _.contains(item[key], value);
+        });
+        return theItem ? theItem : false;   
+    };
+    
+    /**
+    * Add a vendorId to a users VendorIds array
+    * 
+    */
+    exports.addVendorToSalesRep = function(vendorId, salesRepId) {
+        
+        // get the sales rep object
+        var theUser = _.find(itemList, function(item) {
+            return item.id == salesRepId;
+        }); 
+        
+        // push to vendorIds
+        theUser.vendorIds.push(vendorId);
+        
+        return theUser;
+        
+    };
+    
+    /**
+    * Add a vendorId to a users VendorIds array
+    * 
+    */
+    exports.removeVendorFromSalesRep = function(vendorId, salesRepId) {
+        
+        // get the sales rep object
+        var theUser = _.find(itemList, function(item) {
+            return item.id == salesRepId;
+        }); 
+        
+        // remove from vendorIds
+        theUser.vendorIds.splice(theUser.vendorIds.indexOf(vendorId), 1);
+        
+        return theUser;
+        
     };
         
     

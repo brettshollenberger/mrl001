@@ -12,6 +12,11 @@
         
         <legend>User Info</legend>
         
+        <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
+        <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
+        
+        <br />
+        
         <label>Name</label>
         <input type="text" placeholder="" ng-model="user.username">
         
@@ -30,20 +35,27 @@
     <div class="span6">
         <legend>User's Vendor List</legend>
     
-        <ul>
-            <li ng-repeat="vendor in user.vendors">
-                <p>{{vendor.name}}</p>
+        <ul ng-show="user.vendors.length" class="unstyled">
+            <li ng-repeat="item in user.vendors">
+                <p>
+                <img class="img-rounded image-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                {{item.name}}
+                <button class="pull-right btn" ng-click="removeVendor()">
+                    <i class="icon icon-trash" ></i>
+                </button>
+                </p>
             </li>
         </ul>
         
-        <p ng-show="!program.vendors.length">No vendors are associated with this user yet</p>
+        <hr />
         
-        <ul>
-            <li ng-repeat="vendor in allVendors">
-                <p>{{vendor.name}}</p>
-                <button class="btn" ng-click="addVendorToUser(vendor)">Add Vendor</button>
-            </li>
-        </ul>
+        <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
+        
+        <label>Add vendor by searching by name</label>
+        <div class="input-append">
+            <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
+            <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+        </div>
        
         <!--
 

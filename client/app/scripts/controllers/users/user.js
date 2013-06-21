@@ -6,12 +6,22 @@ angular
     '$location',
     'authService',
     'userService',
-    function($rootScope, $scope, $location, Auth, User) {
+    'vendorService',
+    function($rootScope, $scope, $location, Auth, User, Vendor) {
         
         Auth.minPermissionLevel(1);
         
-        // Gets all the vendors
-        $scope.users = User.getAll();
+        
+        // gets all the users, with their vendors
+        function getAllUsersWithVendors() {
+            // Gets all the vendors
+            $scope.users = User.getAll();
+            _.each($scope.users, function(item) {
+                 item.vendors = Vendor.getManyWhereIn(item.vendorIds);
+            }); 
+        }
+        
+        getAllUsersWithVendors();
         
         // sends user to url based on item id
         $scope.editItem = function(itemId) {
@@ -21,7 +31,7 @@ angular
         // deletes an item and then gets the list again to reflect the deleted item.
         $scope.deleteItem = function(item) {
             User.remove(item);
-            $scope.users = User.getAll();
+            getAllUsersWithVendors();
         };
 
     }

@@ -1,12 +1,16 @@
-angular.module('app').factory('vendorService', ['$http', function($http) {
+angular.module('app').factory('vendorService', ['$http', 'userService', function($http, User) {
     
     // dummy data
     var itemList = [{
         id: 1,
         name: 'A Vendor',
         contact: 'John Smith',
+        logo: {
+            original: 'https://www.filepicker.io/api/file/OkeUz9rSNhIY9Z5WVOQ3'  
+        },
         location: 'Philadelphia, PA',
         programIds: [1,3,4],
+        //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
             id: 1,
             displayName: 'A Custom Display Name for Program 1'
@@ -16,15 +20,20 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         name: 'Another Vendor',
         contact: 'John Smith',
         location: 'Philadelphia, PA',
+        logo: {
+            original: 'https://www.filepicker.io/api/file/OUTMcftISgOxFN6SsUTW'  
+        },
         programIds: [2],
-        programs: []
+        programs: [],
+        //salesRep: User.getOneWhereIn('vendorIds', 2)
     }, {
         id: 3,
         name: 'A Third Vendor',
         contact: 'John Smith',
         location: 'Philadelphia, PA',
         programIds: [1],
-        programs: []
+        programs: [],
+        //salesRep: User.getOneWhereIn('vendorIds', 3)
     }];
     
     //initLocalStore();
@@ -101,6 +110,7 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         return itemList[theId].programIds;
     };
     
+    
     /**
     * Removes vendor from program the id of each
     *
@@ -124,6 +134,29 @@ angular.module('app').factory('vendorService', ['$http', function($http) {
         
         return itemList[theId].programIds;
     };
+    
+    
+    /**
+    * Reduces the itemList to those where ID is in values array
+    * 
+    * If ID exists multiple times, will only return item one time 
+    *
+    */
+    exports.getManyWhereIn = function(values) {
+        var reducedList = _.filter(itemList, function(item) {
+            return _.contains(values, item.id);
+        });
+        return reducedList;
+    };
+    
+    
+    exports.getAllWithoutSalesReps = function() {
+        var reducedList = _.filter(itemList, function(item) {
+            return !User.getOneWhereIn('vendorIds', item.id);
+        });
+        return reducedList;
+    };
+    
     
     return exports;
     

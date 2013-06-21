@@ -1,5 +1,5 @@
 angular
-  .module('app', [ 'ui.if', 'ngCookies', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', function() {
 
         
       

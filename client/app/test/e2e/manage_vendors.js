@@ -81,7 +81,7 @@ describe('Vendor management', function() {
         });
         
         it('Vendors information should be updated', function() {
-            expect(element('tr > td:first').text()).toEqual('Changed the vendor Name');
+            expect(element('tr > td:eq(2)').text()).toEqual('Changed the vendor Name');
         });
     
     

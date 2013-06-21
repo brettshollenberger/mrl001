@@ -21,8 +21,8 @@ describe('User management', function() {
         });
         
         it('Should have a form for users to search users', function() {
-            expect(repeater('tbody tr').count()).toBe(2);
-            input('searchTerm').enter('admin@');
+            expect(repeater('tbody tr').count()).toBe(4);
+            input('searchTerm').enter('Matt Miller');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('');
         });
@@ -81,7 +81,7 @@ describe('User management', function() {
         });
         
         it('Users information should be updated', function() {
-            expect(element('tr > td:first').text()).toEqual('mattmiller@facultycreative.com');
+            expect(element('tr > td:eq(2)').text()).toEqual('mattmiller@facultycreative.com');
         });
     
     
@@ -91,9 +91,9 @@ describe('User management', function() {
         
         it('Clicking delete should remove the user', function() {
             browser().navigateTo('/dashboard/users');
-            expect(repeater('tbody tr').count()).toBe(2);
-            element('.delete:first').click();
-            expect(repeater('tbody tr').count()).toBe(1);
+            expect(repeater('tbody tr').count()).toBe(4);
+            element('.delete:last').click();
+            expect(repeater('tbody tr').count()).toBe(3);
         });
         
     });

@@ -38,7 +38,7 @@
         <ul ng-show="user.vendors.length" class="unstyled">
             <li ng-repeat="item in user.vendors">
                 <p>
-                <img class="img-rounded image-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                 {{item.name}}
                 <button class="pull-right btn" ng-click="removeVendor()">
                     <i class="icon icon-trash" ></i>
@@ -52,6 +52,7 @@
         <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
         
         <label>Add vendor by searching by name</label>
+        
         <div class="input-append">
             <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
             <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>

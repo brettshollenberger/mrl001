@@ -41,11 +41,11 @@
         
         <div ng-show="vendor.salesRep">
             <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
-            <h5>{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
+            <h5 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
             <p>{{vendor.salesRep.email}}</p>
             <p>{{vendor.salesRep.phone}}</p>
             
-            <button class="btn btn-primary" ng-click="removeSalesRep()">Remove Sales Rep</button>
+            <button class="btn btn-primary" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</button>
             
         </div>
         
@@ -54,8 +54,8 @@
             
             <label>Add sales rep by searching by name</label>
             <div class="input-append">
-                <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/>
-                <button class="btn" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button>
+                <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/>
+                <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button>
             </div>
         </div>
     

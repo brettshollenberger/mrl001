@@ -13,7 +13,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="span2">Avatar</th>
+                    <th class="">Avatar</th>
                     <th>Name</th>
                     <th>Group</th>
                     <th>Vendor Count</th>
@@ -23,7 +23,7 @@
             <tbody>
                 <tr ng-repeat="item in users | filter: searchTerm">
                     <td>
-                        <img class="img-circle" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                        <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>
                     <td>{{item.name.first}} {{item.name.last}}</td>
                     <td>{{item.groups[0]}}</td>

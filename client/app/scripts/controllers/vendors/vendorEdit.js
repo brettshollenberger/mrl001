@@ -141,7 +141,7 @@ angular
         
         $scope.addSalesRep = function() {
             
-            console.log($scope.salesRepId);
+            console.log('User id: ' + $scope.vendorId);
             
             $scope.vendor.salesRep = User.getById($scope.salesRepId);
             User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
@@ -153,7 +153,7 @@ angular
         
         $scope.removeSalesRep = function() {
             User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
-            $scope.vendor.salesRep = null;
+            $scope.vendor.salesRep = '';
         };
         
     }

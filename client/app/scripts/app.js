@@ -137,7 +137,7 @@ angular
   
   
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.0';
+        $rootScope.version = '0.1.1';
         
         
         $rootScope.goTo = function(urlToGoTo) {
@@ -167,7 +167,7 @@ angular
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {
-          template: '<p class="pull-left userTrayName" ng-show="isLoggedIn()">Logged in as {{currentUser().name.first}} {{currentUser().name.last}}</p><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
+          template: '<span class="pull-left userTrayName" ng-show="isLoggedIn()">Logged in as {{currentUser().name.first}} {{currentUser().name.last}}</span><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
           link: function(scope, element, attrs) {
               scope.isLoggedIn = Auth.isAuthenticated;
               

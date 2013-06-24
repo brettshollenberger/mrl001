@@ -42,7 +42,6 @@ describe('Relating programs to vendors', function() {
             using('#vendorPrograms li:first').input('item.displayName').enter('Custom Display Name');
             element('#save').click();
             element('.edit:first').click();
-            pause();
             expect(using('#vendorPrograms li:first').input('item.displayName').val()).toEqual('Custom Display Name');
             
         });

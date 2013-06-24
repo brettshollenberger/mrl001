@@ -23,6 +23,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         },
         fullname: 'Gavin Potts',
         email: 'gpotts@marlinleasing.com',
+        username: 'gpotts',
         password: 'demo',
         avatar: {
             original: 'https://www.filepicker.io/api/file/s6XT8eSVSz21ZdFdlgge'
@@ -42,6 +43,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         }, 
         fullname: 'Matt Miller',
         email: 'mmiller@marlinleasing.com',
+        username: 'mmiller',
         password: 'demo',
         status: 'Active',
         groups: ['MarlinSalesRep'],
@@ -58,6 +60,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         }, 
         fullname: 'Aaron Frey',
         email: 'afrey@marlinleasing.com',
+        username: 'afrey',
         password: 'demo',
         status: 'Active',
         groups: ['MarlinSalesRep'],

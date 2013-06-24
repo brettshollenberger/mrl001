@@ -31,13 +31,17 @@ angular
             // get the quote
             $scope.application = Application.getById(applicationId);
             if(!$scope.application) $location.path('/tools/quoter');
+            
+            console.log($scope.application);
 
         }
+        
+        $scope.vendor = Vendor.getById($scope.application.vendorId);
         
         
         $scope.saveApplication = function() {
             Application.update($scope.application);
-            $scope.selectContact = true;
+            $scope.finished = true;
         };
         
          $scope.save = function() {
@@ -52,6 +56,25 @@ angular
             $rootScope.fromQuote = false;
             
             $location.url('/');
+        };
+        
+        
+        $scope.message = false;
+        
+        $scope.needsMoreInfo = function() {
+        
+            console.log($scope.application);
+        
+            if(!$scope.application.leasee) return false;
+        
+            if($scope.application.leasee.soleProp === true || ($scope.application.leasee.yearsInBusiness !== '' && $scope.application.leasee.yearsInBusiness < 2)) {
+                
+                $scope.message = 'Please provide more information to help ensure timely processing of your applicaiton.';
+                return true;
+            }
+            
+            $scope.message = false;
+            return false;
         };
         
         

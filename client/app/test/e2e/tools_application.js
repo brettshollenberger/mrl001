@@ -34,23 +34,39 @@ describe('Tools: Application Tool', function() {
             
             expect(input('application.leasee.fullLegalBusineessName').val()).toEqual('Your business!');
             input('application.leasee.contactPerson.name').enter('Matt');
-                        
             
+        });
+        
+        
+        it('Should be vendor branded', function() {
+            expect(element('.vendorSection > div > h1').count()).toBe(1);
+            expect(element('.vendorSection > div > img').count()).toBe(1);
+        });
+        
+        it('Should prompt for a Guarantor if end user is sole proprietor ', function() {
+            
+        });
+        
+        it('Should prompt for a Guarantor if business is less than 2 years old.', function() {
+            
+        });
+        
+        it('Should display a message if user has to provide Guarantor', function() {
+            
+        });
+        
+        it('Should prompt end user to enter their prefered contact method', function() {
+            element('.contact-method:first').click();
         });
         
         it('Should provide a save button', function() {
-            
              expect(element('#saveApplication').count()).toBe(1);
              element('#saveApplication').click();
-        
         });
         
-        it('Should prompt user to enter their prefered contact method after saving a quote', function() {
-            // finalize
-            element('.contact-method:first').click();
-            element('#saveContactPref').click();
-            expect(browser().location().url()).toEqual('/');
-        });
+        
+        
+        
         
     });
     

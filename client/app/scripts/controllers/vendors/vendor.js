@@ -28,6 +28,10 @@ angular
             Vendor.remove(item);
             $scope.vendors = Vendor.getAll();
         };
+        
+        $scope.viewCalculator = function(itemId) {
+            $location.url('tools/quoter?vendor_id=' + itemId);  
+        };
 
     }
   ])

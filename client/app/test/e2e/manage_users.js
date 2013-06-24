@@ -81,7 +81,8 @@ describe('User management', function() {
         });
         
         it('Users information should be updated', function() {
-            expect(element('tr > td:eq(2)').text()).toEqual('mattmiller@facultycreative.com');
+            element('.edit:first').click();
+            expect(input('user.email').val()).toEqual('mattmiller@facultycreative.com');
         });
     
     

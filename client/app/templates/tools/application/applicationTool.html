@@ -4,12 +4,30 @@
     </div>
 </div>
 
+<div class="row-fluid vendorSection" ui-if="vendor">
+    <div class="span8 offset2">
+        <h1>{{vendor.name}}</h1>
+        <img class="pull-left img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" />
+    </div>
+</div>
 
-<div ng-hide="selectContact">
-<div class="row-fluid">
+<div class="row-fluid" ng-show="!finished">
+    
+    <div class="span4 offset2">
+        
+        <legend>Vendor Information</legend>
+        <p>{{vendor.name}}</p>
+        <p>{{vendor.businessPhone}}</p>
+        <p>{{vendor.businessAddress.address1}}</p>
+        <p>{{vendor.businessAddress.address2}}</p>
+        <p>{{vendor.businessAddress.city}}, {{vendor.businessAddress.state}} {{vendor.businessAddress.zip}}</p>
+    </div>
+
+</div>
+
+<div class="row-fluid" ng-show="!finished">
 
     <div class="span4 offset2">
-
         <legend>Company Information</legend>
         
         <label>Full Legal Business Name</label>
@@ -53,12 +71,51 @@
     
 </div>
 
-<div class="row-fluid">   
+<div class="row-fluid" ng-show="!finished">
+
+    <div class="span4 offset2">
+        
+        <legend>Business Questions</legend>
+    
+        <p>Are you a sole proprietor of this business?</p>
+        <a ng-click="application.leasee.soleProp = true" class="btn contact-method" ng-class="{active: application.leasee.soleProp == true}">Yes</a>
+        <a ng-click="application.leasee.soleProp = false" class="btn contact-method" ng-class="{active: application.leasee.soleProp == false}">No</a>
+    
+        <br />
+        
+        <p>How many years have you been in business?</p>
+        <label>
+        <input type="text" placeholder="" ng-model="application.leasee.yearsInBusiness">Years</label>
+    
+        <p class="alert" ng-show="message">{{message}}</p>
+    
+    </div>
+    
+</div>
+
+<div class="row-fluid" ng-show="needsMoreInfo() && !finished">   
     
     <div class="span4 offset2">
 
-        <legend>Guarantor Address</legend>
-       
+        <legend>Personal Guarantor</legend>
+        
+        <label>Name</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.name">
+        
+        <label>Social Security Number</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.socialSecurityNumber">
+
+    </div>
+     
+    <div class="span4"> 
+    
+        <legend>Personal Guarantor Contact</legend>
+    
+        <label>Email</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.email">
+        
+        <label>Phone</label>
+        <input type="text" placeholder="" ng-model="application.guarantorInfo.phone">
         
         <label>Address 1</label>
         <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.address1">
@@ -74,42 +131,13 @@
         
         <label>Zip</label>
         <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.zip">
-
-    </div>
-     
-    <div class="span4"> 
         
-        <legend>Guarantor Contact Information</legend>
-    
-        <label>Contact Name</label>
-        <input type="text" placeholder="" ng-model="application.guarantorInfo.name">
-    
-        <label>Email</label>
-        <input type="text" placeholder="" ng-model="application.guarantorInfo.email">
-        
-        <label>Phone</label>
-        <input type="text" placeholder="" ng-model="application.guarantorInfo.phone">
 
     </div>
 
 </div>
 
-<div class="row-fluid">
-
-    <div class="span4 offset2">
-    
-        <legend>Guarantor Social Security Number</legend>
-    
-        <div class="well">
-            <label>Social Security Number</label>
-            <input type="text" placeholder="" ng-model="application.guarantorInfo.socialSecurityNumber">
-        </div>
-        
-    </div>
-    
-</div>
-
-<div class="row-fluid">
+<div class="row-fluid" ng-show="!finished">
         
     <div class="span8 offset2">
         <hr />
@@ -119,7 +147,7 @@
 </div>
 </div>
 
-<div class="row-fluid" ng-show="selectContact">
+<div class="row-fluid" ng-show="finished">
 
     <div class="span4 offset2">
     

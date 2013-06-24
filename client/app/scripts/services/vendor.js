@@ -4,11 +4,22 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     var itemList = [{
         id: 1,
         name: 'A Vendor',
-        contact: 'John Smith',
+        contactPerson: {
+            name: 'John Smith',
+            email: 'john@smith.com',
+            phone: '556-669-4444',
+        },
         logo: {
             original: 'https://www.filepicker.io/api/file/OkeUz9rSNhIY9Z5WVOQ3'  
         },
-        location: 'Philadelphia, PA',
+        businessPhone: '333-333-2222',
+        businessAddress: {
+            address1: '123 Vendor Lane',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '12222'
+        },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
@@ -18,8 +29,19 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     }, {
         id: 2,
         name: 'Another Vendor',
-        contact: 'John Smith',
-        location: 'Philadelphia, PA',
+        contactPerson: {
+            name: 'John Smith',
+            email: 'john@smith.com',
+            phone: '556-669-4444',
+        },
+        businessPhone: '333-333-2222',
+        businessAddress: {
+            address1: '123 Vendor Lane',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '12222'
+        },
         logo: {
             original: 'https://www.filepicker.io/api/file/OUTMcftISgOxFN6SsUTW'  
         },
@@ -29,8 +51,19 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     }, {
         id: 3,
         name: 'A Third Vendor',
-        contact: 'John Smith',
-        location: 'Philadelphia, PA',
+        contactPerson: {
+            name: 'John Smith',
+            email: 'john@smith.com',
+            phone: '556-669-4444',
+        },
+        businessPhone: '333-333-2222',
+        businessAddress: {
+            address1: '123 Vendor Lane',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '12222'
+        },
         programIds: [1],
         programs: [],
         //salesRep: User.getOneWhereIn('vendorIds', 3)

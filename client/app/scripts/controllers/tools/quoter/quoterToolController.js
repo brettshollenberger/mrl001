@@ -20,6 +20,21 @@ angular
         
         $scope.version = $rootScope.version;
         
+        
+        // support getting a vendor ID from the URL, so user doesn't 
+        $scope.vendor_id = $routeParams.vendor_id;
+        $scope.vendor = Vendor.getById($scope.vendor_id);
+        
+        // not a valid vendor id
+        if($scope.vendor_id && !$scope.vendor) {
+            $location.url('tools/quoter');
+            $location.search('vendor_id', null);
+        }
+        
+        // assign to the quote
+        $scope.quote.vendorId = $scope.vendor_id; 
+        
+        
       
         // utility function to go back to the quote list
         // @todo this function is used in many places, find a way to streamline it

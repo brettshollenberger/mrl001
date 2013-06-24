@@ -54,9 +54,10 @@ describe('Quote management', function() {
             browser().navigateTo('/dashboard/quotes');
             listLengthBefore = repeater('tbody tr').count();
             element('#addQuote').click();
-            expect(browser().location().url()).toEqual('/dashboard/quotes/new');
+            expect(browser().location().url()).toEqual('/tools/quoter');
         });
-        
+        /*
+
         it('Should allow user to enter quote information in a form', function() {
             expect(element('#save:disabled').count()).toBe(0);
             input('quote.description').enter('A test quote');
@@ -77,12 +78,14 @@ describe('Quote management', function() {
             listLengthAfter = repeater('tbody tr').count();
             expect(listLengthAfter).toBeGreaterThanFuture(listLengthBefore);
         });
+*/
         
     });
     
     describe('Editing a quote', function() {
         
         it('Clicking edit should take user to edit quote form', function() {
+            browser().navigateTo('/dashboard/quotes');
             element('.edit:first').click();
             expect(browser().location().url()).toEqual('/dashboard/quotes/1');
         });

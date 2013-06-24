@@ -15,9 +15,11 @@ describe('Application management', function() {
             expect(repeater('tbody tr').count()).toBe(1);
         });
         
-        it('Should have a button for users to click to add a new application', function() {
+        /*
+it('Should have a button for users to click to add a new application', function() {
             expect(element('#addApplication').count()).toBe(1);
         });
+*/
         
         it('Should have a form for users to search applications', function() {
             expect(repeater('tbody tr').count()).toBe(1);
@@ -28,7 +30,8 @@ describe('Application management', function() {
         
     });
     
-    describe('Adding a application', function() {
+    /*
+describe('Adding a application', function() {
         
         it('Should take user to a form when they click the add application button', function() {
             browser().navigateTo('/dashboard/applications');
@@ -58,6 +61,7 @@ describe('Application management', function() {
         });
         
     });
+*/
     
     describe('Editing a application', function() {
         

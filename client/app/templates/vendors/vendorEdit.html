@@ -50,7 +50,7 @@
         </div>
         
         <div ng-show="!vendor.salesRep">
-            <p>This vendor currently has no Marlin Sales Rep</p>
+            <p class="alert">This vendor currently has no Marlin Sales Rep</p>
             
             <label>Add sales rep by searching by name</label>
             <div class="input-append">
@@ -77,7 +77,7 @@
             </li>
         </ul>
         
-        <p ng-show="!vendor.programs.length">No programs are associated with the vendor yet</p>  
+        <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
           
     </div>
     <div class="span6">

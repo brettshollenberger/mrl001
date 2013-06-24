@@ -26,6 +26,12 @@ describe('Vendor management', function() {
             input('searchTerm').enter('');
         });
         
+        it('Should provide a link to view the vendors caluclator', function() {
+             browser().navigateTo('/dashboard/vendors');
+             element('.viewCalculator:eq(1)').click();
+             expect(browser().location().url()).toEqual('/tools/quoter?vendor_id=2');
+        });
+        
     });
     
     describe('Adding a vendor', function() {
@@ -81,7 +87,7 @@ describe('Vendor management', function() {
         });
         
         it('Vendors information should be updated', function() {
-            expect(element('tr > td:eq(2)').text()).toEqual('Changed the vendor Name');
+            expect(element('tr > td:eq(1)').text()).toEqual('Changed the vendor Name');
         });
     
     

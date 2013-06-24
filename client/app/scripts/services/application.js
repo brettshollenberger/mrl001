@@ -26,7 +26,9 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
                 city: 'Philadelphia',
                 state: 'PA',
                 zip: '19125'
-            }
+            },
+            yearsInBusiness: 1,
+            soleProp: 0
         },
         guarantorInfo: {
             name: 'Jane Smith',

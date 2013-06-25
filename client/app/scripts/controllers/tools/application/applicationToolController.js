@@ -14,6 +14,8 @@ angular
         // empty application object
         $scope.application = {};
         
+        // prevents end user from hitting application tool directly
+        // comment out to easily test
         if($rootScope.fromQuote !== true) $location.url('/tools/quoter');
         
         // utility function to go back to the quote list

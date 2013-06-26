@@ -11,8 +11,13 @@
         <div class="form-inline">
             <label>Search cost</label>
             <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost">
+            
             <label>Search description</label>
             <input type="text" placeholder="Description" ng-model="searchDesc">
+            
+            <label>Search Vendor</label>
+            <input type="text" placeholder="Vendor" ng-model="searchVend">
+            
             <label>Filter by status</label>
             <div class="btn-group">
                 <button id="filterAll" ng-click="filterStatus=''" class="btn" ng-class="{active: filterStatus==''}">All</button>
@@ -26,14 +31,16 @@
                 <tr>
                     <th>Total Cost</th>
                     <th>Description</th>
+                    <th>Vendor</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, status: filterStatus}">
+                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendorName: searchVend, status: filterStatus}">
                     <td>${{item.totalCost | number}}</td>
                     <td>{{item.description}}</td>
+                    <td>{{item.vendorName}}</td>
                     <td>{{item.status}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 

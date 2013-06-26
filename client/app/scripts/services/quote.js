@@ -6,6 +6,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
         totalCost: 1000,
         status: 'Open',
         vendorId: 1,
+        vendorName: 'Rocket Men',
         description: 'I need new rockets for my space shuttle booster.'
     },
     {
@@ -13,6 +14,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
         totalCost: 9900,
         status: 'Open',
         vendorId: 2,
+        vendorName: 'Manaquins For Art',
         description: 'Manaquins for my art project in the SkyBox'
     },
     {
@@ -20,6 +22,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
         totalCost: 2000,
         status: 'Archived',
         vendorId: 1,
+        vendorName: 'C is For Cookie',
         description: 'Cookies for lunch for everyone!'
     },
     {
@@ -27,6 +30,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
         totalCost: 28000,
         status: 'Archived',
         vendorId: 4,
+        vendorName: 'FBI',
         description: 'Security system for my office.'
     }];
     

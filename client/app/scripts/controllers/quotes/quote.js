@@ -16,6 +16,7 @@ angular
         $scope.searchDesc = '';
         $scope.filterStatus = ''; // filter status
         $scope.searchCost = '';
+        $scope.searchVend = '';
         
         // sends user to url based on item id
         $scope.editItem = function(itemId) {

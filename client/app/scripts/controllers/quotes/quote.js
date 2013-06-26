@@ -6,12 +6,27 @@ angular
     '$location',
     'authService',
     'quoteService',
-    function($rootScope, $scope, $location, Auth, Quote) {
+    'vendorService',
+    function($rootScope, $scope, $location, Auth, Quote, Vendor) {
         
         Auth.minPermissionLevel(1);
         
         // Gets all the vendors
         $scope.quotes = Quote.getAll();
+        
+        _.each($scope.quotes, function(item) {
+	        item.vendor = Vendor.getById(item.vendorId);
+        });
+        
+        
+/*
+        
+        $scope.vendor = Vendor.getById(1);
+        
+        $scope.getVendor = function(id) {
+	      	 return Vendor.getById(id);
+        };
+*/
         
         $scope.searchDesc = '';
         $scope.filterStatus = ''; // filter status

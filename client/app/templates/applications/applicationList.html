@@ -4,24 +4,30 @@
     <div class="span12">
         <h2>Applications</h2>
         
-<!--         <a id="addApplication" class="btn btn-primary" href="#/dashboard/applications/new">Add New Application</a> -->
+		<!-- <a id="addApplication" class="btn btn-primary" href="#/dashboard/applications/new">Add New Application</a> -->
         
-        <br /><br />
-        
-        <input type="text" placeholder="Search" ng-model="searchTerm">
-        
+        <div class="form-inline">
+	        <label>Search Business</label>
+	        <input type="text" placeholder="Search" ng-model="searchBusiness">
+	        
+	        <label>Search Vendor</label>
+	        <input type="text" placeholder="Search" ng-model="searchVendor">
+        </div>
         <table class="table">
             <thead>
                 <tr>
                     <th>Leasee</th>
+                    <th>Vendor</th>
                     <th>Cost</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in applications | filter: searchTerm">
+                <!-- <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}"> -->
+                <tr ng-repeat="item in applications | filter: {leasee.fullLegalBusineessName: searchBusiness, vendor.name: searchVendor}">
                 
                     <td>{{item.leasee.fullLegalBusineessName}}</td>
+                    <td>{{item.vendor.name}}</td>
                     <td>${{item.quote.totalCost}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 

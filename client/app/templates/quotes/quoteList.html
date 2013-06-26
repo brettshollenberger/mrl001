@@ -24,6 +24,7 @@
                 <button id="filterOpen" ng-click="filterStatus='Open'" class="btn" ng-class="{active: filterStatus=='Open'}">Open</button>
                 <button id="filterArchived" ng-click="filterStatus='Archived'" class="btn" ng-class="{active: filterStatus=='Archived'}">Archived</button>
             </div>
+
         </div>
             
         <table class="table">
@@ -37,10 +38,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendorName: searchVend, status: filterStatus}">
+                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
                     <td>${{item.totalCost | number}}</td>
                     <td>{{item.description}}</td>
-                    <td>{{item.vendorName}}</td>
+                    <td>{{item.vendor.name}}</td>
                     <td>{{item.status}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 

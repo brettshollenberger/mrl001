@@ -23,12 +23,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}"> -->
                 <tr ng-repeat="item in applications | filter: {leasee.fullLegalBusineessName: searchBusiness, vendor.name: searchVendor}">
                 
                     <td>{{item.leasee.fullLegalBusineessName}}</td>
                     <td>{{item.vendor.name}}</td>
-                    <td>${{item.quote.totalCost}}</td>
+                    <td>${{item.quote.totalCost | number}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
                         <a class="view" ng-click="editItem(item.id)">View</a> | 

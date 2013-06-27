@@ -33,7 +33,7 @@ describe('Tools: Quoter Tool', function() {
         
         it('Should not allow user to change vendor when visiting by permalink', function() {
             browser().navigateTo('/tools/quoter/2');
-            expect(element('select').count()).toBe(0);
+            expect(element('#vendorName').count()).toBe(0);
         });
         
     });
@@ -43,14 +43,14 @@ describe('Tools: Quoter Tool', function() {
         
         it('Should list all vendors in a dropdown', function() {
             browser().navigateTo('/tools/quoter');
-            expect(element('select').count()).toBe(1);
+            expect(element('#vendorName').count()).toBe(1);
         });
         
         it('Selecting a vendor should generate quote using vendors associated programs', function() {
             
             // select vendor 1, has 3 programs
             browser().navigateTo('/tools/quoter');
-            expect(element('select').count()).toBe(1);
+            expect(element('#vendorName').count()).toBe(1);
             select('quote.vendorId').option(0);
             element('#generateQuote').click();
             expect(repeater('table').count()).toBe(3);
@@ -69,7 +69,7 @@ describe('Tools: Quoter Tool', function() {
         
         it('Should list all vendors in a dropdown', function() {
             browser().navigateTo('/tools/quoter?vendor_id=2');
-            expect(element('select').count()).toBe(0);
+            expect(element('#vendorName').count()).toBe(0);
             expect(element('.vendorSection > div > h1').count()).toBe(1);
             expect(element('.vendorSection > div > img').count()).toBe(1);
         });

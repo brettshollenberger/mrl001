@@ -101,7 +101,7 @@ describe('Adding a application', function() {
         
         it('Clicking delete should remove the application', function() {
             browser().navigateTo('/dashboard/applications');
-            expect(repeater('tbody tr').count()).toBe(1);
+            expect(repeater('tbody tr').count()).toBe(2);
             element('.delete:first').click();
             expect(repeater('tbody tr').count()).toBe(0);
         });

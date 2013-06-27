@@ -26,7 +26,7 @@ describe('Tools: Application Tool', function() {
             element('.btn-select-term:first').click();
             
             // go to appication
-            expect(browser().location().url()).toEqual('/tools/application/2');
+            expect(browser().location().url()).toEqual('/tools/application/3');
             
         });
         

@@ -18,7 +18,7 @@
     <div class="span8 offset2">
         
         <legend>Vendor</legend>
-        <select ui-if="!didQuote && !vendor_id" ng-model="quote.vendorId" ng-options="value.id as value.name for (key , value) in vendors" ></select>
+        <select ui-if="!didQuote && !vendor_id" id="vendorName" ng-model="quote.vendorId" ng-options="value.id as value.name for (key , value) in vendors" ></select>
         <p ui-if="didQuote">{{vendor.name}}</p>
         
     </div>

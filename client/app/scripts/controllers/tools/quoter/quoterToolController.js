@@ -8,8 +8,9 @@ angular
     'quoteService',
     'programService',
     'vendorService',
+    'stateService',
     'applicationService',
-    function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application) {
+    function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
        
         // empty quote object
         $scope.quote = {};
@@ -34,6 +35,12 @@ angular
         // assign to the quote
         $scope.quote.vendorId = $scope.vendor_id; 
         
+        //List states in dropdown menu
+        // get states list and set default
+        $scope.quote.company = {};
+        $scope.quote.company.businessAddress = {};
+        $scope.states = States.states();
+        $scope.quote.company.businessAddress.state = $scope.states[0].abbreviation;
         
       
         // utility function to go back to the quote list

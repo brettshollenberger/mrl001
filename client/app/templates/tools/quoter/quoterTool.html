@@ -64,8 +64,8 @@
         <input type="text" placeholder="" ng-model="quote.company.businessAddress.city">
         
         <label>State</label>
-        <input type="text" placeholder="" ng-model="quote.company.businessAddress.state">
-        
+        <select class="medium" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+
         <label>Zip</label>
         <input type="text" placeholder="" ng-model="quote.company.businessAddress.zip">
 
@@ -137,7 +137,7 @@
         </div>
         
         <hr />
-        
+  
         <label>Send this link to share this quote!</label>
         <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
         

@@ -8,8 +8,9 @@ angular
     'authService',
     'vendorService',
     'programService',
+    'stateService',
     'userService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, User) {
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User) {
        
         Auth.minPermissionLevel(1);
        
@@ -19,7 +20,10 @@ angular
         // empty logo object, or filepicker gets mad :)
         $scope.vendor.logo = {};
         
-      
+        //States picker
+        $scope.states = States.states();
+        $scope.vendor.state = $scope.states[0].abbreviation;
+        
         // get all the reps
         $scope.allReps = User.getAll();
         console.log($scope.allReps);
@@ -45,7 +49,7 @@ angular
         // utility function to go back to the vendor list
         // @todo this function is used in many places, find a way to streamline it
         $scope.cancel = function() {
-            $location.url('/vendors');
+            $location.url('dashboard/vendors');
         };
         
         // get vendor ID for edit pages

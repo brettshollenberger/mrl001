@@ -21,7 +21,9 @@
         <input type="text" placeholder="Address 1" ng-model="vendor.address_1">
         <input type="text" placeholder="Address 2" ng-model="vendor.address_2">
         <input type="text" placeholder="City" ng-model="vendor.city">
-        <input type="text" placeholder="State" ng-model="vendor.state">
+        <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+        <label>State</label>
+        <select class="medium" ng-model="vendor.state" ng-options="state.abbreviation as state.name for state in states"></select>
         
         <p><strong>Primary Contact</strong></p>
         <input type="text" placeholder="Name" ng-model="vendor.primary_contact.name">

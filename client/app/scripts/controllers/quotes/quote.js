@@ -15,7 +15,7 @@ angular
         $scope.quotes = Quote.getAll();
         
         _.each($scope.quotes, function(item) {
-	        item.vendor = Vendor.getById(item.vendorId);
+            item.vendor = Vendor.getById(item.vendorId);
         });
         
         
@@ -24,7 +24,7 @@ angular
         $scope.vendor = Vendor.getById(1);
         
         $scope.getVendor = function(id) {
-	      	 return Vendor.getById(id);
+             return Vendor.getById(id);
         };
 */
         

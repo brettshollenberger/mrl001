@@ -19,7 +19,7 @@ angular
         
         // For Each Application Attach a Vendor
         _.each($scope.applications, function(item) {
-	        item.vendor = Vendor.getById(item.vendorId);
+            item.vendor = Vendor.getById(item.vendorId);
         });
         
         // sends user to url based on item id

@@ -161,7 +161,12 @@ angular
                 return "";
             }
         };
-  
+
+        // Handle updating page title
+    $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
+        console.log($location.path());
+        //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
+    });
   
   }])
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {

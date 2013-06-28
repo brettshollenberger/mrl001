@@ -164,7 +164,9 @@ angular
 
         // Handle updating page title
     $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
-        console.log($location.path());
+        var pageSlug = $location.path().split('/');
+        //console.log(pageSlug[pageSlug.length - 1]);
+        $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
         //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
     });
   
@@ -172,7 +174,7 @@ angular
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {
-          template: '<span class="pull-left userTrayName" ng-show="isLoggedIn()">Logged in as {{currentUser().name.first}} {{currentUser().name.last}}</span><button id="logout" ng-show="isLoggedIn()" ng-click="logout()" class="btn">Log Out</button>',
+          template: '<span class="userTrayName" ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
           link: function(scope, element, attrs) {
               scope.isLoggedIn = Auth.isAuthenticated;
               

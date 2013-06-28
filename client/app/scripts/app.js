@@ -174,7 +174,7 @@ angular
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {
-          template: '<span class="userTrayName" ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
+          template: '<img class="img-circle" ng-show="currentUser().avatar.original" ng-src="{{currentUser().avatar.original}}"/><br/><br/><span ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
           link: function(scope, element, attrs) {
               scope.isLoggedIn = Auth.isAuthenticated;
               

@@ -1,3 +1,5 @@
+@import "bootstrap/variables.less"; 
+
 /**
  * Angular
  */
@@ -22,6 +24,17 @@ body {
 }
 
 
+.container{margin-right: 0; margin-left: 0;}
+
+
+
+.sidebar{position: fixed; top: 0; left: 0; height: 100%; width: 206px; background: @navbarBackground; color: #fff;}
+.sidebar ul{list-style-type: none;}
+.sidebar a{color: @navbarLinkColor;}
+.sidebar a:hover{color: @navbarLinkColorHover;}
+.sidebar a.active{color: @navbarLinkColorActive;}
+.sidebar a.brand{display: block; text-align: center; padding: 25px 0;}
+
 .nerds {
     width: 200px;
 }
@@ -38,9 +51,7 @@ footer em {
 }
 
 
-
-
-
+/*
 .area-start {
     
     margin-bottom: 100px;
@@ -67,6 +78,7 @@ footer em {
     }
     
 } 
+*/
 
 
 html, body {

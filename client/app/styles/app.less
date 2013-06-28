@@ -38,11 +38,11 @@
 @import "bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 
 // Components: Nav
-@import "bootstrap/navs.less";
-@import "bootstrap/navbar.less";
-@import "bootstrap/breadcrumbs.less";
-@import "bootstrap/pagination.less";
-@import "bootstrap/pager.less";
+//@import "bootstrap/navs.less";
+//@import "bootstrap/navbar.less";
+//@import "bootstrap/breadcrumbs.less";
+//@import "bootstrap/pagination.less";
+//@import "bootstrap/pager.less";
 
 // Components: Popovers
 @import "bootstrap/modals.less";
@@ -70,113 +70,3 @@
 @iconSpritePath:          "/img/glyphicons-halflings.png";
 @iconWhiteSpritePath:     "/img/glyphicons-halflings-white.png";
 */
-
-/**
- * Angular
- */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none;
-}
-
-body {
-    padding-top: 90px;
-}
-
-.userTrayName {
-    margin: 10px 10px 0 0;
-}
-
-.center {
-    text-align: center;
-}
-
-.navbar .pull-right {
-    margin-top: 12px;
-}
-
-
-.nerds {
-    width: 200px;
-}
-
-
-footer p.hello {
-    margin-bottom: 0;
-    margin-top: 20px;
-    
-}
-
-footer em {
-    font-size: 20px;
-}
-
-
-
-
-
-.area-start {
-    
-    margin-bottom: 100px;
-    
-    i {
-        font-size: 120px;
-        text-shadow: 1px 1px 1px white;
-    }
-    
-    p {
-        font-size: 20px;
-        margin-top: 20px;
-    }
-    
-    .start-button {
-        
-        .transition(color 120ms ease);
-        
-        &:hover {
-             cursor: pointer;
-             color: @linkColor;
-        }
-        
-    }
-    
-} 
-
-
-html, body {
-	height: 100%;
-}
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -200px; /* the bottom margin is the negative value of the footer's height */
-}
-.footer, .push {
-	height: 200px; /* .push must be the same height as .footer */
-}
-
-/*
-
-Sticky Footer by Ryan Fait
-http://ryanfait.com/
-
-*/
-
-
-.img-tiny {
-    width: 50px;
-}
-
-.img-medium {
-    width: 100px;
-}
-
-.img-large {
-    width: 200px;
-}
-
-
-
-
-
-

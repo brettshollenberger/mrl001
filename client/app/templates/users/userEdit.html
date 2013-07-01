@@ -1,14 +1,13 @@
-<div ng-include="'app/templates/nav.html'"></div>
+
 
 <div class="row-fluid">
-     <div class="span12">
+    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+     <div class="span10 offset2">
         <h2>New User</h2>
     </div>
-</div>
 
-<div class="row-fluid">
 
-    <div class="span6">
+    <div class="span4 offset2">
         
         <legend>User Info</legend>
         
@@ -17,8 +16,14 @@
         
         <br />
         
-        <label>Name</label>
+        <label>User Name</label>
         <input type="text" placeholder="" ng-model="user.username">
+        
+        <label>First Name</label>
+        <input type="text" placeholder="" ng-model="user.name.first">
+        
+        <label>Last Name</label>
+        <input type="text" placeholder="" ng-model="user.name.last">
         
         <label>Email</label>
         <input type="text" placeholder="" ng-model="user.email">
@@ -32,7 +37,7 @@
         
     </div>
     
-    <div class="span6">
+    <div class="span4">
         <legend>User's Vendor List</legend>
     
         <ul ng-show="user.vendors.length" class="unstyled">
@@ -68,11 +73,9 @@
         -->
     </div>
 
-</div>
 
-<div class="row-fluid">
         
-    <div class="span12">
+    <div class="span10 offset2">
         
         <hr />
         

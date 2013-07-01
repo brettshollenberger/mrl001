@@ -6,13 +6,21 @@ angular
     '$location',
     'authService',
     'applicationService',
-    function($rootScope, $scope, $location, Auth, Application) {
+    'vendorService',
+    function($rootScope, $scope, $location, Auth, Application, Vendor) {
         
         Auth.minPermissionLevel(1);
         
-        // Gets all the vendors
+        $scope.searchBusiness = '';
+        $scope.searchVendor = '';
+        
+        // Gets all the Applications
         $scope.applications = Application.getAll();
-        console.log($scope.applications);
+        
+        // For Each Application Attach a Vendor
+        _.each($scope.applications, function(item) {
+            item.vendor = Vendor.getById(item.vendorId);
+        });
         
         // sends user to url based on item id
         $scope.editItem = function(itemId) {

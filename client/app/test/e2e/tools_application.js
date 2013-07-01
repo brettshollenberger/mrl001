@@ -26,7 +26,7 @@ describe('Tools: Application Tool', function() {
             element('.btn-select-term:first').click();
             
             // go to appication
-            expect(browser().location().url()).toEqual('/tools/application/2');
+            expect(browser().location().url()).toEqual('/tools/application/3');
             
         });
         
@@ -42,6 +42,12 @@ describe('Tools: Application Tool', function() {
             expect(element('.vendorSection > div > h1').count()).toBe(1);
             expect(element('.vendorSection > div > img').count()).toBe(1);
         });
+        
+        it('Should display legal terms to end user', function() {
+            expect(element('#legalTerms').text()).toBe('These are legal terms for vendor 1');
+            
+        });
+        
         
         it('Should prompt for a Guarantor if end user is sole proprietor ', function() {
             

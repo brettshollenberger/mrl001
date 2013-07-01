@@ -32,6 +32,8 @@ describe('Vendor management', function() {
              expect(browser().location().url()).toEqual('/tools/quoter?vendor_id=2');
         });
         
+        
+        
     });
     
     describe('Adding a vendor', function() {
@@ -78,7 +80,7 @@ describe('Vendor management', function() {
         
         it('Should have editable fields', function() {
             input('vendor.name').enter('Changed the vendor Name');
-            input('vendor.address_1').enter('An address');
+            input('vendor.businessAddress.address1').enter('An address');
         });
         
         it('Clicking update should take user back to vendor list', function() {
@@ -88,6 +90,13 @@ describe('Vendor management', function() {
         
         it('Vendors information should be updated', function() {
             expect(element('tr > td:eq(1)').text()).toEqual('Changed the vendor Name');
+        });
+        
+        it('Should provide a cancel button that takes user back to vendor dashboard', function() {
+            element('.edit:first').click();
+            expect(browser().location().url()).toEqual('/dashboard/vendors/1');
+            element('#cancel').click();
+            expect(browser().location().url()).toEqual('/dashboard/vendors');
         });
     
     

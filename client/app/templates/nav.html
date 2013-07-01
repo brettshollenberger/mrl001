@@ -1,18 +1,35 @@
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container-fluid">
-    <a class="brand" href="#/dashboard/quotes"><img src="img/logo.png" alt="MarlinQuoter" /></a>
-    <ul class="nav">
-      <li ng-class="getClass('/dashboard/programs')"><a href="#/dashboard/programs">Rate Sheets</a></li>
-      <li ng-class="getClass('/dashboard/vendors')"><a href="#/dashboard/vendors">Vendors</a></li>
-      <li ng-class="getClass('/dashboard/quotes')"><a href="#/dashboard/quotes">Quotes</a></li>
-      <li ng-class="getClass('/dashboard/applications')"><a href="#/dashboard/applications">Applications</a></li>
-      <li ng-class="getClass('/dashboard/users')"><a href="#/dashboard/users">Users / Permissions</a></li>
-    </ul>
+<a class="brand" href="#/dashboard/quotes">
+    <img src="img/logo.png" alt="MarlinQuoter" />
+</a>
+
+<ul class="user-tray text-center">
+  <li user-tray></li>
+</ul>
+
+<ul class="nav text-center">
+    <li class="span1 dark">
+        <a href="#/dashboard/"><i class="icon-home"></i><br/>Dashboard</a>
+    </li>
+    <li class="span1 light" ng-class="getClass('/dashboard/vendors')">
+        <a href="#/dashboard/vendors"><i class="icon-user"></i><br/>Vendors</a>
+    </li>
     
-    <ul class="nav pull-right">
-      <li user-tray></li>
-    </ul>
-    </div>
-  </div>
-</div>
+    <li class="span1 light" ng-class="getClass('/dashboard/programs')">
+        <a href="#/dashboard/programs"><i class="icon-usd"></i><br/>Rate Sheets</a>
+    </li>
+    
+    <li class="span1 dark" ng-class="getClass('/dashboard/quotes')">
+        <a href="#/dashboard/quotes"><i class="icon-comments-alt"></i><br/>Quotes</a>
+    </li>
+    
+    <li class="span1 dark" ng-class="getClass('/dashboard/applications')">
+        <a href="#/dashboard/applications"><i class="icon-file-text-alt"></i><br/>Applications</a>
+    </li>
+    
+    <li class="span1 light" ng-class="getClass('/dashboard/users')">
+        <a href="#/dashboard/users"><i class="icon-unlock-alt"></i><br/>Permissions</a>
+    </li>
+    
+</ul>
+
+

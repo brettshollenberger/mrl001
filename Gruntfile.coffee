@@ -116,6 +116,11 @@ module.exports = (grunt)->
     # Compile `app.less` -> `app.css`
     less:
       '<%= BUILD_DIR %>/app/styles/app.css': '<%= CLIENT_DIR %>/app/styles/app.less'
+      '<%= BUILD_DIR %>/app/styles/override.css': '<%= CLIENT_DIR %>/app/styles/override.less'
+      options: 
+      	dumpLineNumbers: 'mediaquery'
+      	
+
 
     # Support live-reloading of all non-Bower resources
     livereload:

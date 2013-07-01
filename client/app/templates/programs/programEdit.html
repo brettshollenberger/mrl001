@@ -1,66 +1,65 @@
-<div ng-include="'app/templates/nav.html'"></div>
+
 
 <div class="row-fluid">
-     <div class="span12">
-        <h2>New Rate Sheet</h2>
-    </div>
-</div>
-
-<div class="row-fluid">
-
-    <div class="span4">
+    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+     
+    <div class="span10 offset2">
+        <div class="row">
+            <div class="span10">
+                <h2>New Rate Sheet</h2>
+            </div>
         
-        <legend>Rate Sheet Info</legend>
         
-        <label>Program Name</label>
-        <input type="text" placeholder="" ng-model="program.name">
-        
-        <label>Private Notes</label>
-        <textarea type="text" ng-model="program.notes_private"></textarea>
-        
-        <label>Public Notes</label>
-        <textarea type="text" ng-model="program.notes_public"></textarea>
-        
-    </div>
-  
- 
-    <div class="span8">
-        <legend>Rate Sheet Details</legend>
-    
-        <label>Term Period</label>
-        <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
-    
-        <table class="table">
+            <div class="span4">
+                
+                <legend>Rate Sheet Info</legend>
+                
+                <label>Program Name</label>
+                <input type="text" placeholder="" ng-model="program.name">
+                
+                <label>Private Notes</label>
+                <textarea type="text" ng-model="program.notes_private"></textarea>
+                
+                <label>Public Notes</label>
+                <textarea type="text" ng-model="program.notes_public"></textarea>
+                
+            </div>
+          
+         
+            <div class="span5">
+                <legend>Rate Sheet Details</legend>
             
-            <thead>
-                <th>Buyout Options</th>
-                <th ng-repeat="term in program.rateSheet.termLength">
-                    <input type="text" class="input-small" ng-model="term.length"/>
-                </th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="option in program.rateSheet.buyoutOptions">
-                    <td><input class="input-large" type="text" ng-model="option.name"/></td>
-                    <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
-                </tr>
-            </tbody>
+                <label>Term Period</label>
+                <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
+            
+                <table class="table">
+                    
+                    <thead>
+                        <th>Buyout Options</th>
+                        <th ng-repeat="term in program.rateSheet.termLength">
+                            <input type="text" class="input-small" ng-model="term.length"/>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="option in program.rateSheet.buyoutOptions">
+                            <td><input class="input-large" type="text" ng-model="option.name"/></td>
+                            <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
+                        </tr>
+                    </tbody>
+                
+                </table>
+                
+            </div>
         
-        </table>
-        
+                
+            <div class="span10">
+                
+                <hr />
+                
+                <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+            
+            </div>
+        </div>
     </div>
-
-
-</div>
-
-<div class="row-fluid">
-        
-    <div class="span12">
-        
-        <hr />
-        
-        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
-    
-    </div>
-
 </div>

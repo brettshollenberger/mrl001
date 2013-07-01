@@ -1,84 +1,90 @@
-<div ng-include="'app/templates/nav.html'"></div>
 
-<div class="row-fluid">
-     <div class="span12">
-        <h2>New User</h2>
-    </div>
-</div>
 
-<div class="row-fluid">
+<div class="row">
+    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+    <div class="span10 offset2">
+        <div class="row">
+            <div class="span10">
+                <h2>New User</h2>
+            </div>
 
-    <div class="span6">
+            <div class="span5">
+                
+                <legend>User Info</legend>
+                
+                <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
+                <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
+                
+                <br />
+                
+                <label>User Name</label>
+                <input type="text" placeholder="" ng-model="user.username">
+                
+                <label>First Name</label>
+                <input type="text" placeholder="" ng-model="user.name.first">
+                
+                <label>Last Name</label>
+                <input type="text" placeholder="" ng-model="user.name.last">
+                
+                <label>Email</label>
+                <input type="text" placeholder="" ng-model="user.email">
+                
+                <label>Phone</label>
+                <input type="text" placeholder="" ng-model="user.phone">
+                
+                
+                <label>Password</label>
+                <input type="password" placeholder="" ng-model="user.password">
+                
+            </div>
+            
+            <div class="span5">
+                <legend>User's Vendor List</legend>
+            
+                <ul ng-show="user.vendors.length" class="unstyled">
+                    <li ng-repeat="item in user.vendors">
+                        <p>
+                        <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                        {{item.name}}
+                        <button class="pull-right btn" ng-click="removeVendor()">
+                            <i class="icon icon-trash" ></i>
+                        </button>
+                        </p>
+                    </li>
+                </ul>
+                
+                <hr />
+                
+                <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
+                
+                <label>Add vendor by searching by name</label>
+                
+                <div class="input-append">
+                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
+                    <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+                </div>
+               
+                <!--
         
-        <legend>User Info</legend>
-        
-        <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
-        <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
-        
-        <br />
-        
-        <label>Name</label>
-        <input type="text" placeholder="" ng-model="user.username">
-        
-        <label>Email</label>
-        <input type="text" placeholder="" ng-model="user.email">
-        
-        <label>Phone</label>
-        <input type="text" placeholder="" ng-model="user.phone">
+                <label>Add a vendor for {{user.username}}</label>
+                <input type="text" ng-model="newVendor"/>
+                <br />
+                <button ng-click="addVendorToUser()" class="btn btn-primary" placeholde="Type Vendor Name">Add Vendor</button>
+            
+                -->
+            </div>
         
         
-        <label>Password</label>
-        <input type="password" placeholder="" ng-model="user.password">
-        
-    </div>
-    
-    <div class="span6">
-        <legend>User's Vendor List</legend>
-    
-        <ul ng-show="user.vendors.length" class="unstyled">
-            <li ng-repeat="item in user.vendors">
-                <p>
-                <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                {{item.name}}
-                <button class="pull-right btn" ng-click="removeVendor()">
-                    <i class="icon icon-trash" ></i>
-                </button>
-                </p>
-            </li>
-        </ul>
-        
-        <hr />
-        
-        <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
-        
-        <label>Add vendor by searching by name</label>
-        
-        <div class="input-append">
-            <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
-            <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+                
+            <div class="span10">
+                
+                <hr />
+                
+                <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+            
+            </div>
         </div>
-       
-        <!--
-
-        <label>Add a vendor for {{user.username}}</label>
-        <input type="text" ng-model="newVendor"/>
-        <br />
-        <button ng-click="addVendorToUser()" class="btn btn-primary" placeholde="Type Vendor Name">Add Vendor</button>
-    
-        -->
-    </div>
-
-</div>
-
-<div class="row-fluid">
-        
-    <div class="span12">
-        
-        <hr />
-        
-        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
-    
     </div>
 
 </div>

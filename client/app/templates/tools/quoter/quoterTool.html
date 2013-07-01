@@ -18,7 +18,7 @@
     <div class="span8 offset2">
         
         <legend>Vendor</legend>
-        <select ui-if="!didQuote && !vendor_id" ng-model="quote.vendorId" ng-options="value.id as value.name for (key , value) in vendors" ></select>
+        <select ui-if="!didQuote && !vendor_id" id="vendorName" ng-model="quote.vendorId" ng-options="value.id as value.name for (key , value) in vendors" ></select>
         <p ui-if="didQuote">{{vendor.name}}</p>
         
     </div>
@@ -64,8 +64,8 @@
         <input type="text" placeholder="" ng-model="quote.company.businessAddress.city">
         
         <label>State</label>
-        <input type="text" placeholder="" ng-model="quote.company.businessAddress.state">
-        
+        <select class="medium" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+
         <label>Zip</label>
         <input type="text" placeholder="" ng-model="quote.company.businessAddress.zip">
 
@@ -98,7 +98,7 @@
         
     <div class="span8 offset2">
         <hr />
-        <a class="btn btn-primary btn-large" id="generateQuote" ng-click="generateQuote()">{{buttonText}}</a>
+        <a class="btn btn-primary btn-large" id="generateQuote" ng-disabled="" ng-click="generateQuote()">{{buttonText}}</a>
         <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
     </div>
 
@@ -137,7 +137,7 @@
         </div>
         
         <hr />
-        
+  
         <label>Send this link to share this quote!</label>
         <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
         

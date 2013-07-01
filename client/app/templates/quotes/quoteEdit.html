@@ -1,77 +1,83 @@
-<div ng-include="'app/templates/nav.html'"></div>
 
-<div class="row-fluid">
-     <div class="span12">
-        <h2>New Quote</h2>
-    </div>
-</div>
 
-<div class="row-fluid">
-
-    <div class="span4">
+<div class="row">
+    
+    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+    
+    <div class="span10 offset2">
+        <div class="row">
+            <div class="span10">
+                <h2>New Quote</h2>
+            </div>
+            
+            <div class="span3">
+                
+                <legend>Equipment Cost Information</legend>
+                
+                <label>Total Cost</label>
+                <input type="text" placeholder="0.00" ng-model="quote.totalCost">
+                
+                <label>Description of Equiptment</label>
+                <textarea type="text" ng-model="quote.description"></textarea>
+                
+                <label>Status</label>
+                <div class="btn-group">
+                    <button ng-click="quote.status='Open'" class="btn" ng-class="{active: quote.status=='Open'}">Open</button>
+                    <button ng-click="quote.status='Archived'" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
+                </div>
+                
+            </div>
+            
+            
+            <div class="span3">
+                <legend>Company Information</legend>
+                
+                <label>Company Name</label>
+                <input type="text" placeholder="" ng-model="quote.company.name">
+                
+                <label>Address 1</label>
+                <input type="text" placeholder="" ng-model="quote.company.address1">
+                
+                <label>Address 2</label>
+                <input type="text" placeholder="" ng-model="quote.company.address2">
+                
+                <label>City</label>
+                <input type="text" placeholder="" ng-model="quote.company.city">
+                
+                <label>State</label>
+                <select class="medium" ng-model="quote.company.state" ng-options="state.abbreviation as state.name for state in states"></select>
+<!--
+                <select class="medium" ng-model="quote.company.state">
+                    <option ng-repeat="item in states" value="{{item.abbreviation}}">{{item.name}}</option>
+                </select>
+-->
+               
+                
+            </div>
+            
+            
+            <div class="span3">  
+                
+                <legend>Contact Information</legend>
+            
+                <label>Contact Name</label>
+                <input type="text" placeholder="" ng-model="quote.contact.name">
+            
+                <label>Email</label>
+                <input type="text" placeholder="" ng-model="quote.contact.email">
+                
+                <label>Phone</label>
+                <input type="text" placeholder="" ng-model="quote.contact.phone">
+            
+            </div>
+            <div class="span10">
+                <hr />
         
-        <legend>Equipment Cost Information</legend>
-        
-        <label>Total Cost</label>
-        <input type="text" placeholder="0.00" ng-model="quote.totalCost">
-        
-        <label>Description of Equiptment</label>
-        <textarea type="text" ng-model="quote.description"></textarea>
-        
-        <label>Status</label>
-        <div class="btn-group">
-            <button ng-click="quote.status='Open'" class="btn" ng-class="{active: quote.status=='Open'}">Open</button>
-            <button ng-click="quote.status='Archived'" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                    <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+            </div>
+            
         </div>
-        
     </div>
-    
-    <div class="span4">
-        <legend>Company Information</legend>
-        
-        <label>Company Name</label>
-        <input type="text" placeholder="" ng-model="quote.company.name">
-        
-        <label>Address 1</label>
-        <input type="text" placeholder="" ng-model="quote.company.address1">
-        
-        <label>Address 2</label>
-        <input type="text" placeholder="" ng-model="quote.company.address2">
-        
-        <label>City</label>
-        <input type="text" placeholder="" ng-model="quote.company.city">
-        
-        <label>State</label>
-        <input type="text" placeholder="" ng-model="quote.company.state">
-        
-    </div>
-    
-    <div class="span4">  
-        
-        <legend>Contact Information</legend>
-    
-        <label>Contact Name</label>
-        <input type="text" placeholder="" ng-model="quote.contact.name">
-    
-        <label>Email</label>
-        <input type="text" placeholder="" ng-model="quote.contact.email">
-        
-        <label>Phone</label>
-        <input type="text" placeholder="" ng-model="quote.contact.phone">
-    
-    </div>
-
 </div>
 
-<div class="row-fluid">
-        
-    <div class="span12">
-        
-        <hr />
-        
-        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
-    
-    </div>
-
-</div>

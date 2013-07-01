@@ -22,6 +22,7 @@ describe('Quote management', function() {
         it('Should have a button for users to click to add a new quote', function() {
             expect(element('#addQuote').count()).toBe(1);
         });
+      
         
     });
     
@@ -45,6 +46,13 @@ describe('Quote management', function() {
             element('#filterAll').click();
             expect(repeater('tbody tr').count()).toBe(4);
         }); 
+        
+        it('Should be able to search by vendor name', function(){
+            browser().navigateTo('/dashboard/quotes');
+            input('searchVend').enter('Another Vendor');
+            expect(repeater('tbody tr').count()).toBe(1);
+            input('searchVend').enter('');
+        });
         
     });
     

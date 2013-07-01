@@ -1,109 +1,109 @@
 
 
-<div class="row-fluid">
+<div class="row">
     <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
-    <div class="span10 offset2">
-        <h2>New Vendor</h2>
-    </div>
-
-    <div class="span10 offset2">        
-        <legend>Basic Information</legend>
-        <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" />
-        <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+        <div class="span10 offset2">
+            <div class="row">
+                <div class="span10"><h2>New Vendor</h2></div>
+                <div class="span5">
+                    <legend>Basic Information</legend>
+                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
+                    <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+                    
+                    <br /><br />
+                    
+                    <p><strong>Vendor Name</strong></p>
+                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
+                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id"> -->
+                    
+                    <p><strong>Vendor Location</strong></p>
+                    <input type="text" placeholder="Address 1" ng-model="vendor.address_1">
+                    <input type="text" placeholder="Address 2" ng-model="vendor.address_2">
+                    <input type="text" placeholder="City" ng-model="vendor.city">
+                    <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+                    <label>State</label>
+                    <select class="medium" ng-model="vendor.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                    
+                    <p><strong>Primary Contact</strong></p>
+                    <input type="text" placeholder="Name" ng-model="vendor.primary_contact.name">
+                    <input type="text" placeholder="Email" ng-model="vendor.primary_contact.email">
+                    <input type="text" placeholder="Phone" ng-model="vendor.primary_contact.phone">
         
-        <br /><br />
-        
-        <p><strong>Vendor Name</strong></p>
-        <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
-        <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id"> -->
-        
-        <p><strong>Vendor Location</strong></p>
-        <input type="text" placeholder="Address 1" ng-model="vendor.address_1">
-        <input type="text" placeholder="Address 2" ng-model="vendor.address_2">
-        <input type="text" placeholder="City" ng-model="vendor.city">
-        <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
-        <label>State</label>
-        <select class="medium" ng-model="vendor.state" ng-options="state.abbreviation as state.name for state in states"></select>
-        
-        <p><strong>Primary Contact</strong></p>
-        <input type="text" placeholder="Name" ng-model="vendor.primary_contact.name">
-        <input type="text" placeholder="Email" ng-model="vendor.primary_contact.email">
-        <input type="text" placeholder="Phone" ng-model="vendor.primary_contact.phone">
-        
-        <div class="row-fluid">
-            <div class="span12">
-                <legend>Lease Programs</legend>
-            </div>
-            
-         </div>
-    </div>
-    
-    <div class="span10 offset2" ng-hide="!vendor.id">
-        <legend>Marlin Sales Rep</legend>
-        
-        <div ng-show="vendor.salesRep">
-            <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
-            <h5 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
-            <p>{{vendor.salesRep.email}}</p>
-            <p>{{vendor.salesRep.phone}}</p>
-            
-            <button class="btn btn-primary" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</button>
-            
-        </div>
-        
-        <div ng-show="!vendor.salesRep">
-            <p class="alert">This vendor currently has no Marlin Sales Rep</p>
-            
-            <label>Add sales rep by searching by name</label>
-            <div class="input-append">
-                <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/>
-                <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button>
-            </div>
-        </div>
-    
-    </div>
-
-    <div class="span10 offset2" ng-hide="!vendor.id">
-        <strong>Current Lease Programs Associated with Vendor</strong>
-        <ul id="vendorPrograms" class="unstyled">
-            <li ng-repeat="item in vendorPrograms">
-                <hr />
-                <p>Name: {{item.name}}</p>
-                <label>Display Name: This how the program will display to end users.</label>
-                <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
-                <br />
-                <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                </div>
                 
-            </li>
-        </ul>
-        
-        <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
-          
-    </div>
-    <div class="span10 offset2" ng-hide="!vendor.id">
-        <strong>Lease programs not currently used by this vendor</strong>
-        <ul id="allPrograms" class="unstyled">
-            <li ng-repeat="item in programs">
-                <hr />
-                <p>{{item.name}}</p>
-                <button ng-click="addProgram(item)" class="btn">Add</button>
-            </li>
-        </ul>
-    </div>
-
-    <div class="span10 offset2">
-        <legend>Customization</legend>
-        
-        <label>Legal Terms which display on application</label>
-        <textarea ng-model="vendor.legalTerms"></textarea>
-    </div>
-
-    <div class="span10 offset2">    
+                <div class="span5" ng-hide="!vendor.id">
+                    <legend>Marlin Sales Rep</legend>
+                    
+                    <div ng-show="vendor.salesRep">
+                        <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
+                        <h5 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
+                        <p>{{vendor.salesRep.email}}</p>
+                        <p>{{vendor.salesRep.phone}}</p>
+                        
+                        <button class="btn btn-primary" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</button>
+                        
+                    </div>
+                    
+                    <div ng-show="!vendor.salesRep">
+                        <p class="alert">This vendor currently has no Marlin Sales Rep</p>
+                        
+                        <label>Add sales rep by searching by name</label>
+                        <div class="input-append">
+                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/>
+                            <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button>
+                        </div>
+                    </div>
                 
-        <hr />
-        
-        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
-        
-    </div>
+                </div>
+                
+                <div class="span10">
+                    <legend>Lease Programs</legend>
+                </div>
+                
+                <div class="span5" ng-hide="!vendor.id">
+                    <strong>Current Lease Programs Associated with Vendor</strong>
+                    <ul id="vendorPrograms" class="unstyled">
+                        <li ng-repeat="item in vendorPrograms">
+                            <hr />
+                            <p>Name: {{item.name}}</p>
+                            <label>Display Name: This how the program will display to end users.</label>
+                            <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
+                            <br />
+                            <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                            
+                        </li>
+                    </ul>
+                    
+                    <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
+                      
+                </div>
+                <div class="span5" ng-hide="!vendor.id">
+                    <strong>Lease programs not currently used by this vendor</strong>
+                    <ul id="allPrograms" class="unstyled">
+                        <li ng-repeat="item in programs">
+                            <hr />
+                            <p>{{item.name}}</p>
+                            <button ng-click="addProgram(item)" class="btn">Add</button>
+                        </li>
+                    </ul>
+                </div>
+            
+                <div class="span10">
+                    <legend>Customization</legend>
+                    
+                    <label>Legal Terms which display on application</label>
+                    <textarea ng-model="vendor.legalTerms"></textarea>
+                </div>
+            
+                <div class="span10">    
+                            
+                    <hr />
+                    
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                    <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
+                    
+                </div>
+            </div><!-- row -->
+        </div><!-- offset 2 -->
+ 
 </div>

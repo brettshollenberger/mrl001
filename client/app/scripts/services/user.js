@@ -11,6 +11,9 @@ angular.module('app').factory('userService', ['$http', function($http) {
         email: 'admin@facultycreative.com',
         username: 'admin',
         password: 'admin',
+        avatar: {
+            original: 'https://www.filepicker.io/api/file/s6XT8eSVSz21ZdFdlgge'
+        },
         status: 'Active',
         groups: ['SuperAdmin'],
         vendorIds: []

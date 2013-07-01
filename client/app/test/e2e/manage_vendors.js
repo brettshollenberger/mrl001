@@ -80,7 +80,7 @@ describe('Vendor management', function() {
         
         it('Should have editable fields', function() {
             input('vendor.name').enter('Changed the vendor Name');
-            input('vendor.address_1').enter('An address');
+            input('vendor.businessAddress.address1').enter('An address');
         });
         
         it('Clicking update should take user back to vendor list', function() {

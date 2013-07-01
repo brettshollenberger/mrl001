@@ -56,13 +56,19 @@
                 <hr />
                 
                 <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
-                
+
                 <label>Add vendor by searching by name</label>
                 
                 <div class="input-append">
-                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
+                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
+                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId"/>
                     <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+                    
                 </div>
+                               
+                <ul>
+                    <li ng-repeat="item in allVendors | filter: vendorId">{{item.name}}</li>
+                </ul>
                
                 <!--
         

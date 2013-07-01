@@ -46,6 +46,12 @@
                 
                 <label>State</label>
                 <select class="medium" ng-model="quote.company.state" ng-options="state.abbreviation as state.name for state in states"></select>
+<!--
+                <select class="medium" ng-model="quote.company.state">
+                    <option ng-repeat="item in states" value="{{item.abbreviation}}">{{item.name}}</option>
+                </select>
+-->
+               
                 
             </div>
             

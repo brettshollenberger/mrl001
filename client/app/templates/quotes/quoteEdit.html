@@ -45,7 +45,7 @@
                 <input type="text" placeholder="" ng-model="quote.company.city">
                 
                 <label>State</label>
-                <input type="text" placeholder="" ng-model="quote.company.state">
+                <select class="medium" ng-model="quote.company.state" ng-options="state.abbreviation as state.name for state in states"></select>
                 
             </div>
             

@@ -7,7 +7,8 @@ angular
     '$routeParams',
     'authService',
     'quoteService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Quote) {
+    'stateService',
+    function($rootScope, $scope, $location, $routeParams, Auth, Quote, States) {
        
         Auth.minPermissionLevel(1);
        
@@ -25,6 +26,9 @@ angular
         var quoteId = $routeParams.id;
         $scope.formAction = 'Add';
         
+        //States picker
+        $scope.states = States.states();
+        $scope.quote.state = $scope.states[0].abbreviation;
         
         // get and store the quote 
         if(quoteId) {

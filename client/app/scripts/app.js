@@ -167,6 +167,10 @@ angular
         var pageSlug = $location.path().split('/');
         //console.log(pageSlug[pageSlug.length - 1]);
         $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+        
+        if($rootScope.pageSlug.length === 0){
+            $rootScope.pageSlug = 'home';
+        }
         //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
     });
   

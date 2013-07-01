@@ -38,7 +38,7 @@
          </div>
     </div>
     
-    <div class="span10 offset2">
+    <div class="span10 offset2" ng-hide="!vendor.id">
         <legend>Marlin Sales Rep</legend>
         
         <div ng-show="vendor.salesRep">
@@ -63,7 +63,7 @@
     
     </div>
 
-    <div class="span10 offset2">
+    <div class="span10 offset2" ng-hide="!vendor.id">
         <strong>Current Lease Programs Associated with Vendor</strong>
         <ul id="vendorPrograms" class="unstyled">
             <li ng-repeat="item in vendorPrograms">
@@ -80,7 +80,7 @@
         <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
           
     </div>
-    <div class="span10 offset2">
+    <div class="span10 offset2" ng-hide="!vendor.id">
         <strong>Lease programs not currently used by this vendor</strong>
         <ul id="allPrograms" class="unstyled">
             <li ng-repeat="item in programs">

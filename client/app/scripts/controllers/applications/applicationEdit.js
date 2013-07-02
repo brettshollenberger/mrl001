@@ -9,7 +9,7 @@ angular
     'applicationService',
     function($rootScope, $scope, $location, $routeParams, Auth, Application) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-application');
        
         // empty application object
         $scope.application = {};

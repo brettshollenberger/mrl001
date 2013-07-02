@@ -10,7 +10,7 @@ angular
     'vendorService',
     function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-user');
        
         // empty user object
         $scope.user = {};

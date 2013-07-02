@@ -15,7 +15,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
             original: 'https://www.filepicker.io/api/file/s6XT8eSVSz21ZdFdlgge'
         },
         status: 'Active',
-        groups: ['SuperAdmin'],
+        groups: [1],
         vendorIds: []
     },
     {
@@ -32,7 +32,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
             original: 'https://www.filepicker.io/api/file/s6XT8eSVSz21ZdFdlgge'
         },
         status: 'Active',
-        groups: ['MarlinSalesRep'],
+        groups: [2],
         vendorIds: [1]
     },
     {
@@ -49,7 +49,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         username: 'mmiller',
         password: 'demo',
         status: 'Active',
-        groups: ['MarlinSalesRep'],
+        groups: [2],
         vendorIds: [3]
     },
     {
@@ -66,7 +66,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         username: 'afrey',
         password: 'demo',
         status: 'Active',
-        groups: ['MarlinSalesRep'],
+        groups: [2],
         vendorIds: []
     }];
     

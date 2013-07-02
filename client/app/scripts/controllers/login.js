@@ -7,8 +7,13 @@ angular
     'authService',
     function($rootScope, $scope, $location, Auth) {
         
-        $scope.username = 'admin';
-        $scope.password = 'admin';
+        
+        if($rootScope.credentials) {
+           
+            $scope.username = $rootScope.credentials.userName; 
+            $scope.password = $rootScope.credentials.password; 
+            
+        }
         
         $scope.login = function() {
             

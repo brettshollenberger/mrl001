@@ -9,7 +9,7 @@ angular
     'vendorService',
     function($rootScope, $scope, $location, Auth, Application, Vendor) {
         
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('list-application');
         
         $scope.searchBusiness = '';
         $scope.searchVendor = '';

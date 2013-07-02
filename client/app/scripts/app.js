@@ -133,7 +133,7 @@ angular
       
     ;
   }])
-  .run(['$rootScope', '$location', function($rootScope, $location) {
+  .run(['$rootScope', '$location', 'authService', function($rootScope, $location, Auth) {
   
   
         // global functions and variables available app wide in $rootScope go here!
@@ -161,18 +161,29 @@ angular
                 return "";
             }
         };
-
-        // Handle updating page title
-    $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
-        var pageSlug = $location.path().split('/');
-        //console.log(pageSlug[pageSlug.length - 1]);
-        $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
         
-        if($rootScope.pageSlug.length === 0){
-            $rootScope.pageSlug = 'home';
-        }
-        //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
-    });
+        
+        $rootScope.showIfUserCanDoAction = function(action) {
+            return Auth.showIfUserCanDoAction(action);  
+        };
+        
+        
+        // Handle updating page title
+        $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
+            var pageSlug = $location.path().split('/');
+            //console.log(pageSlug[pageSlug.length - 1]);
+            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+            
+            if($rootScope.pageSlug.length === 0){
+                $rootScope.pageSlug = 'home';
+            }
+            //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
+        });
+        
+        
+        // we use this to set credentials for demo on initial page screen
+        $rootScope.credentials = {userName: 'admin', password: 'admin'};
+        
   
   }])
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {

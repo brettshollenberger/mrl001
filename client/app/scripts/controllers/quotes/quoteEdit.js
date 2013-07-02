@@ -10,7 +10,7 @@ angular
     'stateService',
     function($rootScope, $scope, $location, $routeParams, Auth, Quote, States) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-quote');
        
         // empty quote object
         $scope.quote = {};

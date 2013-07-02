@@ -9,7 +9,7 @@ angular
     'programService',
     function($rootScope, $scope, $location, $routeParams, Auth, Program) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-program');
        
         // empty program object
         $scope.program = {};

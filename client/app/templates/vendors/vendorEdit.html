@@ -92,12 +92,29 @@
                         
                         <label>Add sales rep by searching by name</label>
                         <div class="input-append">
-                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/>
-                            <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button>
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
+                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" />
                         </div>
+                        
+                        <!-- <pre>{{allReps}}</pre> -->
+                        <ul class="unstyled">
+                            <li ng-repeat="item in allReps | filter:salesRepId">
+                                <p>
+                                    <img class="img-circle" width="50px" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    {{item.fullname}}
+                                    <button class="pull-right btn" ng-click="addSalesRep(item.id)">
+                                        <i class="icon-plus"></i>
+                                    </button>
+                                </p>
+                            </li>
+                        </ul>
+                        
                     </div>
                 
                 </div>
+            
+            
             </div>
                 
             <div class="row" ng-show="isActiveTab(3)">    

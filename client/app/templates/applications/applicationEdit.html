@@ -47,9 +47,10 @@
                 <label>Phone</label>
                 <input type="text" placeholder="" ng-model="application.leasee.contactPerson.phone">
                 
-                <p>Preferred contact method</p>
-                <a ng-click="application.leasee.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: application.leasee.contactPerson.contactMethod == 'email'}">Email</a>
-                <a ng-click="application.leasee.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: application.leasee.contactPerson.contactMethod == 'phone'}">Phone</a>
+                <p>Preferred contact method<br/>
+                    {{application.leasee.contactPerson.contactMethod}}
+                </p>
+                
                 
             </div>
             

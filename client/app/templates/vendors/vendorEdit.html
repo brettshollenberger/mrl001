@@ -1,10 +1,26 @@
-
-
-<div class="row">
+<div class="row has-title-bar">
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
         <div class="span10 offset2">
-            <div class="row">
-                <div class="span10"><h2>New Vendor</h2></div>
+            
+            <div class="row title-bar">
+                <div class="span10">
+                    <h2>New Vendor</h2>
+                    <ul class="nav nav-tabs">
+                      <li ng-class="{active: isActiveTab(1), disabled: !vendor.id}"><a ng-click="changeTab(1)">Basic Information</a></li>
+                      <li ng-class="{active: isActiveTab(2), disabled: !vendor.id}"><a ng-click="changeTab(2)">Marlin Sales Rep</a></li>
+                      <li ng-class="{active: isActiveTab(3), disabled: !vendor.id}"><a ng-click="changeTab(3)">Rate Sheets</a></li>
+                      <li ng-class="{active: isActiveTab(4), disabled: !vendor.id}"><a ng-click="changeTab(4)">Customize</a></li>
+                    </ul>
+                    
+                    <div class="actions">
+                        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                        <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
+                    </div>
+                
+                </div>
+            </div>
+            
+            <div class="row" ng-show="isActiveTab(1)">
                 <div class="span5">
                     <legend>Basic Information</legend>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
@@ -28,10 +44,11 @@
                     <input type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
                     <input type="text" placeholder="Email" ng-model="vendor.contactPerson.email">
                     <input type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone">
-        
                 </div>
-                
-                <div class="span5" ng-hide="!vendor.id">
+            </div>
+            
+            <div class="row" ng-show="isActiveTab(2)">
+                <div class="span5">
                     <legend>Marlin Sales Rep</legend>
                     
                     <div ng-show="vendor.salesRep">
@@ -55,7 +72,9 @@
                     </div>
                 
                 </div>
+            </div>
                 
+            <div class="row" ng-show="isActiveTab(3)">    
                 <div class="span10">
                     <legend>Lease Programs</legend>
                 </div>
@@ -87,7 +106,10 @@
                         </li>
                     </ul>
                 </div>
+            </div>
             
+            
+            <div class="row" ng-show="isActiveTab(4)">
                 <div class="span10">
                     <legend>Customization</legend>
                     
@@ -99,8 +121,7 @@
                             
                     <hr />
                     
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                    <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
+                    
                     
                 </div>
             </div><!-- row -->

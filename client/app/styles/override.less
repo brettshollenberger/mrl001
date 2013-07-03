@@ -121,6 +121,40 @@ http://ryanfait.com/
 */
 
 
+// apply top outtermost row when page contains title-bar. 
+// this ensures proper padding is applied to show title-bar under fixed title-bar
+.has-title-bar {
+    margin-top: 100px;
+}
+
+.has-no-tabs .title-bar [class*="span"] {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    display: block;
+    
+}
+
+.title-bar {
+    
+    position: fixed;
+    top: 0;
+    background: @bodyBackground;
+    z-index: @zindexFixedNavbar;
+    
+    .actions {
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+}
+
+
+
+
+
+
+
 .img-tiny {
     width: 50px;
 }

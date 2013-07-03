@@ -1,57 +1,63 @@
 
-
-<div class="row">
+<div class="row has-title-bar has-no-tabs">
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     <div class="span10 offset2">
-        <h2>Quotes</h2>
         
-        <a id="addQuote" class="btn btn-primary" href="#/tools/quoter">Launch Quote Tool</a>
-        
-        <br /><br />
-        
-        <div class="form-inline">
-            <label>Search cost</label>
-            <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost">
-            
-            <label>Search description</label>
-            <input type="text" placeholder="Description" ng-model="searchDesc">
-            
-            <label>Search Vendor</label>
-            <input type="text" placeholder="Vendor" ng-model="searchVend">
-            <br/><br/>
-            <label>Filter by status</label>
-            <div class="btn-group">
-                <button id="filterAll" ng-click="filterStatus=''" class="btn" ng-class="{active: filterStatus==''}">All</button>
-                <button id="filterOpen" ng-click="filterStatus='Open'" class="btn" ng-class="{active: filterStatus=='Open'}">Open</button>
-                <button id="filterArchived" ng-click="filterStatus='Archived'" class="btn" ng-class="{active: filterStatus=='Archived'}">Archived</button>
+        <div class="row title-bar">
+            <div class="span10">
+                <h2>Quotes</h2>
+                <a id="addQuote" class="btn btn-primary actions" href="#/tools/quoter">Launch Quote Tool</a>
             </div>
-
         </div>
-            
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Total Cost</th>
-                    <th>Description</th>
-                    <th>Vendor</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
-                    <td>${{item.totalCost | number}}</td>
-                    <td>{{item.description}}</td>
-                    <td>{{item.vendor.name}}</td>
-                    <td>{{item.status}}</td>
-                    <td>
-                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
-                        <a class="view" ng-click="editItem(item.id)">View</a> | 
-                        <a class="delete" ng-click="deleteItem(item.id)">Delete</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        
+        <div class="row">  
+            <div class="span10">  
+                <div class="form-inline">
+                    <label>Search cost</label>
+                    <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost">
+                    
+                    <label>Search description</label>
+                    <input type="text" placeholder="Description" ng-model="searchDesc">
+                    
+                    <label>Search Vendor</label>
+                    <input type="text" placeholder="Vendor" ng-model="searchVend">
+                    <br/><br/>
+                    <label>Filter by status</label>
+                    <div class="btn-group">
+                        <button id="filterAll" ng-click="filterStatus=''" class="btn" ng-class="{active: filterStatus==''}">All</button>
+                        <button id="filterOpen" ng-click="filterStatus='Open'" class="btn" ng-class="{active: filterStatus=='Open'}">Open</button>
+                        <button id="filterArchived" ng-click="filterStatus='Archived'" class="btn" ng-class="{active: filterStatus=='Archived'}">Archived</button>
+                    </div>
+        
+                </div>
+                    
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Total Cost</th>
+                            <th>Description</th>
+                            <th>Vendor</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
+                            <td>${{item.totalCost | number}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.vendor.name}}</td>
+                            <td>{{item.status}}</td>
+                            <td>
+                                <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
+                                <a class="view" ng-click="editItem(item.id)">View</a> | 
+                                <a class="delete" ng-click="deleteItem(item.id)">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        
+            </div>
+        </div>
         
     </div>
 </div>

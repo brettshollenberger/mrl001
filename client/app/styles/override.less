@@ -29,7 +29,66 @@ a:hover{text-decoration: none;}
 .container{margin-right: 0; margin-left: 0;}
 .container.quoter, .container.login, .container.home{margin-left: auto; margin-right: auto; margin-top: 90px;}
 
+.container.quoter, .container.application {
+    margin-top: 20px;
+}
 
+
+.quoter {
+    
+    h3 {
+        text-align: center;
+        
+        &:after {
+            content: "";
+            border: 0;
+            border-top: 1px solid @hrBorder;
+            border-bottom: 1px solid @white;
+            display: block;
+        }
+        
+    }
+    
+    label {
+        text-transform: uppercase;
+    }
+    
+    .dollarSign {
+        font-size: 25px;
+        margin-right: 10px;
+    }
+    
+    .area {
+        padding: 20px 0;        
+    }
+    /*
+
+    .area-dark {
+        background: @grayLighter;
+    }
+    
+*/
+    .area-equiptment textarea {
+        width: (@gridColumnWidth * 5) + 40;
+        height: 100px;
+    }
+    
+    .btn-mega {
+        margin: 0 auto;
+    }
+    
+}
+
+// Large
+.btn-mega {
+  padding: 25px 80px;
+  font-size: @fontSizeLarge;
+  .border-radius(10px);
+}
+.btn-mega [class^="icon-"],
+.btn-mega [class*=" icon-"] {
+  margin-top: 4px;
+}
 
 
 
@@ -153,6 +212,10 @@ http://ryanfait.com/
 textarea.legalTerms {
     width: 500px;
     height: 200px;
+}
+
+.poweredby {
+    margin-top: 30px;
 }
 
 

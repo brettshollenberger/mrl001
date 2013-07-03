@@ -1,23 +1,22 @@
-<div class="row-fluid">
-     <div class="span8 offset2">
-        <h2>MarlinQuoter v0.0.1</h2>
+<div class="row vendorSection area" ui-if="vendor">
+    <div class="span8 offset1">
+        <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
+        <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
+        <p><a ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a></p>
+    </div>
+    <div class="span2">
+        <img class="pull-right poweredby" src="img/powered_by.png" />
     </div>
 </div>
 
-<div class="row-fluid vendorSection" ui-if="vendor">
-    <div class="span8 offset2">
-        <h1>{{vendor.name}}</h1>
-        <img class="pull-left img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" />
-    </div>
-</div>
-
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
     
-    <div class="span4 offset2">
+    <div class="span4 offset1">
         
         <legend>Vendor Information</legend>
         <p>{{vendor.name}}</p>
         <p>{{vendor.businessPhone}}</p>
+        <a ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a>
         <p>{{vendor.businessAddress.address1}}</p>
         <p>{{vendor.businessAddress.address2}}</p>
         <p>{{vendor.businessAddress.city}}, {{vendor.businessAddress.state}} {{vendor.businessAddress.zip}}</p>
@@ -27,9 +26,9 @@
 
 <form name="applicationForm">
 
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
 
-    <div class="span4 offset2">
+    <div class="span5 offset1">
         <legend>Company Information</legend>
         
         <label>Full Legal Business Name</label>
@@ -52,7 +51,7 @@
 
     </div>
      
-    <div class="span4"> 
+    <div class="span5"> 
         
         <legend>Primary Contact Information</legend>
     
@@ -73,9 +72,9 @@
     
 </div>
 
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
 
-    <div class="span4 offset2">
+    <div class="span5 offset1">
         
         <legend>Business Questions</legend>
     
@@ -95,9 +94,9 @@
     
 </div>
 
-<div class="row-fluid" ng-show="needsMoreInfo() && !finished">   
+<div class="row" ng-show="needsMoreInfo() && !finished">   
     
-    <div class="span4 offset2">
+    <div class="span5 offset1">
 
         <legend>Personal Guarantor</legend>
         
@@ -109,7 +108,7 @@
 
     </div>
      
-    <div class="span4"> 
+    <div class="span5"> 
     
         <legend>Personal Guarantor Contact</legend>
     
@@ -141,9 +140,9 @@
 
 </div>
 
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
         
-    <div class="span8 offset2">
+    <div class="span10 offset1">
         <legend>Authorization</legend>
         <label class="checkbox">
         <input type="checkbox" required="required" ng-model="application.agreeToTerms" />
@@ -153,9 +152,9 @@
 
 </div>
 
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
         
-    <div class="span8 offset2">
+    <div class="span10 offset1">
         <hr />
         <button type="submit" class="btn btn-primary btn-large" ng-disabled="!applicationForm.$valid" id="saveApplication" ng-click="saveApplication()">Submit Application</button>
     </div>
@@ -165,9 +164,9 @@
 
 </form>
 
-<div class="row-fluid" ng-show="finished">
+<div class="row" ng-show="finished">
 
-    <div class="span4 offset2">
+    <div class="span5 offset1">
     
         <h1>Thanks, someone will contact you within 48 hours.</h1>
         
@@ -179,9 +178,9 @@
     
 </div>  
 
-<div class="row-fluid" ng-show="!finished">
+<div class="row" ng-show="!finished">
         
-    <div class="span8 offset2">
+    <div class="span10 offset1">
         <br /><br />
         <legend>Terms</legend>
         <div id="legalTerms">{{vendor.legalTerms}}</div>

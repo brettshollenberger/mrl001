@@ -21,35 +21,61 @@
             </div>
             
             <div class="row" ng-show="isActiveTab(1)">
-                <div class="span5">
-                    <legend>Basic Information</legend>
-                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
-                    <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+                <div class="span3">
+                    <h3>Vendor</h3>
                     
-                    <br /><br />
-                    
-                    <p><strong>Vendor Name</strong></p>
+                    <label>Vendor Name</label>
                     <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
                     <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id"> -->
                     
-                    <p><strong>Vendor Location</strong></p>
+                    <label>Website</label>
+                    <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
+                    
+                    <label>Business Phone</label>
+                    <input type="text" class="medium" placeholder="Business Phone" ng-model="vendor.businessPhone">
+                    
+                    <label>Logo</label>
+                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
+                    <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+ 
+                </div>
+                
+                <div class="span3">            
+                    <h3>Location</h3>
+                    <label>Address 1</label>
                     <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                    
+                    <label>Address 2</label>
                     <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                    
+                    <label>City</label>
                     <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
                     <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                     <label>State</label>
                     <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                    
+                    <label>Zip</label>
+                    <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                    
+                </div>
+                
+                <div class="span3">  
                    
-                    <p><strong>Primary Contact</strong></p>
+                    <h3>Primary Contact</h3>
+                    <label>Name</label>
                     <input type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
+                    
+                    <label>Email</label>
                     <input type="text" placeholder="Email" ng-model="vendor.contactPerson.email">
+                    
+                    <label>Phone</label>
                     <input type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone">
                 </div>
             </div>
             
             <div class="row" ng-show="isActiveTab(2)">
                 <div class="span5">
-                    <legend>Marlin Sales Rep</legend>
+                    <h3>Marlin Sales Rep</h3>
                     
                     <div ng-show="vendor.salesRep">
                         <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
@@ -75,12 +101,9 @@
             </div>
                 
             <div class="row" ng-show="isActiveTab(3)">    
-                <div class="span10">
-                    <legend>Lease Programs</legend>
-                </div>
-                
+
                 <div class="span5" ng-hide="!vendor.id">
-                    <strong>Current Lease Programs Associated with Vendor</strong>
+                    <h3>Vendor Lease Programs</h3>
                     <ul id="vendorPrograms" class="unstyled">
                         <li ng-repeat="item in vendorPrograms">
                             <hr />
@@ -97,7 +120,7 @@
                       
                 </div>
                 <div class="span5" ng-hide="!vendor.id">
-                    <strong>Lease programs not currently used by this vendor</strong>
+                    <h3>All Available Lease Programs</h3>
                     <ul id="allPrograms" class="unstyled">
                         <li ng-repeat="item in programs">
                             <hr />
@@ -111,10 +134,10 @@
             
             <div class="row" ng-show="isActiveTab(4)">
                 <div class="span10">
-                    <legend>Customization</legend>
+                    <h3>Customize Vendor Application</h3>
                     
                     <label>Legal Terms which display on application</label>
-                    <textarea ng-model="vendor.legalTerms"></textarea>
+                    <textarea class='legalTerms' ng-model="vendor.legalTerms"></textarea>
                 </div>
             
                 <div class="span10">    

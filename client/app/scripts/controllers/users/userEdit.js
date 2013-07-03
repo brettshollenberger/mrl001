@@ -98,7 +98,7 @@ angular
         
         
         
-        $scope.tabs = ['Basic information', 'Vendors'];
+        $scope.tabs = ['Basic information', 'Vendors', 'Password'];
         
         /**
         * Tab functions. 

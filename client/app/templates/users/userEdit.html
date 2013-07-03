@@ -18,17 +18,20 @@
 
         <div class="row" ng-show="isActiveTab(0)">
 
-            <div class="span5">
+            <div class="span3">
                 
-                <legend>User Info</legend>
+                <h3>Avatar</h3>
                 
                 <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
+                
+                <br /><br />
                 <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
+               
+            </div>
+
+            <div class="span3">
                 
-                <br />
-                
-                <label>User Name</label>
-                <input type="text" placeholder="" ng-model="user.username">
+                <h3>Name</h3>
                 
                 <label>First Name</label>
                 <input type="text" placeholder="" ng-model="user.name.first">
@@ -36,15 +39,17 @@
                 <label>Last Name</label>
                 <input type="text" placeholder="" ng-model="user.name.last">
                 
+            </div>
+
+            <div class="span3">
+                
+                <h3>Contact</h3>
+                
                 <label>Email</label>
                 <input type="text" placeholder="" ng-model="user.email">
                 
                 <label>Phone</label>
-                <input type="text" placeholder="" ng-model="user.phone">
-                
-                
-                <label>Password</label>
-                <input type="password" placeholder="" ng-model="user.password">
+                <input type="text" placeholder="" ng-model="user.phoneNumber">
                 
             </div>
         </div>
@@ -52,7 +57,7 @@
         <div class="row" ng-show="isActiveTab(1)"> 
             
             <div class="span5">
-                <legend>User's Vendor List</legend>
+                <h3>User's Vendor List</h3>
             
                 <ul ng-show="user.vendors.length" class="unstyled">
                     <li ng-repeat="item in user.vendors">
@@ -66,9 +71,7 @@
                     </li>
                 </ul>
                 
-                <hr />
-                
-                <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
+                <p ng-show="!user.vendors.length" class="alert">No vendors are associated with this user yet</p>
                 
                 <label>Add vendor by searching by name</label>
                 
@@ -88,6 +91,18 @@
             </div>
  
         </div>
+        
+        <div class="row" ng-show="isActiveTab(2)">
+            <div class="span4">
+                <h3>Change Password</h3>
+                
+                <label>Password</label>
+                <input type="password" placeholder="" ng-model="user.password">
+                
+            </div>
+        </div>
+        
+        
     </div>
 
 </div>

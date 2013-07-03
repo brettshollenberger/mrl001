@@ -117,7 +117,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         },
         phoneNumber: '856-505-4224',
         avatar: {
-            original: 'https://www.filepicker.io/api/file/uxRaqvM5SFeD9s6eovYC '
+            original: 'https://www.filepicker.io/api/file/jIiQqlDfRgCppZPdy44k'
         }, 
         fullname: 'Cherie Cole',
         email: 'ccole@marlinfinance.com',
@@ -135,7 +135,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         },
         phoneNumber: '856-505-4430',
         avatar: {
-            original: 'https://www.filepicker.io/api/file/uxRaqvM5SFeD9s6eovYC '
+            original: 'https://www.filepicker.io/api/file/jIiQqlDfRgCppZPdy44k'
         }, 
         fullname: ' Joseph Fortune',
         email: 'jfortune@marlinfinance.com',

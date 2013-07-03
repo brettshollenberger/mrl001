@@ -40,7 +40,7 @@ describe('Tools: Application Tool', function() {
         
         it('Should be vendor branded', function() {
             expect(element('.vendorSection > div > h1').count()).toBe(1);
-            expect(element('.vendorSection > div > img').count()).toBe(1);
+            expect(element('.vendor-logo').count()).toBe(1);
         });
         
         it('Should display legal terms to end user', function() {

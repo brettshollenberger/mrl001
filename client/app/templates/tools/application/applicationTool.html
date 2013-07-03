@@ -1,7 +1,7 @@
 <div class="row vendorSection area" ui-if="vendor">
     <div class="span8 offset1">
         <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
-        <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
+        <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
         <p><a ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a></p>
     </div>
     <div class="span2">

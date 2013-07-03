@@ -71,7 +71,7 @@ describe('Tools: Quoter Tool', function() {
             browser().navigateTo('/tools/quoter?vendor_id=2');
             expect(element('#vendorName').count()).toBe(0);
             expect(element('.vendorSection > div > h1').count()).toBe(1);
-            expect(element('.vendorSection > div > img').count()).toBe(1);
+            expect(element('.vendor-logo').count()).toBe(1);
         });
         
     });

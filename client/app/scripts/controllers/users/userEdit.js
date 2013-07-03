@@ -98,6 +98,32 @@ angular
             $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
+        
+        
+        $scope.tabs = ['Basic information', 'Vendors'];
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 0;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            console.log(tab);
+            
+            if(!$scope.user.id) return false;
+            
+            $scope.activeTab = tab;
+        };
+        
        
     }
   ])

@@ -12,7 +12,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
             address1: '123 Company Lane',
             phone: '556-669-4444',
             city: 'Philadelphia',
-            state: 'PA',
+            state: 'PA'
         }
     },
     {
@@ -26,7 +26,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
             address1: '123 Company Lane',
             phone: '556-669-4444',
             city: 'Philadelphia',
-            state: 'PA',
+            state: 'PA'
         }
     },
     {
@@ -40,7 +40,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
             address1: '123 Company Lane',
             phone: '556-669-4444',
             city: 'Philadelphia',
-            state: 'PA',
+            state: 'PA'
         }
     },
     {
@@ -54,7 +54,7 @@ angular.module('app').factory('quoteService', ['$http', function($http) {
             address1: '123 Company Lane',
             phone: '556-669-4444',
             city: 'Philadelphia',
-            state: 'PA',
+            state: 'PA'
         }
     }];
     

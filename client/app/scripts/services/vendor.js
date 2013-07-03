@@ -7,11 +7,12 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         contactPerson: {
             name: 'John Smith',
             email: 'john@smith.com',
-            phone: '556-669-4444',
+            phone: '556-669-4444'
         },
         logo: {
             original: 'https://www.filepicker.io/api/file/OkeUz9rSNhIY9Z5WVOQ3'  
         },
+        website: 'http://google.com',
         legalTerms: 'These are legal terms for vendor 1',
         businessPhone: '333-333-2222',
         businessAddress: {
@@ -33,8 +34,9 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         contactPerson: {
             name: 'John Smith',
             email: 'john@smith.com',
-            phone: '556-669-4444',
+            phone: '556-669-4444'
         },
+        website: 'http://google.com',
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 2',
         businessAddress: {
@@ -48,7 +50,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             original: 'https://www.filepicker.io/api/file/OUTMcftISgOxFN6SsUTW'  
         },
         programIds: [2],
-        programs: [],
+        programs: []
         //salesRep: User.getOneWhereIn('vendorIds', 2)
     }, {
         id: 3,
@@ -56,8 +58,9 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         contactPerson: {
             name: 'John Smith',
             email: 'john@smith.com',
-            phone: '556-669-4444',
+            phone: '556-669-4444'
         },
+        website: 'http://google.com',
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 3',
         businessAddress: {
@@ -68,7 +71,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             zip: '12222'
         },
         programIds: [1],
-        programs: [],
+        programs: []
         //salesRep: User.getOneWhereIn('vendorIds', 3)
     }];
     

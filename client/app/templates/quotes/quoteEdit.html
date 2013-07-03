@@ -1,15 +1,26 @@
 
 
-<div class="row">
+<div class="row has-title-bar">
     
-    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     
     <div class="span10 offset2">
-        <div class="row">
+        <div class="row title-bar">
             <div class="span10">
                 <h2>New Quote</h2>
-            </div>
+                <ul class="nav nav-tabs">
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !quote.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                </ul>
+                
+                <div class="actions">
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                    <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Quote</a>
+                </div>
             
+            </div>
+        </div>
+            
+        <div class="row">
             <div class="span3">
                 
                 <legend>Equipment Cost Information</legend>
@@ -69,12 +80,6 @@
                 <label>Phone</label>
                 <input type="text" placeholder="" ng-model="quote.contact.phone">
             
-            </div>
-            <div class="span10">
-                <hr />
-        
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                    <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
             </div>
             
         </div>

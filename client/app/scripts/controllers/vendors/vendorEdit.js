@@ -143,19 +143,22 @@ angular
         updatePrograms();
         
         
-        $scope.addSalesRep = function() {
+        $scope.addSalesRep = function(id) {
             
-            console.log('User id: ' + $scope.vendorId);
-            
-            $scope.vendor.salesRep = User.getById($scope.salesRepId);
+            console.log('User id: ' + id);
+            $scope.vendor.salesRep = User.getById(id);
+            User.addVendorToSalesRep($scope.vendor.id, id);
+            /*
+$scope.vendor.salesRep = User.getById($scope.salesRepId);
             User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
+*/
             
             //$scope.vendor.salesRep = 
              
         };
         
         
-        $scope.removeSalesRep = function() {
+        $scope.removeSalesRep = function(id) {
             User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
             $scope.vendor.salesRep = '';
         };
@@ -167,7 +170,7 @@ angular
         * @todo make into a direct
         *
         */
-        $scope.activeTab = 1;
+        $scope.activeTab = 2;
         
         // used for active class
         $scope.isActiveTab = function(id) {

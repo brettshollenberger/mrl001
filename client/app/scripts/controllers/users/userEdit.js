@@ -83,17 +83,19 @@ angular
         };
         
         
-        $scope.addVendor = function() {
-            console.log('Vendor id: ' + $scope.vendorId);
-            User.addVendorToSalesRep($scope.vendorId, $scope.user.id);
+        $scope.addVendor = function(id) {
+            console.log('Vendor id: ' + id);
+            User.addVendorToSalesRep(id, $scope.user.id);
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.vendorId = '';
+            $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
         
         $scope.removeVendor = function(id) {
             User.removeVendorFromSalesRep(id, $scope.user.id);  
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
+            $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
         

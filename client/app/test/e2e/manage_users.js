@@ -21,8 +21,8 @@ describe('User management', function() {
         });
         
         it('Should have a form for users to search users', function() {
-            expect(repeater('tbody tr').count()).toBe(4);
-            input('searchTerm').enter('Matt Miller');
+            expect(repeater('tbody tr').count()).toBe(9);
+            input('searchTerm').enter('Brian Walsh');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('');
         });
@@ -92,9 +92,9 @@ describe('User management', function() {
         
         it('Clicking delete should remove the user', function() {
             browser().navigateTo('/dashboard/users');
-            expect(repeater('tbody tr').count()).toBe(4);
+            expect(repeater('tbody tr').count()).toBe(9);
             element('.delete:last').click();
-            expect(repeater('tbody tr').count()).toBe(3);
+            expect(repeater('tbody tr').count()).toBe(8);
         });
         
     });

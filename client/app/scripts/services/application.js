@@ -18,7 +18,8 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
             contactPerson: {
                 name: 'John Smith',
                 email: 'john@smith.com',
-                phone: '556-669-4444'
+                phone: '556-669-4444',
+                contactMethod:'phone'
             },
             businessAddress: {
                 address1: '2424 York Street',

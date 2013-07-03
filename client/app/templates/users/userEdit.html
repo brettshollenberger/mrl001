@@ -59,7 +59,7 @@
             <div class="span5">
                 <h3>User's Vendor List</h3>
             
-                <ul ng-show="user.vendors.length" class="unstyled">
+                <ul ng-show="user.vendors.length" class="unstyled currentVendors">
                     <li ng-repeat="item in user.vendors">
                         <p>
                         <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
@@ -72,13 +72,30 @@
                 </ul>
                 
                 <p ng-show="!user.vendors.length" class="alert">No vendors are associated with this user yet</p>
-                
+
                 <label>Add vendor by searching by name</label>
                 
                 <div class="input-append">
-                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
-                    <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
+                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId"/>
+                    <!-- <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button> -->
+                    
                 </div>
+                
+                
+                <ul class="unstyled addVendors">
+                    <li ng-repeat="item in allVendors | filter: vendorId">
+                        <p>
+                            <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                            {{item.name}}
+                            <button class="pull-right btn" ng-click="addVendor(item.id)">
+                                <i class="icon-plus"></i>
+                            </button>
+                        </p>
+                    </li>
+                </ul>
+                               
+                
                
                 <!--
         

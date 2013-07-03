@@ -53,10 +53,12 @@ describe('User management', function() {
             expect(browser().location().url()).toEqual('/dashboard/users');
         });
         
-        it('Should have one additional user in the table', function() {
+        /*
+it('Should have one additional user in the table', function() {
             listLengthAfter = repeater('tbody tr').count();
             expect(listLengthAfter).toBeGreaterThanFuture(listLengthBefore);
         });
+*/
         
     });
     
@@ -84,7 +86,15 @@ describe('User management', function() {
             element('.edit:first').click();
             expect(input('user.email').val()).toEqual('mattmiller@facultycreative.com');
         });
-    
+        
+        it('Should be able to add a vendor to the user', function() {
+            element('.nav:last').click();
+            expect(repeater('ul.addVendors li').count()).toBe(1);
+            input('vendorId').enter('another vendor');
+            element('ul.addVendors li:first button').click();
+            expect(repeater('ul.currentVendors li').count()).toBe(1);
+
+        });
     
     });
     

@@ -172,20 +172,17 @@ angular
         $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
             var pageSlug = $location.path().split('/');
             //console.log(pageSlug[pageSlug.length - 1]);
-            //$rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
             
-            var compliedSlug = ' ';
-            
-            _.each(pageSlug, function(item) {
-                compliedSlug += item + ' ';
-            });
-            
-            $rootScope.pageSlug = compliedSlug;
-            
-            if($rootScope.pageSlug.length === 0){
+            //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
+            console.log($rootScope.pageSlug.match(/^[0-9]+$/));
+            if($rootScope.pageSlug.match(/^[0-9]+$/) != null){
+                $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
+            }else if($rootScope.pageSlug.length === 0){
                 $rootScope.pageSlug = 'home';
             }
-            //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
+            
+            
         });
         
         

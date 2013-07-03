@@ -18,7 +18,7 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
             contactPerson: {
                 name: 'John Smith',
                 email: 'john@smith.com',
-                phone: '556-669-4444',
+                phone: '556-669-4444'
             },
             businessAddress: {
                 address1: '2424 York Street',
@@ -63,7 +63,7 @@ angular.module('app').factory('applicationService', ['$http', function($http) {
             contactPerson: {
                 name: 'John Doe',
                 email: 'john@doe.com',
-                phone: '556-669-4444',
+                phone: '556-669-4444'
             },
             businessAddress: {
                 address1: '2424 York Street',

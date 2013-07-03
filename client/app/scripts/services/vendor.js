@@ -12,6 +12,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         logo: {
             original: 'https://www.filepicker.io/api/file/OkeUz9rSNhIY9Z5WVOQ3'  
         },
+        website: 'http://google.com',
         legalTerms: 'These are legal terms for vendor 1',
         businessPhone: '333-333-2222',
         businessAddress: {
@@ -35,6 +36,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             email: 'john@smith.com',
             phone: '556-669-4444'
         },
+        website: 'http://google.com',
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 2',
         businessAddress: {
@@ -58,6 +60,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             email: 'john@smith.com',
             phone: '556-669-4444'
         },
+        website: 'http://google.com',
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 3',
         businessAddress: {

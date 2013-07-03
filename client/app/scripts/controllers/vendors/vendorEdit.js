@@ -160,6 +160,29 @@ angular
             $scope.vendor.salesRep = '';
         };
         
+        
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 1;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            if(!$scope.vendor.id) return false;
+            
+            $scope.activeTab = tab;
+        };
+        
+        
     }
   ])
 ;

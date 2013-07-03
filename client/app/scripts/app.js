@@ -172,7 +172,15 @@ angular
         $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
             var pageSlug = $location.path().split('/');
             //console.log(pageSlug[pageSlug.length - 1]);
-            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+            //$rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+            
+            var compliedSlug = ' ';
+            
+            _.each(pageSlug, function(item) {
+                compliedSlug += item + ' ';
+            });
+            
+            $rootScope.pageSlug = compliedSlug;
             
             if($rootScope.pageSlug.length === 0){
                 $rootScope.pageSlug = 'home';

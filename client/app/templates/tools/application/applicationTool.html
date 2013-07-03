@@ -25,7 +25,7 @@
 
 </div>
 
-<form name="application">
+<form name="applicationForm">
 
 <div class="row-fluid" ng-show="!finished">
 
@@ -141,7 +141,7 @@
 
 </div>
 
-<div class="row-fluid">
+<div class="row-fluid" ng-show="!finished">
         
     <div class="span8 offset2">
         <legend>Authorization</legend>
@@ -157,7 +157,7 @@
         
     <div class="span8 offset2">
         <hr />
-        <a class="btn btn-primary btn-large" disabled="disabled" ng-disabled="!application.$valid" id="saveApplication" ng-click="saveApplication()">Submit Application</a>
+        <button type="submit" class="btn btn-primary btn-large" ng-disabled="!applicationForm.$valid" id="saveApplication" ng-click="saveApplication()">Submit Application</button>
     </div>
 
 </div>
@@ -179,7 +179,7 @@
     
 </div>  
 
-<div class="row-fluid">
+<div class="row-fluid" ng-show="!finished">
         
     <div class="span8 offset2">
         <br /><br />

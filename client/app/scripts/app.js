@@ -176,7 +176,7 @@ angular
             
             //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
             console.log($rootScope.pageSlug.match(/^[0-9]+$/));
-            if($rootScope.pageSlug.match(/^[0-9]+$/) != null){
+            if($rootScope.pageSlug.match(/^[0-9]+$/) !== null){
                 $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
             }else if($rootScope.pageSlug.length === 0){
                 $rootScope.pageSlug = 'home';

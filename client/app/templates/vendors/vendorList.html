@@ -31,7 +31,10 @@
                                 <div class="img-rounded placeholder" ng-show="!item.logo.original"/>
                             </td>
                             <td>{{item.name}}</td>
-                            <td>{{item.contact}}</td>
+                            <td>{{item.contactPerson.name}}<br/>
+                                {{item.contactPerson.email}}<br/>
+                                {{item.contactPerson.phone}}
+                            </td>
                             <td ng-show="item.salesRep">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />
                                 <p>{{item.salesRep.name.first}} {{item.salesRep.name.last}}</p>

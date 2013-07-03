@@ -3,24 +3,24 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     // dummy data
     var itemList = [{
         id: 1,
-        name: 'A Vendor',
+        name: 'BearCom Operating LLC',
         contactPerson: {
-            name: 'John Smith',
-            email: 'john@smith.com',
-            phone: '556-669-4444'
+            name: 'Jenn Delong',
+            email: 'jdelong@marlinfinance.com',
+            phone: '888-479-9111 Ext. 5015'
         },
         logo: {
-            original: 'https://www.filepicker.io/api/file/OkeUz9rSNhIY9Z5WVOQ3'  
+            original: 'https://www.filepicker.io/api/file/omHdvwPOTBSppoVUXopA'  
         },
-        website: 'http://google.com',
+        website: 'http://www.bearcom.com/',
         legalTerms: 'These are legal terms for vendor 1',
-        businessPhone: '333-333-2222',
+        businessPhone: '',
         businessAddress: {
-            address1: '123 Vendor Lane',
-            address2: '',
-            city: 'Philadelphia',
-            state: 'PA',
-            zip: '12222'
+            address1: '4009 Distribution Dr.',
+            address2: 'Bldg 200',
+            city: 'Garland',
+            state: 'TX',
+            zip: '75041'
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
@@ -28,51 +28,118 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             id: 1,
             displayName: 'A Custom Display Name for Program 1'
         }]
-    }, {
+    },
+    {
         id: 2,
-        name: 'Another Vendor',
+        name: 'Protection One - West',
         contactPerson: {
-            name: 'John Smith',
-            email: 'john@smith.com',
-            phone: '556-669-4444'
-        },
-        website: 'http://google.com',
-        businessPhone: '333-333-2222',
-        legalTerms: 'These are legal terms for vendor 2',
-        businessAddress: {
-            address1: '123 Vendor Lane',
-            address2: '',
-            city: 'Philadelphia',
-            state: 'PA',
-            zip: '12222'
+            name: 'Jennifer DeLong-Giefer',
+            email: 'jdelong@marlinfinance.com',
+            phone: '866-687-3778'
         },
         logo: {
-            original: 'https://www.filepicker.io/api/file/OUTMcftISgOxFN6SsUTW'  
+            original: 'https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3'  
         },
-        programIds: [2],
-        programs: []
-        //salesRep: User.getOneWhereIn('vendorIds', 2)
-    }, {
-        id: 3,
-        name: 'A Third Vendor',
-        contactPerson: {
-            name: 'John Smith',
-            email: 'john@smith.com',
-            phone: '556-669-4444'
-        },
-        website: 'http://google.com',
-        businessPhone: '333-333-2222',
-        legalTerms: 'These are legal terms for vendor 3',
+        website: 'http://www.protection1.com/',
+        legalTerms: 'These are legal terms for vendor 2',
+        businessPhone: '',
         businessAddress: {
-            address1: '123 Vendor Lane',
+            address1: '',
             address2: '',
-            city: 'Philadelphia',
-            state: 'PA',
-            zip: '12222'
+            city: '',
+            state: '',
+            zip: ''
         },
-        programIds: [1],
-        programs: []
-        //salesRep: User.getOneWhereIn('vendorIds', 3)
+        programIds: [1,3,4],
+        //salesRep: User.getOneWhereIn('vendorIds', 1),
+        programs: [{
+            id: 1,
+            displayName: 'A Custom Display Name for Program 1'
+        }]
+    },
+    {
+        id: 3,
+        name: 'Gametime',
+        contactPerson: {
+            name: 'Warren Myers',
+            email: 'wmyers@playcore.com',
+            phone: ''
+        },
+        logo: {
+            original: 'https://www.filepicker.io/api/file/EcryKofERBynAuL2txez'  
+        },
+        website: 'http://www.gametime.com',
+        legalTerms: 'These are legal terms for vendor 3',
+        businessPhone: '',
+        businessAddress: {
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            zip: ''
+        },
+        programIds: [1,3,4],
+        //salesRep: User.getOneWhereIn('vendorIds', 1),
+        programs: [{
+            id: 1,
+            displayName: 'A Custom Display Name for Program 1'
+        }]
+    },
+    {
+        id: 4,
+        name: 'Union Bank',
+        contactPerson: {
+            name: 'Union Bank Financing Consultant',
+            email: 'ubapps@marlinfinance.com',
+            phone: '877-307-6756'
+        },
+        logo: {
+            original: 'https://www.filepicker.io/api/file/yjlOg28UROmPXyK8uadA'  
+        },
+        website: 'https://www.unionbank.com/',
+        legalTerms: 'These are legal terms for vendor 3',
+        businessPhone: '',
+        businessAddress: {
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            zip: ''
+        },
+        programIds: [1,3,4],
+        //salesRep: User.getOneWhereIn('vendorIds', 1),
+        programs: [{
+            id: 1,
+            displayName: 'A Custom Display Name for Program 1'
+        }]
+    },
+    {
+        id: 5,
+        name: 'Southeastern Equipment & Supply, Inc.',
+        contactPerson: {
+            name: 'Grady Martin',
+            email: 'leasing@southeasternequipment.net',
+            phone: '803-454-3656'
+        },
+        logo: {
+            original: 'https://www.filepicker.io/api/file/nvC3zhiTQoSl01P7K3Br'  
+        },
+        website: 'https://www.unionbank.com/',
+        legalTerms: 'These are legal terms for vendor 3',
+        businessPhone: '',
+        businessAddress: {
+            address1: '1919 Old Dunbar Road',
+            address2: '',
+            city: 'West Columbia',
+            state: 'SC',
+            zip: '29045'
+        },
+        programIds: [1,3,4],
+        //salesRep: User.getOneWhereIn('vendorIds', 1),
+        programs: [{
+            id: 1,
+            displayName: 'A Custom Display Name for Program 1'
+        }]
     }];
     
     //initLocalStore();

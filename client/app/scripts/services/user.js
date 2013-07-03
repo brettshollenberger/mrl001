@@ -35,7 +35,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         },
         status: 'Active',
         groups: [2],
-        vendorIds: [1]
+        vendorIds: [5]
     },
     {
         id: 3,
@@ -143,7 +143,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         password: 'jfortune',
         status: 'Active',
         groups: [2],
-        vendorIds: []
+        vendorIds: [4]
     },
     {
         id: 9,
@@ -161,7 +161,7 @@ angular.module('app').factory('userService', ['$http', function($http) {
         password: 'jdelong',
         status: 'Active',
         groups: [2],
-        vendorIds: []
+        vendorIds: [1,2,3]
     }];
     
     

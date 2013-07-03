@@ -12,7 +12,7 @@ angular
     'userService',
     function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-vendor');
        
         // empty vendor object
         $scope.vendor = {};
@@ -143,22 +143,49 @@ angular
         updatePrograms();
         
         
-        $scope.addSalesRep = function() {
+        $scope.addSalesRep = function(id) {
             
-            console.log('User id: ' + $scope.vendorId);
-            
-            $scope.vendor.salesRep = User.getById($scope.salesRepId);
+            console.log($scope.salesRepId);
+            $scope.salesRepId = '';
+            $scope.vendor.salesRep = User.getById(id);
+            User.addVendorToSalesRep($scope.vendor.id, id);
+            /*
+$scope.vendor.salesRep = User.getById($scope.salesRepId);
             User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
+*/
             
             //$scope.vendor.salesRep = 
              
         };
         
         
-        $scope.removeSalesRep = function() {
+        $scope.removeSalesRep = function(id) {
             User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
             $scope.vendor.salesRep = '';
         };
+        
+        
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 1;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            if(!$scope.vendor.id) return false;
+            
+            $scope.activeTab = tab;
+        };
+        
         
     }
   ])

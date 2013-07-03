@@ -8,7 +8,7 @@ angular
     'programService',
     function($rootScope, $scope, $location, Auth, Program) {
         
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('list-program');
         
         // Gets all the vendors
         $scope.programs = Program.getAll();

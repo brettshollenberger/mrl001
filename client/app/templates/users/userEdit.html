@@ -1,24 +1,37 @@
-
-
-<div class="row">
-    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+<div class="row has-title-bar">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     <div class="span10 offset2">
-        <div class="row">
+        <div class="row title-bar">
             <div class="span10">
                 <h2>New User</h2>
-            </div>
-
-            <div class="span5">
+                <ul class="nav nav-tabs">
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                </ul>
                 
-                <legend>User Info</legend>
+                <div class="actions">
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                    <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+                </div>
+            
+            </div>
+        </div>
+
+        <div class="row" ng-show="isActiveTab(0)">
+
+            <div class="span3">
+                
+                <h3>Avatar</h3>
                 
                 <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
+                
+                <br /><br />
                 <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
+               
+            </div>
+
+            <div class="span3">
                 
-                <br />
-                
-                <label>User Name</label>
-                <input type="text" placeholder="" ng-model="user.username">
+                <h3>Name</h3>
                 
                 <label>First Name</label>
                 <input type="text" placeholder="" ng-model="user.name.first">
@@ -26,22 +39,27 @@
                 <label>Last Name</label>
                 <input type="text" placeholder="" ng-model="user.name.last">
                 
+            </div>
+
+            <div class="span3">
+                
+                <h3>Contact</h3>
+                
                 <label>Email</label>
                 <input type="text" placeholder="" ng-model="user.email">
                 
                 <label>Phone</label>
-                <input type="text" placeholder="" ng-model="user.phone">
-                
-                
-                <label>Password</label>
-                <input type="password" placeholder="" ng-model="user.password">
+                <input type="text" placeholder="" ng-model="user.phoneNumber">
                 
             </div>
+        </div>
+        
+        <div class="row" ng-show="isActiveTab(1)"> 
             
             <div class="span5">
-                <legend>User's Vendor List</legend>
+                <h3>User's Vendor List</h3>
             
-                <ul ng-show="user.vendors.length" class="unstyled">
+                <ul ng-show="user.vendors.length" class="unstyled currentVendors">
                     <li ng-repeat="item in user.vendors">
                         <p>
                         <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
@@ -53,16 +71,31 @@
                     </li>
                 </ul>
                 
-                <hr />
-                
-                <p ng-show="!user.vendors.length">No vendors are associated with this user yet</p>
-                
+                <p ng-show="!user.vendors.length" class="alert">No vendors are associated with this user yet</p>
+
                 <label>Add vendor by searching by name</label>
                 
                 <div class="input-append">
-                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/>
-                    <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button>
+                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
+                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId"/>
+                    <!-- <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button> -->
+                    
                 </div>
+                
+                
+                <ul class="unstyled addVendors">
+                    <li ng-repeat="item in allVendors | filter: vendorId">
+                        <p>
+                            <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                            {{item.name}}
+                            <button class="pull-right btn" ng-click="addVendor(item.id)">
+                                <i class="icon-plus"></i>
+                            </button>
+                        </p>
+                    </li>
+                </ul>
+                               
+                
                
                 <!--
         
@@ -73,18 +106,20 @@
             
                 -->
             </div>
+ 
+        </div>
         
-        
+        <div class="row" ng-show="isActiveTab(2)">
+            <div class="span4">
+                <h3>Change Password</h3>
                 
-            <div class="span10">
+                <label>Password</label>
+                <input type="password" placeholder="" ng-model="user.password">
                 
-                <hr />
-                
-                <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
-            
             </div>
         </div>
+        
+        
     </div>
 
 </div>

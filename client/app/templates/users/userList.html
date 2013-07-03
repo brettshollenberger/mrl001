@@ -1,11 +1,13 @@
-<div class="row">
-    <div class="sidebar" ng-include="'app/templates/nav.html'"></div>
+<div class="row has-title-bar has-no-tabs">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     <div class="span10 offset2">
-        <h2>Users</h2>
         
-        <a id="addUser" class="btn btn-primary" href="#/dashboard/users/new">Add New User</a>
-        
-        <br /><br />
+        <div class="row title-bar">
+            <div class="span10">
+                <h2>Users</h2>
+                <a id="addUser" class="btn btn-primary actions" href="#/dashboard/users/new">Add New User</a>
+            </div>
+        </div>
         
         <input type="text" placeholder="Search" ng-model="searchTerm">
         
@@ -24,8 +26,11 @@
                     <td>
                         <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>
-                    <td>{{item.name.first}} {{item.name.last}}</td>
-                    <td>{{item.groups[0]}}</td>
+                    <td>{{item.name.first}} {{item.name.last}}
+                        <br />
+                        {{item.phoneNumber}}
+                    </td>
+                    <td>{{ item.groups[0]}}</td>
                     <td>{{item.vendors.length || 0 | number}}</td>
                     <td>
                         <a class="edit" ng-click="editItem(item.id)">Edit</a> | 

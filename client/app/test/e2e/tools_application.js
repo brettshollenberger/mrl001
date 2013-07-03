@@ -40,12 +40,11 @@ describe('Tools: Application Tool', function() {
         
         it('Should be vendor branded', function() {
             expect(element('.vendorSection > div > h1').count()).toBe(1);
-            expect(element('.vendorSection > div > img').count()).toBe(1);
+            expect(element('.vendor-logo').count()).toBe(1);
         });
         
         it('Should display legal terms to end user', function() {
             expect(element('#legalTerms').text()).toBe('These are legal terms for vendor 1');
-            
         });
         
         
@@ -59,6 +58,18 @@ describe('Tools: Application Tool', function() {
         
         it('Should display a message if user has to provide Guarantor', function() {
             
+        });
+        
+        
+        it('Should validate legal terms as required before submitting application', function() {
+            expect(element('#saveApplication:[disabled]').count()).toBe(1);
+            input('application.agreeToTerms').check();
+            // @note that we must use [disabled] here, instead of :disabled.
+            // this is because :disabled checks for the on/off state of the button
+            // while [disabled] checks for the disabled property.
+            // because of how angular sets the disabled state, :disabled will be incorrect when
+            // using ng-validate
+            expect(element('#saveApplication:[disabled]').count()).toBe(0);
         });
         
         it('Should prompt end user to enter their prefered contact method', function() {

@@ -1,5 +1,6 @@
 @import "bootstrap/variables.less"; 
-@import "bootstrap/mixins.less"; 
+@import "bootstrap/mixins.less";
+@import "sidebar.less"; 
 
 /**
  * Angular
@@ -26,8 +27,72 @@ body {
 a:hover{text-decoration: none;}
 .table{margin: 10px 0;}
 .container{margin-right: 0; margin-left: 0;}
-.container.quoter, .container.login, .container.home{margin-left: auto; margin-right: auto; margin-top: 90px;}
+.container.quoter, .container.login, .container.home, .container.application{margin-left: auto; margin-right: auto; margin-top: 90px;}
 
+.container.quoter, .container.application {
+    margin-top: 20px;
+}
+
+
+.quoter {
+    
+    h3 {
+        text-align: center;
+        
+        &:after {
+            content: "";
+            border: 0;
+            border-top: 1px solid @hrBorder;
+            border-bottom: 1px solid @white;
+            display: block;
+        }
+        
+    }
+    
+    label {
+        text-transform: uppercase;
+    }
+    
+    .dollarSign {
+        font-size: 25px;
+        margin-right: 10px;
+    }
+    
+    .area {
+        padding: 20px 0;        
+    }
+    /*
+
+    .area-dark {
+        background: @grayLighter;
+    }
+    
+*/
+    .area-equiptment textarea {
+        width: (@gridColumnWidth * 5) + 40;
+        height: 100px;
+    }
+    
+    .btn-mega {
+        margin: 0 auto;
+    }
+    
+}
+
+// Large
+.btn-mega {
+  padding: 25px 80px;
+  font-size: @fontSizeLarge;
+  .border-radius(10px);
+}
+.btn-mega [class^="icon-"],
+.btn-mega [class*=" icon-"] {
+  margin-top: 4px;
+}
+
+ul.unstyled li{min-height: 50px;}
+
+/*
 
 .sidebar{position: fixed; top: 0; left: 0; height: 100%; width: 198px; background: @navbarBackground; color: #fff; border-right: 3px solid #e6e6de;}
 
@@ -35,6 +100,7 @@ a:hover{text-decoration: none;}
 .sidebar ul.nav li a{font-size: 10px; text-transform: uppercase;}
 .sidebar ul.nav li.span1{margin-left: 0; width: 99px; padding: 20px 0;}
 .sidebar ul.nav li.active a{color: #fff;}
+.sidebar ul.nav li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);}
 .sidebar ul.nav .dark{background: #005194;}
 .sidebar ul.nav .light{background: #01569d;}
 .sidebar ul.nav i{font-size: 26px;}
@@ -43,9 +109,12 @@ a:hover{text-decoration: none;}
 .sidebar a:hover{color: @navbarLinkColorHover;}
 .sidebar a.active{color: @navbarLinkColorActive;}
 .sidebar a.brand{display: block; text-align: center; padding: 25px 0;}
+*/
 
+/*
 ul.user-tray{display: block; background: #08487e; margin: 0; padding: 20px 0;}
 ul.user-tray img{width: 140px;}
+*/
 
 .nerds {
     width: 200px;
@@ -110,6 +179,47 @@ Sticky Footer by Ryan Fait
 http://ryanfait.com/
 
 */
+
+
+// apply top outtermost row when page contains title-bar. 
+// this ensures proper padding is applied to show title-bar under fixed title-bar
+.has-title-bar {
+    margin-top: 140px;
+}
+
+.has-no-tabs .title-bar [class*="span"] {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    display: block;
+    
+}
+
+.title-bar {
+    
+    position: fixed;
+    top: 0;
+    background: @bodyBackground;
+    z-index: @zindexFixedNavbar;
+    
+    .actions {
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+}
+
+
+textarea.legalTerms {
+    width: 500px;
+    height: 200px;
+}
+
+.poweredby {
+    margin-top: 30px;
+}
+
+
 
 
 .img-tiny {

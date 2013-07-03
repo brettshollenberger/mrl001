@@ -10,7 +10,7 @@ angular
     'vendorService',
     function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-user');
        
         // empty user object
         $scope.user = {};
@@ -83,17 +83,45 @@ angular
         };
         
         
-        $scope.addVendor = function() {
-            console.log('Vendor id: ' + $scope.vendorId);
-            User.addVendorToSalesRep($scope.vendorId, $scope.user.id);
+        $scope.addVendor = function(id) {
+            console.log('Vendor id: ' + id);
+            User.addVendorToSalesRep(id, $scope.user.id);
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.vendorId = '';
+            $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
         
         $scope.removeVendor = function(id) {
             User.removeVendorFromSalesRep(id, $scope.user.id);  
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
+            $scope.allVendors = Vendor.getAllWithoutSalesReps();
+        };
+        
+        
+        
+        $scope.tabs = ['Basic information', 'Vendors', 'Password'];
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 0;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            console.log(tab);
+            
+            if(!$scope.user.id) return false;
+            
+            $scope.activeTab = tab;
         };
         
        

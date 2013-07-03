@@ -9,7 +9,7 @@ angular
     'applicationService',
     function($rootScope, $scope, $location, $routeParams, Auth, Application) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-application');
        
         // empty application object
         $scope.application = {};
@@ -69,6 +69,29 @@ angular
             
             $location.url('/dashboard/applications');
             
+        };
+        
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 0;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            console.log(tab);
+            
+            if(!$scope.application.id) return false;
+            
+            $scope.activeTab = tab;
         };
         
         

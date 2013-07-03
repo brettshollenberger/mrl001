@@ -187,7 +187,7 @@ angular
         
         
         // we use this to set credentials for demo on initial page screen
-        //$rootScope.credentials = {userName: 'admin', password: 'admin'};
+        $rootScope.credentials = {userName: 'bwalsh', password: 'bwalsh'};
         
   
   }])

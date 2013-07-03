@@ -54,7 +54,7 @@
             <div class="span5">
                 <legend>User's Vendor List</legend>
             
-                <ul ng-show="user.vendors.length" class="unstyled">
+                <ul ng-show="user.vendors.length" class="unstyled currentVendors">
                     <li ng-repeat="item in user.vendors">
                         <p>
                         <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
@@ -80,7 +80,7 @@
                 </div>
                 
                 
-                <ul class="unstyled">
+                <ul class="unstyled addVendors">
                     <li ng-repeat="item in allVendors | filter: vendorId">
                         <p>
                             <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />

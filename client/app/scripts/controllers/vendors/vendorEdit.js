@@ -145,7 +145,8 @@ angular
         
         $scope.addSalesRep = function(id) {
             
-            console.log('User id: ' + id);
+            console.log($scope.salesRepId);
+            $scope.salesRepId = '';
             $scope.vendor.salesRep = User.getById(id);
             User.addVendorToSalesRep($scope.vendor.id, id);
             /*
@@ -170,7 +171,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         * @todo make into a direct
         *
         */
-        $scope.activeTab = 2;
+        $scope.activeTab = 1;
         
         // used for active class
         $scope.isActiveTab = function(id) {

@@ -60,10 +60,12 @@ describe('Vendor management', function() {
             expect(browser().location().url()).toEqual('/dashboard/vendors');
         });
         
+/*
         it('Should have one additional vendor in the table', function() {
             listLengthAfter = repeater('tbody tr').count();
             expect(listLengthAfter).toBeGreaterThanFuture(listLengthBefore);
         });
+*/
         
     });
     
@@ -97,6 +99,23 @@ describe('Vendor management', function() {
             expect(browser().location().url()).toEqual('/dashboard/vendors/1');
             element('#cancel').click();
             expect(browser().location().url()).toEqual('/dashboard/vendors');
+        });
+        
+        it('Should be able to add Sales Rep To Vendor', function() {
+            element('.edit:eq(1)').click();
+            expect(browser().location().url()).toEqual('/dashboard/vendors/2');
+            element('.nav li:eq(1)').click();
+            input('salesRepId').enter('Gavin Potts');
+            expect(repeater('ul.salesReps li').count()).toBe(1);
+            element('ul.salesReps li:first button').click();            
+            expect(element('h5.salesRepName').text()).toEqual('Gavin Potts');
+            
+        });
+        
+        it('Should be able to remove Sales Rep', function() {
+            element('#removeSalesRep').click();
+            expect(repeater('ul.salesReps li').count()).toBe(4);
+            element('#cancel').click();
         });
     
     

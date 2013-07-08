@@ -50,7 +50,7 @@
      
       <footer class="muted text-center footer">
         &copy; 2013 Marlin Leasing<br />
-        version {{ version }}
+        version {{ version }} <a href="#/changelog">View Changelog</a>
       
         <p class="hello"><em>Hello from the nerds at Faculty!</em>
             <br/>We're here to guide you: <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a> or <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
@@ -62,6 +62,12 @@
     
     <!--[if lte IE 8]>
       <script src="/components/json3/lib/json3.js"></script>
+    <![endif]-->
+    
+    <!--[if lte IE 8]>
+      <script>
+      window.myCustomTags = [ 'markdown', 'userTray' ];
+      </script>
     <![endif]-->
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
@@ -76,6 +82,9 @@
     <script src="components/angular-ui-utils/modules/if/if.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="components/showdown/compressed/showdown.js"></script>
+    <script src="components/showdown/compressed/extensions/github.js"></script>
+    <script src="components/angular-markdown/angular.markdown.js"></script>
     
 
     <script src="app/scripts/app.js"></script>
@@ -95,6 +104,7 @@
     <script src="app/scripts/controllers/tools/quoter/quoterToolController.js"></script>
     <script src="app/scripts/controllers/tools/application/applicationToolController.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
+    <script src="app/scripts/controllers/changelog.js"></script>
     
     <script src="app/scripts/services/location.js"></script>
     <script src="app/scripts/services/vendor.js"></script>
@@ -103,6 +113,7 @@
     <script src="app/scripts/services/user.js"></script>
     <script src="app/scripts/services/auth.js"></script>
     <script src="app/scripts/services/application.js"></script>
+    <script src="app/scripts/services/api.js"></script>
 
     
     <!-- endbuild -->

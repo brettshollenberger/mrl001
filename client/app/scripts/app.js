@@ -1,5 +1,5 @@
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', function() {
 
         
       
@@ -15,6 +15,11 @@ angular
         templateUrl:  'app/templates/home.html'
       })
       
+      
+      .when('/changelog', {
+        controller:   'changelogController',
+        templateUrl:  'app/templates/changelog.html'
+      })
       
       // general routes
       .when('/login', {

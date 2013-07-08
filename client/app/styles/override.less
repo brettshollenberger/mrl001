@@ -131,6 +131,15 @@ footer em {
     font-size: 20px;
 }
 
+// overrides bootstrap form-line behavior so the labels appear on top of the form element,
+// but the form elements all display inline. @see http://localhost:3000/#/dashboard/quotes search bar for example
+.form-inline  {
+
+    label input {
+        display: block;
+    }
+}
+
 
 .area-start {
     

@@ -6,7 +6,10 @@ angular
     '$location',
     '$routeParams',
     'vendorService',
-    function($rootScope, $scope, $location, $routeParams, Vendor) {
+    'googleMapsService',
+    function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps) {
+       
+       google.maps.visualRefresh = true;       
        
        angular.extend($scope, {
     
@@ -39,14 +42,29 @@ angular
             eventsProperty: {
               click: function (mapModel, eventName, originalEventArgs) {    
                 // 'this' is the directive's scope
-                console.log("user defined event on map directive with scope", this);
-                console.log("user defined event: " + eventName, mapModel, originalEventArgs);
+                //console.log("user defined event on map directive with scope", this);
+                //console.log("user defined event: " + eventName, mapModel, originalEventArgs);
               }
             }
         });
        
         // Gets all the vendors
         $scope.vendors = Vendor.getAll();
-        console.log($scope.vendors);
+        
+        $scope.$watch('filteredVendors', function(){
+             console.log($scope.filteredVendors);
+             $scope.markersProperty = [];
+             for(var vendor in $scope.filteredVendors){
+                 console.log(vendor);
+                var v = $scope.filteredVendors[vendor];
+                var addr = v.businessAddress.address1+' '+v.businessAddress.address2+' '+v.businessAddress.city+' '+v.businessAddress.state+' '+v.businessAddress.zip;
+                var geo = googleMaps.geo(addr);
+             }
+        }, true);
+        
+        $rootScope.$on('event:geo-location-success', function(event, data) {
+            $scope.markersProperty.push(data);
+            $scope.$apply();
+        });
     }
   ]);

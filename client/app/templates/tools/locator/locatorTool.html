@@ -5,8 +5,8 @@
         Search: <input ng-model="searchText">
         
 <h3>Vendors:</h3>
-        <ul>
-            <li ng-repeat="vendor in vendors | filter:searchText">{{vendor.name}}</li>
+        <ul >
+            <li ng-repeat="vendor in filteredVendors = ( vendors | filter:searchText)">{{vendor.name}}</li>
         </ul>
     </div>
     
@@ -17,9 +17,9 @@
         		markers="markersProperty"
         		latitude="clickedLatitudeProperty"
         		longitude="clickedLongitudeProperty"
-        		mark-click="true"
+        		mark-click="false"
         		draggable="true"
-        		fit="false"
+        		fit="true"
         		events="eventsProperty"
         		style="height: 1000px; width: 100%">
         	</div>    

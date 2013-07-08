@@ -15,11 +15,11 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         legalTerms: 'These are legal terms for vendor 1',
         businessPhone: '333-333-2222',
         businessAddress: {
-            address1: '123 Vendor Lane',
+            address1: '2424 E York St',
             address2: '',
             city: 'Philadelphia',
             state: 'PA',
-            zip: '12222'
+            zip: '19125'
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),

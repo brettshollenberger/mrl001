@@ -10,7 +10,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             phone: '888-479-9111 Ext. 5015'
         },
         logo: {
-            original: 'https://www.filepicker.io/api/file/omHdvwPOTBSppoVUXopA'  
+            original: 'https://www.filepicker.io/api/file/2v44yfa8TqKt2RAAkpZB'  
         },
         website: 'http://www.bearcom.com/',
         legalTerms: 'These are legal terms for vendor 1',

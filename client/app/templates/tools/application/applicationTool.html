@@ -1,8 +1,11 @@
 <div class="row vendorSection area" ui-if="vendor">
     <div class="span8 offset1">
         <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
-        <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
-        <p><a ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a></p>
+        <a ng-show="vendor.website" href="{{vendor.website}}">
+            <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
+        </a>
+        <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
+        
     </div>
     <div class="span2">
         <img class="pull-right poweredby" src="img/powered_by.png" />
@@ -16,8 +19,7 @@
         <legend>Vendor Information</legend>
         <p>{{vendor.name}}</p>
         <p>{{vendor.businessPhone}}</p>
-        <a ng-show="vendor.website" href="{{vendor.website}}">{{vendor.website}}</a>
-        <p>{{vendor.businessAddress.address1}}</p>
+        <p>{{vendor.businessAddress.address1}}<br/>
         <p>{{vendor.businessAddress.address2}}</p>
         <p>{{vendor.businessAddress.city}}, {{vendor.businessAddress.state}} {{vendor.businessAddress.zip}}</p>
     </div>
@@ -154,9 +156,9 @@
 
 <div class="row" ng-show="!finished">
         
-    <div class="span10 offset1">
+    <div class="span10 offset1 text-center">
         <hr />
-        <button type="submit" class="btn btn-primary btn-large" ng-disabled="!applicationForm.$valid" id="saveApplication" ng-click="saveApplication()">Submit Application</button>
+        <button type="submit" class="btn btn-primary btn-mega" ng-disabled="!applicationForm.$valid" id="saveApplication" ng-click="saveApplication()">Submit Application</button>
     </div>
 
 </div>
@@ -166,13 +168,13 @@
 
 <div class="row" ng-show="finished">
 
-    <div class="span5 offset1">
+    <div class="span6 offset3 text-center">
     
         <h1>Thanks, someone will contact you within 48 hours.</h1>
         
         <br /> <br />
         
-        <a id="saveContactPref" ng-click="save()" class="btn btn-primary btn-large" >OK</a>
+        <a id="saveContactPref" ng-click="save()" class="btn btn-primary btn-mega" >OK</a>
         
     </div>
     

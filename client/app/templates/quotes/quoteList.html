@@ -13,21 +13,21 @@
         <div class="row">  
             <div class="span10">  
                 <div class="form-inline">
-                    <label>Search cost</label>
-                    <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost">
+                    <label>Search cost
+                    <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost"></label>
                     
-                    <label>Search description</label>
-                    <input type="text" placeholder="Description" ng-model="searchDesc">
+                    <label>Search description
+                    <input type="text" placeholder="Description" ng-model="searchDesc"></label>
                     
-                    <label>Search Vendor</label>
-                    <input type="text" placeholder="Vendor" ng-model="searchVend">
-                    <br/><br/>
-                    <label>Filter by status</label>
+                    <label>Search Vendor
+                    <input type="text" placeholder="Vendor" ng-model="searchVend"></label>
+                    
                     <div class="btn-group">
                         <button id="filterAll" ng-click="filterStatus=''" class="btn" ng-class="{active: filterStatus==''}">All</button>
                         <button id="filterOpen" ng-click="filterStatus='Open'" class="btn" ng-class="{active: filterStatus=='Open'}">Open</button>
                         <button id="filterArchived" ng-click="filterStatus='Archived'" class="btn" ng-class="{active: filterStatus=='Archived'}">Archived</button>
                     </div>
+                    
         
                 </div>
                     

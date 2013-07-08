@@ -6,7 +6,7 @@
                 <div class="span10">
                     <h2>New Vendor</h2>
                     <ul class="nav nav-tabs">
-                      <li ng-class="{active: isActiveTab(1), disabled: !vendor.id}"><a ng-click="changeTab(1)">Basic Information</a></li>
+                      <li ng-class="{active: isActiveTab(1)}"><a ng-click="changeTab(1)">Basic Information</a></li>
                       <li ng-class="{active: isActiveTab(2), disabled: !vendor.id}"><a ng-click="changeTab(2)">Marlin Sales Rep</a></li>
                       <li ng-class="{active: isActiveTab(3), disabled: !vendor.id}"><a ng-click="changeTab(3)">Rate Sheets</a></li>
                       <li ng-class="{active: isActiveTab(4), disabled: !vendor.id}"><a ng-click="changeTab(4)">Customize</a></li>
@@ -14,7 +14,8 @@
                     
                     <div class="actions">
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                        <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Vendor</a>
+                        <a class="btn btn-primary" id="save" ng-click="save(true)">Save</a>
+                        <a class="btn btn-primary" id="saveAddMore" ng-click="save(false)">Save &amp; add more info</a>
                     </div>
                 
                 </div>

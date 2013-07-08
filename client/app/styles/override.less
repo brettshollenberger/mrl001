@@ -131,6 +131,15 @@ footer em {
     font-size: 20px;
 }
 
+// overrides bootstrap form-line behavior so the labels appear on top of the form element,
+// but the form elements all display inline. @see http://localhost:3000/#/dashboard/quotes search bar for example
+.form-inline  {
+
+    label input {
+        display: block;
+    }
+}
+
 
 .area-start {
     
@@ -203,9 +212,17 @@ http://ryanfait.com/
     z-index: @zindexFixedNavbar;
     
     .actions {
-        position: absolute;
-        right: 0;
+        position: fixed;
+        right: @gridGutterWidth;
         top: 20px;
+        
+        @newWidth: (@gridRowWidth + @gridGutterWidth);
+        
+        @media all and (min-width: @newWidth) {
+            position: absolute;
+            right: 0; 
+        }
+        
     }
 }
 
@@ -223,13 +240,16 @@ textarea.legalTerms {
 
 
 .img-tiny {
+    max-width: 50px; // IE8 needs the max width to be set or the image will be distorted.
     width: 50px;
 }
 
 .img-medium {
+    max-width: 100px;
     width: 100px;
 }
 
 .img-large {
+    max-width: 200px;
     width: 200px;
 }

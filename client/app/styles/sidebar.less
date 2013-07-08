@@ -7,6 +7,8 @@
     background: @navbarBackground;
     color: #fff;
     text-align: center;
+    border-right: 3px solid #e6e6de;
+    z-index: @zindexFixedNavbar + 1;
     
     .brand {
         margin: 20px auto;
@@ -31,7 +33,6 @@
         &:hover {
             color: white;
         }
-        
     }
     
     ul {
@@ -42,6 +43,8 @@
         li {
             list-style: none;  
         }
+        
+        li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);}
     
         &.nav {
             li {
@@ -59,17 +62,16 @@
                     width: 100%;
                     margin: 0;
                     padding: 15px 0;
+                    
+                    &:hover {
+                        background-color: transparent;
+                    }
                 }
                 
-                &.dark{background: #005194;}
-                &.light{background: #01569d;}
-                
+                &.dark{ background: #005194; }
+                &.light{ background: #01569d; }
+                &.active a {color: #fff; }
             }
         }
-        
-        &.active {
-            color: #fff;
-        }
-    
     }   
 }

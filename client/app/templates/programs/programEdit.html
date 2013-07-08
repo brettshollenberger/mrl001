@@ -1,37 +1,66 @@
 
 
-<div class="row-fluid">
-    <div class="span2" ng-include="'app/templates/nav.html'"></div>
+<div class="row has-title-bar">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
      
     <div class="span10 offset2">
-        <div class="row">
+        <div class="row title-bar">
             <div class="span10">
                 <h2>New Rate Sheet</h2>
-            </div>
-        
-        
-            <div class="span4">
+                <ul class="nav nav-tabs">
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                </ul>
                 
-                <legend>Rate Sheet Info</legend>
+                <div class="actions">
+                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
+                     <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+                </div>
+            
+            </div>
+        </div>
+        <div class="row">
+            <div class="span3">
+                
+                <h3>Name</h3>
                 
                 <label>Program Name</label>
                 <input type="text" placeholder="" ng-model="program.name">
                 
+            </div>
+            
+            <div class="span3">
+                
+                <h3>Private Notes</h3>
+                
                 <label>Private Notes</label>
                 <textarea type="text" ng-model="program.notes_private"></textarea>
+            
+            </div>
+            
+            <div class="span3">  
+                
+                <h3>Public Notes</h3>
                 
                 <label>Public Notes</label>
                 <textarea type="text" ng-model="program.notes_public"></textarea>
                 
             </div>
-          
+        </div>
+        <div class="row">
          
             <div class="span5">
-                <legend>Rate Sheet Details</legend>
+                <h3>Rates</h3>
             
                 <label>Term Period</label>
                 <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
-            
+                  
+                <label>Cost Range Min</label>   
+                <input type="text" class="input-small" ng-model="program.rateSheet.range.min"/>
+                
+                <label>Cost Range Max</label> 
+                <input type="text" class="input-small" ng-model="program.rateSheet.range.max"/>
+                
+                
                 <table class="table">
                     
                     <thead>
@@ -50,16 +79,7 @@
                 </table>
                 
             </div>
-        
-                
-            <div class="span10">
-                
-                <hr />
-                
-                <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
-            
-            </div>
+
         </div>
     </div>
 </div>

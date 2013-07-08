@@ -142,7 +142,7 @@ angular
   
   
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.1';
+        $rootScope.version = '0.1.3';
         
         
         $rootScope.goTo = function(urlToGoTo) {
@@ -179,15 +179,20 @@ angular
             //console.log(pageSlug[pageSlug.length - 1]);
             $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
             
-            if($rootScope.pageSlug.length === 0){
+            //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
+            console.log($rootScope.pageSlug.match(/^[0-9]+$/));
+            if($rootScope.pageSlug.match(/^[0-9]+$/) !== null){
+                $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
+            }else if($rootScope.pageSlug.length === 0){
                 $rootScope.pageSlug = 'home';
             }
-            //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
+            
+            
         });
         
         
         // we use this to set credentials for demo on initial page screen
-        $rootScope.credentials = {userName: 'admin', password: 'admin'};
+        $rootScope.credentials = {userName: 'bwalsh', password: 'bwalsh'};
         
   
   }])

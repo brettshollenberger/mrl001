@@ -99,7 +99,7 @@ describe('Quote management', function() {
         });
         
         it('Button text should read "Save"', function() {
-            expect(element('#save').text()).toEqual('Save');
+            expect(element('#save').text()).toEqual('Update Quote');
         });
         
         it('Should have editable fields', function() {

@@ -92,6 +92,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             userData = storedUser;
         }
         
+        if(!storedUser || !storedUser.authLevel) return false;
+        
         console.log(storedUser.authLevel);
         
         // if there is no actions array set

@@ -9,14 +9,105 @@
 
     <div class="span10 offset2">
         
-        <legend>Application Info</legend>
-        
-        <label>Full Legal Business Name</label>
-        <input type="text" placeholder="" ng-model="application.leasee.fullLegalBusineessName">
+        <div class="row">
 
+            <div class="span5">
+                <legend>Company Information</legend>
+                
+                <label>Full Legal Business Name</label>
+                <input type="text" placeholder="" ng-model="application.leasee.fullLegalBusineessName">
+                
+                <label>Address 1</label>
+                <input type="text" placeholder="" ng-model="application.leasee.businessAddress.address1">
+                
+                <label>Address 2</label>
+                <input type="text" placeholder="" ng-model="application.leasee.businessAddress.address2">
+                
+                <label>City</label>
+                <input type="text" placeholder="" ng-model="application.leasee.businessAddress.city">
+                
+                <label>State</label>
+                <input type="text" placeholder="" ng-model="application.leasee.businessAddress.state">
+                
+                <label>Zip</label>
+                <input type="text" placeholder="" ng-model="application.leasee.businessAddress.zip">
+        
+            </div>
+             
+            <div class="span5"> 
+                
+                <legend>Primary Contact Information</legend>
+            
+                <label>Contact Name</label>
+                <input type="text" placeholder="" ng-model="application.leasee.contactPerson.name">
+            
+                <label>Email</label>
+                <input type="text" placeholder="" ng-model="application.leasee.contactPerson.email">
+                
+                <label>Phone</label>
+                <input type="text" placeholder="" ng-model="application.leasee.contactPerson.phone">
+                
+                <p>Preferred contact method<br/>
+                    {{application.leasee.contactPerson.contactMethod}}
+                </p>
+                
+                
+            </div>
+            
+        </div>
+        
+        <div class="row">
+        <!-- <div class="row" ng-show="needsMoreInfo() && !finished">   --> 
+            
+            <div class="span5">
+        
+                <legend>Personal Guarantor</legend>
+                
+                <label>Name</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.name">
+                
+                <label>Social Security Number</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.socialSecurityNumber">
+        
+            </div>
+             
+            <div class="span5"> 
+            
+                <legend>Personal Guarantor Contact</legend>
+            
+                <label>Email</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.email">
+                
+                <label>Phone</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.phone">
+                
+                <label>Address 1</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.address1">
+                
+                <label>Address 2</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.address2">
+                
+                <label>City</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.city">
+                
+                <label>State</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.state">
+                
+                <label>Zip</label>
+                <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.zip">
+                
+                
+               
+        
+            </div>
+        
+        </div>
+        
+        <!--
         <pre>
             {{application | json}}
         </pre>
+        -->
 
     </div>
 

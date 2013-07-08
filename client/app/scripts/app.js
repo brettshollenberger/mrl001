@@ -1,5 +1,5 @@
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'google-maps', function() {
 
         
       
@@ -29,7 +29,7 @@ angular
       })
       
       
-      // Quoter tool! 
+      // Quoter tool!  
       .when('/tools/quoter', {
         controller:   'quoterToolController',
         templateUrl:  'app/templates/tools/quoter/quoterTool.html'
@@ -50,6 +50,11 @@ angular
         templateUrl:  'app/templates/tools/application/applicationTool.html'
       })
       
+      // Locator tool! 
+      .when('/tools/locator', {
+        controller:   'locatorToolController',
+        templateUrl:  'app/templates/tools/locator/locatorTool.html'
+      })
       
       // Auth user dashboards
       .when('/dashboard', {

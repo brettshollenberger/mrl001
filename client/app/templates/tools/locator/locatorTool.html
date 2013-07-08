@@ -1,0 +1,31 @@
+<div class="row-fluid">
+    
+    <div class="span4 offset2">
+        
+        Search: <input ng-model="searchText">
+        
+<h3>Vendors:</h3>
+        <ul>
+            <li ng-repeat="vendor in vendors | filter:searchText">{{vendor.name}}</li>
+        </ul>
+    </div>
+    
+    <div class="span6">
+        <div class="google-map" 
+        		center="position.coords"
+        		zoom="zoomProperty" 
+        		markers="markersProperty"
+        		latitude="clickedLatitudeProperty"
+        		longitude="clickedLongitudeProperty"
+        		mark-click="true"
+        		draggable="true"
+        		fit="false"
+        		events="eventsProperty"
+        		style="height: 1000px; width: 100%">
+        	</div>    
+	</div>
+        
+</div>
+    
+    
+

@@ -203,9 +203,17 @@ http://ryanfait.com/
     z-index: @zindexFixedNavbar;
     
     .actions {
-        position: absolute;
-        right: 0;
+        position: fixed;
+        right: @gridGutterWidth;
         top: 20px;
+        
+        @newWidth: (@gridRowWidth + @gridGutterWidth);
+        
+        @media all and (min-width: @newWidth) {
+            position: absolute;
+            right: 0; 
+        }
+        
     }
 }
 

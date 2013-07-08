@@ -63,12 +63,12 @@ angular
         }
     
         // activated when user clicks the save button
-        $scope.save = function() {
+        $scope.save = function(doRedirect) {
            
             if(!userId) {
                 
                 // create new item
-                User.add($scope.user);
+                $scope.user = User.add($scope.user);
                 
             } else {
             
@@ -78,7 +78,11 @@ angular
                 
             }
             
-            $location.url('/dashboard/users');
+            
+            if(doRedirect) {
+                $location.url('/dashboard/users'); 
+            }
+            
             
         };
         

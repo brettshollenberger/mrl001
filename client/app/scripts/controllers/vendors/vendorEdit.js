@@ -100,7 +100,7 @@ angular
         }
     
         // activated when user clicks the save button
-        $scope.save = function() {
+        $scope.save = function(doRedirect) {
            
             var needsUpdate = [];
             
@@ -118,7 +118,7 @@ angular
             if(!vendorId) {
                 
                 // create new item
-                Vendor.add($scope.vendor);
+                $scope.vendor = Vendor.add($scope.vendor);
                 
             } else {
             
@@ -128,7 +128,11 @@ angular
                 
             }
 
-            $location.url('/dashboard/vendors');
+            if(doRedirect) {
+                $location.url('/dashboard/vendors'); 
+            }
+
+            
             
         };
 

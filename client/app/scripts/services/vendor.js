@@ -38,11 +38,11 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 2',
         businessAddress: {
-            address1: '123 Vendor Lane',
+            address1: '2224 E Boston St',
             address2: '',
             city: 'Philadelphia',
             state: 'PA',
-            zip: '12222'
+            zip: '19125'
         },
         logo: {
             original: 'https://www.filepicker.io/api/file/OUTMcftISgOxFN6SsUTW'  
@@ -61,11 +61,11 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         businessPhone: '333-333-2222',
         legalTerms: 'These are legal terms for vendor 3',
         businessAddress: {
-            address1: '123 Vendor Lane',
+            address1: '1300 Palmer st.',
             address2: '',
             city: 'Philadelphia',
             state: 'PA',
-            zip: '12222'
+            zip: '19125'
         },
         programIds: [1],
         programs: [],

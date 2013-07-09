@@ -72,6 +72,9 @@ angular
                 
             } else {
             
+                // this ensures that on the next save, vendorId is set and the previous if() doesnt run
+                userId = $scope.user.id;
+            
                 // update existing item 
                 //User.updateById($scope.user.id, $scope.user);
                 User.update($scope.user);

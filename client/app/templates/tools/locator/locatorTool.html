@@ -1,28 +1,43 @@
-<div class="row-fluid">
+<div class="row">
     
     <div class="span4 offset2">
         
-        Search: <input ng-model="searchText">
+        <h3>Vendors:</h3>
         
-<h3>Vendors:</h3>
+        <label ng-show="geolocationAvailable" >Geo-Locate Me!
+        <button class="btn" ng-click="findMe()">Find Current Location</button></label>
+        
+        <label>Search for my location</label>
+        <input type="text" required="required" ng-model="locationSearch">
+        <button class="btn" ng-disabled="!locationSearch" ng-click="findMyLocation()">Find Location</button>
+        
+        <hr />
+        
+        <label>Search Term (industry or tags)</label>
+        <input type="text" ng-model="searchText">
+        
+        <hr />
+
+        <h3>Vendors:</h3>
         <ul >
             <li ng-repeat="vendor in filteredVendors = ( vendors | filter:searchText)">{{vendor.name}}</li>
         </ul>
     </div>
     
     <div class="span6">
-        <div class="google-map" 
-        		center="position.coords"
-        		zoom="zoomProperty" 
-        		markers="markersProperty"
-        		latitude="clickedLatitudeProperty"
-        		longitude="clickedLongitudeProperty"
-        		mark-click="false"
-        		draggable="true"
-        		fit="true"
-        		events="eventsProperty"
-        		style="height: 500px; width: 100%">
-        	</div>    
+        
+        <google-map center="center" 
+            draggable="true" 
+            zoom="zoom" 
+            markers="markers" 
+            mark-click="false" 
+            fit="true" 
+            latitude="latitude" 
+            longitude="longitude"
+            events="mapEvents" 
+            style="height: 500px; width: 100%; display: block; position:relative;">
+        </google-map>
+          
 	</div>
         
 </div>

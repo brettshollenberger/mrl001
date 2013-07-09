@@ -17,5 +17,6 @@
     "font-awesome": "3.2.1",
     "json3" : "3.2.5",
     "angular-bootstrap" : "0.3.0"
+    "angular-google-maps" : "~0.1"
   }
 }

@@ -2,8 +2,8 @@ describe('Program management', function() {
     
     it('Should require user to login before doing any management', function() {
         browser().navigateTo('/login');
-        input('username').enter('admin');
-        input('password').enter('admin');
+        input('username').enter('bwalsh');
+        input('password').enter('bwalsh');
         element('#login').click();  
     });
     

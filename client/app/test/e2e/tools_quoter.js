@@ -59,7 +59,7 @@ describe('Tools: Quoter Tool', function() {
             browser().navigateTo('/tools/quoter');
             select('quote.vendorId').option(1);
             element('#generateQuote').click();
-            expect(repeater('table ').count()).toBe(1);
+            expect(repeater('table ').count()).toBe(3);
             
         });
                      
@@ -71,7 +71,7 @@ describe('Tools: Quoter Tool', function() {
             browser().navigateTo('/tools/quoter?vendor_id=2');
             expect(element('#vendorName').count()).toBe(0);
             expect(element('.vendorSection > div > h1').count()).toBe(1);
-            expect(element('.vendor-logo').count()).toBe(1);
+            expect(element('.vendor-logo').count()).toBeGreaterThan(0);
         });
         
     });

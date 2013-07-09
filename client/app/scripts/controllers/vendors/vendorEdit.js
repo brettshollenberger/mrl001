@@ -119,8 +119,14 @@ angular
                 
                 // create new item
                 $scope.vendor = Vendor.add($scope.vendor);
+                vendorId = $scope.vendor.id;
+                console.log('Adding a new vendor');
                 
             } else {
+                
+                // this ensures that on the next save, vendorId is set and the previous if() doesnt run
+                
+                console.log('Updating vendor # ' + vendorId);
             
                 // update existing item 
                 //Vendor.updateById($scope.vendor.id, $scope.vendor);

@@ -3,7 +3,13 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.1.3  (current)
+Release 0.1.4  (current)
+--------
+- [BUG] - Fixed bug where new vendors were added multiple times if clicking "save and add more info" button
+- [BUG IE8] - Fixed size of images on vendor edit -> add marlin rep tab. 
+- [BUG] - Fixed issue where new vendors were not attaching on creation. 
+
+Release 0.1.3
 --------
 - [BUG IE8] - Fixed issue where action buttons were cut off on smaller screens.
 - [BUG IE8] - Fixed issue where some icons were missing in sidebar

@@ -69,6 +69,8 @@ angular
                 
                 // create new item
                 $scope.user = User.add($scope.user);
+                // this ensures that on the next save, vendorId is set and the previous if() doesnt run
+                userId = $scope.user.id;
                 
             } else {
             

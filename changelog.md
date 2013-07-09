@@ -3,7 +3,12 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.1.4  (current)
+Release 0.1.5  (current)
+--------
+- [BUG IE8] - Fixed issue where changelog was broken.
+- [CHORE] - Fixed tests to work with changes made in version 0.1.3 -- 0.1.5 
+
+Release 0.1.4
 --------
 - [BUG] - Fixed bug where new vendors were added multiple times if clicking "save and add more info" button
 - [BUG IE8] - Fixed size of images on vendor edit -> add marlin rep tab. 

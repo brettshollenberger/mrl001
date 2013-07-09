@@ -10,7 +10,7 @@ angular
     'stateService',
     function($rootScope, $scope, $location, $routeParams, Auth, Quote, States) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-quote');
        
         // empty quote object
         $scope.quote = {};
@@ -58,6 +58,30 @@ angular
             
             $location.url('/dashboard/quotes');
             
+        };
+        
+        $scope.tabs = ['Basic information'];
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 0;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            console.log(tab);
+            
+            if(!$scope.quote.id) return false;
+            
+            $scope.activeTab = tab;
         };
         
         

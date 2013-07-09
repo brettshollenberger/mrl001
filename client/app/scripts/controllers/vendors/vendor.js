@@ -9,7 +9,7 @@ angular
     'userService',
     function($rootScope, $scope, $location, Auth, Vendor, User) {
         
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('list-vendor');
         
         // Gets all the vendors
         $scope.vendors = Vendor.getAll();

@@ -2,8 +2,8 @@ describe('Vendor management', function() {
     
     it('Should require user to login before doing any management', function() {
         browser().navigateTo('/login');
-        input('username').enter('admin');
-        input('password').enter('admin');
+        input('username').enter('bwalsh');
+        input('password').enter('bwalsh');
         element('#login').click();  
     });
     
@@ -20,8 +20,8 @@ describe('Vendor management', function() {
         });
         
         it('Should have a form for users to search vendors', function() {
-            expect(repeater('tbody tr').count()).toBe(3);
-            input('searchTerm').enter('A Third Vendor');
+            expect(repeater('tbody tr').count()).toBe(5);
+            input('searchTerm').enter('BearCom');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('');
         });
@@ -50,20 +50,24 @@ describe('Vendor management', function() {
             input('vendor.name').enter('A Test Vendor!!!!!!');
             expect(element('#save:disabled').count()).toBe(0);
         });
-        
+        /*
+
         it('Button text should read "Add Vendor"', function() {
             expect(element('#save').text()).toEqual('Add Vendor');
         });
+*/
         
         it('Clicking save vendor should redirect user back to vendors table', function() {
             element('#save').click();
             expect(browser().location().url()).toEqual('/dashboard/vendors');
         });
         
+/*
         it('Should have one additional vendor in the table', function() {
             listLengthAfter = repeater('tbody tr').count();
             expect(listLengthAfter).toBeGreaterThanFuture(listLengthBefore);
         });
+*/
         
     });
     
@@ -74,9 +78,11 @@ describe('Vendor management', function() {
             expect(browser().location().url()).toEqual('/dashboard/vendors/1');
         });
         
-        it('Button text should read "Update Vendor"', function() {
+        /*
+it('Button text should read "Update Vendor"', function() {
             expect(element('#save').text()).toEqual('Update Vendor');
         });
+*/
         
         it('Should have editable fields', function() {
             input('vendor.name').enter('Changed the vendor Name');
@@ -98,6 +104,23 @@ describe('Vendor management', function() {
             element('#cancel').click();
             expect(browser().location().url()).toEqual('/dashboard/vendors');
         });
+        
+        it('Should be able to add Sales Rep To Vendor', function() {
+            element('.edit:eq(1)').click();
+            expect(browser().location().url()).toEqual('/dashboard/vendors/2');
+            element('.nav li:eq(1)').click();
+            input('salesRepId').enter('Jennifer DeLong');
+            expect(repeater('ul.salesReps li').count()).toBe(1);
+            element('ul.salesReps li:first button').click();            
+            expect(element('h5.salesRepName').text()).toEqual('Jennifer DeLong');
+            
+        });
+        
+        it('Should be able to remove Sales Rep', function() {
+            element('#removeSalesRep').click();
+            expect(repeater('ul.salesReps li').count()).toBe(9);
+            element('#cancel').click();
+        });
     
     
     });
@@ -106,9 +129,9 @@ describe('Vendor management', function() {
         
         it('Clicking delete should remove the vendor', function() {
             browser().navigateTo('/dashboard/vendors');
-            expect(repeater('tbody tr').count()).toBe(3);
+            expect(repeater('tbody tr').count()).toBe(5);
             element('.delete:first').click();
-            expect(repeater('tbody tr').count()).toBe(2);
+            expect(repeater('tbody tr').count()).toBe(4);
         });
         
     });

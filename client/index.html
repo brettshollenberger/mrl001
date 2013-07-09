@@ -16,13 +16,24 @@
     <link rel="stylesheet" href="app/styles/override.css">
     <!-- endbuild -->
     
+    <!--[if gte IE 9]>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <![endif]-->
     
     <script>
      (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
      (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
     </script>
-    
+ 
+ 
+    <!--[if lte IE 8]>
+      <script>
+      window.myCustomTags = [ 'markdown', 'userTray' ];
+      </script>
+      <script>
+      window.html5 = { 'elements': 'markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
+      </script>
+    <![endif]-->   
 
     <!--[if lt IE 9]>
     <script src="components/html5shiv-dist/html5shiv.js"></script>
@@ -48,7 +59,7 @@
      
       <footer class="muted text-center footer">
         &copy; 2013 Marlin Leasing<br />
-        version {{ version }}
+        version {{ version }} <a href="#/changelog">View Changelog</a>
       
         <p class="hello"><em>Hello from the nerds at Faculty!</em>
             <br/>We're here to guide you: <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a> or <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
@@ -76,6 +87,9 @@
     <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="components/angular-google-maps/angular-google-maps.js"></script>
+    <script src="components/showdown/compressed/showdown.js"></script>
+    <script src="components/showdown/compressed/extensions/github.js"></script>
+    <script src="components/angular-markdown/angular.markdown.js"></script>
     
 
     <script src="app/scripts/app.js"></script>
@@ -96,6 +110,7 @@
     <script src="app/scripts/controllers/tools/application/applicationToolController.js"></script>
     <script src="app/scripts/controllers/tools/locator/locatorToolController.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
+    <script src="app/scripts/controllers/changelog.js"></script>
     
     <script src="app/scripts/services/location.js"></script>
     <script src="app/scripts/services/vendor.js"></script>
@@ -105,6 +120,7 @@
     <script src="app/scripts/services/auth.js"></script>
     <script src="app/scripts/services/application.js"></script>
     <script src="app/scripts/services/googleMapsService.js"></script>
+    <script src="app/scripts/services/api.js"></script>
 
     
     <!-- endbuild -->

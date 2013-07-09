@@ -1,8 +1,6 @@
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'google-maps', function() {
-
-        
-      
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
+  
   }])
     
   .config(['$routeProvider', function($router) {
@@ -15,6 +13,11 @@ angular
         templateUrl:  'app/templates/home.html'
       })
       
+      
+      .when('/changelog', {
+        controller:   'changelogController',
+        templateUrl:  'app/templates/changelog.html'
+      })
       
       // general routes
       .when('/login', {
@@ -138,11 +141,11 @@ angular
       
     ;
   }])
-  .run(['$rootScope', '$location', function($rootScope, $location) {
+  .run(['$rootScope', '$location', 'authService', function($rootScope, $location, Auth) {
   
   
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.1';
+        $rootScope.version = '0.1.5';
         
         
         $rootScope.goTo = function(urlToGoTo) {
@@ -166,18 +169,34 @@ angular
                 return "";
             }
         };
-
-        // Handle updating page title
-    $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
-        var pageSlug = $location.path().split('/');
-        //console.log(pageSlug[pageSlug.length - 1]);
-        $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
         
-        if($rootScope.pageSlug.length === 0){
-            $rootScope.pageSlug = 'home';
-        }
-        //$rootScope.page_title = $route.$route && $route.$route.title ? base_title + ' | ' + $route.$route.title : base_title; 
-    });
+        
+        $rootScope.showIfUserCanDoAction = function(action) {
+            return Auth.showIfUserCanDoAction(action);  
+        };
+        
+        
+        // Handle updating page title
+        $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
+            var pageSlug = $location.path().split('/');
+            //console.log(pageSlug[pageSlug.length - 1]);
+            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
+            
+            //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
+            console.log($rootScope.pageSlug.match(/^[0-9]+$/));
+            if($rootScope.pageSlug.match(/^[0-9]+$/) !== null){
+                $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
+            }else if($rootScope.pageSlug.length === 0){
+                $rootScope.pageSlug = 'home';
+            }
+            
+            
+        });
+        
+        
+        // we use this to set credentials for demo on initial page screen
+        $rootScope.credentials = {userName: 'bwalsh', password: 'bwalsh'};
+        
   
   }])
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {

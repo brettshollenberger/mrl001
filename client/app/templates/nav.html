@@ -7,27 +7,27 @@
 </ul>
 
 <ul class="nav text-center">
-    <li class="span1 dark">
-        <a href="#/dashboard/"><i class="icon-home"></i><br/>Dashboard</a>
+    <li class="dark">
+        <a href="#/dashboard/"><i class="icon icon-home"></i><br/>Dashboard</a>
     </li>
-    <li class="span1 light" ng-class="getClass('/dashboard/vendors')">
-        <a href="#/dashboard/vendors"><i class="icon-user"></i><br/>Vendors</a>
-    </li>
-    
-    <li class="span1 light" ng-class="getClass('/dashboard/programs')">
-        <a href="#/dashboard/programs"><i class="icon-usd"></i><br/>Rate Sheets</a>
+    <li class="light" ng-class="getClass('/dashboard/vendors')" ng-show="showIfUserCanDoAction('list-vendor')">
+        <a href="#/dashboard/vendors"><i class="icon icon-user"></i><br/>Vendors</a>
     </li>
     
-    <li class="span1 dark" ng-class="getClass('/dashboard/quotes')">
-        <a href="#/dashboard/quotes"><i class="icon-comments-alt"></i><br/>Quotes</a>
+    <li class="light" ng-class="getClass('/dashboard/programs')" ng-show="showIfUserCanDoAction('list-program')">
+        <a href="#/dashboard/programs"><i class="icon icon-usd"></i><br/>Rate Sheets</a>
     </li>
     
-    <li class="span1 dark" ng-class="getClass('/dashboard/applications')">
-        <a href="#/dashboard/applications"><i class="icon-file-text-alt"></i><br/>Applications</a>
+    <li class="dark" ng-class="getClass('/dashboard/quotes')" >
+        <a href="#/dashboard/quotes"><i class="icon icon-comments-alt"></i><br/>Quotes</a>
     </li>
     
-    <li class="span1 light" ng-class="getClass('/dashboard/users')">
-        <a href="#/dashboard/users"><i class="icon-unlock-alt"></i><br/>Permissions</a>
+    <li class="dark" ng-class="getClass('/dashboard/applications')">
+        <a href="#/dashboard/applications"><i class="icon icon-file-text-alt"></i><br/>Applications</a>
+    </li>
+    
+    <li class="light" ng-class="getClass('/dashboard/users')" ng-show="showIfUserCanDoAction('list-user')">
+        <a href="#/dashboard/users"><i class="icon icon-unlock-alt"></i><br/>Permissions</a>
     </li>
     
 </ul>

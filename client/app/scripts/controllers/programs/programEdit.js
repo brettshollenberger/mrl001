@@ -9,7 +9,7 @@ angular
     'programService',
     function($rootScope, $scope, $location, $routeParams, Auth, Program) {
        
-        Auth.minPermissionLevel(1);
+        Auth.canUserDoAction('edit-program');
        
         // empty program object
         $scope.program = {};
@@ -70,6 +70,31 @@ angular
             
             $location.url('/dashboard/programs');
             
+        };
+        
+        
+        $scope.tabs = ['Basic Information'];
+        
+        /**
+        * Tab functions. 
+        * @todo make into a direct
+        *
+        */
+        $scope.activeTab = 0;
+        
+        // used for active class
+        $scope.isActiveTab = function(id) {
+            return $scope.activeTab == id ? true : false;  
+        };
+        
+        // used to set active tab
+        $scope.changeTab = function(tab) {
+            
+            console.log(tab);
+            
+            if(!$scope.user.id) return false;
+            
+            $scope.activeTab = tab;
         };
         
         

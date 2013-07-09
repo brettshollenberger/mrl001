@@ -2,8 +2,8 @@ describe('Relating programs to vendors', function() {
     
     it('Should require user to login before doing any relating', function() {
         browser().navigateTo('/login');
-        input('username').enter('admin');
-        input('password').enter('admin');
+        input('username').enter('bwalsh');
+        input('password').enter('bwalsh');
         element('#login').click();  
     });
     

@@ -24,7 +24,16 @@
      (function(a){function b(){}for(var c="assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(","),d;!!(d=c.pop());){a[d]=a[d]||b;}})
      (function(){try{console.log();return window.console;}catch(a){return (window.console={});}}());
     </script>
-    
+ 
+ 
+    <!--[if lte IE 8]>
+      <script>
+      window.myCustomTags = [ 'markdown', 'userTray' ];
+      </script>
+      <script>
+      window.html5 = { 'elements': 'markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
+      </script>
+    <![endif]-->   
 
     <!--[if lt IE 9]>
     <script src="components/html5shiv-dist/html5shiv.js"></script>
@@ -62,12 +71,6 @@
     
     <!--[if lte IE 8]>
       <script src="/components/json3/lib/json3.js"></script>
-    <![endif]-->
-    
-    <!--[if lte IE 8]>
-      <script>
-      window.myCustomTags = [ 'markdown', 'userTray' ];
-      </script>
     <![endif]-->
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>

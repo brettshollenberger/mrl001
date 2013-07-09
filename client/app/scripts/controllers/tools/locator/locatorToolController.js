@@ -58,7 +58,7 @@ angular
                  console.log(vendor);
                 var v = $scope.filteredVendors[vendor];
                 var addr = v.businessAddress.address1+' '+v.businessAddress.address2+' '+v.businessAddress.city+' '+v.businessAddress.state+' '+v.businessAddress.zip;
-                var geo = googleMaps.geo(addr);
+                var geo = googleMaps.geo(addr, 'marker');
              }
         }, true);
         

@@ -15,7 +15,7 @@ angular
 
     var methods = {};
 
-    methods.geo = function(address){
+    methods.geo = function(address, type){
     
         //var deferred = $q.defer();
         var geocoder = new google.maps.Geocoder();
@@ -30,10 +30,10 @@ angular
              geoData.longitude = results[0].geometry.location.kb;
              //console.log(geoData);
              
-             $rootScope.$broadcast('event:geo-location-success', geoData);
+             $rootScope.$broadcast('event:geo-location-success', geoData, type);
              
           } else {
-             $rootScope.$broadcast('event:geo-location-failure', geoData);
+             $rootScope.$broadcast('event:geo-location-failure', geoData, type);
             //alert('Geocode was not successful for the following reason: ' + status);
           }
         };

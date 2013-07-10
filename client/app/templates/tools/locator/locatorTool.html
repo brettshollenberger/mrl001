@@ -11,6 +11,15 @@
         <input type="text" required="required" ng-model="locationSearch">
         <button class="btn" ng-disabled="!locationSearch" ng-click="findMyLocation()">Find Location</button>
         
+        <label>Distance from location</label>
+        <div class="btn-group">
+            <button class="btn" ng-click="distanceFrom = 1">1</button>
+            <button class="btn" ng-click="distanceFrom = 5">5</button>
+            <button class="btn" ng-click="distanceFrom = 10">10</button>
+            <button class="btn" ng-click="distanceFrom = 25">25</button>
+            <button class="btn" ng-click="distanceFrom = 1000">1000</button>
+        </div>
+        
         <hr />
         
         <label>Search Term (industry or tags)</label>

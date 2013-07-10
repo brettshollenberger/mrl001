@@ -21,6 +21,9 @@ angular
         
         $scope.markers = [];
         
+        
+        $scope.distanceFrom = 5;
+        
         // filteredVendors array is generated in the html view, and used to filter at the same time.
         // we watch it for change
         // on change, 
@@ -48,6 +51,9 @@ angular
             
             // hack to support markers and location search with one callback! 
             if(type && type === 'marker') {
+                
+                if(!isMarkerWithinDistanceFromCenter($scope.center, data, $scope.distanceFrom)) return;
+                
                 data.infoWindow = 'This is an infowindow';
                 data.icon = 'https://maps.google.com/mapfiles/kml/shapes/schools_maps.png';
                 $scope.markers.push(data);
@@ -106,16 +112,65 @@ angular
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
+                // create latLng object, which we need for distanc comparisons
+                $scope.myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                
+                console.log($scope.myLatLng);
+                
+                
                 $scope.zoom = 16;
                 $scope.$apply();
-            });
+                                
+            });  
+            
         };
+        
+        
         
         
         $scope.findMyLocation = function() {
             console.log($scope.locationSearch);  
             googleMaps.geo($scope.locationSearch, 'locationSearch');
         };
+        
+        
+        
+        // checks if marker is a distance from the center
+        // return distance or false if not within range
+        // 
+        function isMarkerWithinDistanceFromCenter(center, marker, distance) {
+           var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.latitude, marker.longitude); 
+           return checkDsitance <= distance ? checkDsitance : false;
+        }
+        
+        
+        
+        function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+          
+          lat1 = parseFloat(lat1);
+          lon1 = parseFloat(lon1);
+          lat2 = parseFloat(lat2);
+          lon2 = parseFloat(lon2);
+          
+          var R = 6371; // Radius of the earth in km
+          var dLat = deg2rad(lat2-lat1);  // deg2rad below
+          var dLon = deg2rad(lon2-lon1); 
+          var a = 
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2)
+            ; 
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+          var d = R * c; // Distance in km
+          
+          console.log('distance is: ' + d + 'km');
+          
+          return d;
+        }
+        
+        function deg2rad(deg) {
+          return deg * (Math.PI/180);
+        }
         
     }
   ]);

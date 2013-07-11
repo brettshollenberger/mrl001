@@ -1,7 +1,45 @@
 angular.module('app').factory('programService', ['$http', function($http) {
     
     // dummy data
+    
     var itemList = [{
+        id: 1,
+        name: 'Program numero uno, a Yearly plan',
+        rateSheet: {
+            termPeriod: 'Year',
+            termLength: [{length: 1}, {length: 2}, {length: 3}],
+            buyoutOptions: [
+                    { 
+                    name: '$1.00 Buyout Program', 
+                    costs: [
+                        {
+                            min: 1000,
+                            max: 2000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                        },
+                        {
+                            min: 5000,
+                            max: 10000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                        }
+                        ]
+                    },
+                    { 
+                    name: '$1.00 Buyout Program', 
+                    costs: [
+                        {
+                            min: 1000,
+                            max: 2000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                            
+                        }]
+                    }]
+            }
+        }];
+    
+    
+    /*
+var itemList = [{
         id: 1,
         name: 'Program numero uno, a Yearly plan',
         rateSheet: {
@@ -65,6 +103,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
                 }]
         }
     }];
+*/
     
     
     // create and expose service methods

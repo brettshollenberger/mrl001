@@ -60,23 +60,57 @@
                 <label>Cost Range Max</label> 
                 <input type="text" class="input-small" ng-model="program.rateSheet.range.max"/>
                 
+         
                 
-                <table class="table">
+                
+                <div ng-repeat="buyoutOptions in program.rateSheet.buyoutOptions">
+                    <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
+                    <h3>{{buyoutOptions.name}}</h3>
+                    <table class="table">
+                        <thead>
+                            <th>Equipment Cost</th>
+                            <th ng-repeat="term in program.rateSheet.termLength">
+                                <input type="text" class="input-small" ng-model="term.length"/>    
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cost in buyoutOptions.costs">
+                                <td><a class="btn" ng-click="addRowToOption($index)">+</a> ${{cost.min | number}} - ${{cost.max | number}}</td>
+                                <td ng-repeat="rate in cost.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
                     
+                    <!--
+                    <table>
                     <thead>
-                        <th>Buyout Options</th>
+                        <th>{{program.name}}</th>
                         <th ng-repeat="term in program.rateSheet.termLength">
-                            <input type="text" class="input-small" ng-model="term.length"/>
+                            <input type="text" class="input-mini" ng-model="term.length"/>
                         </th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="option in program.rateSheet.buyoutOptions">
-                            <td><input class="input-large" type="text" ng-model="option.name"/></td>
-                            <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
+                            <td>
+                                <input class="input-large" type="text" ng-model="option.name"/>
+                                
+                            </td>
+                            <td ng-repeat="cost in option.costs">
+                                <input type="text" class="input-small" ng-model="rate.rate"/>
+                            </td>
                         </tr>
                     </tbody>
+                    </table>
+                    -->
+                </div>
+
                 
-                </table>
+                
+               <!--
+ <div class="span5">
+                    <p><a ng-click="addRowToOption(1)">Add row</a> | <a ng-click="addColumnToOption($index)">Add column</a> | <a ng-click="addBlankOption()">Add Program Term</a></p>
+                </div>
+-->
                 
             </div>
 

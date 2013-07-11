@@ -25,7 +25,7 @@ angular
         // simple callback assigans to program logo when complete
         $scope.pickImage = function() {
             filepicker.pick(function(FPFile){
-              console.log(FPFile.url);
+              //console.log(FPFile.url);
               $scope.program.logo.original = FPFile.url;
               $scope.$apply();
             });  
@@ -46,7 +46,7 @@ angular
         if(programId) {
             // get the program
             $scope.program = Program.getById(programId);
-            console.log($scope.program);
+            //console.log($scope.program);
             $scope.formAction = 'Update';
             
             $scope.termLength = $scope.program.rateSheet.termLength;
@@ -90,14 +90,17 @@ angular
         // used to set active tab
         $scope.changeTab = function(tab) {
             
-            console.log(tab);
+            //console.log(tab);
             
             if(!$scope.user.id) return false;
             
             $scope.activeTab = tab;
         };
         
-        
+        $scope.addRowToOption = function(idx){
+            $scope.program.rateSheet.buyoutOptions[idx].costs.push({costs:''});
+            console.log(idx);
+        }
         
     }
   ])

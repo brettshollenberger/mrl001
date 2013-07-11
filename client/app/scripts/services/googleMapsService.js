@@ -26,8 +26,8 @@ angular
           if (status == google.maps.GeocoderStatus.OK) {
              //console.log(results[0]);
              
-             geoData.latitude = results[0].geometry.location.jb;
-             geoData.longitude = results[0].geometry.location.kb;
+             geoData.lat = results[0].geometry.location.jb;
+             geoData.lng = results[0].geometry.location.kb;
              //console.log(geoData);
              
              $rootScope.$broadcast('event:geo-location-success', geoData, type);

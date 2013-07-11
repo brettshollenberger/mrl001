@@ -11,26 +11,31 @@
         <input type="text" required="required" ng-model="locationSearch">
         <button class="btn" ng-disabled="!locationSearch" ng-click="findMyLocation()">Find Location</button>
         
+        <button class="btn" ng-show="centerHasChanged" ng-click="searchHere()">Search This Location</button>
+        
         <label>Distance from location</label>
         <div class="btn-group">
-            <button class="btn" ng-click="distanceFrom = 1">1</button>
-            <button class="btn" ng-click="distanceFrom = 5">5</button>
-            <button class="btn" ng-click="distanceFrom = 10">10</button>
-            <button class="btn" ng-click="distanceFrom = 25">25</button>
-            <button class="btn" ng-click="distanceFrom = 1000">1000</button>
+            <button ng-repeat="item in distanceOptions" class="btn" ng-click="setDistanceFrom(item)" ng-class="{active: distanceFrom == item}">{{item}}</button>
         </div>
         
         <hr />
         
         <label>Search Term (industry or tags)</label>
         <input type="text" ng-model="searchText">
+        <button class="btn" ng-click="searchByText()">Search</button>
         
         <hr />
 
-        <h3>Vendors:</h3>
-        <ul >
-            <li ng-repeat="vendor in filteredVendors = ( vendors | filter:searchText)">{{vendor.name}}</li>
-        </ul>
+        <div ng-show="markers.length">
+            <h3>Vendors</h3>
+            <p>We found {{markers.length}} Marlin dealers near you.</p>
+            <ul>
+                <li ng-repeat="item in markers">{{item.name}}</li>
+            </ul>
+        </div>
+        <div ng-show="!markers.length">
+            <p class="alert">No Marlin Dealers were founds in your area!</p>
+        </div>
     </div>
     
     <div class="span6">

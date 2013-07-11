@@ -22,6 +22,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             state: 'PA',
             zip: '19125'
         },
+        geo: {
+            lat: 40.42,
+            lng: -73.45
+        },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
@@ -49,6 +53,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             city: '',
             state: '',
             zip: ''
+        },
+        geo: {
+            lat: 45,	
+            lng: -73
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
@@ -78,6 +86,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             state: '',
             zip: ''
         },
+        geo: {
+            lat: 39.57,
+            lng: -75.10
+        },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
@@ -105,6 +117,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             city: '',
             state: '',
             zip: ''
+        },
+        geo: {
+            lat: 35.11,
+            lng: -101.50
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),

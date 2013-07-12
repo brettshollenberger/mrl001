@@ -2,19 +2,15 @@ describe('Quote management', function() {
     
     it('It should require logging in before any quote management', function() {
         browser().navigateTo('/login');
-        input('username').enter('admin');
-        input('password').enter('admin');
+        input('username').enter('bwalsh');
+        input('password').enter('bwalsh');
+        element('#login').click(); 
     });
     
     describe('Listing all quotes in the system', function() {            
     
         // check for table and button, other form elements
         it('Should list current quotes in a table', function() {
-            
-            browser().navigateTo('/login');
-            input('username').enter('admin');
-            input('password').enter('admin');
-            
             browser().navigateTo('/dashboard/quotes');
             expect(repeater('tbody tr').count()).toBeGreaterThan(1);
         });
@@ -49,7 +45,7 @@ describe('Quote management', function() {
         
         it('Should be able to search by vendor name', function(){
             browser().navigateTo('/dashboard/quotes');
-            input('searchVend').enter('Another Vendor');
+            input('searchVend').enter('Bearcom');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchVend').enter('');
         });

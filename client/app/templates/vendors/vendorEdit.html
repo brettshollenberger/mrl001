@@ -102,7 +102,7 @@
                         <ul class="unstyled salesReps">
                             <li ng-repeat="item in allReps | filter:salesRepId">
                                 <p>
-                                    <img class="img-circle" width="50px" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                                     {{item.fullname}}
                                     <button class="pull-right btn" ng-click="addSalesRep(item.id)">
                                         <i class="icon-plus"></i>

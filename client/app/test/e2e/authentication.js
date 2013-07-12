@@ -83,17 +83,15 @@ describe('Authentication', function() {
     describe('Logging into the dashboard', function() {
     
         it('Should provide a login form', function() {
-            
             browser().navigateTo('/logout');
-            
             browser().navigateTo('/login');
-            input('username').enter('admin');
+            input('username').enter('bwalsh');
         });
         
         it('Should deny users logging in when they enter the wrong password', function() {
             browser().navigateTo('/login');
-            input('username').enter('admin');
-            input('password').enter('matt111');
+            input('username').enter('bwalsh');
+            input('password').enter('xxxxxxx');
             element('#login').click();
             expect(browser().location().url()).toEqual('/login');
         });
@@ -108,16 +106,16 @@ describe('Authentication', function() {
         
         it('Should allow user to login with correct credentials', function() {
             browser().navigateTo('/login');
-            input('username').enter('admin');
-            input('password').enter('admin');
+            input('username').enter('bwalsh');
+            input('password').enter('bwalsh');
             element('#login').click();
             expect(browser().location().url()).toEqual('/dashboard/quotes');
         });
         
         it('Should allow users to logout', function() {
             browser().navigateTo('/login');
-            input('username').enter('admin');
-            input('password').enter('admin');
+            input('username').enter('bwalsh');
+            input('password').enter('bwalsh');
             element('#login').click();
             element('#logout').click();
             expect(browser().location().url()).toEqual('/login');

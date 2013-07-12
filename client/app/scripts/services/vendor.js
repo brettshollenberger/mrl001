@@ -16,11 +16,15 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
         legalTerms: 'These are legal terms for vendor 1',
         businessPhone: '',
         businessAddress: {
-            address1: '4009 Distribution Dr.',
-            address2: 'Bldg 200',
-            city: 'Garland',
-            state: 'TX',
-            zip: '75041'
+            address1: '2424 E York St',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '19125'
+        },
+        geo: {
+            lat: 40.42,
+            lng: -73.45
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
@@ -50,6 +54,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             state: '',
             zip: ''
         },
+        geo: {
+            lat: 45,	
+            lng: -73
+        },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
@@ -78,6 +86,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             state: '',
             zip: ''
         },
+        geo: {
+            lat: 39.57,
+            lng: -75.10
+        },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
@@ -105,6 +117,10 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             city: '',
             state: '',
             zip: ''
+        },
+        geo: {
+            lat: 35.11,
+            lng: -101.50
         },
         programIds: [1,3,4],
         //salesRep: User.getOneWhereIn('vendorIds', 1),

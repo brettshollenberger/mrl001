@@ -106,26 +106,15 @@ angular
                 newMin = '';
             }
             
-            
             theProgram.costs.push({min: newMin, max:'', rates:[]});
             
-            console.log(_.last(theProgram.costs));
+            //console.log(_.last(theProgram.costs));
             
             _.each(theProgram.terms, function(item) {
                 _.last(theProgram.costs).rates.push({rate: ''});    
             });
-            
-            /*
-var howMany = theProgram.terms.length;
-            for(var i=0;  i < howMany; i++){
-                //theProgram.costs.rates.push({rate: ''}); 
-                console.log(theProgram.costs.min);    
-            }
-*/
-            
 
-            
-            
+
         
         };
         

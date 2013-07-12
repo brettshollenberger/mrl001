@@ -25,7 +25,7 @@ angular
         // simple callback assigans to program logo when complete
         $scope.pickImage = function() {
             filepicker.pick(function(FPFile){
-              console.log(FPFile.url);
+              //console.log(FPFile.url);
               $scope.program.logo.original = FPFile.url;
               $scope.$apply();
             });  
@@ -46,7 +46,7 @@ angular
         if(programId) {
             // get the program
             $scope.program = Program.getById(programId);
-            console.log($scope.program);
+            //console.log($scope.program);
             $scope.formAction = 'Update';
             
             $scope.termLength = $scope.program.rateSheet.termLength;
@@ -90,14 +90,76 @@ angular
         // used to set active tab
         $scope.changeTab = function(tab) {
             
-            console.log(tab);
+            //console.log(tab);
             
             if(!$scope.user.id) return false;
             
             $scope.activeTab = tab;
         };
         
+        $scope.addRowToOption = function(theProgram){
+            
+            var newMin;
+            if(_.last(theProgram.costs).max){
+                newMin = parseInt(_.last(theProgram.costs).max) + 1;    
+            }else{
+                newMin = '';
+            }
+            
+            
+            theProgram.costs.push({min: newMin, max:'', rates:[]});
+            
+            console.log(_.last(theProgram.costs));
+            
+            _.each(theProgram.terms, function(item) {
+                _.last(theProgram.costs).rates.push({rate: ''});    
+            });
+            
+            /*
+var howMany = theProgram.terms.length;
+            for(var i=0;  i < howMany; i++){
+                //theProgram.costs.rates.push({rate: ''}); 
+                console.log(theProgram.costs.min);    
+            }
+*/
+            
+
+            
+            
         
+        };
+        
+        $scope.addColumnToOption = function(theProgram){
+            theProgram.terms.push({length: ''});
+            //console.log(theProgram.costs); 
+            /*
+                _(theProgram.costs).each(function(){
+                    
+                });
+            */
+        
+            _.each(theProgram.costs, function(item) {
+                console.log(item.rates);
+                item.rates.push({rate: ''});
+            });
+        }
+        
+        
+        $scope.adjustValues = function($program, $value, $currentIndex) {
+            /*
+                console.log('Changing!');
+                console.log($value);
+                console.log($currentIndex);
+            */
+            
+            //console.log($program);
+            
+            if($program.costs[$currentIndex + 1]) {
+               $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1; 
+            }
+            
+            
+        };
         
     }
   ])

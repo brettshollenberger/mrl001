@@ -97,10 +97,69 @@ angular
             $scope.activeTab = tab;
         };
         
-        $scope.addRowToOption = function(idx){
-            $scope.program.rateSheet.buyoutOptions[idx].costs.push({costs:''});
-            console.log(idx);
+        $scope.addRowToOption = function(theProgram){
+            
+            var newMin;
+            if(_.last(theProgram.costs).max){
+                newMin = parseInt(_.last(theProgram.costs).max) + 1;    
+            }else{
+                newMin = '';
+            }
+            
+            
+            theProgram.costs.push({min: newMin, max:'', rates:[]});
+            
+            console.log(_.last(theProgram.costs));
+            
+            _.each(theProgram.terms, function(item) {
+                _.last(theProgram.costs).rates.push({rate: ''});    
+            });
+            
+            /*
+var howMany = theProgram.terms.length;
+            for(var i=0;  i < howMany; i++){
+                //theProgram.costs.rates.push({rate: ''}); 
+                console.log(theProgram.costs.min);    
+            }
+*/
+            
+
+            
+            
+        
+        };
+        
+        $scope.addColumnToOption = function(theProgram){
+            theProgram.terms.push({length: ''});
+            //console.log(theProgram.costs); 
+            /*
+                _(theProgram.costs).each(function(){
+                    
+                });
+            */
+        
+            _.each(theProgram.costs, function(item) {
+                console.log(item.rates);
+                item.rates.push({rate: ''});
+            });
         }
+        
+        
+        $scope.adjustValues = function($program, $value, $currentIndex) {
+            /*
+                console.log('Changing!');
+                console.log($value);
+                console.log($currentIndex);
+            */
+            
+            //console.log($program);
+            
+            if($program.costs[$currentIndex + 1]) {
+               $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1; 
+            }
+            
+            
+        };
         
     }
   ])

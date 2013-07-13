@@ -23,10 +23,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "state": "PA",
                 "zip": "19125"
             },
-            "geo": {
-                "lat": 40.42,
-                "lng": -73.45
-            },
+            "locatorEnabled" : true,
             "programIds": [
                 1,
                 3,
@@ -64,6 +61,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "lat": 45,
                 "lng": -73
             },
+            "locatorEnabled" : true,
             "programIds": [
                 1,
                 3,
@@ -101,6 +99,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "lat": 39.57,
                 "lng": -75.1
             },
+            "locatorEnabled" : true,
             "programIds": [
                 1,
                 3,
@@ -138,6 +137,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "lat": 35.11,
                 "lng": -101.5
             },
+            "locatorEnabled" : true,
             "programIds": [
                 1,
                 3,
@@ -176,6 +176,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 3,
                 4
             ],
+            "locatorEnabled" : true,
             "programs": [
                 {
                     "id": 1,
@@ -196,6 +197,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "state": "AZ",
                 "zip": "85268-4202"
             },
+            "locatorEnabled" : true,
             "contactPerson": {
                 "phone": "(480)816-1222"
             },
@@ -215,6 +217,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "city": "Bakersfield",
                 "zip": "93308-4919"
             },
+            "locatorEnabled" : true,
             "contactPerson": {
                 "phone": "(661)327-5336",
                 "email": "tony_flores@praxair.com"
@@ -235,6 +238,7 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "city": "Los Angeles",
                 "zip": "90067-1501"
             },
+            "locatorEnabled" : true,
             "contactPerson": {
                 "phone": "(800)273-5033",
                 "email": "vpsales@ez2000software.com"

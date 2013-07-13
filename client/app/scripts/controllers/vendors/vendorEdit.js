@@ -10,9 +10,12 @@ angular
     'programService',
     'stateService',
     'userService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User) {
+    'googleMapsService',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps) {
        
         Auth.canUserDoAction('edit-vendor');
+        
+        $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Legal Terms'];
        
         // empty vendor object
         $scope.vendor = {};
@@ -94,6 +97,10 @@ angular
             // get the vendor
             $scope.vendor = Vendor.getById(vendorId);
             $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
+            
+            if($scope.vendor.locatorEnabled) {
+                $scope.tabs.push('Locator Tool');
+            }
             
             console.log($scope.vendor.salesRep);
             $scope.formAction = 'Update';
@@ -203,13 +210,12 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         };
         
         
-        
         /**
         * Tab functions. 
         * @todo make into a direct
         *
         */
-        $scope.activeTab = 1;
+        $scope.activeTab = 0;
         
         // used for active class
         $scope.isActiveTab = function(id) {
@@ -224,6 +230,93 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
             $scope.activeTab = tab;
         };
         
+        $scope.$watch('$scope.activeTab', function(newValue, oldValue) {
+            if(newValue === 4 && !$scope.isMapMade) return;
+            
+            
+            
+        });
+        
+        $scope.zoom = 4;
+        
+        $scope.center = {
+            latitude: 45,
+            longitude: -73
+        };
+        
+        function makeMap() {
+            
+            console.log('Making map now!');
+        
+            $scope.isMapMade = true;
+
+            // if vendor has geo set, lets make map center from this
+            if($scope.vendor.geo) {
+                
+                $scope.center = {
+                    latitude: $scope.vendor.geo.lat,
+                    longitude: $scope.vendor.geo.lng
+                };
+             
+            }
+                
+        }
+        
+        // function that will geo locate, and then
+        $scope.findMyLocation = function() {
+        
+            var v = $scope.vendor;
+            var addr = v.businessAddress.address1+' '+v.businessAddress.address2+' '+v.businessAddress.city+' '+v.businessAddress.state+' '+v.businessAddress.zip;
+            console.log('User is searching by location:' + addr);  
+            
+            googleMaps.geo(addr, 'locationSearch');
+        };
+        
+        // callback from the geo lookup
+        $rootScope.$on('event:geo-location-success', function(event, data, type) {
+            // update center based on search 
+            if(type && type === 'locationSearch') {
+                $scope.center = {
+                    latitude: data.lat,
+                    longitude: data.lng
+                };
+                
+                $scope.vendor.geo = {
+                    lat: data.lat,
+                    lng: data.lng
+                };
+                
+                console.log($scope.center);
+                
+                // make a marker from our vendor
+                makeMarkerFromVendor();
+                
+                // @note we need to find an auto way to fit here!
+                $scope.zoom = 18;
+                
+                $scope.$apply();
+            }
+        });
+        
+        $scope.vendorMarker = [];
+        
+        function makeMarkerFromVendor() {
+            // we need to create the marker from the vendor
+            var marker = {
+                latitude: $scope.vendor.geo.lat,
+                longitude: $scope.vendor.geo.lng,
+                label: $scope.vendor.name,
+                infoWindow: '<img class="img-medium" src="'+$scope.vendor.logo.original+'" />',
+                name: $scope.vendor.name
+            };
+            
+            $scope.vendorMarker = [marker];
+            
+        }
+        
+        $scope.getMarkerPosition = function() {
+            console.log($scope.vendorMarker[0]);
+        };
         
     }
   ])

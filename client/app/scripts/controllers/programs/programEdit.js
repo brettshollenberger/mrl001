@@ -101,7 +101,7 @@ angular
             
             var newMin;
             if(_.last(theProgram.costs).max){
-                newMin = parseInt(_.last(theProgram.costs).max) + 1;    
+                newMin = parseInt(_.last(theProgram.costs).max, 10) + 1;    
             }else{
                 newMin = '';
             }
@@ -131,7 +131,7 @@ angular
                 console.log(item.rates);
                 item.rates.push({rate: ''});
             });
-        }
+        };
         
         
         $scope.adjustValues = function($program, $value, $currentIndex) {

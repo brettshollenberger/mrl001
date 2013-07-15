@@ -25,7 +25,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
                         ]
                     },
                     { 
-                    name: '$1.00 Buyout Program', 
+                    name: '10% Purchase Option', 
                     terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
                     costs: [
                         {

@@ -121,11 +121,6 @@ angular
         $scope.addColumnToOption = function(theProgram){
             theProgram.terms.push({length: ''});
             //console.log(theProgram.costs); 
-            /*
-                _(theProgram.costs).each(function(){
-                    
-                });
-            */
         
             _.each(theProgram.costs, function(item) {
                 console.log(item.rates);
@@ -147,6 +142,48 @@ angular
                $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1; 
             }
             
+            
+        };
+        
+        
+        $scope.makeNewOption = function() {
+            //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
+            //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+            var newBuyOut = { 
+                    name: '', 
+                    terms: [],
+                    costs: [
+                        {
+                            min: '',
+                            max: '',
+                            rates: []
+                            
+                        }]
+                    };
+                    
+            
+            newBuyOut.name = $scope.newOption.name;
+            newBuyOut.costs[0].min = $scope.newOption.minCost;
+            
+            for(var i = 0; i < $scope.newOption.columns; i++){
+                newBuyOut.terms.push({length: ''});
+                
+            }
+            
+            for(i = 0; i < $scope.newOption.rows - 1; i++){
+                newBuyOut.costs.push({min: '', max: '', rates: []});
+            }
+            
+            _.each(newBuyOut.costs, function(cost){
+                _.each(newBuyOut.terms, function(){
+                    cost.rates.push({rate: ''});
+                });
+                console.log('new cost'); 
+            });
+            
+            //console.log($scope.program.rateSheet.buyoutOptions);
+            $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
+            $scope.newOption = {};
             
         };
         

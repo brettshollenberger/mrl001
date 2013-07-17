@@ -7,105 +7,36 @@ angular.module('app').factory('programService', ['$http', function($http) {
         name: 'Program numero uno, a Yearly plan',
         rateSheet: {
             termPeriod: 'Year',
-            buyoutOptions: [
-                    { 
-                    name: '$1.00 Buyout Program', 
-                    terms: [{length: 1}, {length: 2}, {length: 3}],
-                    costs: [
-                        {
-                            min: 1000,
-                            max: 2000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
-                        },
-                        {
-                            min: 2001,
-                            max: 10000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
-                        }
-                        ]
+            buyoutOptions: [{ 
+                name: '$1.00 Buyout Program', 
+                terms: [{length: 1}, {length: 2}, {length: 3}],
+                costs: [
+                    {
+                        min: 1000,
+                        max: 2000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
                     },
-                    { 
-                    name: '$1.00 Buyout Program', 
-                    terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
-                    costs: [
-                        {
-                            min: 1000,
-                            max: 2000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
-                            
-                        }]
+                    {
+                        min: 2001,
+                        max: 10000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                    }
+                    ]
+                },
+                { 
+                name: '$1.00 Buyout Program', 
+                terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
+                costs: [
+                    {
+                        min: 1000,
+                        max: 2000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                        
                     }]
+                }]
             }
         }];
-    
-    
-    /*
-var itemList = [{
-        id: 1,
-        name: 'Program numero uno, a Yearly plan',
-        rateSheet: {
-            termPeriod: 'Year',
-            termLength: [{length: 1}, {length: 2}, {length: 3}],
-            buyoutOptions: [{ 
-                    name: '$1.00 Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                },
-                { 
-                    name: 'Special Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                }]
-        }
-    },
-    {
-        id: 2,
-        name: 'A Brand New Program thats per month',
-        rateSheet: {
-            termPeriod: 'Month',
-            termLength: [{length: 12}, {length: 24}, {length: 36}, {length: 48}, {length: 60}],
-            buyoutOptions: [{ 
-                    name: '$1.00 Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}, {rate: 0.6}, {rate: 0.5}]
-                },
-                { 
-                    name: 'Special Buyout Program', 
-                    rates: [{rate: 0.09}, {rate: 0.08}, {rate: 0.07}, {rate: 0.06}, {rate: 0.05}]
-                }]
-        }
-    },
-    {
-        id: 3,
-        name: '48 month max program',
-        rateSheet: {
-            termPeriod: 'Year',
-            termLength: [{length: 1}, {length: 2}, {length: 3}],
-            buyoutOptions: [{ 
-                    name: '$1.00 Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                },
-                { 
-                    name: 'Special Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                }]
-        }
-    },
-    {
-        id: 4,
-        name: 'Bakers Month Program',
-        rateSheet: {
-            termPeriod: 'Year',
-            termLength: [{length: 1}, {length: 2}, {length: 3}],
-            buyoutOptions: [{ 
-                    name: '$1.00 Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                },
-                { 
-                    name: 'Special Buyout Program', 
-                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
-                }]
-        }
-    }];
-*/
-    
+      
     
     // create and expose service methods
     var exports = {};

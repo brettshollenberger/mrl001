@@ -2,14 +2,24 @@ describe('Tools: Location Tool', function() {
         
     describe('Public facing locator tool', function() {
         
-        it('Should be publically accessiable.', function() {});
+        it('Should be publically accessiable.', function() {
+            browser().navigateTo('/tools/locator');
+            expect(browser().location().url()).toEqual('/tools/locator');
+        });
         
-        it('Should display a map', function() {});
+        it('Should display a map', function() {
+            browser().navigateTo('/tools/locator');
+            expect(element('.angular-google-map').count()).toBe(1);
+        });
         
-        it('Should display a map with clickable markers', function() {});
+        it('Should display a map with clickable markers', function() {
+            expect(element('.marker').count()).toBeGreaterThan(1);
+        });
         
         
-        it('Should display a list of vendors', function() {});
+        it('Should display a list of vendors', function() {
+            expect(element('#markerList > li').count()).toBeGreaterThan(1);
+        });
         
         it('Should provide methods for searching location', function() {
             
@@ -31,6 +41,13 @@ describe('Tools: Location Tool', function() {
     
     
     describe('Admin dashboard', function() {
+    
+        it('Should require user to login before doing any management', function() {
+            browser().navigateTo('/login');
+            input('username').enter('bwalsh');
+            input('password').enter('bwalsh');
+            element('#login').click();  
+        });
         
         it('Should provide a customization tab if tool is on', function() {}); 
         
@@ -41,6 +58,13 @@ describe('Tools: Location Tool', function() {
     
     describe('Vendor dashboard', function() {
         
+        it('Should require user to login before doing any management', function() {
+            browser().navigateTo('/login');
+            input('username').enter('bwalsh');
+            input('password').enter('bwalsh');
+            element('#login').click();  
+        });
+        
         it('Should show vendors current "geo location" on a map.', function() {}); 
         
         it('Should allow vendor to move the marker to change their "geo location"', function() {});
@@ -49,6 +73,13 @@ describe('Tools: Location Tool', function() {
     
     
     describe('Turning tool on / off per vendor', function() {
+        
+        it('Should require user to login before doing any management', function() {
+            browser().navigateTo('/login');
+            input('username').enter('bwalsh');
+            input('password').enter('bwalsh');
+            element('#login').click();  
+        });
         
         it('Should provide option for admin to turn on / off the tool per vendor', function() {});
         

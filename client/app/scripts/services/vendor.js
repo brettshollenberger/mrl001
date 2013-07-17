@@ -17,11 +17,15 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
             "legalTerms": "These are legal terms for vendor 1",
             "businessPhone": "",
             "businessAddress": {
-                "address1": "2424 E York St",
+                "address1": "135 N 11th St",
                 "address2": "",
                 "city": "Philadelphia",
                 "state": "PA",
-                "zip": "19125"
+                "zip": "19107"
+            },
+            "geo": {
+                "lat": 45,
+                "lng": -73
             },
             "locatorEnabled" : true,
             "programIds": [
@@ -56,10 +60,6 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
                 "city": "",
                 "state": "",
                 "zip": ""
-            },
-            "geo": {
-                "lat": 45,
-                "lng": -73
             },
             "locatorEnabled" : true,
             "programIds": [

@@ -7,6 +7,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
         name: 'Program numero uno, a Yearly plan',
         rateSheet: {
             termPeriod: 'Year',
+<<<<<<< HEAD
             buyoutOptions: [
                     { 
                     name: '$1.00 Buyout Program', 
@@ -33,8 +34,77 @@ angular.module('app').factory('programService', ['$http', function($http) {
                             max: 2000,
                             rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
                             
-                        }]
+                        },
+                        {
+                            min: 2001,
+                            max: 5000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                            
+                        },
+                        {
+                            min: 5001,
+                            max: 10000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                            
+                        }
+                        ]
                     }]
+            }
+        }];
+    
+    
+    /*
+var itemList = [{
+        id: 1,
+        name: 'Program numero uno, a Yearly plan',
+        rateSheet: {
+            termPeriod: 'Year',
+            termLength: [{length: 1}, {length: 2}, {length: 3}],
+            buyoutOptions: [{ 
+                    name: '$1.00 Buyout Program', 
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
+                },
+                { 
+                    name: 'Special Buyout Program', 
+                    rates: [{rate: 0.9}, {rate: 0.8}, {rate: 0.7}]
+                }]
+        }
+    },
+    {
+        id: 2,
+        name: 'A Brand New Program thats per month',
+        rateSheet: {
+            termPeriod: 'Month',
+            termLength: [{length: 12}, {length: 24}, {length: 36}, {length: 48}, {length: 60}],
+=======
+>>>>>>> refs/heads/develop
+            buyoutOptions: [{ 
+                name: '$1.00 Buyout Program', 
+                terms: [{length: 1}, {length: 2}, {length: 3}],
+                costs: [
+                    {
+                        min: 1000,
+                        max: 2000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                    },
+                    {
+                        min: 2001,
+                        max: 10000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
+                    }
+                    ]
+                },
+                { 
+                name: '10% Purchase Option', 
+                terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
+                costs: [
+                    {
+                        min: 1000,
+                        max: 2000,
+                        rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                        
+                    }]
+                }]
             }
         }];
     

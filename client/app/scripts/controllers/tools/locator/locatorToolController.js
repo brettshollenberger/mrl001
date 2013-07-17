@@ -136,6 +136,21 @@ angular
         
         }
         
+        /**
+        * Opens a marker when a user click on it
+        *
+        */
+        $scope.openMarker = function(lat, lng, item) {
+            var data = {};
+            data.lat = lat;
+            data.lng = lng;
+            
+            item.isOpen = true;
+            
+            //$rootScope.$broadcast('request:maps:open-marker', data);
+            
+        };
+        
         // perform the initial filter when vendors are loaded
         $scope.$watch('$scope.vendors', filterMarkers, true);
                        

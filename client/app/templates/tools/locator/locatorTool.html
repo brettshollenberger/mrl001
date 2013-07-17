@@ -30,7 +30,7 @@
             <h3>Vendors</h3>
             <p>We found {{markers.length}} Marlin dealers near you.</p>
             <ul id="markerList">
-                <li ng-repeat="item in markers">{{item.name}}</li>
+                <li ng-click="openMarker(item.latitude, item.longitude, item)" ng-repeat="item in markers">{{item.name}}</li>
             </ul>
         </div>
         <div ng-show="!markers.length">

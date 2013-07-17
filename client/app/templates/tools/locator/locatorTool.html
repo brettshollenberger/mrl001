@@ -29,7 +29,7 @@
         <div ng-show="markers.length">
             <h3>Vendors</h3>
             <p>We found {{markers.length}} Marlin dealers near you.</p>
-            <ul>
+            <ul id="markerList">
                 <li ng-repeat="item in markers">{{item.name}}</li>
             </ul>
         </div>

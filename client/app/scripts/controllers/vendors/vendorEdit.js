@@ -112,7 +112,7 @@ angular
             var needsUpdate = [];
             
             _.each($scope.vendorPrograms, function(item) {
-   
+                
                 if(item.displayName !== undefined && item.displayName !== '') {
                     delete item.name;
                     needsUpdate.push(item);
@@ -177,6 +177,8 @@ angular
             // get the vendors programs
             $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
             
+            console.log($scope.vendorPrograms);
+            
             // merge into the vendors.programs data, which may contain custom displayNames
             _.merge($scope.vendorPrograms, $scope.vendor.programs);
             
@@ -212,7 +214,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         
         /**
         * Tab functions. 
-        * @todo make into a direct
+        * @todo make into a directive
+        * @todo make observe / boardcast so we can watch for changes in this scope
         *
         */
         $scope.activeTab = 0;
@@ -225,28 +228,46 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         // used to set active tab
         $scope.changeTab = function(tab) {
             
+            // @todo, this will need to be more generic if we make into a directive. 
             if(!$scope.vendor.id) return false;
             
             $scope.activeTab = tab;
         };
         
-        $scope.$watch('$scope.activeTab', function(newValue, oldValue) {
-            if(newValue === 4 && !$scope.isMapMade) return;
+        $scope.$watch('activeTab', function(newValue, oldValue) {
             
-            
-            
+            // only make map if user is switching to tab 4, and there is no map made
+            if(newValue === 4) {
+                
+                // we only need to make the map one time
+                if(!$scope.isMapMade) makeMap();
+            }
         });
+        
+        
+        /**
+        * Variables for map
+        *
+        */
+        $scope.vendorMarker = [];
         
         $scope.zoom = 4;
         
+        // default center point
+        // @todo find better center point! 
         $scope.center = {
             latitude: 45,
             longitude: -73
         };
         
+        
+        /**
+        * Generate map, optionally create a marker for the vendor if they have geo data.
+        *
+        */
         function makeMap() {
             
-            console.log('Making map now!');
+            console.log('Making map now! Geo data for vendor is:');
         
             $scope.isMapMade = true;
 
@@ -257,25 +278,39 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                     latitude: $scope.vendor.geo.lat,
                     longitude: $scope.vendor.geo.lng
                 };
+                
+                makeMarkerFromVendor();
              
             }
                 
         }
         
-        // function that will geo locate, and then
-        $scope.findMyLocation = function() {
         
+        /**
+        * Find geo location for vendor from address
+        * On success, a event will be broadcast with geo data
+        *
+        */
+        $scope.findMyLocation = function() {
             var v = $scope.vendor;
             var addr = v.businessAddress.address1+' '+v.businessAddress.address2+' '+v.businessAddress.city+' '+v.businessAddress.state+' '+v.businessAddress.zip;
             console.log('User is searching by location:' + addr);  
-            
             googleMaps.geo(addr, 'locationSearch');
         };
         
-        // callback from the geo lookup
+        
+        /**
+        * Callback to get deo data and set marker, set vendor geo data
+        * @note this should hit the API for an auto save? 
+        *
+        */
         $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
+            
+                console.log('Saving geo return data: ');
+                console.log(data);
+                
                 $scope.center = {
                     latitude: data.lat,
                     longitude: data.lng
@@ -291,17 +326,21 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                 // make a marker from our vendor
                 makeMarkerFromVendor();
                 
-                // @note we need to find an auto way to fit here!
-                $scope.zoom = 18;
-                
                 $scope.$apply();
+                
             }
         });
         
-        $scope.vendorMarker = [];
         
+        /**
+        * Will generate a marker for a vendor
+        * @note assumes geo data is in place to create the marker
+        *
+        */
         function makeMarkerFromVendor() {
-            // we need to create the marker from the vendor
+            
+            // build marker object from vendor info
+            // @note this is duplicate code from locator tool, move to service? 
             var marker = {
                 latitude: $scope.vendor.geo.lat,
                 longitude: $scope.vendor.geo.lng,
@@ -312,11 +351,10 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
             
             $scope.vendorMarker = [marker];
             
+            // @note we need to find an auto way to fit here!
+            $scope.zoom = 16;
+            
         }
-        
-        $scope.getMarkerPosition = function() {
-            console.log($scope.vendorMarker[0]);
-        };
         
     }
   ])

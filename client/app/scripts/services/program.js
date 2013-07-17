@@ -247,7 +247,7 @@ var itemList = [{
             var match = _.find(itemList, function(subItem) {
                 return subItem.id == id;
             });
-            programs.push(match);
+            if(match) programs.push(match);
         });
         return _.clone(programs, true);
     };

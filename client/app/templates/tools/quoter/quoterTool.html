@@ -131,15 +131,35 @@
         
         <h3>Leasing Options</h3>
         
+        
         <div ng-repeat="program in quote.programs">
+            <h4>{{program.displayName || program.name}}</h4>
+            <table class="table" ng-repeat="buyOutOption in program.rateSheet.buyoutOptions">
+                <thead>
+                    <th class="span3">{{buyOutOption.name}}</th>
+                    <th class="span1" ng-repeat="term in buyOutOption.terms">{{term.length}} {{program.rateSheet.termPeriod}}</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         
+        <pre>
+        {{quote.programs[0] | json}}
+        </pre>
+        
+        <div ng-repeat="program in quote.programs">
+            <!--
            <h4>{{program.displayName || program.name}}</h4>
-        
-            <table class="table">    
+            
+<table class="table">    
                 <thead>
                     <tr>
                         <th class="span3">End of Lease Options</th>
-                        <th class="span1" ng-repeat="term in program.rateSheet.termLength">{{term.length}} {{program.rateSheet.termPeriod}}</th>
+                        <th class="span1" ng-repeat="term in program.rateSheet.buyoutOptions.termLength">{{term.length}} {{program.rateSheet.termPeriod}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,6 +173,7 @@
                     </tr>
                 </tbody>
             </table>
+-->
         </div>
         
         <br /><br />

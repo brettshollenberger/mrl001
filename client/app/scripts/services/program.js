@@ -33,7 +33,20 @@ angular.module('app').factory('programService', ['$http', function($http) {
                             max: 2000,
                             rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
                             
-                        }]
+                        },
+                        {
+                            min: 2001,
+                            max: 5000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                            
+                        },
+                        {
+                            min: 5001,
+                            max: 10000,
+                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+                            
+                        }
+                        ]
                     }]
             }
         }];

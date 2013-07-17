@@ -70,7 +70,9 @@ angular
             $scope.vendor = Vendor.getById($scope.quote.vendorId);
             
             // get programs from VendorID
-            $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds);
+            $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds);            
+            
+            filterQuotesByTotalCost();
             
             console.log($scope.vendor);
             
@@ -88,11 +90,20 @@ angular
             
         }
         
+        function filterQuotesByTotalCost() {
+            
+            _.each($scope.quote.programs, function(item){
+                console.log('Program...');
+                console.log(item);    
+            });
+        }
+        
         
                         
         $scope.generateQuote = function() {
             
             $scope.quote.totalCost = $scope.quoteCost;
+            
             
             if(!quoteId) {
                 
@@ -103,12 +114,19 @@ angular
                 $location.url('/tools/quoter/' + newQuote.id );
                 
             } else {
-            
+                
+                filterQuotesByTotalCost();
+                
+                
                 Quote.update($scope.quote);
             }
             
         };
         
+        $scope.getTermLength = function(item) {
+            
+            //$scope.maxTerms = Program[]  
+        };
         
         
         $scope.chooseRate = function(termOption, termLength, termPeriod, periodPayment) {

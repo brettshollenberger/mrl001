@@ -192,7 +192,11 @@ module.exports = (grunt)->
       # Changes to app code should be validated and re-copied to the `build`, triggering `watch:build`
       unit:
         files:      '<%= CLIENT_DIR + JS_FILES %>'
+<<<<<<< HEAD
+        tasks:      [ 'copy:js', 'jshint' ]
+=======
         tasks:      [ 'copy:js', 'jshint']
+>>>>>>> refs/heads/develop
 
 
   # Dependencies

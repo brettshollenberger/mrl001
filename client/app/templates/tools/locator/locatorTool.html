@@ -1,0 +1,60 @@
+<div class="row">
+    
+    <div class="span4 offset2">
+        
+        <h3>Vendors:</h3>
+        
+        <label ng-show="geolocationAvailable" >Geo-Locate Me!
+        <button class="btn" ng-click="findMe()">Find Current Location</button></label>
+        
+        <label>Search for my location</label>
+        <input type="text" required="required" ng-model="locationSearch">
+        <button class="btn" ng-disabled="!locationSearch" ng-click="findMyLocation()">Find Location</button>
+        
+        <button class="btn" ng-show="centerHasChanged" ng-click="searchHere()">Search This Location</button>
+        
+        <label>Distance from location</label>
+        <div class="btn-group">
+            <button ng-repeat="item in distanceOptions" class="btn" ng-click="setDistanceFrom(item)" ng-class="{active: distanceFrom == item}">{{item}}</button>
+        </div>
+        
+        <hr />
+        
+        <label>Search Term (industry or tags)</label>
+        <input type="text" ng-model="searchText">
+        <button class="btn" ng-click="searchByText()">Search</button>
+        
+        <hr />
+
+        <div ng-show="markers.length">
+            <h3>Vendors</h3>
+            <p>We found {{markers.length}} Marlin dealers near you.</p>
+            <ul id="markerList">
+                <li ng-click="openMarker(item.latitude, item.longitude, item)" ng-repeat="item in markers">{{item.name}}</li>
+            </ul>
+        </div>
+        <div ng-show="!markers.length">
+            <p class="alert">No Marlin Dealers were founds in your area!</p>
+        </div>
+    </div>
+    
+    <div class="span6">
+        
+        <google-map center="center" 
+            draggable="true" 
+            zoom="zoom" 
+            markers="markers" 
+            mark-click="false" 
+            fit="true" 
+            latitude="latitude" 
+            longitude="longitude"
+            events="mapEvents" 
+            style="height: 500px; width: 100%; display: block; position:relative;">
+        </google-map>
+          
+	</div>
+        
+</div>
+    
+    
+

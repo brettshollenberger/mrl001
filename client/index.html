@@ -62,7 +62,10 @@
         version {{ version }} <a href="#/changelog">View Changelog</a>
       
         <p class="hello"><em>Hello from the nerds at Faculty!</em>
-            <br/>We're here to guide you: <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a> or <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
+            <br/>We're here to guide you: 
+            <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a>
+            <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
+            <a href="#/tools/locator"><i class="icon icon-paste"></i> Locator Tool</a>
         </p>
         <img class="nerds" src="img/nerds.png" />
       
@@ -74,8 +77,10 @@
     <![endif]-->
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
-
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en&libraries=geometry"></script>
+    
     <!-- build:js app/scripts/all.min.js -->
+
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -88,6 +93,7 @@
     <script src="bower_components/showdown/compressed/showdown.js"></script>
     <script src="bower_components/showdown/compressed/extensions/github.js"></script>
     <script src="bower_components/angular-markdown/angular.markdown.js"></script>
+    <script src="bower_components/angular-google-maps/src/angular-google-maps.js"></script>
 
 
     <script src="app/scripts/app.js"></script>
@@ -106,6 +112,7 @@
     <script src="app/scripts/controllers/quotes/quoteEdit.js"></script>
     <script src="app/scripts/controllers/tools/quoter/quoterToolController.js"></script>
     <script src="app/scripts/controllers/tools/application/applicationToolController.js"></script>
+    <script src="app/scripts/controllers/tools/locator/locatorToolController.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
     <script src="app/scripts/controllers/changelog.js"></script>
     
@@ -116,6 +123,7 @@
     <script src="app/scripts/services/user.js"></script>
     <script src="app/scripts/services/auth.js"></script>
     <script src="app/scripts/services/application.js"></script>
+    <script src="app/scripts/services/googleMapsService.js"></script>
     <script src="app/scripts/services/api.js"></script>
 
     

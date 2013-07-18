@@ -108,8 +108,6 @@ angular
             console.log('Filtering markers...');
             
             _.each($scope.vendors, function(item) {
-            
-                console.log(item);
                 
                 // check if vendor has geo data!
                 if(!item.geo) return;
@@ -138,6 +136,8 @@ angular
                 $scope.markers.push(newMarker);
             
             });
+            
+            console.log($scope.markers);
         
         }
         
@@ -214,8 +214,8 @@ angular
         // return distance or false if not within range
         // 
         function isMarkerWithinDistanceFromCenter(center, marker, distance) {
-        var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.lat, marker.lng); 
-        return checkDsitance <= distance ? checkDsitance : false;
+            var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.lat, marker.lng); 
+            return checkDsitance <= distance ? checkDsitance : false;
         }
         
         

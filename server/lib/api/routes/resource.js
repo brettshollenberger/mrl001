@@ -130,7 +130,7 @@ var populateDB = function() {
     
     var resources = {};
  
-    resources.vendors = [{
+    resources.vendor = [{
         name: 'BearCom Operating LLC',
         contactPerson: {
             name: 'Jenn Delong',

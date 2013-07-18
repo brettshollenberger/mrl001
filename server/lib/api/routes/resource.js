@@ -113,7 +113,7 @@ var populateDB = function() {
             state: 'TX',
             zip: '75041'
         },
-        programIds: [1,3,4],
+        programIds: [1,3,4], // @note these need to match the GUIDs for programs
         //salesRep: User.getOneWhereIn('vendorIds', 1),
         programs: [{
             id: 1,

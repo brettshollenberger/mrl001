@@ -49,7 +49,6 @@
         <div class="row">
          
             <div class="span10">
-                <h3>Rates</h3>
             
                 <label>Term Period</label>
                 <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
@@ -95,33 +94,22 @@
                         </tbody>
                     </table>
                     
-                    <!--
-                    <table>
-                    <thead>
-                        <th>{{program.name}}</th>
-                        <th ng-repeat="term in program.rateSheet.termLength">
-                            <input type="text" class="input-mini" ng-model="term.length"/>
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="option in program.rateSheet.buyoutOptions">
-                            <td>
-                                <input class="input-large" type="text" ng-model="option.name"/>
-                                
-                            </td>
-                            <td ng-repeat="cost in option.costs">
-                                <input type="text" class="input-small" ng-model="rate.rate"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                    -->
                 </div>
-
                 
+                <form class="newOption form-inline" name="newOptionForm">
+                    <h3>New Option</h3>
+                    
+                    <label>Name:</label><input type="text" required="required" class="input-large" ng-model="newOption.name">
+                    <label>Minimum Cost:</label><input type="number" required="required" class="input-small" ng-model="newOption.minCost">
+                    <label>Columns:</label><input type="number" required="required" class="input-mini" ng-model="newOption.columns">
+                    <label>Rows:</label><input type="number" required="required" class="input-mini" ng-model="newOption.rows">
+                
+                    <button class="btn btn-large" ng-click="makeNewOption()" ng-disabled="newOptionForm.$invalid"><i class="icon-plus"></i></button> 
+                    
+                </form>
                 
                <!--
- <div class="span5">
+                <div class="span5">
                     <p><a ng-click="addRowToOption(1)">Add row</a> | <a ng-click="addColumnToOption($index)">Add column</a> | <a ng-click="addBlankOption()">Add Program Term</a></p>
                 </div>
 -->

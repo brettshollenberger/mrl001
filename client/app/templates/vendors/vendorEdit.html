@@ -6,11 +6,8 @@
                 <div class="span10">
                     <h2>New Vendor</h2>
                     <ul class="nav nav-tabs">
-                      <li ng-class="{active: isActiveTab(1)}"><a ng-click="changeTab(1)">Basic Information</a></li>
-                      <li ng-class="{active: isActiveTab(2), disabled: !vendor.id}"><a ng-click="changeTab(2)">Marlin Sales Rep</a></li>
-                      <li ng-class="{active: isActiveTab(3), disabled: !vendor.id}"><a ng-click="changeTab(3)">Rate Sheets</a></li>
-                      <li ng-class="{active: isActiveTab(4), disabled: !vendor.id}"><a ng-click="changeTab(4)">Customize</a></li>
-                    </ul>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                </ul>
                     
                     <div class="actions">
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
@@ -21,7 +18,7 @@
                 </div>
             </div>
             
-            <div class="row" ng-show="isActiveTab(1)">
+            <div class="row" ng-show="isActiveTab(0)">
                 <div class="span3">
                     <h3>Vendor</h3>
                     
@@ -74,7 +71,7 @@
                 </div>
             </div>
             
-            <div class="row" ng-show="isActiveTab(2)">
+            <div class="row" ng-show="isActiveTab(1)">
                 <div class="span5">
                     <h3>Marlin Sales Rep</h3>
                     
@@ -118,7 +115,7 @@
             
             </div>
                 
-            <div class="row" ng-show="isActiveTab(3)">    
+            <div class="row" ng-show="isActiveTab(2)">    
 
                 <div class="span5" ng-hide="!vendor.id">
                     <h3>Vendor Lease Programs</h3>
@@ -150,7 +147,7 @@
             </div>
             
             
-            <div class="row" ng-show="isActiveTab(4)">
+            <div class="row" ng-show="isActiveTab(3)">
                 <div class="span10">
                     <h3>Customize Vendor Application</h3>
                     
@@ -166,6 +163,66 @@
                     
                 </div>
             </div><!-- row -->
+            
+            <div class="row" ng-show="isActiveTab(4)">
+                <div class="span10">
+                    
+                    <div class="row">
+                    
+                        <div class="span4">
+                            
+                            <p>Vendor location is automatically generated from location data below. Change this information and click button to update on map.</p>
+                            <button ng-click="findMyLocation()" class="btn" >Update Location</button>
+                            
+                            <label>Address 1</label>
+                            <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                            
+                            <label>Address 2</label>
+                            <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                            
+                            <label>City</label>
+                            <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
+                            <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+                            <label>State</label>
+                            <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                            
+                            <label>Zip</label>
+                            <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                            
+                           
+                        
+                        </div>
+                    
+                        <div class="span4">
+                            <p>Current Geo Location Shown to visitors.</p>
+                            <google-map center="center" 
+                                draggable="true" 
+                                zoom="zoom" 
+                                markers="vendorMarker" 
+                                mark-click="false"
+                                fit="true" 
+                                latitude="latitude" 
+                                longitude="longitude"
+                                events="mapEvents" 
+                                refresh="activeTab"
+                                style="height: 320px; width: 100%; display: block; position:relative;">
+                            </google-map>
+                        
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+            
+                <div class="span10">    
+                            
+                    <hr />
+                    
+                    
+                    
+                </div>
+            </div><!-- row -->
+            
         </div><!-- offset 2 -->
  
 </div>

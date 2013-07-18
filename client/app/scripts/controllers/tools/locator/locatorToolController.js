@@ -57,7 +57,7 @@ angular
         };
         
         
-        $scope.distanceOptions = [1,5,25,100,2000,'Any'];
+        $scope.distanceOptions = [100,500,1000,2000,'Any'];
         
         // input to set distance from user for results
         $scope.distanceFrom = 2000;
@@ -127,6 +127,7 @@ angular
                     latitude: item.geo.lat,
                     longitude: item.geo.lng,
                     label: item.name,
+                    logo: item.logo.original,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
                     name: item.name
                 };

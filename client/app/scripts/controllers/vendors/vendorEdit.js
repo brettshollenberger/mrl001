@@ -29,7 +29,6 @@ angular
         
         // get all the reps
         $scope.allReps = User.getAll();
-        console.log($scope.allReps);
       
         // filepicker settings
         // @todo make a global service
@@ -102,7 +101,6 @@ angular
                 $scope.tabs.push('Locator Tool');
             }
             
-            console.log($scope.vendor.salesRep);
             $scope.formAction = 'Update';
         }
     
@@ -177,7 +175,6 @@ angular
             // get the vendors programs
             $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
             
-            console.log($scope.vendorPrograms);
             
             // merge into the vendors.programs data, which may contain custom displayNames
             _.merge($scope.vendorPrograms, $scope.vendor.programs);
@@ -192,7 +189,6 @@ angular
         
         $scope.addSalesRep = function(id) {
             
-            console.log($scope.salesRepId);
             $scope.salesRepId = '';
             $scope.vendor.salesRep = User.getById(id);
             User.addVendorToSalesRep($scope.vendor.id, id);
@@ -304,7 +300,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         * @note this should hit the API for an auto save? 
         *
         */
-        $rootScope.$on('event:geo-location-success', function(event, data, type) {
+        var listener = $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
             
@@ -315,6 +311,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                     latitude: data.lat,
                     longitude: data.lng
                 };
+                
+                console.log('vendor id is: ' + $scope.vendor.id);
                 
                 $scope.vendor.geo = {
                     lat: data.lat,
@@ -329,6 +327,11 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                 $scope.$apply();
                 
             }
+        });
+        
+        $rootScope.$on('$routeChangeSuccess', function() {
+            console.log('removing google callback ');
+            listener();
         });
         
         

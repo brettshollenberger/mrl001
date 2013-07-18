@@ -57,7 +57,7 @@ angular
         };
         
         
-        $scope.distanceOptions = [1,5,25,100,2000,'Any'];
+        $scope.distanceOptions = [100,500,1000,2000,'Any'];
         
         // input to set distance from user for results
         $scope.distanceFrom = 2000;
@@ -79,7 +79,7 @@ angular
         };
         
         // callback from the geo lookup
-        $rootScope.$on('event:geo-location-success', function(event, data, type) {
+        var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
                 $scope.center = {
@@ -93,6 +93,11 @@ angular
             }
         });
         
+        $rootScope.$on('$routeChangeSuccess', function() {
+            console.log('removing google callback ');
+            listener1();
+        });
+        
         // watch for center change
         // watch for tags to change
         // loop and filter based on above, save filteredSet of markers
@@ -103,8 +108,6 @@ angular
             console.log('Filtering markers...');
             
             _.each($scope.vendors, function(item) {
-            
-                console.log(item);
                 
                 // check if vendor has geo data!
                 if(!item.geo) return;
@@ -124,6 +127,7 @@ angular
                     latitude: item.geo.lat,
                     longitude: item.geo.lng,
                     label: item.name,
+                    logo: item.logo.original,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
                     name: item.name
                 };
@@ -133,6 +137,8 @@ angular
                 $scope.markers.push(newMarker);
             
             });
+            
+            console.log($scope.markers);
         
         }
         
@@ -209,8 +215,8 @@ angular
         // return distance or false if not within range
         // 
         function isMarkerWithinDistanceFromCenter(center, marker, distance) {
-        var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.lat, marker.lng); 
-        return checkDsitance <= distance ? checkDsitance : false;
+            var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.lat, marker.lng); 
+            return checkDsitance <= distance ? checkDsitance : false;
         }
         
         

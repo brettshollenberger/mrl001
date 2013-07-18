@@ -94,7 +94,6 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         
         if(!storedUser || !storedUser.authLevel) return false;
         
-        console.log(storedUser.authLevel);
         
         // if there is no actions array set
         // case of superadmin

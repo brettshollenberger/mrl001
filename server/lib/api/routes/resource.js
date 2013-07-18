@@ -27,6 +27,18 @@ db.open(function(err, db) {
 });
 
 /**
+* Default error message 
+*/
+exports.error = function() {
+  
+  console.log('ERROR!');
+  
+  return function(req, res, next) {
+      res.send('Resource not found', 404);
+  }; 
+};
+
+/**
 * List all entities 
 */
 exports.list = function() {
@@ -103,6 +115,11 @@ exports.setup = function(app, options) {
 
   // Delete the entity by id
   //app.delete(base + '/:resource/:id', exports.deleteById(mongoose));
+  
+  // Insure that app calls to /api/ will terminate with api response
+  // without this line, calls that failed would render angular app. 
+  app.get(base + '/*', exports.error());
+  app.get(base, exports.error());
   
 };
 

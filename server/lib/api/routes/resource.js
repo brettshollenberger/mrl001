@@ -82,6 +82,13 @@ exports.setup = function(app, options) {
   // Setup specific resources
   vendor.setup(app, options);
   
+  // @note what we are doing above, with vendor, can be abstracted to make a catch-all 
+  // resource. This way we don't need a ton of extra function ie: getQuotesForVendor, getAppsForVendor, etc.
+  // which would get messy very quickly. 
+  // Instead we should save the above pattern for non-abstractable functions, such as
+  // user/login or user/logout
+  //app.get(base + '/:resource/:id/:children', exports.getChildrenForResource());
+  
   // Create a new entity
   //app.post(base + '/:resource', exports.create(mongoose));
 

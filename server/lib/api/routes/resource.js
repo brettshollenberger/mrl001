@@ -1,4 +1,13 @@
+/**
+* Generic resource catch-all
+*
+* This resource has the basic CRUD functions, and is setup to catch any route
+* We can make more specific functions, for example user/login or vendor/1/programs
+* by making a seperate file, requiring them, and calling their setup functions
+*
+*/
 var mongo = require('mongodb');
+var vendor = require('./vendor');
  
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -70,6 +79,9 @@ exports.setup = function(app, options) {
   
   var base = options.path || '/api';
   
+  // Setup specific resources
+  vendor.setup(app, options);
+  
   // Create a new entity
   //app.post(base + '/:resource', exports.create(mongoose));
 
@@ -84,6 +96,7 @@ exports.setup = function(app, options) {
 
   // Delete the entity by id
   //app.delete(base + '/:resource/:id', exports.deleteById(mongoose));
+  
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/

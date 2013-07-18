@@ -79,7 +79,7 @@ angular
         };
         
         // callback from the geo lookup
-        $rootScope.$on('event:geo-location-success', function(event, data, type) {
+        var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
                 $scope.center = {
@@ -91,6 +91,11 @@ angular
                 
                 $scope.$apply();
             }
+        });
+        
+        $rootScope.$on('$routeChangeSuccess', function() {
+            console.log('removing google callback ');
+            listener1();
         });
         
         // watch for center change

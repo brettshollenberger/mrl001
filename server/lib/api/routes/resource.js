@@ -39,6 +39,27 @@ exports.error = function() {
 };
 
 /**
+* Delete an entity
+*/
+exports.delete = function() {
+
+    return function (req, res, next) {         
+        var id = req.params.id;
+        console.log('Deleting item: ' + id);
+        db.collection(req.params.resource, function(err, collection) {
+            collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+                if (err) {
+                    res.send({'error':'An error has occurred - ' + err});
+                } else {
+                    console.log('' + result + ' document(s) deleted');
+                    res.send(req.body);
+                }
+            });
+        });
+    };
+};
+
+/**
 * List all entities 
 */
 exports.list = function() {
@@ -60,22 +81,52 @@ exports.list = function() {
 */
 exports.show = function() {
   
-    console.log('SHOW BY ID');
+    //console.log('SHOW BY ID');
   
     return function(req, res, next) {
     
         var id = req.params.id;
         
-        console.log('LIST ' + req.params.resource + ' BY ID ' + id);
+        //console.log('LIST ' + req.params.resource + ' BY ID ' + id);
         
         db.collection(req.params.resource, function(err, collection) {
             collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-                console.log(err);
-                console.log(item);
+                //console.log(err);
+                //console.log(item);
                 res.send(item);
             });
         });  
     }; 
+};
+
+/**
+ * Update an entity by id
+ */
+exports.update = function() {
+
+    return function (req, res, next) {
+    
+        var id = req.params.id;
+        var item = req.body;
+        
+        console.log('Updating item: ' + id);
+        console.log(JSON.stringify(item));
+        
+        db.collection(req.params.resource, function(err, collection) {
+        
+            //console.log(collection);
+        
+            collection.update({'_id':new BSON.ObjectID(id)}, item, {safe:true}, function(err, result) {
+                if (err) {
+                    console.log('Error updating item: ' + err);
+                    res.send({'error':'An error has occurred'});
+                } else {
+                    console.log('' + result + ' document(s) updated');
+                    res.send(item);
+                }
+            });
+        });
+    };
 };
 
 /*
@@ -111,10 +162,10 @@ exports.setup = function(app, options) {
   app.get(base + '/:resource/:id', exports.show());
 
   // Update the entity by id
-  //app.put(base + '/:resource/:id', exports.updateById(mongoose));
+  app.put(base + '/:resource/:id', exports.update());
 
   // Delete the entity by id
-  //app.delete(base + '/:resource/:id', exports.deleteById(mongoose));
+  app.delete(base + '/:resource/:id', exports.delete());
   
   // Insure that app calls to /api/ will terminate with api response
   // without this line, calls that failed would render angular app. 

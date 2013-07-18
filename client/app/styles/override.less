@@ -27,12 +27,24 @@ body {
 a:hover{text-decoration: none;}
 .table{margin: 10px 0;}
 .container{margin-right: 0; margin-left: 0;}
-.container.quoter, .container.login, .container.home, .container.application{margin-left: auto; margin-right: auto; margin-top: 90px;}
+.container.quoter, 
+.container.login, 
+.container.home, 
+.container.application,
+.container.locator{
+    margin-left: auto; margin-right: auto; margin-top: 90px;
+}
+
+.container.locator {
+    margin-top: 20px;
+}
 
 .container.quoter, .container.application {
     margin-top: 20px;
 }
 
+
+.form-inline label{margin-right: 3px;}
 
 .quoter {
     
@@ -226,15 +238,21 @@ http://ryanfait.com/
     }
 }
 
+.area-locator-search {
+    
+    .pull-left {
+        margin-right: 20px;
+    }
+    
+}
+
 
 textarea.legalTerms {
     width: 500px;
     height: 200px;
 }
 
-.poweredby {
-    margin-top: 30px;
-}
+
 
 
 
@@ -253,3 +271,14 @@ textarea.legalTerms {
     max-width: 200px;
     width: 200px;
 }
+
+
+
+
+.angular-google-map {
+    img {
+        max-width: none;
+    }
+}
+
+

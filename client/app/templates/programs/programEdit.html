@@ -48,35 +48,71 @@
         </div>
         <div class="row">
          
-            <div class="span5">
-                <h3>Rates</h3>
+            <div class="span10">
             
                 <label>Term Period</label>
                 <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
-                  
+                <!--
+  
                 <label>Cost Range Min</label>   
                 <input type="text" class="input-small" ng-model="program.rateSheet.range.min"/>
                 
                 <label>Cost Range Max</label> 
                 <input type="text" class="input-small" ng-model="program.rateSheet.range.max"/>
+-->
                 
                 
-                <table class="table">
+                <div ng-repeat="buyoutOptions in program.rateSheet.buyoutOptions" ng-init="buyoutIndex = $index">
+                    <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
+                    <h3>{{buyoutOptions.name}}</h3>
                     
-                    <thead>
-                        <th>Buyout Options</th>
-                        <th ng-repeat="term in program.rateSheet.termLength">
-                            <input type="text" class="input-small" ng-model="term.length"/>
-                        </th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="option in program.rateSheet.buyoutOptions">
-                            <td><input class="input-large" type="text" ng-model="option.name"/></td>
-                            <td ng-repeat="rate in option.rates"><input type="text" class="input-small" ng-model="rate.rate"/></td>
-                        </tr>
-                    </tbody>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Equipment Cost</td>
+                                <td ng-repeat="item in buyoutOptions.terms">
+                                    <input type="text" class="input-small" ng-model="item.length"/> 
+                                </td>
+                            </tr>  
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cost in buyoutOptions.costs" >
+                                <td>
+                                    <input type="text" class="input-mini" ng-disabled="$index != 0" ng-model="cost.min"/> <input type="text" class="input-mini" ng-model="cost.max" ng-change="adjustValues(buyoutOptions, cost.max, $index)"/>
+                                </td>
+                                <td ng-repeat="rate in cost.rates">
+                                    <input type="text" class="input-small" ng-model="rate.rate"/>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn" ng-click="addRowToOption(buyoutOptions)">Add Row</button> 
+                                    <button class="btn" ng-click="addColumnToOption(buyoutOptions)">Add Column</button> 
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    
+                </div>
                 
-                </table>
+                <form class="newOption form-inline" name="newOptionForm">
+                    <h3>New Option</h3>
+                    
+                    <label>Name:</label><input type="text" required="required" class="input-large" ng-model="newOption.name">
+                    <label>Minimum Cost:</label><input type="number" required="required" class="input-small" ng-model="newOption.minCost">
+                    <label>Columns:</label><input type="number" required="required" class="input-mini" ng-model="newOption.columns">
+                    <label>Rows:</label><input type="number" required="required" class="input-mini" ng-model="newOption.rows">
+                
+                    <button class="btn btn-large" ng-click="makeNewOption()" ng-disabled="newOptionForm.$invalid"><i class="icon-plus"></i></button> 
+                    
+                </form>
+                
+               <!--
+                <div class="span5">
+                    <p><a ng-click="addRowToOption(1)">Add row</a> | <a ng-click="addColumnToOption($index)">Add column</a> | <a ng-click="addBlankOption()">Add Program Term</a></p>
+                </div>
+-->
                 
             </div>
 

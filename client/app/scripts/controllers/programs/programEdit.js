@@ -25,7 +25,7 @@ angular
         // simple callback assigans to program logo when complete
         $scope.pickImage = function() {
             filepicker.pick(function(FPFile){
-              console.log(FPFile.url);
+              //console.log(FPFile.url);
               $scope.program.logo.original = FPFile.url;
               $scope.$apply();
             });  
@@ -46,7 +46,7 @@ angular
         if(programId) {
             // get the program
             $scope.program = Program.getById(programId);
-            console.log($scope.program);
+            //console.log($scope.program);
             $scope.formAction = 'Update';
             
             $scope.termLength = $scope.program.rateSheet.termLength;
@@ -90,14 +90,102 @@ angular
         // used to set active tab
         $scope.changeTab = function(tab) {
             
-            console.log(tab);
+            //console.log(tab);
             
             if(!$scope.user.id) return false;
             
             $scope.activeTab = tab;
         };
         
+        $scope.addRowToOption = function(theProgram){
+            
+            var newMin;
+            if(_.last(theProgram.costs).max){
+                newMin = parseInt(_.last(theProgram.costs).max, 10) + 1;    
+            }else{
+                newMin = '';
+            }
+            
+            theProgram.costs.push({min: newMin, max:'', rates:[]});
+            
+            //console.log(_.last(theProgram.costs));
+            
+            _.each(theProgram.terms, function(item) {
+                _.last(theProgram.costs).rates.push({rate: ''});    
+            });
+
+
         
+        };
+        
+        $scope.addColumnToOption = function(theProgram){
+            theProgram.terms.push({length: ''});
+            //console.log(theProgram.costs); 
+        
+            _.each(theProgram.costs, function(item) {
+                console.log(item.rates);
+                item.rates.push({rate: ''});
+            });
+        };
+        
+        
+        $scope.adjustValues = function($program, $value, $currentIndex) {
+            /*
+                console.log('Changing!');
+                console.log($value);
+                console.log($currentIndex);
+            */
+            
+            //console.log($program);
+            
+            if($program.costs[$currentIndex + 1]) {
+               $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1; 
+            }
+            
+            
+        };
+        
+        
+        $scope.makeNewOption = function() {
+            //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
+            //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+            var newBuyOut = { 
+                    name: '', 
+                    terms: [],
+                    costs: [
+                        {
+                            min: '',
+                            max: '',
+                            rates: []
+                            
+                        }]
+                    };
+                    
+            
+            newBuyOut.name = $scope.newOption.name;
+            newBuyOut.costs[0].min = $scope.newOption.minCost;
+            
+            for(var i = 0; i < $scope.newOption.columns; i++){
+                newBuyOut.terms.push({length: ''});
+                
+            }
+            
+            for(i = 0; i < $scope.newOption.rows - 1; i++){
+                newBuyOut.costs.push({min: '', max: '', rates: []});
+            }
+            
+            _.each(newBuyOut.costs, function(cost){
+                _.each(newBuyOut.terms, function(){
+                    cost.rates.push({rate: ''});
+                });
+                console.log('new cost'); 
+            });
+            
+            //console.log($scope.program.rateSheet.buyoutOptions);
+            $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
+            $scope.newOption = {};
+            
+        };
         
     }
   ])

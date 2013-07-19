@@ -9,7 +9,6 @@ resources.application   = require('./seed_data/application').seed();
 resources.quote         = require('./seed_data/quote').seed();
 resources.user          = require('./seed_data/user').seed();
 
-
 var insertResource = function(resource) {
     
     // get the collection
@@ -24,9 +23,7 @@ var insertResource = function(resource) {
            console.log('SEED : STATUS : finished seeding ' + resource);
            console.log('------------------------------------------------------------');
            //process.exit(0);
-        });
-        
-        
+        }); 
     });
 };
 
@@ -52,14 +49,14 @@ db.open(function(err, db) {
 });
 
 var populateDB = function() {
+
     console.log(resources);
-    
     console.log('SEED : STATUS : beginning the seed process... cross your fingers!');
+    
     // iterate over all of the resources to add to database
     for (var resource in resources) {
         console.log('SEED : STATUS : starting with ' + resource);
         insertResource(resource);
-    }    
+    }
+    process.exit(0);
 };
-
-

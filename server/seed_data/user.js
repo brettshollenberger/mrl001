@@ -1,10 +1,13 @@
+var mongo = require('mongodb');
+var BSON = mongo.BSONPure;
+
 exports.seed = function() {
     return data;
 };
 
 // dummy data
 var data = [{
-    id: 1,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000008'),
     name: {
         first: 'Brian',
         last: 'Walsh'
@@ -22,7 +25,7 @@ var data = [{
     vendorIds: []
 },
 {
-    id: 2,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000009'),
     name: {
         first: 'Stu',
         last: 'Sable'
@@ -40,7 +43,7 @@ var data = [{
     vendorIds: [5]
 },
 {
-    id: 3,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000010'),
     name: {
         first: 'Joseph',
         last: 'Campbell'
@@ -58,7 +61,7 @@ var data = [{
     vendorIds: [3]
 },
 {
-    id: 4,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000011'),
     name: {
         first: 'Chris',
         last: 'Barraro'
@@ -76,7 +79,7 @@ var data = [{
     vendorIds: []
 },
 {
-    id: 5,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000012'),
     name: {
         first: 'Brian',
         last: 'McMahon'
@@ -94,7 +97,7 @@ var data = [{
     vendorIds: []
 },
 {
-    id: 6,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000013'),
     name: {
         first: 'Nicole',
         last: 'Ara'
@@ -112,7 +115,7 @@ var data = [{
     vendorIds: []
 },
 {
-    id: 7,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000014'),
     name: {
         first: 'Cherie',
         last: 'Cole'
@@ -130,7 +133,7 @@ var data = [{
     vendorIds: []
 },
 {
-    id: 8,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000015'),
     name: {
         first: 'Joseph',
         last: 'Fortune'
@@ -148,7 +151,7 @@ var data = [{
     vendorIds: [4]
 },
 {
-    id: 9,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000016'),
     name: {
         first: 'Jennifer',
         last: 'DeLong'

@@ -1,8 +1,12 @@
+var mongo = require('mongodb');
+var BSON = mongo.BSONPure;
+    
 exports.seed = function() {
     return data;
 };
 
 var data = [{
+	_id: new BSON.ObjectID('51e71518ed32080ffc000001'),
     name: 'BearCom Operating LLC',
     contactPerson: {
         name: 'Jenn Delong',
@@ -22,7 +26,7 @@ var data = [{
         state: 'TX',
         zip: '75041'
     },
-    programIds: [1,3,4], // @note these need to match the GUIDs for programs
+    programIds: ['51e71518ed32080ffc000006', '51e71518ed32080ffc000007'],
     //salesRep: User.getOneWhereIn('vendorIds', 1),
     programs: [{
         id: 1,
@@ -30,6 +34,7 @@ var data = [{
     }]
 },
 {
+	_id: new BSON.ObjectID('51e71518ed32080ffc000002'),
     name: 'Protection One - West',
     contactPerson: {
         name: 'Jennifer DeLong-Giefer',
@@ -49,7 +54,7 @@ var data = [{
         state: '',
         zip: ''
     },
-    programIds: [1,3,4],
+    programIds: ['51e71518ed32080ffc000006', '51e71518ed32080ffc000007'],
     //salesRep: User.getOneWhereIn('vendorIds', 1),
     programs: [{
         id: 1,
@@ -57,6 +62,7 @@ var data = [{
     }]
 },
 {
+	_id: new BSON.ObjectID('51e71518ed32080ffc000003'),
     name: 'Gametime',
     contactPerson: {
         name: 'Warren Myers',
@@ -64,7 +70,7 @@ var data = [{
         phone: ''
     },
     logo: {
-        original: 'https://www.filepicker.io/api/file/EcryKofERBynAuL2txez'  
+        original: 'https://www.filepicker.io/api/file/EcryKofERBynAuL2txez'
     },
     website: 'http://www.gametime.com',
     legalTerms: 'These are legal terms for vendor 3',
@@ -76,7 +82,7 @@ var data = [{
         state: '',
         zip: ''
     },
-    programIds: [1,3,4],
+    programIds: ['51e71518ed32080ffc000006', '51e71518ed32080ffc000007'],
     //salesRep: User.getOneWhereIn('vendorIds', 1),
     programs: [{
         id: 1,
@@ -84,6 +90,7 @@ var data = [{
     }]
 },
 {
+	_id: new BSON.ObjectID('51e71518ed32080ffc000004'),
     name: 'Union Bank',
     contactPerson: {
         name: 'Union Bank Financing Consultant',
@@ -103,7 +110,7 @@ var data = [{
         state: '',
         zip: ''
     },
-    programIds: [1,3,4],
+    programIds: ['51e71518ed32080ffc000006', '51e71518ed32080ffc000007'],
     //salesRep: User.getOneWhereIn('vendorIds', 1),
     programs: [{
         id: 1,
@@ -111,6 +118,7 @@ var data = [{
     }]
 },
 {
+	_id: new BSON.ObjectID('51e71518ed32080ffc000005'),
     name: 'Southeastern Equipment & Supply, Inc.',
     contactPerson: {
         name: 'Grady Martin',
@@ -130,7 +138,7 @@ var data = [{
         state: 'SC',
         zip: '29045'
     },
-    programIds: [1,3,4],
+    programIds: ['51e71518ed32080ffc000006', '51e71518ed32080ffc000007'],
     //salesRep: User.getOneWhereIn('vendorIds', 1),
     programs: [{
         id: 1,

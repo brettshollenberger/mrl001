@@ -37,6 +37,49 @@ exports.error = function() {
 };
 
 /**
+* Show specific children elements of an entity by ID 
+*/
+exports.children = function() {
+  
+    console.log('SHOW CHILDREN ELEMENTS BY ID');
+  
+    return function(req, res, next) {
+    
+        var resource = req.params.resource,
+            id = req.params.id,
+            child = req.params.child,
+            field = child + 'Ids',
+            guidsPlain = [],
+            guidsBson = []
+        ;
+        
+        console.log('LIST ' + child + ' ATTACHED TO ' + resource + ' BY ID ' + id);
+        
+        // Get the parent object
+        db.collection(resource, function(err, collection) {
+            collection.findOne({ '_id' : new BSON.ObjectID(id) }, function(err, item) {
+                
+                guidsPlain = item[field];
+                
+                if(guidsPlain instanceof Array) {
+                
+                    // convert all of the guids to BSON Object ID's
+                    for(var i in guidsPlain) {
+                        guidsBson.push(new BSON.ObjectID(guidsPlain[i]));
+                    }
+                
+                    db.collection(child, function(err, collection) {
+                        collection.find({ '_id' : { $in : guidsBson }}).toArray(function(err, items) {
+                            res.send(items);
+                        });
+                    });                               
+                }
+            });
+        });
+    };
+};
+
+/**
 * Create an entity
 */
 exports.create = function() {
@@ -96,7 +139,7 @@ exports.list = function() {
 };
 
 /**
-* Show entitie by ID 
+* Show entity by ID 
 */
 exports.show = function() {
   
@@ -157,22 +200,19 @@ exports.setup = function(app, options) {
   
   options = options || {};
   
-  //mongoose = options.mongoose || require('../db/mongo-store').mongoose;
-  
   var base = options.path || '/api';
   
   // Setup specific resources
   vendor.setup(app, options);
   
-  // @note what we are doing above, with vendor, can be abstracted to make a catch-all 
-  // resource. This way we don't need a ton of extra function ie: getQuotesForVendor, getAppsForVendor, etc.
-  // which would get messy very quickly. 
-  // Instead we should save the above pattern for non-abstractable functions, such as
-  // user/login or user/logout
-  //app.get(base + '/:resource/:id/:children', exports.getChildrenForResource());
+  // Get child resources of another resource
+  app.get(base + '/:resource/:id/:child', exports.children());
   
   // Create a new entity
   app.post(base + '/:resource', exports.create());
+  
+    // Delete the entity by id
+  app.delete(base + '/:resource/:id', exports.delete());
 
   // List the entities
   app.get(base + '/:resource', exports.list());
@@ -182,9 +222,6 @@ exports.setup = function(app, options) {
 
   // Update the entity by id
   app.put(base + '/:resource/:id', exports.update());
-
-  // Delete the entity by id
-  app.delete(base + '/:resource/:id', exports.delete());
   
   // Insure that app calls to /api/ will terminate with api response
   // without this line, calls that failed would render angular app. 

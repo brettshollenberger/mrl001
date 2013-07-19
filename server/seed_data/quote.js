@@ -1,10 +1,13 @@
+var mongo = require('mongodb');
+var BSON = mongo.BSONPure;
+
 exports.seed = function() {
     return data;
 };
 
 // dummy data
 var data = [{
-    id: 1,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000017'),
     totalCost: 1000,
     status: 'Open',
     vendorId: 1,
@@ -18,7 +21,7 @@ var data = [{
     }
 },
 {
-    id: 2,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000018'),
     totalCost: 9900,
     status: 'Open',
     vendorId: 2,
@@ -32,7 +35,7 @@ var data = [{
     }
 },
 {
-    id: 3,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000019'),
     totalCost: 2000,
     status: 'Archived',
     vendorId: 3,
@@ -46,7 +49,7 @@ var data = [{
     }
 },
 {
-    id: 4,
+    _id: new BSON.ObjectID('51e71518ed32080ffc000020'),
     totalCost: 28000,
     status: 'Archived',
     vendorId: 3,

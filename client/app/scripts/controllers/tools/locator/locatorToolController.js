@@ -7,19 +7,51 @@ angular
     '$routeParams',
     'vendorService',
     'googleMapsService',
-    function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps) {
+    '$timeout',
+    function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
+       
+        //google.maps.visualRefresh = true;
        
         // markers will be vendors that match out serarch! 
         $scope.markers = [];
         
+        $scope.map = {};
+        
+        $scope.map.clickedMarker = {
+            latitude: null,
+            longitude: null
+        };
+            
+        $scope.map.infoWindow = {
+            coords: {
+                latitude: 30,
+                longitude: -89
+            },
+            show: false
+        };
+        
+        $scope.map.templatedInfoWindow = {
+            coords: {
+                latitude: 60,
+                longitude: -95
+            },
+            show: true,
+            templateUrl: 'templates/info.html',
+            templateParameter: {
+                message: 'passed in from the opener'
+            }
+        };
+        
         // my location and map center
-        $scope.center = {
+        $scope.map.center = {
             latitude: 45,
             longitude: -73
         };
         
+        
+        
         // default map zoom level
-        $scope.zoom = 4;
+        $scope.map.zoom = 4;
         
         // get all vendors from API
         $scope.vendors = Vendor.getAll();
@@ -36,7 +68,7 @@ angular
             if (!$scope.geolocationAvailable) return false;
                 
             navigator.geolocation.getCurrentPosition(function (position) {
-                $scope.center = {
+                $scope.map.center = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
@@ -82,12 +114,13 @@ angular
         var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
-                $scope.center = {
+                console.log(data);
+                $scope.map.center = {
                     latitude: data.lat,
                     longitude: data.lng
                 };
                 
-                console.log($scope.center);
+                console.log($scope.map.center);
                 
                 $scope.$apply();
             }
@@ -116,18 +149,22 @@ angular
                 // if this doesn't match, we dont care how close the vendor is! 
                 if($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
                 
+                console.log(item);
+                
                 // check if distance is withing range
                 // @note that users can set "unlimited" distance
-                var distance = isMarkerWithinDistanceFromCenter($scope.center, item.geo, $scope.distanceFrom);
+                var distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
+                console.log(distance);
                 if ($scope.distanceFrom !== 'Any' && distance === false) return;
                 
                 
                 // we need to create the marker from the vendor
                 var newMarker = {
-                    latitude: item.geo.lat,
-                    longitude: item.geo.lng,
+                    latitude: item.geo.latitude,
+                    longitude: item.geo.longitude,
                     label: item.name,
                     logo: item.logo.original,
+                    businessAddress: item.businessAddress,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
                     name: item.name
                 };
@@ -148,8 +185,8 @@ angular
         */
         $scope.openMarker = function(lat, lng, item) {
             var data = {};
-            data.lat = lat;
-            data.lng = lng;
+            data.latitude = lat;
+            data.longitude = lng;
             
             item.isOpen = true;
             
@@ -161,15 +198,35 @@ angular
         $scope.$watch('$scope.vendors', filterMarkers, true);
                        
         
-        $scope.centerHasChanged = false;
+        $scope.map.centerHasChanged = false;
         
         // map events
         // @note enents on markers dont register here! 
-        $scope.mapEvents = {
-            click: function (mapModel, eventName, originalEventArgs) {    
+        $scope.map.events = {
+            click: function (mapModel, eventName, originalEventArgs) {
                 // 'this' is the directive's scope
-                console.log("user defined event on map directive with scope", this);
                 console.log("user defined event: " + eventName, mapModel, originalEventArgs);
+
+                closeAllWindows();
+
+                /*
+var e = originalEventArgs[0];
+
+                if (!$scope.map.clickedMarker) {
+                    $scope.map.clickedMarker = {
+                        latitude: e.latLng.lat(),
+                        longitude: e.latLng.lng()
+                    };
+                }
+                else {
+                    $scope.map.clickedMarker.latitude = e.latLng.lat();
+                    $scope.map.clickedMarker.longitude = e.latLng.lng();
+                }
+                
+                console.log($scope.map.clickedMarker);
+
+                $scope.$apply();
+*/
             },
             zoom_changed: function() {
                 //console.log('User is zooming map');
@@ -177,12 +234,12 @@ angular
             },
             drag: function() {
                 //console.log('User is dragging map');
-                $scope.centerHasChanged = true;
+                $scope.map.centerHasChanged = true;
             }
         };
         
         $scope.searchHere = function() {
-            $scope.centerHasChanged = false;  
+            $scope.map.centerHasChanged = false;  
             filterMarkers();
         };
         
@@ -193,15 +250,29 @@ angular
             
         }
         
-        
-        
-        
-       
-        
-        
-        
-        
-        
+        _.each($scope.markers,function(marker){
+            marker.closeClick = function(){                        
+                this.showWindow = false;
+                $scope.$apply();
+            };
+        });
+    
+        function closeAllWindows() {
+            _.each($scope.markers,function(marker){
+                marker.showWindow = false;
+                $scope.$apply();
+            }); 
+        }
+    
+        $scope.removeMarkers = function () {
+            $log.info("Clearing markers. They should disappear from the map now");
+            $scope.map.markers.length = 0;
+            $scope.map.clickedMarker = null;
+        };
+    
+        $timeout(function () {
+            $scope.map.infoWindow.show = true;
+        }, 2000);
         
         
         
@@ -215,7 +286,7 @@ angular
         // return distance or false if not within range
         // 
         function isMarkerWithinDistanceFromCenter(center, marker, distance) {
-            var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.lat, marker.lng); 
+            var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.latitude, marker.longitude); 
             return checkDsitance <= distance ? checkDsitance : false;
         }
         

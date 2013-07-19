@@ -81,10 +81,14 @@ angular
             
         };
        
-        // input to enter text based location, search buttons sets center from gelocation
+        // search by text
         $scope.searchText = '';
         
         $scope.searchByText = function() {
+            filterMarkers();      
+        };
+        $scope.clearText = function() {
+            $scope.searchText = '';
             filterMarkers();      
         };
         

@@ -42,10 +42,10 @@ angular
             }
         };
         
-        // my location and map center
+        // current setting: USA center
         $scope.map.center = {
-            latitude: 45,
-            longitude: -73
+            latitude: 40.4230,
+            longitude: -98.7372
         };
         
         // default map zoom level

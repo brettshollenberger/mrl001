@@ -157,16 +157,16 @@ angular
                 
                 // check if distance is withing range
                 // @note that users can set "unlimited" distance
-                var distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
+                item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
                 //console.log(distance);
-                if ($scope.distanceFrom !== 'Any' && distance === false) return;
-                
-                
+                if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
+                                
                 // we need to create the marker from the vendor
                 var newMarker = {
                     latitude: item.geo.latitude,
                     longitude: item.geo.longitude,
                     label: item.name,
+                    distance: item.geo.distance, // gets miles
                     logo: item.logo.original,
                     businessAddress: item.businessAddress,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
@@ -319,7 +319,7 @@ var e = originalEventArgs[0];
         
         //console.log('distance is: ' + d + 'km');
         
-        return d;
+        return d  * 0.62137; // convert to miles!
         }
         
         function deg2rad(deg) {

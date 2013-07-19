@@ -47,7 +47,7 @@
                 <tr ng-repeat="item in markers | orderBy:'distance'" ng-click="remoteOpenWindow(item)">
                     <td><img ng-src="{{item.logo}}" class="img-tiny"/></td>
                     <td>{{item.name}}<br/>
-                    <span ng-show="item.distance && locationSearch">{{item.distance | number:0}} miles away</span>
+                    <span ng-show="item.distance && hasLocation">{{item.distance | number:0}} miles away</span>
                     </td>
                 </tr>
             </table>
@@ -75,7 +75,7 @@
                     <p>{{m.businessAddress.address1}}<br/>
                     <p>{{m.businessAddress.address2}}</p>
                     <p>{{m.businessAddress.city}}, {{m.businessAddress.state}} {{m.businessAddress.zip}}</p>
-					<p ng-show="m.distance && locationSearch">{{m.distance| number:0}} miles away</p>
+					<p ng-show="m.distance && hasLocation">{{m.distance| number:0}} miles away</p>
 					<p><a target="_blank" ng-href="{{m.destAddress}}">Directions</a></p>
 					<!--
 <p>This is an info window at {{ m.latitude | number:4 }}, {{ m.longitude | number:4 }}!</p>

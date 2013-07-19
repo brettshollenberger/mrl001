@@ -15,6 +15,10 @@ angular
         // markers will be vendors that match out serarch! 
         $scope.markers = [];
         
+        // this will be set to true any time there is a specific location
+        // we can show distance from, ie: use has geolocated, or searched by text.
+        $scope.hasLocation = false;
+        
         $scope.map = {};
         
         $scope.map.clickedMarker = {
@@ -71,6 +75,8 @@ angular
                 };
                 // create latLng object, which we need for distanc comparisons
                 
+                $scope.hasLocation = true;
+                
                 $scope.$apply();
                 
                 filterMarkers(); // refilter the markers based on new location
@@ -121,6 +127,8 @@ angular
                     latitude: data.lat,
                     longitude: data.lng
                 };
+                
+                $scope.hasLocation = true;
                 
                 //console.log($scope.map.center);
                 filterMarkers();

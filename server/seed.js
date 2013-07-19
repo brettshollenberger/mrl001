@@ -3,8 +3,11 @@ console.log('SERVER : INIT : Seeder');
 // our master resources object
 var resources = {};
 
-resources.vendor = require('./seed_data/vendor').seed();
-resources.program = require('./seed_data/program').seed();
+resources.vendor        = require('./seed_data/vendor').seed();
+resources.program       = require('./seed_data/program').seed();
+resources.application   = require('./seed_data/application').seed();
+resources.quote         = require('./seed_data/quote').seed();
+resources.user          = require('./seed_data/user').seed();
 
 
 var insertResource = function(resource) {
@@ -19,9 +22,8 @@ var insertResource = function(resource) {
         collection.insert(resources[resource], {w:1}, function(err, result) {
            console.log('SEED : STATUS : Create ' + resource + ' Collection');
            console.log('SEED : STATUS : finished seeding ' + resource);
-           console.log('SEED : SUCCESS : Quitting process');
            console.log('------------------------------------------------------------');
-           process.exit(0);
+           //process.exit(0);
         });
         
         
@@ -42,6 +44,7 @@ db.open(function(err, db) {
         console.log('------------------------------------------------------------');
         console.log("Connected to 'marlindb' database");
         console.log("Seeding the Database");
+        console.log('------------------------------------------------------------');
         populateDB();
     } else {
         console.log(err);

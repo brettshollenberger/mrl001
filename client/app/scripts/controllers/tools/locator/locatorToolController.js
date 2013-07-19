@@ -48,8 +48,6 @@ angular
             longitude: -73
         };
         
-        
-        
         // default map zoom level
         $scope.map.zoom = 4;
         
@@ -63,7 +61,6 @@ angular
         // @todo we should add a marker here
         $scope.findMe = function () {
             
-            //console.log('User is attempting to geo locate!');
             
             if (!$scope.geolocationAvailable) return false;
                 
@@ -93,6 +90,7 @@ angular
         };
         
         
+        // distances in miles
         $scope.distanceOptions = [100,500,1000,2000,'Any'];
         
         // input to set distance from user for results
@@ -125,6 +123,7 @@ angular
                 };
                 
                 //console.log($scope.map.center);
+                filterMarkers();
                 
                 $scope.$apply();
             }
@@ -142,18 +141,18 @@ angular
         
             $scope.markers = [];
             
-            //console.log('Filtering markers...');
+            console.log('Filtering markers...');
             
             _.each($scope.vendors, function(item) {
                 
                 // check if vendor has geo data!
                 if(!item.geo) return;
                 
+                
                 // first check for text based search
                 // if this doesn't match, we dont care how close the vendor is! 
                 if($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
                 
-                //console.log(item);
                 
                 // check if distance is withing range
                 // @note that users can set "unlimited" distance
@@ -174,14 +173,10 @@ angular
                     destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress(item.businessAddress)
                 };
                 
-                ////console.log(newMarker);
-                
                 $scope.markers.push(newMarker);
             
             });
-            
-            //console.log($scope.markers);
-        
+
         }
         
         /**

@@ -3,7 +3,20 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.1.5  (current)
+Release 0.1.6 (current)
+--------
+This is a pre-release demoing 2 new features: 1) advanced rate sheet editing 2) dealer locator tool
+
+The following items are addressed: 
+- [FEATURE] - Added dealer locator end user tool. Users can search by location, distance, name, and use geolocation to find marlin vendors. 
+- [FEATURE] - Added admin dealer locator customize panel - the Marlin Super admin can now pin-point a vendor on a map. This information will show on the locator tool.
+- [FEATURE] [RATE SHEET] - Added advanced rate sheet edit controls, including ability to add rows and columns.
+- [FEATURE] [RATE SHEET] - Added equipment cost buckets to rate sheets. 
+- [FEATURE] [QUOTE TOOL] - Quotes now relect proper rate bucket. 
+- [BUG] - Fixed bug with rate service api call where missing rate sheets would cause an error.
+
+
+Release 0.1.5
 --------
 - [BUG IE8] - Fixed issue where changelog was broken.
 - [CHORE] - Fixed tests to work with changes made in version 0.1.3 -- 0.1.5 

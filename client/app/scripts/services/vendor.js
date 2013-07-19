@@ -24,8 +24,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
       "zip": "19107"
     },
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
     "programIds": [
@@ -210,8 +210,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
       ]
     },
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     }
   },
   {
@@ -236,8 +236,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
       "zip": ""
     },
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
     "programIds": [
@@ -296,8 +296,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
       "zip": ""
     },
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
     "programIds": [
@@ -478,8 +478,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
       ]
     },
     "geo": {
-      "lat": 33.9379091,
-      "lng": -81.0891279
+      "latitude": 33.9379091,
+      "longitude": -81.0891279
     }
   },
   {
@@ -504,8 +504,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "website": "http://www.absinc-sw.com/",
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     }
   },
   {
@@ -528,8 +528,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "id": 7,
     "salesRep": false,
     "geo": {
-      "lat": 35.5217431,
-      "lng": -118.90627940000002
+      "latitude": 35.5217431,
+      "longitude": -118.90627940000002
     }
   },
   {
@@ -553,8 +553,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "id": 8,
     "salesRep": false,
     "geo": {
-      "lat": 34.06269899999999,
-      "lng": -118.41526299999998
+      "latitude": 34.06269899999999,
+      "longitude": -118.41526299999998
     }
   },
   {
@@ -577,8 +577,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 39.6999073,
-      "lng": -104.9330448
+      "latitude": 39.6999073,
+      "longitude": -104.9330448
     }
   },
   {
@@ -601,8 +601,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 29.22700799999999,
-      "lng": -81.00835589999997
+      "latitude": 29.22700799999999,
+      "longitude": -81.00835589999997
     }
   },
   {
@@ -624,8 +624,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 34.0645391,
-      "lng": -84.32442960000003
+      "latitude": 34.0645391,
+      "longitude": -84.32442960000003
     }
   },
   {
@@ -648,8 +648,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 41.993029,
-      "lng": -87.81075609999999
+      "latitude": 41.993029,
+      "longitude": -87.81075609999999
     }
   },
   {
@@ -672,8 +672,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 39.8998074,
-      "lng": -86.23617439999998
+      "latitude": 39.8998074,
+      "longitude": -86.23617439999998
     }
   },
   {
@@ -696,8 +696,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 39.0533891,
-      "lng": -76.97582740000001
+      "latitude": 39.0533891,
+      "longitude": -76.97582740000001
     }
   },
   {
@@ -721,8 +721,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 35.1105564,
-      "lng": -80.71035319999999
+      "latitude": 35.1105564,
+      "longitude": -80.71035319999999
     }
   },
   {
@@ -745,8 +745,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 40.75368539999999,
-      "lng": -73.9991637
+      "latitude": 40.75368539999999,
+      "longitude": -73.9991637
     }
   },
   {
@@ -789,8 +789,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "website": "http://www.americantypewritertx.com/",
     "locatorEnabled": true,
     "geo": {
-      "lat": 29.5516834,
-      "lng": -98.49522280000002
+      "latitude": 29.5516834,
+      "longitude": -98.49522280000002
     }
   },
   {
@@ -850,8 +850,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 29.86738769999999,
-      "lng": -95.59323899999998
+      "latitude": 29.86738769999999,
+      "longitude": -95.59323899999998
     }
   },
   {
@@ -874,8 +874,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 36.0833352,
-      "lng": -115.09997529999998
+      "latitude": 36.0833352,
+      "longitude": -115.09997529999998
     }
   },
   {
@@ -896,8 +896,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 42.46345030000001,
-      "lng": -73.3001233
+      "latitude": 42.46345030000001,
+      "longitude": -73.3001233
     }
   },
   {
@@ -920,8 +920,8 @@ angular.module('app').factory('vendorService', ['$http', 'userService', function
     "salesRep": false,
     "locatorEnabled": true,
     "geo": {
-      "lat": 39.0870168,
-      "lng": -94.8002333
+      "latitude": 39.0870168,
+      "longitude": -94.8002333
     }
   }
 ];

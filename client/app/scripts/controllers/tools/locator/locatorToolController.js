@@ -63,7 +63,7 @@ angular
         // @todo we should add a marker here
         $scope.findMe = function () {
             
-            console.log('User is attempting to geo locate!');
+            //console.log('User is attempting to geo locate!');
             
             if (!$scope.geolocationAvailable) return false;
                 
@@ -106,7 +106,7 @@ angular
         
         // function that will geo locate, and then
         $scope.findMyLocation = function() {
-            console.log('User is searching by location:' + $scope.locationSearch);  
+            //console.log('User is searching by location:' + $scope.locationSearch);  
             googleMaps.geo($scope.locationSearch, 'locationSearch');
         };
         
@@ -114,20 +114,20 @@ angular
         var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
             // update center based on search 
             if(type && type === 'locationSearch') {
-                console.log(data);
+                //console.log(data);
                 $scope.map.center = {
                     latitude: data.lat,
                     longitude: data.lng
                 };
                 
-                console.log($scope.map.center);
+                //console.log($scope.map.center);
                 
                 $scope.$apply();
             }
         });
         
         $rootScope.$on('$routeChangeSuccess', function() {
-            console.log('removing google callback ');
+            //console.log('removing google callback ');
             listener1();
         });
         
@@ -138,7 +138,7 @@ angular
         
             $scope.markers = [];
             
-            console.log('Filtering markers...');
+            //console.log('Filtering markers...');
             
             _.each($scope.vendors, function(item) {
                 
@@ -149,12 +149,12 @@ angular
                 // if this doesn't match, we dont care how close the vendor is! 
                 if($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
                 
-                console.log(item);
+                //console.log(item);
                 
                 // check if distance is withing range
                 // @note that users can set "unlimited" distance
                 var distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
-                console.log(distance);
+                //console.log(distance);
                 if ($scope.distanceFrom !== 'Any' && distance === false) return;
                 
                 
@@ -166,16 +166,17 @@ angular
                     logo: item.logo.original,
                     businessAddress: item.businessAddress,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
-                    name: item.name
+                    name: item.name,
+                    destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress(item.businessAddress)
                 };
                 
-                //console.log(newMarker);
+                ////console.log(newMarker);
                 
                 $scope.markers.push(newMarker);
             
             });
             
-            console.log($scope.markers);
+            //console.log($scope.markers);
         
         }
         
@@ -183,15 +184,8 @@ angular
         * Opens a marker when a user click on it
         *
         */
-        $scope.openMarker = function(lat, lng, item) {
-            var data = {};
-            data.latitude = lat;
-            data.longitude = lng;
-            
-            item.isOpen = true;
-            
-            //$rootScope.$broadcast('request:maps:open-marker', data);
-            
+        $scope.remoteOpenWindow = function(item) {
+            item.showWindow = true;
         };
         
         // perform the initial filter when vendors are loaded
@@ -205,7 +199,7 @@ angular
         $scope.map.events = {
             click: function (mapModel, eventName, originalEventArgs) {
                 // 'this' is the directive's scope
-                console.log("user defined event: " + eventName, mapModel, originalEventArgs);
+                //console.log("user defined event: " + eventName, mapModel, originalEventArgs);
 
                 closeAllWindows();
 
@@ -223,17 +217,17 @@ var e = originalEventArgs[0];
                     $scope.map.clickedMarker.longitude = e.latLng.lng();
                 }
                 
-                console.log($scope.map.clickedMarker);
+                //console.log($scope.map.clickedMarker);
 
                 $scope.$apply();
 */
             },
             zoom_changed: function() {
-                //console.log('User is zooming map');
+                ////console.log('User is zooming map');
                 
             },
             drag: function() {
-                //console.log('User is dragging map');
+                ////console.log('User is dragging map');
                 $scope.map.centerHasChanged = true;
             }
         };
@@ -275,13 +269,22 @@ var e = originalEventArgs[0];
         }, 2000);
         
         
-        
-        
-        
-        
-        
-        
-        
+       
+       function genereateSingleLineAddress(businessAddress) {
+           
+           var address = _.filter(businessAddress, function(item) {
+               return item !== undefined && item !== "";
+           });
+           
+           var addr = '';
+           
+           _.each(address, function(item) {
+               addr += item + ' ';
+           });
+           
+           return addr;
+       } 
+
         // checks if marker is a distance from the center
         // return distance or false if not within range
         // 
@@ -310,7 +313,7 @@ var e = originalEventArgs[0];
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
         var d = R * c; // Distance in km
         
-        console.log('distance is: ' + d + 'km');
+        //console.log('distance is: ' + d + 'km');
         
         return d;
         }

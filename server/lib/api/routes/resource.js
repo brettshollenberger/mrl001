@@ -37,6 +37,27 @@ exports.error = function() {
 };
 
 /**
+* Create an entity
+*/
+exports.create = function() {
+
+    return function(req, res, next) {
+        var item = req.body;
+        console.log('Adding item: ' + JSON.stringify(item));
+        db.collection(req.params.resource, function(err, collection) {
+            collection.insert(item, {safe:true}, function(err, result) {
+                if (err) {
+                    res.send({'error':'An error has occurred'});
+                } else {
+                    console.log('Success: ' + JSON.stringify(result[0]));
+                    res.send(result[0]);
+                }
+            });
+        });
+    };
+};
+
+/**
 * Delete an entity
 */
 exports.delete = function() {
@@ -151,7 +172,7 @@ exports.setup = function(app, options) {
   //app.get(base + '/:resource/:id/:children', exports.getChildrenForResource());
   
   // Create a new entity
-  //app.post(base + '/:resource', exports.create(mongoose));
+  app.post(base + '/:resource', exports.create());
 
   // List the entities
   app.get(base + '/:resource', exports.list());

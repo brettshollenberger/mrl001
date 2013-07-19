@@ -1,6 +1,6 @@
 exports.seed = function() {
     return data;
-}
+};
 
 // dummy data
 var data = [{

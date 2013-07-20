@@ -3,7 +3,19 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.1.6 (current)
+Release 0.1.7 (current)
+--------
+- [FEATURE] [DEALER LOCATOR] - Show distance with dealer locator, order results by distance
+- [FEATURE] [DEALER LOCATOR] - Clicking on list opens their markers
+- [FEATURE] [DEALER LOCATOR] - Added address and link to directions to the marker info windows
+- [CHORE] [DEALER LOCATOR] - Update Google Maps library and cleaned up code 
+- [CHORE] [DEALER LOCATOR] - Overall UX enhancements to increase statbility  
+
+There are a few known bugs in this release. We are working hard to fix them for future releases.
+- Marker windows dont close when you open more than 1
+
+
+Release 0.1.6
 --------
 This is a pre-release demoing 2 new features: 1) advanced rate sheet editing 2) dealer locator tool
 

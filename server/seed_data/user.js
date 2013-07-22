@@ -6,8 +6,9 @@ exports.seed = function() {
 };
 
 // dummy data
-var data = [{
-	// 1
+var data = [
+{
+    // 1
     _id: new BSON.ObjectID('51e71518ed32080ffc000008'),
     name: {
         first: 'Brian',
@@ -26,7 +27,7 @@ var data = [{
     vendorIds: []
 },
 {
-	// 2
+    // 2
     _id: new BSON.ObjectID('51e71518ed32080ffc000009'),
     name: {
         first: 'Stu',
@@ -42,10 +43,12 @@ var data = [{
     },
     status: 'Active',
     groups: [2],
-    vendorIds: [5]
+    vendorIds: [
+        '51e71518ed32080ffc000027'
+    ]
 },
 {
-	// 3
+    // 3
     _id: new BSON.ObjectID('51e71518ed32080ffc000010'),
     name: {
         first: 'Joseph',
@@ -61,10 +64,12 @@ var data = [{
     password: 'jcampbell',
     status: 'Active',
     groups: [2],
-    vendorIds: [3]
+    vendorIds: [
+        '51e71518ed32080ffc000025'
+    ]
 },
 {
-	// 4
+    // 4
     _id: new BSON.ObjectID('51e71518ed32080ffc000011'),
     name: {
         first: 'Chris',
@@ -83,7 +88,7 @@ var data = [{
     vendorIds: []
 },
 {
-	// 5
+    // 5
     _id: new BSON.ObjectID('51e71518ed32080ffc000012'),
     name: {
         first: 'Brian',
@@ -102,7 +107,7 @@ var data = [{
     vendorIds: []
 },
 {
-	// 6
+    // 6
     _id: new BSON.ObjectID('51e71518ed32080ffc000013'),
     name: {
         first: 'Nicole',
@@ -121,7 +126,7 @@ var data = [{
     vendorIds: []
 },
 {
-	// 7
+    // 7
     _id: new BSON.ObjectID('51e71518ed32080ffc000014'),
     name: {
         first: 'Cherie',
@@ -140,7 +145,7 @@ var data = [{
     vendorIds: []
 },
 {
-	// 8
+    // 8
     _id: new BSON.ObjectID('51e71518ed32080ffc000015'),
     name: {
         first: 'Joseph',
@@ -156,10 +161,12 @@ var data = [{
     password: 'jfortune',
     status: 'Active',
     groups: [2],
-    vendorIds: [4]
+    vendorIds: [
+        '51e71518ed32080ffc000026'
+    ]
 },
 {
-	// 9
+    // 9
     _id: new BSON.ObjectID('51e71518ed32080ffc000016'),
     name: {
         first: 'Jennifer',
@@ -175,5 +182,9 @@ var data = [{
     password: 'jdelong',
     status: 'Active',
     groups: [2],
-    vendorIds: [1,2,3]
+    vendorIds: [
+        '51e71518ed32080ffc000023',
+        '51e71518ed32080ffc000024',
+        '51e71518ed32080ffc000025'
+    ]
 }];

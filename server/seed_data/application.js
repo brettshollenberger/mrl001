@@ -10,8 +10,8 @@ var data = [{
     _id: new BSON.ObjectID('51e71518ed32080ffc000021'),
     name: 'Application 1',
     status: 'Open',
-    quoteId: 2,
-    vendorId: 1,
+    quoteId: '51e71518ed32080ffc000018',
+    vendorId: '51e71518ed32080ffc000023',
     vendor: {},
     quote: {
        totalCost: 9900,
@@ -55,8 +55,8 @@ var data = [{
     _id: new BSON.ObjectID('51e71518ed32080ffc000022'),
     name: 'Application 2',
     status: 'Open',
-    quoteId: 2,
-    vendorId: 2,
+    quoteId: '51e71518ed32080ffc000018',
+    vendorId: '51e71518ed32080ffc000024',
     vendor: {},
     quote: {
        totalCost: 9900,

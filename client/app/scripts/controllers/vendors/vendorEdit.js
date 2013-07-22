@@ -28,7 +28,9 @@ angular
         $scope.vendor.state = $scope.states[0].abbreviation;
         
         // get all the reps
-        $scope.allReps = User.getAll();
+        User.getAll().then(function(response) {
+            $scope.allReps = response;
+        });
       
         // filepicker settings
         // @todo make a global service

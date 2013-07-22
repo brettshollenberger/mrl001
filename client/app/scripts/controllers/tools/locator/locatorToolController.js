@@ -22,7 +22,9 @@ angular
         $scope.zoom = 4;
         
         // get all vendors from API
-        $scope.vendors = Vendor.getAll();
+        Vendor.getAll().then(function(response) {
+            $scope.vendors = response;
+        });
         
         // check for geo location support
         $scope.geolocationAvailable = navigator.geolocation ? true : false;

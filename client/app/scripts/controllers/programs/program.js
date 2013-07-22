@@ -11,7 +11,9 @@ angular
         Auth.canUserDoAction('list-program');
         
         // Gets all the vendors
-        $scope.programs = Program.getAll();
+        Program.getAll().then(function(response) {
+            $scope.programs = response;
+        });
         
         // sends user to url based on item id
         $scope.editItem = function(itemId) {
@@ -21,7 +23,10 @@ angular
         // deletes an item and then gets the list again to reflect the deleted item.
         $scope.deleteItem = function(item) {
             Program.remove(item);
-            $scope.programs = Program.getAll();
+            Program.getAll().then(function(response) {
+                $scope.programs = response;
+            });
+            
         };
 
     }

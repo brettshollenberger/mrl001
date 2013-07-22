@@ -12,7 +12,9 @@ angular
         Auth.canUserDoAction('list-quote');
         
         // Gets all the vendors
-        $scope.quotes = Quote.getAll();
+        Quote.getAll().then(function(response) {
+            $scope.quotes = response;
+        });
         
         _.each($scope.quotes, function(item) {
             item.vendor = Vendor.getById(item.vendorId);
@@ -41,7 +43,9 @@ angular
         // deletes an item and then gets the list again to reflect the deleted item.
         $scope.deleteItem = function(item) {
             Quote.remove(item);
-            $scope.quotes = Quote.getAll();
+            Quote.getAll().then(function(response) {
+                $scope.quotes = response;
+            });
         };
 
     }

@@ -7,6 +7,7 @@ exports.seed = function() {
 
 // dummy data
 var data = [{
+	// 1
     _id: new BSON.ObjectID('51e71518ed32080ffc000008'),
     name: {
         first: 'Brian',
@@ -25,6 +26,7 @@ var data = [{
     vendorIds: []
 },
 {
+	// 2
     _id: new BSON.ObjectID('51e71518ed32080ffc000009'),
     name: {
         first: 'Stu',
@@ -43,6 +45,7 @@ var data = [{
     vendorIds: [5]
 },
 {
+	// 3
     _id: new BSON.ObjectID('51e71518ed32080ffc000010'),
     name: {
         first: 'Joseph',
@@ -61,6 +64,7 @@ var data = [{
     vendorIds: [3]
 },
 {
+	// 4
     _id: new BSON.ObjectID('51e71518ed32080ffc000011'),
     name: {
         first: 'Chris',
@@ -79,6 +83,7 @@ var data = [{
     vendorIds: []
 },
 {
+	// 5
     _id: new BSON.ObjectID('51e71518ed32080ffc000012'),
     name: {
         first: 'Brian',
@@ -97,6 +102,7 @@ var data = [{
     vendorIds: []
 },
 {
+	// 6
     _id: new BSON.ObjectID('51e71518ed32080ffc000013'),
     name: {
         first: 'Nicole',
@@ -115,6 +121,7 @@ var data = [{
     vendorIds: []
 },
 {
+	// 7
     _id: new BSON.ObjectID('51e71518ed32080ffc000014'),
     name: {
         first: 'Cherie',
@@ -133,6 +140,7 @@ var data = [{
     vendorIds: []
 },
 {
+	// 8
     _id: new BSON.ObjectID('51e71518ed32080ffc000015'),
     name: {
         first: 'Joseph',
@@ -151,6 +159,7 @@ var data = [{
     vendorIds: [4]
 },
 {
+	// 9
     _id: new BSON.ObjectID('51e71518ed32080ffc000016'),
     name: {
         first: 'Jennifer',

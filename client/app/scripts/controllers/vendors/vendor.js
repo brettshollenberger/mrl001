@@ -12,7 +12,9 @@ angular
         Auth.canUserDoAction('list-vendor');
         
         // Gets all the vendors
-        $scope.vendors = Vendor.getAll();
+        Vendor.getAll().then(function(response) {
+            $scope.vendors = response;
+        });
         
         _.each($scope.vendors, function(item) {
             item.salesRep = User.getOneWhereIn('vendorIds', item.id);
@@ -26,7 +28,9 @@ angular
         // deletes an item and then gets the list again to reflect the deleted item.
         $scope.deleteItem = function(item) {
             Vendor.remove(item);
-            $scope.vendors = Vendor.getAll();
+            Vendor.getAll().then(function(response) {
+                $scope.vendors = response;
+            }); 
         };
         
         $scope.viewCalculator = function(itemId) {

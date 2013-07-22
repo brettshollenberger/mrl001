@@ -1,11 +1,15 @@
-angular.module('app').factory('quoteService', ['$http', function($http) {
+angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG', function($http, MARLINAPI_CONFIG) {
+        
+    var url = MARLINAPI_CONFIG.base_url;
         
     // create and expose service methods
     var exports = {};
     
     // get all items
     exports.getAll = function() {
-        return itemList;
+        return $http.get(url + 'quote').then(function (response) {
+            return response.data;
+        });
     };
     
     // get one item by id

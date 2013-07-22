@@ -143,13 +143,13 @@ exports.list = function() {
 */
 exports.show = function() {
   
-    //console.log('SHOW BY ID');
+    console.log('SHOW BY ID');
   
     return function(req, res, next) {
     
         var id = req.params.id;
         
-        //console.log('LIST ' + req.params.resource + ' BY ID ' + id);
+        console.log('LIST ' + req.params.resource + ' BY ID ' + id);
         
         db.collection(req.params.resource, function(err, collection) {
             collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
@@ -200,7 +200,7 @@ exports.setup = function(app, options) {
   
   options = options || {};
   
-  var base = options.path || '/api';
+  var base = options.path || '/api/v1';
   
   // Setup specific resources
   vendor.setup(app, options);

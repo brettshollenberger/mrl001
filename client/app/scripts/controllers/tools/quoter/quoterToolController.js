@@ -83,7 +83,10 @@ angular
         } else {
             $scope.quote.status = 'Open';
             // get the vendors
-            $scope.vendors = Vendor.getAll();
+            Vendor.getAll().then(function(response) {
+                $scope.vendors = response;
+            });
+            
             $scope.quote.vendorId = $scope.vendors[0].id;
             
             if($rootScope.previewQuote === true) $rootScope.previewQuote = false;

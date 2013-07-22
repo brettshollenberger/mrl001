@@ -2,7 +2,9 @@ angular
   .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
   
   }])
-    
+  .constant('MARLINAPI_CONFIG', {
+    base_url: 'http://localhost:3000/api/v1/'
+  })  
   .config(['$routeProvider', function($router) {
         
     $router

@@ -27,37 +27,31 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         }); 
     };
     
-    // update one item by id
-    // @todo check for updating the id!
-    exports.updateById = function(id, newData) {
-        var theId = _.findIndex(itemList, function(item) {
-            return item.id == id;
-        });
-        theList = _.extend(itemList[theId], newData);
-        return theList;
-    };
-    
     // update one item by item 
     // @note we figure out id from item
-    exports.update = function(newItem) {
-        var theIndex = _.findIndex(itemList, function(item) {
-            return item.id == newItem.id;
+    exports.update = function(newItem) {        
+        //console.log('Vendor: Update Vendor');
+        var id = newItem._id;
+        newItem = _.omit(newItem, '_id');
+        return $http.put(url + 'vendor/' + id, newItem).then(function (response) {
+            //console.log(response.data);
+            return response.data;
         });
-        theList = _.extend(itemList[theIndex], newItem);
-        return theList;
     };
     
     // add a new item
     exports.add = function(item) {
-        item.id = itemList.length + 1;
-        itemList.push(item);
-        return item;
+        //console.log('Vendor: Add Vendor');
+        return $http.post(url + 'vendor', item).then(function (response) {
+            return response.data;
+        });        
     };
     
     // remove item by item
     exports.remove = function(item) {
-        itemList.splice(itemList.indexOf(item), 1);
-        return item;
+        return $http.delete(url + 'vendor/' + item._id).then(function (response) {
+            return response.data;
+        }); 
     };
     
     /**

@@ -125,9 +125,12 @@ angular
             if(!vendorId) {
                 
                 // create new item
-                $scope.vendor = Vendor.add($scope.vendor);
-                vendorId = $scope.vendor._id;
-                console.log('Adding a new vendor');
+                Vendor.add($scope.vendor).then(function(response) {
+                    //console.log('VendorEdit Add Vendor');
+                    //console.log(response);
+                    $scope.vendor = response;
+                    vendorId = $scope.vendor._id;
+                });
                 
             } else {
                 
@@ -135,18 +138,13 @@ angular
                 
                 console.log('Updating vendor # ' + vendorId);
             
-                // update existing item 
-                //Vendor.updateById($scope.vendor._id, $scope.vendor);
+                // update existing item
                 Vendor.update($scope.vendor);
-                
             }
 
             if(doRedirect) {
                 $location.url('/dashboard/vendors'); 
             }
-
-            
-            
         };
 
         $scope.addProgram = function(program) {

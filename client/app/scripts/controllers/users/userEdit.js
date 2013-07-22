@@ -52,14 +52,15 @@ angular
         // get and store the user 
         if(userId) {
             // get the user
-            $scope.user = User.getById(userId);
-            console.log($scope.user);
+            User.getById(userId).then(function(response){
+                $scope.user = response;
+                
+                // get vendors for this user
+                // @todo this will now save when we udate the vendors, so we need to fix this! 
+                $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);                
+            });
+            //console.log($scope.user);
             $scope.formAction = 'Update';
-            
-            // get vendors for this user
-            // @todo this will now save when we udate the vendors, so we need to fix this! 
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            
         }
     
         // activated when user clicks the save button

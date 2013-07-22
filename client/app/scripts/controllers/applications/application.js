@@ -17,11 +17,13 @@ angular
         // Gets all the Applications
         Application.getAll().then(function(response) {
             $scope.applications = response;
-        });
-        
-        // For Each Application Attach a Vendor
-        _.each($scope.applications, function(item) {
-            item.vendor = Vendor.getById(item.vendorId);
+            
+            // For Each Application Attach a Vendor
+            _.each($scope.applications, function(item) {
+                Vendor.getById(item.vendorId).then(function(response){
+                   item.vendor = response;
+                });
+            });
         });
         
         // sends user to url based on item id

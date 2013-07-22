@@ -14,13 +14,13 @@ angular
         // Gets all the vendors
         Quote.getAll().then(function(response) {
             $scope.quotes = response;
+            _.each($scope.quotes, function(item) {
+                Vendor.getById(item.vendorId).then(function(response){
+                    item.vendor = response;
+                });
+            });
         });
-        
-        _.each($scope.quotes, function(item) {
-            item.vendor = Vendor.getById(item.vendorId);
-        });
-        
-        
+                
 /*
         
         $scope.vendor = Vendor.getById(1);

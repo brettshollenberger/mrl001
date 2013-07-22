@@ -33,8 +33,11 @@ angular
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            $scope.quote = Quote.getById(quoteId);
-            if(!$scope.quote) $location.path('/dashboard/quotes');
+            Quote.getById(quoteId).then(function(response){
+                $scope.quote = response;
+                if(!$scope.quote) $location.path('/dashboard/quotes');
+            });
+            
             $scope.formAction = 'Update';
         } else {
             $scope.quote.status = 'Open';

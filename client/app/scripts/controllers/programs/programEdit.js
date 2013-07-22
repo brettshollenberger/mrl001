@@ -45,11 +45,13 @@ angular
         // get and store the program 
         if(programId) {
             // get the program
-            $scope.program = Program.getById(programId);
+            Program.getById(programId).then(function(response){
+               $scope.program = response;
+               $scope.termLength = $scope.program.rateSheet.termLength;
+            });
+            
             //console.log($scope.program);
             $scope.formAction = 'Update';
-            
-            $scope.termLength = $scope.program.rateSheet.termLength;
         }
     
         // activated when user clicks the save button

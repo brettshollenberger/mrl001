@@ -24,13 +24,15 @@ angular
         
         // support getting a vendor ID from the URL, so user doesn't 
         $scope.vendor_id = $routeParams.vendor_id;
-        $scope.vendor = Vendor.getById($scope.vendor_id);
-        
-        // not a valid vendor id
-        if($scope.vendor_id && !$scope.vendor) {
-            $location.url('tools/quoter');
-            $location.search('vendor_id', null);
-        }
+
+        Vendor.getById($scope.vendor_id).then(function(response){
+            $scope.vendor = response;
+            // not a valid vendor id
+            if($scope.vendor_id && !$scope.vendor) {
+                $location.url('tools/quoter');
+                $location.search('vendor_id', null);
+            }
+        });
         
         // assign to the quote
         $scope.quote.vendorId = $scope.vendor_id; 
@@ -55,30 +57,31 @@ angular
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            $scope.quote = Quote.getById(quoteId);
-            if(!$scope.quote) $location.path('/tools/quoter');
+            Vendor.getById(quoteId).then(function(response){
+                $scope.quote = response;
+                if(!$scope.quote) $location.path('/tools/quoter');
+                $scope.quoteCost = $scope.quote.totalCost;
+                
+                // get the vendor
+                Vendor.getById($scope.quote.vendorId).then(function(response){
+                    $scope.vendor = response;
+                    
+                    // ensures that custom displayNames appear if set
+                    _.merge($scope.quote.programs, $scope.vendor.programs);
+                });
+            });
+            
             $scope.didQuote = true; 
             $scope.buttonText = 'Re-calculate Quote';
-            
-            $scope.quoteCost = $scope.quote.totalCost;
-            
             $scope.permalink = $location.absUrl();
             
             if($rootScope.previewQuote !== true) $scope.canEdit = false;
             
-            // get the vendor
-            $scope.vendor = Vendor.getById($scope.quote.vendorId);
-            
-            // get programs from VendorID
-                       
+            // get programs from VendorID    
             
             filterQuotesByTotalCost();
             
             //console.log($scope.vendor);
-            
-            // ensures that custom displayNames appear if set
-            _.merge($scope.quote.programs, $scope.vendor.programs);
-            
             
         } else {
             $scope.quote.status = 'Open';

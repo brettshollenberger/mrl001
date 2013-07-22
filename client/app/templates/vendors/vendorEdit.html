@@ -6,7 +6,7 @@
                 <div class="span10">
                     <h2>New Vendor</h2>
                     <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
                     
                     <div class="actions">
@@ -24,7 +24,7 @@
                     
                     <label>Vendor Name</label>
                     <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
-                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id"> -->
+                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                     
                     <label>Website</label>
                     <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
@@ -90,7 +90,7 @@
                         
                         <label>Add sales rep by searching by name</label>
                         <div class="input-append">
-                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                             <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
                             <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" />
                         </div>
@@ -101,7 +101,7 @@
                                 <p>
                                     <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                                     {{item.fullname}}
-                                    <button class="pull-right btn" ng-click="addSalesRep(item.id)">
+                                    <button class="pull-right btn" ng-click="addSalesRep(item._id)">
                                         <i class="icon-plus"></i>
                                     </button>
                                 </p>
@@ -117,7 +117,7 @@
                 
             <div class="row" ng-show="isActiveTab(2)">    
 
-                <div class="span5" ng-hide="!vendor.id">
+                <div class="span5" ng-hide="!vendor._id">
                     <h3>Vendor Lease Programs</h3>
                     <ul id="vendorPrograms" class="unstyled">
                         <li ng-repeat="item in vendorPrograms">
@@ -134,7 +134,7 @@
                     <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
                       
                 </div>
-                <div class="span5" ng-hide="!vendor.id">
+                <div class="span5" ng-hide="!vendor._id">
                     <h3>All Available Lease Programs</h3>
                     <ul id="allPrograms" class="unstyled">
                         <li ng-repeat="item in programs">

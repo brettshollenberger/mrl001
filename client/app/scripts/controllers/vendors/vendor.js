@@ -14,10 +14,9 @@ angular
         // Gets all the vendors
         Vendor.getAll().then(function(response) {
             $scope.vendors = response;
-        });
-        
-        _.each($scope.vendors, function(item) {
-            item.salesRep = User.getOneWhereIn('vendorIds', item.id);
+            _.each($scope.vendors, function(item) {
+                item.salesRep = User.getOneWhereIn('vendorIds', item._id);
+            });
         });
         
         // sends user to url based on item id

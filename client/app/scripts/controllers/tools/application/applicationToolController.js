@@ -31,15 +31,17 @@ angular
         if(applicationId) {
             
             // get the quote
-            $scope.application = Application.getById(applicationId);
-            if(!$scope.application) $location.path('/tools/quoter');
+            Application.getById(applicationId).then(function(response){
+                $scope.application = response;
+                if(!$scope.application) $location.path('/tools/quoter');
+            });
             
             console.log($scope.application);
-
         }
-        
-        $scope.vendor = Vendor.getById($scope.application.vendorId);
-        
+
+        Vendor.getById($scope.application.vendorId).then(function(response){
+            $scope.vendor = response;
+        });
         
         $scope.saveApplication = function() {
             Application.update($scope.application);

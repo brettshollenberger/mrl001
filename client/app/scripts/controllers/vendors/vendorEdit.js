@@ -93,12 +93,15 @@ angular
         if(vendorId) {
                 
             // get the vendor
-            $scope.vendor = Vendor.getById(vendorId);
-            $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
-            
-            if($scope.vendor.locatorEnabled) {
-                $scope.tabs.push('Locator Tool');
-            }
+            Vendor.getById(vendorId).then(function(response){
+                $scope.vendor = response;
+                
+                $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
+                
+                if($scope.vendor.locatorEnabled) {
+                    $scope.tabs.push('Locator Tool');
+                }
+            });
             
             $scope.formAction = 'Update';
         }
@@ -123,7 +126,7 @@ angular
                 
                 // create new item
                 $scope.vendor = Vendor.add($scope.vendor);
-                vendorId = $scope.vendor.id;
+                vendorId = $scope.vendor._id;
                 console.log('Adding a new vendor');
                 
             } else {
@@ -133,7 +136,7 @@ angular
                 console.log('Updating vendor # ' + vendorId);
             
                 // update existing item 
-                //Vendor.updateById($scope.vendor.id, $scope.vendor);
+                //Vendor.updateById($scope.vendor._id, $scope.vendor);
                 Vendor.update($scope.vendor);
                 
             }
@@ -149,7 +152,7 @@ angular
         $scope.addProgram = function(program) {
             
             // add program thorugh api service 
-            $scope.vendor.programIds = Vendor.addProgramToVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programIds = Vendor.addProgramToVendor(program._id, $scope.vendor._id);
             
             // update programs
             updatePrograms();
@@ -162,7 +165,7 @@ angular
             delete program.displayName;
             
             // save to the vendorService
-            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program._id, $scope.vendor._id);
             
             // update programs
             updatePrograms();
@@ -189,12 +192,16 @@ angular
         $scope.addSalesRep = function(id) {
             
             $scope.salesRepId = '';
-            $scope.vendor.salesRep = User.getById(id);
-            User.addVendorToSalesRep($scope.vendor.id, id);
+            
+            User.getById(id).then(function(response){
+                $scope.vendor.salesRep = response;
+            });
+            
+            User.addVendorToSalesRep($scope.vendor._id, id);
             /*
-$scope.vendor.salesRep = User.getById($scope.salesRepId);
-            User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
-*/
+            $scope.vendor.salesRep = User.getById($scope.salesRepId);
+            User.addVendorToSalesRep($scope.vendor._id, $scope.salesRepId);
+            */
             
             //$scope.vendor.salesRep = 
              
@@ -202,7 +209,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         
         
         $scope.removeSalesRep = function(id) {
-            User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
+            User.removeVendorFromSalesRep($scope.vendor._id, $scope.vendor.salesRep.id);  
             $scope.vendor.salesRep = '';
         };
         
@@ -224,8 +231,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         $scope.changeTab = function(tab) {
             
             // @todo, this will need to be more generic if we make into a directive. 
-            if(!$scope.vendor.id) return false;
-            
+            if(!$scope.vendor._id) return false;
+
             $scope.activeTab = tab;
         };
         
@@ -311,7 +318,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                     longitude: data.lng
                 };
                 
-                console.log('vendor id is: ' + $scope.vendor.id);
+                console.log('vendor id is: ' + $scope.vendor._id);
                 
                 $scope.vendor.geo = {
                     lat: data.lat,

@@ -91,10 +91,7 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
-            
-            // make sure we have an integer, as User.getOneWhereIn gets picky with this :)
-            vendorId = parseInt(vendorId, 10);
-        
+                
             // get the vendor
             $scope.vendor = Vendor.getById(vendorId);
             $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);

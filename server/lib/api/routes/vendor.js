@@ -5,11 +5,7 @@
 exports.setup = function(app, options) {
     
     // @todo set theis in one place, setting in each resource will get messy
-    var base = options.path || '/api';
-    
-    // resource routes
-    app.get(base + '/vendor/:id/programs', exports.getVendorProgramById());
-    
+    var base = options.path || '/api/v1';   
 };
 
 

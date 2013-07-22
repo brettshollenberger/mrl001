@@ -2,6 +2,12 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
       
     var url = MARLINAPI_CONFIG.base_url;
     
+    // get itemList for old functions
+    var itemList = '';
+    $http.get(url + 'vendor').then(function (response) {
+        itemList = response.data;
+    });
+    
 	//initLocalStore();
     
     // create and expose service methods

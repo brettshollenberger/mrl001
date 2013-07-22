@@ -1,4 +1,12 @@
-angular.module('app').factory('programService', ['$http', function($http) {
+angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', function($http, MARLINAPI_CONFIG) {
+       
+    var url = MARLINAPI_CONFIG.base_url;
+    
+    // get itemList for old functions
+    var itemList = '';
+    $http.get(url + 'user').then(function (response) {
+        itemList = response.data;
+    });
         
     // create and expose service methods
     var exports = {};

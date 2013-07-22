@@ -2,6 +2,12 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     
     var url = MARLINAPI_CONFIG.base_url;
     
+    // get itemList for old functions
+    var itemList = '';
+    $http.get(url + 'user').then(function (response) {
+        itemList = response.data;
+    });
+    
     // create and expose service methods
     var exports = {};
     
@@ -63,10 +69,11 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     };
     
     exports.getOneWhereIn = function(key, value) {
+        
         var theItem = _.find(itemList, function(item) {
             return _.contains(item[key], value);
         });
-        return theItem ? theItem : false;   
+        return theItem ? theItem : false; 
     };
     
     /**

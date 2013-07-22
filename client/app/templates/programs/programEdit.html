@@ -13,7 +13,7 @@
                 
                 <div class="actions">
                      <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                     <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+                     <a class="btn btn-primary" id="save" ng-disabled="formBuyoutOptions.$invalid" ng-click="save()">Save</a>
                 </div>
             
             </div>
@@ -60,7 +60,7 @@
                 <label>Cost Range Max</label> 
                 <input type="text" class="input-small" ng-model="program.rateSheet.range.max"/>
 -->
-                
+                <form name="formBuyoutOptions" novalidate>
                 
                 <div ng-repeat="buyoutOptions in program.rateSheet.buyoutOptions" ng-init="buyoutIndex = $index">
                     <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
@@ -95,6 +95,8 @@
                     </table>
                     
                 </div>
+                
+                </form>
                 
                 <form class="newOption form-inline" name="newOptionForm">
                     <h3>New Option</h3>

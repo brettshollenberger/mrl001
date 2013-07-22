@@ -215,7 +215,7 @@ angular
                     }
                 }
                 
-                if(theCharacter.search(/\0/)===-1 && theCharacter.search(/\./)===-1 && ele.val().split(".").length === 1) {
+                if(theCharacter.indexOf('0')===1 && theCharacter.search(/\./)===-1 && ele.val().split(".").length === 1) {
                     console.log('User is trying to enter a non-decimal number');
                     e.preventDefault();
                 }

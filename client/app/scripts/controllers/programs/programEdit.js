@@ -11,6 +11,8 @@ angular
        
         Auth.canUserDoAction('edit-program');
        
+        $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
+       
         // empty program object
         $scope.program = {};
         var program = {};

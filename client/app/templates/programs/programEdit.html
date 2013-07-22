@@ -50,8 +50,8 @@
          
             <div class="span10">
             
-                <label>Term Period</label>
-                <input type="text" class="input-small" ng-model="program.rateSheet.termPeriod"/>
+                <label>Term Length</label>
+                <select ng-options="option for option in termPeriodOptions" type="text" class="input-small" ng-model="program.rateSheet.termPeriod"></select>
                 <!--
   
                 <label>Cost Range Min</label>   

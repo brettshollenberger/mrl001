@@ -183,7 +183,8 @@ angular
                 console.log('new cost'); 
             });
             
-            //console.log($scope.program.rateSheet.buyoutOptions);
+            // needed when creating new rate sheet. 
+            if(!$scope.program.rateSheet) $scope.program.rateSheet = {buyoutOptions: []};
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
             

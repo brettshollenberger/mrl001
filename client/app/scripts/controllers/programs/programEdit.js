@@ -62,7 +62,9 @@ angular
             if(!programId) {
                 
                 // create new item
-                Program.add($scope.program);
+                Program.add($scope.program).then(function(response) {
+
+                });
                 
             } else {
                 // update existing item

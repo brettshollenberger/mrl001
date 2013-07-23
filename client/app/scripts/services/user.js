@@ -53,7 +53,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     // --------
       
     exports.getOneBy = function(key, value) {
-        console.log(itemList);
+        //console.log(itemList);
         var theItem = _.find(itemList, function(item) {
             return item[key] == value;
         });

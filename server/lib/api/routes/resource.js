@@ -147,6 +147,8 @@ exports.show = function() {
   
     return function(req, res, next) {
     
+        //console.log(req.params);
+    
         var id = req.params.id;
         
         console.log('LIST ' + req.params.resource + ' BY ID ' + id);

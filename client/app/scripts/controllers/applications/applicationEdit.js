@@ -59,7 +59,9 @@ angular
             if(!applicationId) {
                 
                 // create new item
-                Application.add($scope.application);
+                Application.add($scope.application).then(function(response) {
+                
+                });
                 
             } else {
                 // update existing item

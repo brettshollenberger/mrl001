@@ -25,14 +25,17 @@ angular
         // support getting a vendor ID from the URL, so user doesn't 
         $scope.vendor_id = $routeParams.vendor_id;
 
-        Vendor.getById($scope.vendor_id).then(function(response){
-            $scope.vendor = response;
-            // not a valid vendor id
-            if($scope.vendor_id && !$scope.vendor) {
-                $location.url('tools/quoter');
-                $location.search('vendor_id', null);
-            }
-        });
+        if($scope.vendor_id) {
+
+            Vendor.getById($scope.vendor_id).then(function(response){
+                $scope.vendor = response;
+                // not a valid vendor id
+                if(!$scope.vendor) {
+                    $location.url('tools/quoter');
+                    $location.search('vendor_id', null);
+                }
+            });
+        }
         
         // assign to the quote
         $scope.quote.vendorId = $scope.vendor_id; 
@@ -121,33 +124,27 @@ angular
                     
                 });    
             });
-            
-
         }
-        
         
                         
         $scope.generateQuote = function() {
             
             $scope.quote.totalCost = $scope.quoteCost;
             
-            
             if(!quoteId) {
                 
                 $rootScope.previewQuote = true;
                 
                 // create new item
-                var newQuote = Quote.add($scope.quote);
-                $location.url('/tools/quoter/' + newQuote._id );
-                
+                Quote.add($scope.quote).then(function(response) {
+                    var newQuote = response;
+                    console.log(newQuote);
+                    $location.url('/tools/quoter/' + newQuote._id);
+                });
             } else {
-                
                 filterQuotesByTotalCost();
-                
-                
                 Quote.update($scope.quote);
             }
-            
         };
         
         $scope.getTermLength = function(item) {
@@ -182,14 +179,11 @@ angular
             $rootScope.fromQuote = true;
             
             // create new item
-            var newApplication = Application.add(application);
-            $location.url('/tools/application/' + newApplication._id );
-            
-            
+            Application.add(application).then(function(response) {
+                var newApplication = response;
+                $location.url('/tools/application/' + newApplication._id );
+            });
         };
-        
-        
-        
     }
   ])
 ;

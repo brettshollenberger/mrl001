@@ -53,13 +53,13 @@ describe('Tools: Quoter Tool', function() {
             expect(element('#vendorName').count()).toBe(1);
             select('quote.vendorId').option(0);
             element('#generateQuote').click();
-            expect(repeater('table').count()).toBe(3);
+            expect(repeater('table').count()).toBe(2);
             
             // select vendor 2, has 2 programs
             browser().navigateTo('/tools/quoter');
             select('quote.vendorId').option(1);
             element('#generateQuote').click();
-            expect(repeater('table ').count()).toBe(3);
+            expect(repeater('table ').count()).toBe(2);
             
         });
                      

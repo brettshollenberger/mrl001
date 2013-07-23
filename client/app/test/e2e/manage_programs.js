@@ -12,7 +12,7 @@ describe('Program management', function() {
         // check for table and button, other form elements
         it('Should list current programs in a table', function() {
             browser().navigateTo('/dashboard/programs');
-            expect(repeater('tbody tr').count()).toBeGreaterThan(1);
+            expect(repeater('tbody tr').count()).toBeGreaterThan(0);
         });
         
         it('Should have a button for users to click to add a new program', function() {
@@ -20,11 +20,13 @@ describe('Program management', function() {
         });
         
         it('Should have a form for users to search programs', function() {
-            expect(repeater('tbody tr').count()).toBe(4);
-            input('searchTerm').enter('48 month');
-            expect(repeater('tbody tr').count()).toBe(1);
-            input('searchTerm').enter('The Only Program that doesnt exist');
+            expect(repeater('tbody tr').count()).toBeGreaterThan(0);
+            input('searchTerm').enter('48 monthsssssssssss');
             expect(repeater('tbody tr').count()).toBe(0);
+            /*
+input('searchTerm').enter('The Only Program that doesnt exist');
+            expect(repeater('tbody tr').count()).toBe(0);
+*/
             input('searchTerm').enter('');
         });
         
@@ -117,9 +119,9 @@ describe('Program management', function() {
         
         it('Clicking delete should remove the program', function() {
             browser().navigateTo('/dashboard/programs');
-            expect(repeater('tbody tr').count()).toBe(4);
+            var beforeCount = repeater('tbody tr').count();
             element('.delete:first').click();
-            expect(repeater('tbody tr').count()).toBe(3);
+            expect(repeater('tbody tr').count()).toBeOneLessThan(beforeCount);
         });
         
     });

@@ -25,14 +25,17 @@ angular
         // support getting a vendor ID from the URL, so user doesn't 
         $scope.vendor_id = $routeParams.vendor_id;
 
-        Vendor.getById($scope.vendor_id).then(function(response){
-            $scope.vendor = response;
-            // not a valid vendor id
-            if($scope.vendor_id && !$scope.vendor) {
-                $location.url('tools/quoter');
-                $location.search('vendor_id', null);
-            }
-        });
+        if($scope.vendor_id) {
+            Vendor.getById($scope.vendor_id).then(function(response){
+                $scope.vendor = response;
+                // not a valid vendor id
+                if(!$scope.vendor) {
+                    $location.url('tools/quoter');
+                    $location.search('vendor_id', null);
+                }
+            });  
+        }
+        
         
         // assign to the quote
         $scope.quote.vendorId = $scope.vendor_id; 
@@ -54,17 +57,23 @@ angular
         // get quote ID for edit pages
         var quoteId = $routeParams.id;
         
+        console.log('QuoteID is ' + quoteId);
+        
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            Vendor.getById(quoteId).then(function(response){
+            Quote.getById(quoteId).then(function(response){
                 $scope.quote = response;
+                console.log($scope.quote);
                 if(!$scope.quote) $location.path('/tools/quoter');
+                
                 $scope.quoteCost = $scope.quote.totalCost;
                 
                 // get the vendor
                 Vendor.getById($scope.quote.vendorId).then(function(response){
                     $scope.vendor = response;
+                    
+                    filterQuotesByTotalCost();
                     
                     // ensures that custom displayNames appear if set
                     _.merge($scope.quote.programs, $scope.vendor.programs);
@@ -79,7 +88,7 @@ angular
             
             // get programs from VendorID    
             
-            filterQuotesByTotalCost();
+            
             
             //console.log($scope.vendor);
             
@@ -137,15 +146,21 @@ angular
                 $rootScope.previewQuote = true;
                 
                 // create new item
-                var newQuote = Quote.add($scope.quote);
-                $location.url('/tools/quoter/' + newQuote._id );
+                Quote.add($scope.quote).then(function(response) {
+                    var newQuote = response;
+                    console.log(newQuote);
+                    $location.url('/tools/quoter/' + newQuote._id );
+                });
+                
                 
             } else {
                 
                 filterQuotesByTotalCost();
                 
+                Quote.update($scope.quote).then(function(response) {
+                    console.log('Updated quote successfully...'); 
+                });
                 
-                Quote.update($scope.quote);
             }
             
         };
@@ -182,8 +197,13 @@ angular
             $rootScope.fromQuote = true;
             
             // create new item
-            var newApplication = Application.add(application);
-            $location.url('/tools/application/' + newApplication._id );
+            Application.add(application).then(function(response) {
+            
+                var newApplication = response;
+                
+                $location.url('/tools/application/' + newApplication._id ); 
+            });
+            
             
             
         };

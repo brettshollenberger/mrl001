@@ -21,7 +21,7 @@ describe('Relating Users to vendors', function() {
     describe('Managing relationships from the Vendor Edit page', function() {
         
         it('Should show the marlin rep on the vendor page', function() {
-            browser().navigateTo('/dashboard/vendors/1'); 
+            browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023'); 
             expect(element('.salesRepName').text()).toEqual('Jennifer DeLong'); 
         });
         

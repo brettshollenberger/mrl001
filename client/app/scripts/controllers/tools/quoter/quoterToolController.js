@@ -27,7 +27,7 @@ angular
 
         if($scope.vendor_id) {
             Vendor.getById($scope.vendor_id).then(function(response){
-                $scope.vendor = response;
+                $scope.vendor = !response.error ? response : false;
                 // not a valid vendor id
                 if(!$scope.vendor) {
                     $location.url('tools/quoter');
@@ -63,9 +63,10 @@ angular
         if(quoteId) {
             // get the quote
             Quote.getById(quoteId).then(function(response){
+                
                 $scope.quote = response;
+                
                 console.log($scope.quote);
-                if(!$scope.quote) $location.path('/tools/quoter');
                 
                 $scope.quoteCost = $scope.quote.totalCost;
                 
@@ -78,6 +79,8 @@ angular
                     // ensures that custom displayNames appear if set
                     _.merge($scope.quote.programs, $scope.vendor.programs);
                 });
+            }, function(error) {
+                $location.path('/tools/quoter');
             });
             
             $scope.didQuote = true; 

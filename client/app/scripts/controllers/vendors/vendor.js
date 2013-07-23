@@ -12,7 +12,7 @@ angular
         Auth.canUserDoAction('list-vendor');
         
         // Gets all the vendors
-        Vendor.getAll().then(function(response) {
+        $scope.vendors = Vendor.getAll().then(function(response) {
             $scope.vendors = response;
             _.each($scope.vendors, function(item) {
                 item.salesRep = User.getOneWhereIn('vendorIds', item._id);

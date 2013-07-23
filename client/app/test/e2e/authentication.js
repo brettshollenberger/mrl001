@@ -22,7 +22,7 @@ describe('Authentication', function() {
             expect(browser().location().url()).toEqual('/login');
             browser().navigateTo('/dashboard/vendors/new');
             expect(browser().location().url()).toEqual('/login');
-            browser().navigateTo('/dashboard/vendors/1');
+            browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023');
             expect(browser().location().url()).toEqual('/login');
         });
         

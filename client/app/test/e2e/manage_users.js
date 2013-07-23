@@ -73,7 +73,7 @@ it('Should have one additional user in the table', function() {
         
         it('Clicking edit should take user to edit user form', function() {
             element('.edit:first').click();
-            expect(browser().location().url()).toEqual('/dashboard/users/1');
+            expect(browser().location().url()).toEqual('/dashboard/users/51e71518ed32080ffc000010');
         });
         
         /*

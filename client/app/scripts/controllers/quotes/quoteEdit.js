@@ -49,7 +49,9 @@ angular
             if(!quoteId) {
                 
                 // create new item
-                Quote.add($scope.quote);
+                Quote.add($scope.quote).then(function(response) {
+
+                });
                 
             } else {
                 // update existing item

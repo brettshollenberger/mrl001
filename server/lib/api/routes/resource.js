@@ -274,4 +274,3 @@ exports.setup = function(app, options) {
   app.get(base, exports.error());
   
 };
-

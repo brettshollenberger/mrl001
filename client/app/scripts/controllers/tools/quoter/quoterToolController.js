@@ -27,15 +27,14 @@ angular
 
         if($scope.vendor_id) {
             Vendor.getById($scope.vendor_id).then(function(response){
-                $scope.vendor = !response.error ? response : false;
+                $scope.vendor = response;
                 // not a valid vendor id
                 if(!$scope.vendor) {
                     $location.url('tools/quoter');
                     $location.search('vendor_id', null);
                 }
-            });  
+            });
         }
-        
         
         // assign to the quote
         $scope.quote.vendorId = $scope.vendor_id; 
@@ -133,16 +132,12 @@ angular
                     
                 });    
             });
-            
-
         }
-        
         
                         
         $scope.generateQuote = function() {
             
             $scope.quote.totalCost = $scope.quoteCost;
-            
             
             if(!quoteId) {
                 
@@ -154,8 +149,7 @@ angular
                     console.log(newQuote);
                     $location.url('/tools/quoter/' + newQuote._id );
                 });
-                
-                
+
             } else {
                 
                 filterQuotesByTotalCost();
@@ -163,9 +157,8 @@ angular
                 Quote.update($scope.quote).then(function(response) {
                     console.log('Updated quote successfully...'); 
                 });
-                
+
             }
-            
         };
         
         $scope.getTermLength = function(item) {
@@ -205,14 +198,10 @@ angular
                 var newApplication = response;
                 
                 $location.url('/tools/application/' + newApplication._id ); 
+
             });
             
-            
-            
         };
-        
-        
-        
     }
   ])
 ;

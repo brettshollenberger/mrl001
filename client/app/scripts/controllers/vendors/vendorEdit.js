@@ -11,7 +11,9 @@ angular
     'stateService',
     'userService',
     'googleMapsService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps) {
+    '$timeout',
+    '$window',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
        
         Auth.canUserDoAction('edit-vendor');
         
@@ -238,8 +240,6 @@ angular
             
             // only make map if user is switching to tab 4, and there is no map made
             if(newValue === 4) {
-                
-                // we only need to make the map one time
                 if(!$scope.isMapMade) makeMap();
             }
         });
@@ -251,11 +251,13 @@ angular
         */
         $scope.vendorMarker = [];
         
-        $scope.zoom = 4;
+        $scope.map = {};
+        
+        $scope.map.zoom = 4;
         
         // default center point
         // @todo find better center point! 
-        $scope.center = {
+        $scope.map.center = {
             latitude: 45,
             longitude: -73
         };
@@ -274,16 +276,19 @@ angular
             // if vendor has geo set, lets make map center from this
             if($scope.vendor.geo) {
                 
-                $scope.center = {
-                    latitude: $scope.vendor.geo.lat,
-                    longitude: $scope.vendor.geo.lng
+                $scope.map.center = {
+                    latitude: $scope.vendor.geo.latitude,
+                    longitude: $scope.vendor.geo.longitude
                 };
+                
+                console.log('Updated the center');
                 
                 makeMarkerFromVendor();
              
             }
                 
         }
+        
         
         
         /**
@@ -311,7 +316,7 @@ angular
                 console.log('Saving geo return data: ');
                 console.log(data);
                 
-                $scope.center = {
+                $scope.map.center = {
                     latitude: data.lat,
                     longitude: data.lng
                 };
@@ -319,11 +324,11 @@ angular
                 console.log('vendor id is: ' + $scope.vendor._id);
                 
                 $scope.vendor.geo = {
-                    lat: data.lat,
-                    lng: data.lng
+                    latitude: data.lat,
+                    longitude: data.lng
                 };
                 
-                console.log($scope.center);
+                console.log($scope.map.center);
                 
                 // make a marker from our vendor
                 makeMarkerFromVendor();
@@ -338,6 +343,21 @@ angular
             listener();
         });
         
+        function genereateSingleLineAddress(businessAddress) {
+           
+           var address = _.filter(businessAddress, function(item) {
+               return item !== undefined && item !== "";
+           });
+           
+           var addr = '';
+           
+           _.each(address, function(item) {
+               addr += item + ' ';
+           });
+           
+           return addr;
+       } 
+        
         
         /**
         * Will generate a marker for a vendor
@@ -346,22 +366,39 @@ angular
         */
         function makeMarkerFromVendor() {
             
+            console.log('VENDOR GEO data is...');
+            console.log($scope.vendor.geo);
+            
             // build marker object from vendor info
             // @note this is duplicate code from locator tool, move to service? 
-            var marker = {
-                latitude: $scope.vendor.geo.lat,
-                longitude: $scope.vendor.geo.lng,
-                label: $scope.vendor.name,
-                infoWindow: '<img class="img-medium" src="'+$scope.vendor.logo.original+'" />',
-                name: $scope.vendor.name
-            };
+            // we need to create the marker from the vendor
+                var newMarker = {
+                    latitude: $scope.vendor.geo.latitude,
+                    longitude: $scope.vendor.geo.longitude,
+                    label: $scope.vendor.name,
+                    distance: $scope.vendor.geo.distance, // gets miles
+                    logo: $scope.vendor.logo.original,
+                    businessAddress: $scope.vendor.businessAddress,
+                    infoWindow: '<img class="img-medium" src="'+$scope.vendor.logo.original+'" />',
+                    name: $scope.vendor.name,
+                    destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress($scope.vendor.businessAddress)
+                };
+                
+                console.log('VENDOR NEW MARKER is...');
+                console.log(newMarker);
+                
             
-            $scope.vendorMarker = [marker];
+            $scope.vendorMarker = [newMarker];
             
             // @note we need to find an auto way to fit here!
-            $scope.zoom = 16;
+            $scope.map.zoom = 16;
+            
+            var win = angular.element(window);
+            console.log('window');
+            win.triggerHandler('resize');
             
         }
+        
         
     }
   ])

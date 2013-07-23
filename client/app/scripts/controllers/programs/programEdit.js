@@ -11,6 +11,8 @@ angular
        
         Auth.canUserDoAction('edit-program');
        
+        $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
+       
         // empty program object
         $scope.program = {};
         var program = {};
@@ -180,7 +182,8 @@ angular
                 console.log('new cost'); 
             });
             
-            //console.log($scope.program.rateSheet.buyoutOptions);
+            // needed when creating new rate sheet. 
+            if(!$scope.program.rateSheet) $scope.program.rateSheet = {buyoutOptions: []};
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
             

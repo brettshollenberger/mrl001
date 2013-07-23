@@ -39,6 +39,10 @@ describe('Program management', function() {
             expect(browser().location().url()).toEqual('/dashboard/programs/new');
         });
         
+        it('Should provide a term length dropdown', function() {
+            
+        });
+        
         it('Should allow user to enter program information in a form', function() {
             expect(element('#save:disabled').count()).toBe(0);
             input('program.name').enter('A Test Program!!!!!!');
@@ -85,7 +89,28 @@ describe('Program management', function() {
             expect(element('tr > td:first').text()).toEqual('Changed the program Name');
         });
     
+    });
     
+    /**
+    * Points are added on a per vendor basis. Points are used to calculate the quote
+    * Points means the vendor gets a percentage bonus on top of the sale.
+    *
+    * To calculate:
+    *
+    * Base Rate Factor x (1 + Percentage) = Points rate factor
+    * example: Base Rate Factor x 1.01
+    *
+    */
+    describe('Adding points to a program per vendor', function() {
+        
+        it('Should provide option to add points to a program on vendor edit page', function() {});
+        
+        it('Should limit points to whole numbers, from 0 to 5', function() {});
+        
+        it('Should not allow anyone but super admin to add points', function() {});
+        
+        it('Should factor points when generating quote with quoter tool', function() {});
+        
     });
     
     describe('Deleting a program', function() {

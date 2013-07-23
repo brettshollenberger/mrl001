@@ -113,24 +113,13 @@
         </div>
     </div>
 </div>
-    
-<div class="row" ui-if="canEdit && !didQuote">
-        
-    <div class="span10 offset1 text-center">
-        
-        <hr />
-        <a class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="" ng-click="generateQuote()">{{buttonText}}</a>
-        <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
-    </div>
 
-</div>
 
 <div class="row" ng-show="didQuote">
 
     <div class="span10 offset1">
         
         <h3>Leasing Options</h3>
-        
         
         <div ng-repeat="program in filteredPrograms">
             <h4>{{program.displayName || program.name}}</h4>
@@ -182,17 +171,40 @@
             </table>
 -->
         </div>
-        
-        <br /><br />
-        
-        <h3>Share</h3>
-  
-        <label>Send this link to share this quote!</label>
-        <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
-        
-        <br />
-        <button disabled="disabled" class="btn btn-primary">Save as PDF</button>
-        
+
     </div>
     
 </div>
+<div class="row" ng-show="vendor.legalTerms">        
+    <div class="span10 offset1">
+        <br /><br />
+        <h3>Terms</h3>
+        <div id="legalTerms">{{vendor.legalTerms}}</div>
+    </div>
+</div>
+
+    
+<div class="row" ui-if="canEdit && !didQuote">
+        
+    <div class="span10 offset1 text-center">
+        
+        <hr />
+        <a class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="" ng-click="generateQuote()">{{buttonText}}</a>
+        <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
+    </div>
+
+</div>
+
+<div class="row">        
+    <div class="span10 offset1">
+    
+    <h3>Share</h3>
+
+    <label>Send this link to share this quote!</label>
+    <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
+    
+    <br />
+    <button disabled="disabled" class="btn btn-primary">Save as PDF</button>
+    
+</div>
+

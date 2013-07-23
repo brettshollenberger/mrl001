@@ -11,6 +11,8 @@ angular
        
         Auth.canUserDoAction('edit-program');
        
+        $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
+       
         // empty program object
         $scope.program = {};
         var program = {};
@@ -63,11 +65,8 @@ angular
                 Program.add($scope.program);
                 
             } else {
-            
-                // update existing item 
-                //Program.updateById($scope.program.id, $scope.program);
+                // update existing item
                 Program.update($scope.program);
-                
             }
             
             $location.url('/dashboard/programs');
@@ -94,7 +93,7 @@ angular
             
             //console.log(tab);
             
-            if(!$scope.user.id) return false;
+            if(!$scope.user._id) return false;
             
             $scope.activeTab = tab;
         };
@@ -183,7 +182,8 @@ angular
                 console.log('new cost'); 
             });
             
-            //console.log($scope.program.rateSheet.buyoutOptions);
+            // needed when creating new rate sheet. 
+            if(!$scope.program.rateSheet) $scope.program.rateSheet = {buyoutOptions: []};
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
             

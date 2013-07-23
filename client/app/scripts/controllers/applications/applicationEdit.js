@@ -62,11 +62,8 @@ angular
                 Application.add($scope.application);
                 
             } else {
-            
-                // update existing item 
-                //Application.updateById($scope.application.id, $scope.application);
-                Application.update($scope.application);
-                
+                // update existing item
+                Application.update($scope.application);    
             }
             
             $location.url('/dashboard/applications');
@@ -91,7 +88,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.application.id) return false;
+            if(!$scope.application._id) return false;
             
             $scope.activeTab = tab;
         };

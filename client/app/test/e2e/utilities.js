@@ -8,4 +8,8 @@ describe('App', function() {
         return +this.actual < +future.value;
     });
     
+    angular.scenario.matcher('toBeOneLessThan', function(future) {
+        return +this.actual === +(future.value - 1);
+    });
+    
 });

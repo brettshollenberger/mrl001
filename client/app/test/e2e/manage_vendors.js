@@ -20,7 +20,6 @@ describe('Vendor management', function() {
         });
         
         it('Should have a form for users to search vendors', function() {
-            expect(repeater('tbody tr').count()).toBe(5);
             input('searchTerm').enter('BearCom');
             expect(repeater('tbody tr').count()).toBe(1);
             input('searchTerm').enter('');
@@ -129,9 +128,9 @@ it('Button text should read "Update Vendor"', function() {
         
         it('Clicking delete should remove the vendor', function() {
             browser().navigateTo('/dashboard/vendors');
-            expect(repeater('tbody tr').count()).toBe(5);
+            var vendorCount = repeater('tbody tr').count();
             element('.delete:first').click();
-            expect(repeater('tbody tr').count()).toBe(4);
+            expect(repeater('tbody tr').count()).toBeOneLessThan(vendorCount);
         });
         
     });

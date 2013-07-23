@@ -63,11 +63,8 @@ angular
                 Program.add($scope.program);
                 
             } else {
-            
-                // update existing item 
-                //Program.updateById($scope.program.id, $scope.program);
+                // update existing item
                 Program.update($scope.program);
-                
             }
             
             $location.url('/dashboard/programs');

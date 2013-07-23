@@ -3,6 +3,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     var url = MARLINAPI_CONFIG.base_url;
     
     // get itemList for old functions
+    // TODO: Remove this when we rewrite the old functions
     var itemList = '';
     $http.get(url + 'vendor').then(function (response) {
         itemList = response.data;
@@ -29,19 +30,16 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     
     // update one item by item 
     // @note we figure out id from item
-    exports.update = function(newItem) {        
-        //console.log('Vendor: Update Vendor');
+    exports.update = function(newItem) {
         var id = newItem._id;
         newItem = _.omit(newItem, '_id');
         return $http.put(url + 'vendor/' + id, newItem).then(function (response) {
-            //console.log(response.data);
             return response.data;
         });
     };
     
     // add a new item
     exports.add = function(item) {
-        //console.log('Vendor: Add Vendor');
         return $http.post(url + 'vendor', item).then(function (response) {
             return response.data;
         });        
@@ -67,7 +65,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             return item.id == vendorId;
         });
         
-        console.log(itemList[theId].programIds);
+        //console.log(itemList[theId].programIds);
         
         // just in case this vendor has no ids array yet! 
         if(!itemList[theId].programIds) itemList[theId].programIds = [];
@@ -95,8 +93,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             return programId == item;
         });
         
-        console.log(itemList[theId].programIds);
-        
+        //console.log(itemList[theId].programIds);
         //console.log(itemList[theId]);
         
         return itemList[theId].programIds;

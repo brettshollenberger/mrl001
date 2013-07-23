@@ -74,21 +74,15 @@ angular
                 userId = $scope.user.id;
                 
             } else {
-            
-                // update existing item 
-                //User.updateById($scope.user.id, $scope.user);
+                // update existing item
                 User.update($scope.user);
-                
             }
-            
             
             if(doRedirect) {
                 $location.url('/dashboard/users'); 
             }
-            
-            
         };
-        
+
         
         $scope.addVendor = function(id) {
             console.log('Vendor id: ' + id);

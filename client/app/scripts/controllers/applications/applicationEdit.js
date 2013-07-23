@@ -62,11 +62,8 @@ angular
                 Application.add($scope.application);
                 
             } else {
-            
-                // update existing item 
-                //Application.updateById($scope.application.id, $scope.application);
-                Application.update($scope.application);
-                
+                // update existing item
+                Application.update($scope.application);    
             }
             
             $location.url('/dashboard/applications');

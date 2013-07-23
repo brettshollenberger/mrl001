@@ -3,6 +3,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     var url = MARLINAPI_CONFIG.base_url;
     
     // get itemList for old functions
+    // TODO: Remove this when we rewrite the old functions
     var itemList = '';
     $http.get(url + 'user').then(function (response) {
         itemList = response.data;
@@ -19,44 +20,34 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     };
     
     // get one item by id
-    exports.getById = function(id) {
-        var theItem = _.find(itemList, function(item) {
-            return item.id == id;
-        });
-        return theItem ? theItem : false;
-    };
-    
-    // update one item by id
-    // @todo check for updating the id!
-    exports.updateById = function(id, newData) {
-        var theId = _.findIndex(itemList, function(item) {
-            return item.id == id;
-        });
-        theList = _.extend(itemList[theId], newData);
-        return theList;
+    exports.getById = function(id) {        
+        return $http.get(url + 'user/' + id).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // update one item by item 
     // @note we figure out id from item
-    exports.update = function(newItem) {
-        var theIndex = _.findIndex(itemList, function(item) {
-            return item.id == newItem.id;
+    exports.update = function(newItem) {        
+        var id = newItem._id;
+        newItem = _.omit(newItem, '_id');
+        return $http.put(url + 'user/' + id, newItem).then(function (response) {
+            return response.data;
         });
-        theList = _.extend(itemList[theIndex], newItem);
-        return theList;
     };
     
     // add a new item
     exports.add = function(item) {
-        item.id = itemList.length + 1;
-        itemList.push(item);
-        return item;
+        return $http.post(url + 'user', item).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // remove item by item
     exports.remove = function(item) {
-        itemList.splice(itemList.indexOf(item), 1);
-        return item;
+        return $http.delete(url + 'user/' + item._id).then(function (response) {
+            return response.data;
+        });
     };
     
     // --------

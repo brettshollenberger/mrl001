@@ -52,11 +52,8 @@ angular
                 Quote.add($scope.quote);
                 
             } else {
-            
-                // update existing item 
-                //Quote.updateById($scope.quote.id, $scope.quote);
+                // update existing item
                 Quote.update($scope.quote);
-                
             }
             
             $location.url('/dashboard/quotes');

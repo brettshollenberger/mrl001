@@ -36,6 +36,20 @@ exports.error = function() {
   }; 
 };
 
+
+function generateBSON(id) {
+    try {
+        var bsonID = new BSON.ObjectID(id);
+        console.log('BSON ID CREATED: ' + bsonID);
+        return bsonID;
+    } 
+    catch(e) {
+        console.log('ERROR: ' + e);
+        return false;   
+    }
+}
+
+
 /**
 * Show specific children elements of an entity by ID 
 */
@@ -46,18 +60,25 @@ exports.children = function() {
     return function(req, res, next) {
     
         var resource = req.params.resource,
-            id = req.params.id,
+            id = generateBSON(req.params.id),
             child = req.params.child,
             field = child + 'Ids',
             guidsPlain = [],
             guidsBson = []
         ;
         
+        if(!id) res.send({error: 'Invalid ID'}, 404);
+        
         console.log('LIST ' + child + ' ATTACHED TO ' + resource + ' BY ID ' + id);
         
         // Get the parent object
         db.collection(resource, function(err, collection) {
-            collection.findOne({ '_id' : new BSON.ObjectID(id) }, function(err, item) {
+            collection.findOne({ '_id' : id }, function(err, item) {
+                
+                console.log(item);
+                
+                if(err) res.send({'error':'An error has occurred - ' + err});
+                if(!item) res.send({error : 'This ' + resource + ' was not found'});
                 
                 guidsPlain = item[field];
                 
@@ -65,14 +86,20 @@ exports.children = function() {
                 
                     // convert all of the guids to BSON Object ID's
                     for(var i in guidsPlain) {
-                        guidsBson.push(new BSON.ObjectID(guidsPlain[i]));
+                        guidsBson.push(generateBSON(guidsPlain[i]));
                     }
                 
                     db.collection(child, function(err, collection) {
                         collection.find({ '_id' : { $in : guidsBson }}).toArray(function(err, items) {
+                            
+                            if(err) res.send({'error':'An error has occurred - ' + err});
+                            if(!items) res.send({error : 'This ' + resource + ' has no ' + child });
+                            
                             res.send(items);
                         });
                     });                               
+                } else {
+                    res.send({error : 'This ' + resource + ' has no ' + child });
                 }
             });
         });
@@ -106,10 +133,14 @@ exports.create = function() {
 exports.delete = function() {
 
     return function (req, res, next) {         
-        var id = req.params.id;
+        
+        var id = generateBSON(req.params.id);
+        if(!id) res.send({error: 'Invalid ID'}, 404);
+        
         console.log('Deleting item: ' + id);
+        
         db.collection(req.params.resource, function(err, collection) {
-            collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+            collection.remove({'_id': id}, {safe:true}, function(err, result) {
                 if (err) {
                     res.send({'error':'An error has occurred - ' + err});
                 } else {
@@ -132,6 +163,10 @@ exports.list = function() {
     
     db.collection(req.params.resource, function(err, collection) {
         collection.find().toArray(function(err, items) {
+            
+            if(err) res.send({'error':'An error has occurred - ' + err});
+            if(!items) res.send({error : 'No results'});
+            
             res.send(items);
         });
     });
@@ -147,15 +182,22 @@ exports.show = function() {
   
     return function(req, res, next) {
     
-        var id = req.params.id;
+        // try to generate BSON id and send error if generation fails
+        var id = generateBSON(req.params.id);
+        if(!id) res.send({error: 'Invalid ID'}, 404);
         
         console.log('LIST ' + req.params.resource + ' BY ID ' + id);
         
         db.collection(req.params.resource, function(err, collection) {
-            collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-                //console.log(err);
-                //console.log(item);
+            collection.findOne({'_id': id}, function(err, item) {
+                console.log(err);
+                console.log(item);
+                
+                if(err) res.send({'error':'An error has occurred - ' + err});
+                if(!item) res.send({error : 'No results'});
+                
                 res.send(item);
+                
             });
         });  
     }; 
@@ -168,7 +210,10 @@ exports.update = function() {
 
     return function (req, res, next) {
     
-        var id = req.params.id;
+        // try to generate BSON id and send error if generation fails
+        var id = generateBSON(req.params.id);
+        if(!id) res.send({error: 'Invalid ID'}, 404);
+        
         var item = req.body;
         
         console.log('Updating item: ' + id);
@@ -178,7 +223,7 @@ exports.update = function() {
         
             //console.log(collection);
         
-            collection.update({'_id':new BSON.ObjectID(id)}, item, {safe:true}, function(err, result) {
+            collection.update({'_id':id}, item, {safe:true}, function(err, result) {
                 if (err) {
                     console.log('Error updating item: ' + err);
                     res.send({'error':'An error has occurred'});

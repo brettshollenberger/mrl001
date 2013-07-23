@@ -53,6 +53,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     // --------
       
     exports.getOneBy = function(key, value) {
+        console.log(itemList);
         var theItem = _.find(itemList, function(item) {
             return item[key] == value;
         });
@@ -75,7 +76,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
         
         // get the sales rep object
         var theUser = _.find(itemList, function(item) {
-            return item.id == salesRepId;
+            return item._id == salesRepId;
         }); 
         
         // push to vendorIds
@@ -93,7 +94,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
         
         // get the sales rep object
         var theUser = _.find(itemList, function(item) {
-            return item.id == salesRepId;
+            return item._id == salesRepId;
         }); 
         
         // remove from vendorIds

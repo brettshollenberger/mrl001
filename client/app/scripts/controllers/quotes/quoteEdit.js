@@ -79,7 +79,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.quote.id) return false;
+            if(!$scope.quote._id) return false;
             
             $scope.activeTab = tab;
         };

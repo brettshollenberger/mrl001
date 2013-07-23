@@ -33,7 +33,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         
         // store user data
         userData.currentUser = attemptingUser;
-        userData.userId = attemptingUser.id;
+        userData.userId = attemptingUser._id;
         userData.isAuth = true;
         userData.authLevel = attemptingUser.groups[0];
         

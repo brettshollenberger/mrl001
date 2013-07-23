@@ -9,7 +9,7 @@
             <div class="span10">
                 <h2>New Quote</h2>
                 <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !quote.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !quote._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
                 
                 <div class="actions">

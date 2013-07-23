@@ -88,7 +88,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.application.id) return false;
+            if(!$scope.application._id) return false;
             
             $scope.activeTab = tab;
         };

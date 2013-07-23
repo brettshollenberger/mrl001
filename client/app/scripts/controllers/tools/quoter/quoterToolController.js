@@ -88,18 +88,15 @@ angular
             // get the vendors
             Vendor.getAll().then(function(response) {
                 $scope.vendors = response;
+                $scope.quote.vendorId = $scope.vendors[0]._id;
             });
             
-            $scope.quote.vendorId = $scope.vendors[0].id;
-            
             if($rootScope.previewQuote === true) $rootScope.previewQuote = false;
-            
         }
         
         function filterQuotesByTotalCost() {
             $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds); 
             $scope.filteredPrograms =  $scope.quote.programs;
-            
             
             _.each($scope.filteredPrograms, function(program, $programIdx){
                 
@@ -141,7 +138,7 @@ angular
                 
                 // create new item
                 var newQuote = Quote.add($scope.quote);
-                $location.url('/tools/quoter/' + newQuote.id );
+                $location.url('/tools/quoter/' + newQuote._id );
                 
             } else {
                 
@@ -168,7 +165,7 @@ angular
             // build the application for us to save
             var application = {
                 status: 'Open',
-                quoteId: $scope.quote.id,
+                quoteId: $scope.quote._id,
                 vendorId: $scope.quote.vendorId,
                 quote: {
                     totalCost: $scope.quote.totalCost,
@@ -186,7 +183,7 @@ angular
             
             // create new item
             var newApplication = Application.add(application);
-            $location.url('/tools/application/' + newApplication.id );
+            $location.url('/tools/application/' + newApplication._id );
             
             
         };

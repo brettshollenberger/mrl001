@@ -71,7 +71,7 @@ angular
                 // create new item
                 $scope.user = User.add($scope.user);
                 // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-                userId = $scope.user.id;
+                userId = $scope.user._id;
                 
             } else {
                 // update existing item
@@ -86,7 +86,7 @@ angular
         
         $scope.addVendor = function(id) {
             console.log('Vendor id: ' + id);
-            User.addVendorToSalesRep(id, $scope.user.id);
+            User.addVendorToSalesRep(id, $scope.user._id);
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.vendorId = '';
             $scope.allVendors = Vendor.getAllWithoutSalesReps();
@@ -94,7 +94,7 @@ angular
         
         
         $scope.removeVendor = function(id) {
-            User.removeVendorFromSalesRep(id, $scope.user.id);  
+            User.removeVendorFromSalesRep(id, $scope.user._id);  
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
@@ -120,7 +120,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.user.id) return false;
+            if(!$scope.user._id) return false;
             
             $scope.activeTab = tab;
         };

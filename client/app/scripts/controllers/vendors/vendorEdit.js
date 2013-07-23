@@ -209,7 +209,7 @@ angular
         
         
         $scope.removeSalesRep = function(id) {
-            User.removeVendorFromSalesRep($scope.vendor._id, $scope.vendor.salesRep.id);  
+            User.removeVendorFromSalesRep($scope.vendor._id, $scope.vendor.salesRep._id);  
             $scope.vendor.salesRep = '';
         };
         

@@ -36,8 +36,8 @@
                     <td>{{ item.groups[0]}}</td>
                     <td>{{item.vendors.length || 0 | number}}</td>
                     <td>
-                        <a class="edit" ng-click="editItem(item.id)">Edit</a> | 
-                        <a class="view" ng-click="editItem(item.id)">View</a> | 
+                        <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
+                        <a class="view" ng-click="editItem(item._id)">View</a> | 
                         <a class="delete" ng-click="deleteItem(item)">Delete</a>
                     </td>
                 </tr>

@@ -93,7 +93,7 @@ angular
             
             //console.log(tab);
             
-            if(!$scope.user.id) return false;
+            if(!$scope.user._id) return false;
             
             $scope.activeTab = tab;
         };

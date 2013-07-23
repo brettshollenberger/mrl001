@@ -99,7 +99,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
     */
     exports.addVendorToProgram = function(vendorId, programId) {
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == programId;
+            return item._id == programId;
         });
         
         // just in case this vendor has no ids array yet! 
@@ -119,11 +119,11 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
     */
     exports.removeVendorFromProgram = function(vendorId, programId) {
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == programId;
+            return item._id == programId;
         });
         
         itemList[theId].vendorIds = _.reject(itemList[theId].vendorIds, function(item) {
-            return vendorId !== item.id;
+            return vendorId !== item._id;
         });
         
         return exports.getAllForVendorId(vendorId);
@@ -139,7 +139,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
         var programs = [];
         _.each(idArray, function(id) {
             var match = _.find(itemList, function(subItem) {
-                return subItem.id == id;
+                return subItem._id == id;
             });
             if(match) programs.push(match);
         });
@@ -151,7 +151,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
         var returnItems = [];
         _.each(itemList, function(item) {
             var match = _.find(idArray, function(vendorId) {
-                return vendorId == item.id;
+                return vendorId == item._id;
             });    
             if(!match) {
                  returnItems.push(item);

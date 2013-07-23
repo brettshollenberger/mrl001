@@ -62,7 +62,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         
         // gets array key for this vendor
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == vendorId;
+            return item._id == vendorId;
         });
         
         //console.log(itemList[theId].programIds);
@@ -86,7 +86,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     exports.removeProgramFromVendor = function(programId, vendorId) {
         // gets array key for this vendor
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == vendorId;
+            return item._id == vendorId;
         });
         
         itemList[theId].programIds = _.reject(itemList[theId].programIds, function(item) {
@@ -108,7 +108,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     */
     exports.getManyWhereIn = function(values) {
         var reducedList = _.filter(itemList, function(item) {
-            return _.contains(values, item.id);
+            return _.contains(values, item._id);
         });
         return reducedList;
     };
@@ -116,7 +116,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     
     exports.getAllWithoutSalesReps = function() {
         var reducedList = _.filter(itemList, function(item) {
-            return !User.getOneWhereIn('vendorIds', item.id);
+            return !User.getOneWhereIn('vendorIds', item._id);
         });
         return reducedList;
     };

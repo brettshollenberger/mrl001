@@ -31,8 +31,8 @@ angular
         };
         
         // deletes an item and then gets the list again to reflect the deleted item.
-        $scope.deleteItem = function(item) {
-            User.remove(item);
+        $scope.deleteItem = function(id) {
+            User.remove(id);
             getAllUsersWithVendors();
         };
 

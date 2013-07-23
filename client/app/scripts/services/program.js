@@ -44,8 +44,8 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
     };
     
     // remove item by item
-    exports.remove = function(item) {
-        return $http.delete(url + 'program/' + item._id).then(function (response) {
+    exports.remove = function(id) {
+        return $http.delete(url + 'program/' + id).then(function (response) {
             return response.data;
         }); 
     };

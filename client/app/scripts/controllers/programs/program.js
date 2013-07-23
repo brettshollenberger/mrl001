@@ -21,8 +21,8 @@ angular
         };
         
         // deletes an item and then gets the list again to reflect the deleted item.
-        $scope.deleteItem = function(item) {
-            Program.remove(item);
+        $scope.deleteItem = function(id) {
+            Program.remove(id);
             Program.getAll().then(function(response) {
                 $scope.programs = response;
             });

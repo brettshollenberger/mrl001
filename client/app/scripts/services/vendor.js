@@ -46,8 +46,8 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     };
     
     // remove item by item
-    exports.remove = function(item) {
-        return $http.delete(url + 'vendor/' + item._id).then(function (response) {
+    exports.remove = function(id) {
+        return $http.delete(url + 'vendor/' + id).then(function (response) {
             return response.data;
         }); 
     };

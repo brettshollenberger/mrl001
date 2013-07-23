@@ -56,12 +56,10 @@ angular
         // get quote ID for edit pages
         var quoteId = $routeParams.id;
         
-        console.log('QuoteID is ' + quoteId);
-        
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            Quote.getById(quoteId).then(function(response){
+            Quote.getById(quoteId).then(function(response) {
                 
                 $scope.quote = response;
                 
@@ -70,7 +68,7 @@ angular
                 $scope.quoteCost = $scope.quote.totalCost;
                 
                 // get the vendor
-                Vendor.getById($scope.quote.vendorId).then(function(response){
+                Vendor.getById($scope.quote.vendorId).then(function(response) {
                     $scope.vendor = response;
                     
                     filterQuotesByTotalCost();
@@ -147,7 +145,7 @@ angular
                 Quote.add($scope.quote).then(function(response) {
                     var newQuote = response;
                     console.log(newQuote);
-                    $location.url('/tools/quoter/' + newQuote._id );
+                    $location.url('/tools/quoter/' + newQuote._id);
                 });
 
             } else {

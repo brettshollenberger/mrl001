@@ -190,14 +190,14 @@ exports.show = function() {
         
         db.collection(req.params.resource, function(err, collection) {
             collection.findOne({'_id': id}, function(err, item) {
-                console.log(err);
-                console.log(item);
                 
-                if(err) res.send({'error':'An error has occurred - ' + err});
-                if(!item) res.send({error : 'No results'});
+                //console.log(err);
+                //console.log(item);
+                
+                if(err) res.send({'error':'An error has occurred - ' + err}, 404);
+                if(!item) res.send({error : 'No results'}, 404);
                 
                 res.send(item);
-                
             });
         });  
     }; 

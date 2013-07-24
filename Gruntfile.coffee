@@ -2,7 +2,9 @@ module.exports = (grunt)->
 
   # Run `grunt server` for live-reloading development environment
   grunt.registerTask('server', [ 'build', 'express', 'watch' ])
-
+  
+  grunt.registerTask('server:seed', [ 'build', 'express', 'shell:seedData', 'watch' ])
+  
   # Run `grunt server:unit` for live-reloading unit testing environment
   grunt.registerTask('server:unit', [ 'build', 'karma:background', 'watch:unit' ])
 
@@ -182,7 +184,7 @@ module.exports = (grunt)->
       # Changes to server-side code should validate, restart the server, & refresh the browser
       server:
         files:      '<%= SERVER_DIR + ALL_FILES %>'
-        tasks:      [ 'jshint', 'express' ]
+        tasks:      [ 'jshint', 'express']
 
       # Changes to app templates should re-copy & re-compile them, triggering `watch:build`
       templates:
@@ -194,6 +196,11 @@ module.exports = (grunt)->
         files:      '<%= CLIENT_DIR + JS_FILES %>'
         tasks:      [ 'copy:js', 'jshint']
 
+    shell:
+      seedData:
+        command:    'node server/seed'
+        options:    
+          stdout:   true
 
   # Dependencies
   grunt.loadNpmTasks('grunt-angular-templates')
@@ -207,6 +214,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-express-server')
   grunt.loadNpmTasks('grunt-karma')
+  grunt.loadNpmTasks('grunt-shell')
   # grunt.loadNpmTasks('grunt-regarde')
   # grunt.loadNpmTasks('grunt-parallel')
   grunt.loadNpmTasks('grunt-usemin')

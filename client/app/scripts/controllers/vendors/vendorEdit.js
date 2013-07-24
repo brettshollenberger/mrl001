@@ -105,6 +105,8 @@ angular
                 if($scope.vendor.locatorEnabled) {
                     $scope.tabs.push('Locator Tool');
                 }
+                
+                updatePrograms();
             });
             
             $scope.formAction = 'Update';
@@ -179,7 +181,6 @@ angular
             // get the vendors programs
             $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
             
-            
             // merge into the vendors.programs data, which may contain custom displayNames
             _.merge($scope.vendorPrograms, $scope.vendor.programs);
             
@@ -187,8 +188,7 @@ angular
             $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
         }
         
-        // loads programs the first time
-        updatePrograms();
+        
         
         
         $scope.addSalesRep = function(id) {
@@ -286,12 +286,8 @@ angular
                 console.log('Updated the center');
                 
                 makeMarkerFromVendor();
-             
             }
-                
         }
-        
-        
         
         /**
         * Find geo location for vendor from address

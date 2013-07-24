@@ -15,12 +15,13 @@ angular
         function getAllUsersWithVendors() {
             // Gets all the vendors
             User.getAll().then(function(response) {
-                $scope.users = response;
-            });
             
-            _.each($scope.users, function(item) {
-                 item.vendors = Vendor.getManyWhereIn(item.vendorIds);
-            }); 
+                $scope.users = response;
+                
+                _.each($scope.users, function(item) {
+                    item.vendors = Vendor.getManyWhereIn(item.vendorIds);
+                });
+            });
         }
         
         getAllUsersWithVendors();

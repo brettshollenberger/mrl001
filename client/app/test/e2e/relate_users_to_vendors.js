@@ -10,12 +10,12 @@ describe('Relating Users to vendors', function() {
     
     it('Should display a count of the vendors a user is connected to on the users table', function() {
          browser().navigateTo('/dashboard/users'); 
-         expect(element('tr:eq(2) > td:eq(3)').text()).toEqual('1'); 
+         expect(element('tr:eq(2) > td:eq(3)').text()).toEqual('1');
     });
     
     it('Should display the marlin sales rep on the vendors table', function() {
          browser().navigateTo('/dashboard/vendors'); 
-         //expect(element('tr:eq(1) > td:eq(4) > img').count()).toBe(1); 
+         expect(element('tr:eq(1) > td:eq(4) > img').count()).toBe(1); 
     });
     
     describe('Managing relationships from the Vendor Edit page', function() {
@@ -30,12 +30,12 @@ describe('Relating Users to vendors', function() {
         });
         
         /*
-it('Should provide a serach field and button is there is no current vendor', function() {
+        it('Should provide a search field and button is there is no current vendor', function() {
             expect(element('.salesReps > li:first > button:first').count()).toBe(1); 
             input('salesRepId').enter('1');
             //element('#addSalesRep').click();
         });
-*/
+        */
             
     });
     

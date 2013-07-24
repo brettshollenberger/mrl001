@@ -35,7 +35,8 @@ var data = [
     "locatorEnabled": true,
     "programIds": [
       '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
+      '51e71518ed32080ffc000007',
+      '51e71518ed32080ffc000050'
     ],
     "programs": [
       {

@@ -41,7 +41,7 @@ describe('Relating programs to vendors', function() {
         it('Should save the displayName with the vendor', function() {
             using('#vendorPrograms li:first').input('item.displayName').enter('Custom Display Name');
             element('#save').click();
-            element('.edit:first').click();
+            element('.edit:last').click();
             expect(using('#vendorPrograms li:first').input('item.displayName').val()).toEqual('Custom Display Name');
             
         });
@@ -58,6 +58,6 @@ describe('Relating programs to vendors', function() {
             
         });
         
-    });        
-
+    });
+    
 });

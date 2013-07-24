@@ -14,13 +14,8 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     
     // get all items
     exports.getAll = function() {
-        
-        var params = {
-            query : JSON.stringify({
-                "email" : { "$regex": "s.*@", "$options" : "i" }
-            }),
-            limit: 1     
-        };
+
+        var params = {};
         
         //opts.params =JSON.stringify(params);
         //console.log(opts);
@@ -71,12 +66,24 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
         return theItem ? theItem : false;   
     };
     
+    /**
+    * This works for now but is slow if your getting for a lot of items, 
+    * IE: we are using it to get the sales rep for the vendor list. So it makes 25 extra calls
+    * if there are 25 vendors
+    *
+    */
     exports.getOneWhereIn = function(key, value) {
+        var str = {};
+        str[key] = { "$in": [value] };
         
-        var theItem = _.find(itemList, function(item) {
-            return _.contains(item[key], value);
+        var params = {
+            query : JSON.stringify(str),
+            limit: 1     
+        };
+        
+        return $http.get(url + 'user', { params : params }).then(function (response) {
+            return response.data[0];
         });
-        return theItem ? theItem : false; 
     };
     
     /**
@@ -85,15 +92,16 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     */
     exports.addVendorToSalesRep = function(vendorId, salesRepId) {
         
-        // get the sales rep object
-        var theUser = _.find(itemList, function(item) {
-            return item._id == salesRepId;
-        }); 
+        console.log('USER : add vendor to sales rep');
         
-        // push to vendorIds
-        theUser.vendorIds.push(vendorId);
-        
-        return theUser;
+        return exports.getById(salesRepId).then(function(response) {
+            console.log('ADDING REFERENCE TO VENDOR');
+            response.vendorIds.push(vendorId);
+            return exports.update(response).then(function(response) {
+                console.log('COMPLETE');
+                return response;
+            });
+        });
         
     };
     
@@ -103,15 +111,16 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     */
     exports.removeVendorFromSalesRep = function(vendorId, salesRepId) {
         
-        // get the sales rep object
-        var theUser = _.find(itemList, function(item) {
-            return item._id == salesRepId;
-        }); 
+        console.log('USER : removing vendor to sales rep');
         
-        // remove from vendorIds
-        theUser.vendorIds.splice(theUser.vendorIds.indexOf(vendorId), 1);
-        
-        return theUser;
+        return exports.getById(salesRepId).then(function(response) {
+            console.log('REMOVING REFERENCE TO VENDOR');
+            response.vendorIds.splice(response.vendorIds.indexOf(vendorId), 1);
+            return exports.update(response).then(function(response) {
+                console.log('COMPLETE');
+                return response;
+            });
+        });
         
     };
         

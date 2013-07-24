@@ -34,14 +34,17 @@ angular
             Application.getById(applicationId).then(function(response){
                 $scope.application = response;
                 if(!$scope.application) $location.path('/tools/quoter');
+                
+                Vendor.getById($scope.application.vendorId).then(function(response){
+                    $scope.vendor = response;
+                });
+                
             });
             
             console.log($scope.application);
         }
 
-        Vendor.getById($scope.application.vendorId).then(function(response){
-            $scope.vendor = response;
-        });
+        
         
         $scope.saveApplication = function() {
             Application.update($scope.application);

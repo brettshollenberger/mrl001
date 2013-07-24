@@ -18,9 +18,13 @@ describe('Tools: Application Tool', function() {
             input('quoteCost').enter('1000');
             input('quote.company.fullLegalBusineessName').enter('Your business!');
             
+            sleep(1);
+            
             // generate quote
             element('#generateQuote').click();
             expect(browser().location().url()).not(0).toEqual('/tools/quoter');
+            
+            
             
             // start an application
             element('.btn-select-term:first').click();
@@ -39,6 +43,9 @@ describe('Tools: Application Tool', function() {
         
         
         it('Should be vendor branded', function() {
+            
+            sleep(1);
+            
             expect(element('.vendorSection > div > h1').count()).toBe(1);
             expect(element('.vendor-logo').count()).toBeGreaterThan(0);
         });
@@ -90,7 +97,7 @@ describe('Tools: Application Tool', function() {
     describe('Securing applications from public view', function() {
         
         it('Should not be accessiable by url', function() {
-            browser().navigateTo('/tools/application/1');
+            browser().navigateTo('/tools/application/51e71518ed32080ffc000021');
             expect(browser().location().url()).toEqual('/tools/quoter');
         }); 
         

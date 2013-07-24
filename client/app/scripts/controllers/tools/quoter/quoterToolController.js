@@ -70,6 +70,7 @@ angular
                 // get the vendor
                 Vendor.getById($scope.quote.vendorId).then(function(response) {
                     $scope.vendor = response;
+                    console.log($scope.vendor);
                     
                     filterQuotesByTotalCost();
                     
@@ -104,8 +105,13 @@ angular
         }
         
         function filterQuotesByTotalCost() {
+            
+            console.log($scope.vendor.programIds);
+            
             $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds); 
             $scope.filteredPrograms =  $scope.quote.programs;
+            
+            console.log($scope.quote.programs);
             
             _.each($scope.filteredPrograms, function(program, $programIdx){
                 

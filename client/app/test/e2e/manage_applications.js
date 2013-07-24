@@ -67,7 +67,7 @@ describe('Adding a application', function() {
         
         it('Clicking edit should take user to edit application form', function() {
             element('.edit:first').click();
-            expect(browser().location().url()).toEqual('/dashboard/applications/1');
+            expect(browser().location().url()).toEqual('/dashboard/applications/51e71518ed32080ffc000021');
         });
         
         it('Button text should read "Save"', function() {
@@ -89,7 +89,7 @@ describe('Adding a application', function() {
         
         it('Should provide a cancel button that takes user back to application dashboard', function() {
             element('.edit:first').click();
-            expect(browser().location().url()).toEqual('/dashboard/applications/1');
+            expect(browser().location().url()).toEqual('/dashboard/applications/51e71518ed32080ffc000021');
             element('#cancel').click();
             expect(browser().location().url()).toEqual('/dashboard/applications');
         });

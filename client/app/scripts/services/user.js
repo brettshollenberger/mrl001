@@ -14,7 +14,18 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     
     // get all items
     exports.getAll = function() {
-        return $http.get(url + 'user').then(function (response) {
+        
+        var params = {
+            query : JSON.stringify({
+                "email" : { "$regex": "s.*@", "$options" : "i" }
+            }),
+            limit: 1     
+        };
+        
+        //opts.params =JSON.stringify(params);
+        //console.log(opts);
+        
+        return $http.get(url + 'user', { params : params }).then(function (response) {
             return response.data;
         });
     };

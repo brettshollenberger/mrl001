@@ -154,18 +154,79 @@ exports.delete = function() {
 
 /**
 * List all entities 
+*
+* @param    query   {object} url enoded JSON object containing an advanced MongoDB query. 
+*                   ex: { email: /m.*@/i } gets all emails starting with letter 'm'
+*                   ex: { email: 'matt@facultycreative.com' } gets only documents matching exact email
+*
+* @param    fields  {object} indicates which fields to include or exclude 
+*                   ex: {name: 1, email: 1} only include name and email (and always _id)
+*                   ex: {name: 0, email: 0} include all except and email
+*
+* @param    options {object|string} specify limit, sort, skip, etc.
+*                   ex: query={}&options={limit: 1, skip: 2}
+*                   ex: query={}&limit=1&skip=2
+*
+* @note options can be an object or specific properties.
+* @note query can be regex, or complex nexted object style query 
+*
+* @see http://docs.mongodb.org/manual/reference/sql-comparison/ (mysql to MongoDB)
+* @see https://github.com/mongodb/node-mongodb-native (native mongodb library)
+* @see http://docs.mongodb.org/manual/reference/operator/ (query operators)
+*
+* @note objects should be uri encoded before sending. 
+* @note since REGEX objects don't travel well as request params, 
+*       you MUST use the more elaborate syntax below. Note the differences
+*
+* @note options can't have the $ prefix, while query operators need this!
+*
 */
 exports.list = function() {
   
   console.log('LIST ALL');
   
   return function(req, res, next) {
+  
+    var query, options, fields;
+    
+    // set variables to user input, or default
+    query = req.query.query ? JSON.parse(req.query.query) : {};
+    fields = req.query.fields || null;
+    options = req.query.options ? JSON.parse(req.query.options) : {};
+      
+    // try to set supported options
+    // this will override and options object sent
+    var test = ['limit','sort','skip','hint','explain','snapshot','timeout'];
+    for( var o in req.query ) {
+        if( test.indexOf(o) >= 0 ) {
+          options[o] = req.query[o];
+        } 
+    }
+    
+    // uncomment for debugging
+    // the following queries have been tested and work. Use if the front end is not behaving.
+    //fields = {'email' : 1, 'name' : 1};
+    //options = {limit : 1};
+    //query = { email: /s.*@/i};
+    //query = { "email": { "$regex": "s.*@", "$options" : "i" }};
+   
+    
+    console.log('query IS...');
+    console.log(query);
+    console.log('options IS...');
+    console.log(options);
+    console.log('fields IS...');
+    console.log(fields);
+    
     
     db.collection(req.params.resource, function(err, collection) {
-        collection.find().toArray(function(err, items) {
+        collection.find(query, fields, options).toArray(function(err, items) {
             
             if(err) res.send({'error':'An error has occurred - ' + err});
             if(!items) res.send({error : 'No results'});
+            
+            console.log('found ' + items.length + ' items');
+            //console.log(items);
             
             res.send(items);
         });

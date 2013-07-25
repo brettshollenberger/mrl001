@@ -15,6 +15,7 @@ var data = [
       "email": "jdelong@marlinfinance.com",
       "phone": "888-479-9111 Ext. 5015"
     },
+    "salesRep" : new BSON.ObjectID('51e71518ed32080ffc000016'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/2v44yfa8TqKt2RAAkpZB"
     },
@@ -54,6 +55,7 @@ var data = [
       "email": "jdelong@marlinfinance.com",
       "phone": "866-687-3778"
     },
+    "salesRep" : new BSON.ObjectID('51e71518ed32080ffc000016'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
     },
@@ -92,6 +94,7 @@ var data = [
       "email": "wmyers@playcore.com",
       "phone": ""
     },
+    "salesRep" : new BSON.ObjectID('51e71518ed32080ffc000010'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/EcryKofERBynAuL2txez"
     },
@@ -130,6 +133,7 @@ var data = [
       "email": "ubapps@marlinfinance.com",
       "phone": "877-307-6756"
     },
+    "salesRep" : new BSON.ObjectID('51e71518ed32080ffc000015'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/yjlOg28UROmPXyK8uadA"
     },
@@ -168,6 +172,7 @@ var data = [
       "email": "leasing@southeasternequipment.net",
       "phone": "803-454-3656"
     },
+    "salesRep": new BSON.ObjectID('51e71518ed32080ffc000009'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/nvC3zhiTQoSl01P7K3Br"
     },

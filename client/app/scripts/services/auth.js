@@ -22,24 +22,32 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
     
     exports.login = function(username, password) {
         
-        var attemptingUser = User.getOneBy('username', username);
+        return User.getOneBy('username', username).then(function(response) {
+            var attemptingUser = response;
+            
+            console.log('LOGIN: Attempting user is: ');
+            console.log(attemptingUser);
+            
+            if(!attemptingUser) return false;
+            
+            console.log(password);
+            console.log(attemptingUser.password);
+            
+            if(attemptingUser.password !== password) return false;
+            
+            // store user data
+            userData.currentUser = attemptingUser;
+            userData.userId = attemptingUser._id;
+            userData.isAuth = true;
+            userData.authLevel = attemptingUser.groups[0];
+            
+            $cookieStore.put('userData', userData);
+            
+            return true;
+            
+        });
         
-        console.log('LOGIN: Attempting user is: ');
-        console.log(attemptingUser);
         
-        if(!attemptingUser) return false;
-        
-        if(attemptingUser.password !== password) return false;
-        
-        // store user data
-        userData.currentUser = attemptingUser;
-        userData.userId = attemptingUser._id;
-        userData.isAuth = true;
-        userData.authLevel = attemptingUser.groups[0];
-        
-        $cookieStore.put('userData', userData);
-        
-        return true;
         
     };
     

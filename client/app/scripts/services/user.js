@@ -59,11 +59,17 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG', funct
     // --------
       
     exports.getOneBy = function(key, value) {
-        //console.log(itemList);
-        var theItem = _.find(itemList, function(item) {
-            return item[key] == value;
-        });
-        return theItem ? theItem : false;   
+        var str = {};
+        str[key] = value;
+        
+        var params = {
+            query : JSON.stringify(str),
+            limit: 1     
+        };
+        
+        return $http.get(url + 'user', { params : params }).then(function (response) {
+            return response.data[0];
+        }); 
     };
     
     /**

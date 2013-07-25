@@ -2,15 +2,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
       
     var url = MARLINAPI_CONFIG.base_url;
     
-    // get itemList for old functions
-    // TODO: Remove this when we rewrite the old functions
-    var itemList = '';
-    $http.get(url + 'vendor').then(function (response) {
-        itemList = response.data;
-    });
-    
-	//initLocalStore();
-    
     // create and expose service methods
     var exports = {};
     
@@ -107,18 +98,48 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     *
     */
     exports.getManyWhereIn = function(values) {
-        var reducedList = _.filter(itemList, function(item) {
-            return _.contains(values, item._id);
+        var str = {};
+        str._id = { "$in": values };
+        
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log(params);
+        
+        return $http.get(url + 'user', { params : params }).then(function (response) {
+            return response.data;
         });
-        return reducedList;
     };
     
     
     exports.getAllWithoutSalesReps = function() {
+        
+        return $http.get(url + 'custom/vendor/without-reps').then(function (response) {
+            return response.data;
+        });
+        
+        /*
+var params = {
+            query : JSON.stringify({
+                "email" : { "$nin": }
+            })  
+        };
+        console.log(params);
+        
+        return $http.get(url + 'vendor', {params: params}).then(function (response) {
+            return response.data;
+        });
+        
+        // get all vendors, whose id doesn't exist in a users vendorId's array
+        
+        
         var reducedList = _.filter(itemList, function(item) {
             return !User.getOneWhereIn('vendorIds', item._id);
         });
         return reducedList;
+*/
+        
     };
     
     

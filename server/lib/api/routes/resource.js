@@ -210,19 +210,23 @@ exports.list = function() {
     //query = { email: /s.*@/i};
     //query = { "email": { "$regex": "s.*@", "$options" : "i" }};
    
+    query = {salesRepId : generateBSON("51e71518ed32080ffc000016")};
     
-/*
-    console.log('query IS...');
-    console.log(query);
-    console.log('options IS...');
-    console.log(options);
-    console.log('fields IS...');
-    console.log(fields);
-*/
+    
     
     
     db.collection(req.params.resource, function(err, collection) {
         collection.find(query, fields, options).toArray(function(err, items) {
+            
+            console.log('resource is IS...');
+            console.log(req.params.resource);
+            
+            console.log('query IS...');
+            console.log(query);
+            console.log('options IS...');
+            console.log(options);
+            console.log('fields IS...');
+            console.log(fields);
             
             if(err) res.send({'error':'An error has occurred - ' + err});
             if(!items) res.send({error : 'No results'});

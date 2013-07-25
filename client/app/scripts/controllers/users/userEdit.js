@@ -20,10 +20,7 @@ angular
         // filepicker settings
         // @todo move to global config
         filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');
-        
-        
-        $scope.allVendors = Vendor.getAllWithoutSalesReps();
-        console.log($scope.allVendors);
+    
       
         // pick logo function
         // simple callback assigans to user logo when complete
@@ -57,7 +54,7 @@ angular
                 
                 // get vendors for this user
                 // @todo this will now save when we udate the vendors, so we need to fix this! 
-                $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);                
+                refreshVendors();                
             });
             //console.log($scope.user);
             $scope.formAction = 'Update';
@@ -86,21 +83,41 @@ angular
         };
 
         
-        $scope.addVendor = function(id) {
-            console.log('Vendor id: ' + id);
-            User.addVendorToSalesRep(id, $scope.user._id);
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            $scope.vendorId = '';
-            //$scope.allVendors = Vendor.getAllWithoutSalesReps();
+        /**
+        * Adds a sales reps id to the passed vendor
+        * @param vendor {object} vendor object
+        *
+        */
+        $scope.addVendor = function(vendor) {
+            console.log('Vendor id: ' + vendor._id);
+            
+            vendor.salesRepId = $scope.user._id;
+            
+            Vendor.update(vendor).then(function(response) {
+                console.log(response);
+                refreshVendors();
+            });
         };
         
         
         $scope.removeVendor = function(id) {
-            User.removeVendorFromSalesRep(id, $scope.user._id);  
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            $scope.allVendors = Vendor.getAllWithoutSalesReps();
+            
+            console.log('Vendor id: ' + vendor._id);
+            
+            vendor.salesRepId = null;
+            
+            Vendor.update(vendor).then(function(response) {
+                refreshVendors();
+            });
         };
         
+        
+        function refreshVendors() {
+            
+            $scope.user.vendors = Vendor.getManyWhere('salesRepId', $scope.user._id);
+            //$scope.allVendors = Vendor.getAllWithoutSalesReps();
+            
+        }
         
         
         $scope.tabs = ['Basic information', 'Vendors', 'Password'];

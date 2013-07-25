@@ -98,9 +98,9 @@ angular
             Vendor.getById(vendorId).then(function(response){
                 $scope.vendor = response;
                 
-                User.getOneWhereIn('vendorIds',  vendorId).then(function(response) {
-                    $scope.vendor.salesRep = response;
-                });
+                if($scope.vendor.salesRepId) {
+                   $scope.vendor.salesRep = User.getById($scope.vendor.salesRepId); 
+                }
                 
                 if($scope.vendor.locatorEnabled) {
                     $scope.tabs.push('Locator Tool');

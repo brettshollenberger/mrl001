@@ -112,11 +112,46 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         });
     };
     
+    /**
+    * Reduces the itemList to those where ID is in values array
+    * 
+    * If ID exists multiple times, will only return item one time 
+    *
+    */
+    exports.getManyWhereNotIn = function(values) {
+        var str = {};
+        str._id = { "$nin": values };
+        
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log(params);
+        
+        return $http.get(url + 'vendor', { params : params }).then(function (response) {
+            return response.data;
+        });
+    };
+    
     
     exports.getAllWithoutSalesReps = function() {
         
-        return $http.get(url + 'custom/vendor/without-reps').then(function (response) {
-            return response.data;
+        return $http.get(url + 'user').then(function (response) {
+            
+            var vendorIds = [];
+            
+            // get all the vendor ids
+            _.each(response.data, function(item) {
+                if(item.vendorIds) vendorIds = vendorIds.concat(item.vendorIds);
+            });
+            
+            // ensure they are unique
+            vendorIds = _.uniq(vendorIds);
+            
+            console.log(vendorIds);
+            
+            return exports.getManyWhereNotIn(vendorIds);
+            
         });
         
         /*

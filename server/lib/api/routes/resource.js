@@ -211,12 +211,14 @@ exports.list = function() {
     //query = { "email": { "$regex": "s.*@", "$options" : "i" }};
    
     
+/*
     console.log('query IS...');
     console.log(query);
     console.log('options IS...');
     console.log(options);
     console.log('fields IS...');
     console.log(fields);
+*/
     
     
     db.collection(req.params.resource, function(err, collection) {

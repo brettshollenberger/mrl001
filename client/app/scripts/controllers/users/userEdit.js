@@ -91,7 +91,7 @@ angular
             User.addVendorToSalesRep(id, $scope.user._id);
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.vendorId = '';
-            $scope.allVendors = Vendor.getAllWithoutSalesReps();
+            //$scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
         

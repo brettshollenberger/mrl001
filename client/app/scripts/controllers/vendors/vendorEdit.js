@@ -190,29 +190,39 @@ angular
         
         
         
-        
+        /**
+        * Add sales rep to a vendor
+        *
+        */
         $scope.addSalesRep = function(id) {
             
-            $scope.salesRepId = '';
-            
+            // first we get the user to display
             User.getById(id).then(function(response){
                 $scope.vendor.salesRep = response;
+                
+                $scope.vendor.salesRepId = id;
+                
+                Vendor.update($scope.vendor).then(function(response) {
+                    console.log('Vendor is now updated.');
+                    console.log(response);
+                });
+                
             });
-            
-            User.addVendorToSalesRep($scope.vendor._id, id);
-            /*
-            $scope.vendor.salesRep = User.getById($scope.salesRepId);
-            User.addVendorToSalesRep($scope.vendor._id, $scope.salesRepId);
-            */
-            
-            //$scope.vendor.salesRep = 
              
         };
         
-        
+        /**
+        * Removes sales rep from a vendor
+        *
+        */
         $scope.removeSalesRep = function(id) {
-            User.removeVendorFromSalesRep($scope.vendor._id, $scope.vendor.salesRep._id);  
-            $scope.vendor.salesRep = '';
+            
+            $scope.vendor.salesRepId = null;
+            Vendor.update($scope.vendor).then(function(response) {
+                console.log('Vendor is now updated.');
+                console.log(response);
+                $scope.vendor.salesRep = null;
+            });
         };
         
         

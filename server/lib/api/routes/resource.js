@@ -210,14 +210,19 @@ exports.list = function() {
     //query = { email: /s.*@/i};
     //query = { "email": { "$regex": "s.*@", "$options" : "i" }};
    
-    query = {salesRepId : generateBSON("51e71518ed32080ffc000016")};
+    //query = {salesRepId : generateBSON("51e71518ed32080ffc000016")};
     
     
+    if(query.salesRepId) {
+        query.salesRepId = generateBSON(query.salesRepId);
+        console.log('Converting salesRepId to BSON');
+    }
     
     
     db.collection(req.params.resource, function(err, collection) {
         collection.find(query, fields, options).toArray(function(err, items) {
             
+/*
             console.log('resource is IS...');
             console.log(req.params.resource);
             
@@ -227,6 +232,7 @@ exports.list = function() {
             console.log(options);
             console.log('fields IS...');
             console.log(fields);
+*/
             
             if(err) res.send({'error':'An error has occurred - ' + err});
             if(!items) res.send({error : 'No results'});

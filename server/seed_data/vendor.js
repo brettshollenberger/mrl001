@@ -55,7 +55,7 @@ var data = [
       "email": "jdelong@marlinfinance.com",
       "phone": "866-687-3778"
     },
-    "salesRepId" : '51e71518ed32080ffc000016',
+    "salesRepId" : new BSON.ObjectID('51e71518ed32080ffc000016'),
     "logo": {
       "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
     },

@@ -21,6 +21,7 @@ angular
        
         // empty vendor object
         $scope.vendor = {};
+        $scope.vendor.salesRepId = '';
         var vendor = {};
         // empty logo object, or filepicker gets mad :)
         $scope.vendor.logo = {};

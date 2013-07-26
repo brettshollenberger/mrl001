@@ -1,13 +1,6 @@
 angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', function($http, MARLINAPI_CONFIG) {
        
     var url = MARLINAPI_CONFIG.base_url;
-    
-    // get itemList for old functions
-    // TODO: Remove this when we rewrite the old functions
-    var itemList = '';
-    $http.get(url + 'program').then(function (response) {
-        itemList = response.data;
-    });
         
     // create and expose service methods
     var exports = {};
@@ -57,38 +50,31 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', fu
     */
     exports.getAllForVendorId = function(id) {
         
-        var programs = [];
-        
-        _.each(itemList, function(item) {
-            var match = _.find(item.vendorIds, function(vendorId) {
-                return vendorId == id;
-            });    
-            if(match) {
-                 programs.push(item);
-            }
-        });
-        
-        return programs;
+        return $http.get(url + 'vendor/' + id + '/program').then(function (response) {
+            return response.data;
+        }); 
          
     };
     
     /**
     * Gets all programs not currenly used by vendorId
     */
-    exports.getAllNotForVendorId = function(id) {
+    exports.getAllNotIn = function(values) {
         
-       var programs = [];
+        // get all programs, where program _id is not in the values array
         
-        _.each(itemList, function(item) {
-            var match = _.find(item.vendorIds, function(vendorId) {
-                return vendorId == id;
-            });    
-            if(!match) {
-                 programs.push(item);
-            }
-        });
+        var str = {};
+        str._id = { "$nin": values };
         
-        return programs;
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log(params);
+        
+        return $http.get(url + 'program', {params : params}).then(function (response) {
+            return response.data;
+        }); 
     };
     
     /**

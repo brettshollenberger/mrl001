@@ -180,13 +180,13 @@ angular
         function updatePrograms() {
             
             // get the vendors programs
-            $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
+            $scope.vendorPrograms = Program.getAllForVendorId($scope.vendor._id);
             
             // merge into the vendors.programs data, which may contain custom displayNames
             _.merge($scope.vendorPrograms, $scope.vendor.programs);
             
             // get the programs this vendor is not using
-            $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
+            $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
         }
         
         

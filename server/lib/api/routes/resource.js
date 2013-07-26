@@ -75,7 +75,6 @@ exports.children = function() {
         db.collection(resource, function(err, collection) {
             collection.findOne({ '_id' : id }, function(err, item) {
                 
-                console.log(item);
                 
                 if(err) res.send({'error':'An error has occurred - ' + err});
                 if(!item) res.send({error : 'This ' + resource + ' was not found'});
@@ -230,11 +229,16 @@ exports.list = function() {
         console.log('Getting vendors with no sales rep!');
     }
     
+    if(query._id && query._id.$nin) {
+        for(var i in query._id.$nin) {
+           query._id.$nin[i] = generateBSON(query._id.$nin[i]);
+        }
+    }
+    
     
     db.collection(req.params.resource, function(err, collection) {
         collection.find(query, fields, options).toArray(function(err, items) {
             
-/*
             console.log('resource is IS...');
             console.log(req.params.resource);
             
@@ -244,7 +248,6 @@ exports.list = function() {
             console.log(options);
             console.log('fields IS...');
             console.log(fields);
-*/
             
             if(err) res.send({'error':'An error has occurred - ' + err});
             if(!items) res.send({error : 'No results'});

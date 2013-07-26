@@ -108,7 +108,7 @@ angular
             
             console.log($scope.vendor.programIds);
             
-            $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds); 
+            $scope.quote.programs = Program.getAllForVendorId($scope.vendor._id); 
             $scope.filteredPrograms =  $scope.quote.programs;
             
             console.log($scope.quote.programs);

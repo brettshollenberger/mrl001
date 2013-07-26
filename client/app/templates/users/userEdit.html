@@ -65,7 +65,7 @@
                         <p>
                         <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                         {{item.name}}
-                        <button class="pull-right btn" ng-click="removeVendor()">
+                        <button class="pull-right btn" ng-click="removeVendor(item)">
                             <i class="icon icon-trash" ></i>
                         </button>
                         </p>
@@ -89,7 +89,7 @@
                         <p>
                             <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                             {{item.name}}
-                            <button class="pull-right btn" ng-click="addVendor(item._id)">
+                            <button class="pull-right btn" ng-click="addVendor(item)">
                                 <i class="icon-plus"></i>
                             </button>
                         </p>

@@ -13,15 +13,31 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('marlindb', server);
+//var server = new Server('localhost', 27017, {auto_reconnect: true});
+//db = new Db('marlindb', server);
+var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
+db = new Db('marlin_dev', server);
 
+
+/*
 db.open(function(err, db) {
     if(!err) {
         console.log("Connected to 'marlindb' database");
     } else {
         console.log(err);
     }
+});
+*/
+
+
+db.open(function(err, client) {
+    client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+        if(!err) {
+            console.log("Connected to 'marlindb' database");
+        } else {
+            console.log(err);
+        }
+    });
 });
 
 /**
@@ -75,19 +91,19 @@ exports.children = function() {
         db.collection(resource, function(err, collection) {
             collection.findOne({ '_id' : id }, function(err, item) {
                 
-                console.log(item);
                 
                 if(err) res.send({'error':'An error has occurred - ' + err});
                 if(!item) res.send({error : 'This ' + resource + ' was not found'});
                 
-                guidsPlain = item[field];
+                guidsBson = item[field];
                 
                 if(guidsPlain instanceof Array) {
                 
                     // convert all of the guids to BSON Object ID's
-                    for(var i in guidsPlain) {
-                        guidsBson.push(generateBSON(guidsPlain[i]));
-                    }
+                    // @note we removed this since Object IDs are now stored properly
+                    //for(var i in guidsPlain) {
+                    //    guidsBson.push(generateBSON(guidsPlain[i]));
+                    //}
                 
                     db.collection(child, function(err, collection) {
                         collection.find({ '_id' : { $in : guidsBson }}).toArray(function(err, items) {
@@ -113,6 +129,14 @@ exports.create = function() {
 
     return function(req, res, next) {
         var item = req.body;
+        
+        if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
+        if(item.programIds) {
+            for (var i in item.programIds) {
+                item.programIds[i] = generateBSON(item.programIds[i]);
+            }
+        }
+        
         console.log('Adding item: ' + JSON.stringify(item));
         db.collection(req.params.resource, function(err, collection) {
             collection.insert(item, {safe:true}, function(err, result) {
@@ -210,19 +234,41 @@ exports.list = function() {
     //query = { email: /s.*@/i};
     //query = { "email": { "$regex": "s.*@", "$options" : "i" }};
    
+    //query = {salesRepId : generateBSON("51e71518ed32080ffc000016")};
     
-/*
-    console.log('query IS...');
-    console.log(query);
-    console.log('options IS...');
-    console.log(options);
-    console.log('fields IS...');
-    console.log(fields);
-*/
+    if(query.salesRepId && query.salesRepId.$ne) {
+        query.salesRepId.$ne = generateBSON(query.salesRepId.$ne);
+        console.log('Converting $ne salesRepId to BSON');
+    }
+    
+    if(query.salesRepId && query.salesRepId !== '') {
+        query.salesRepId = generateBSON(query.salesRepId);
+        console.log('Converting salesRepId to BSON');
+    }
+    
+    if(query.salesRepId === '') {
+        console.log('Getting vendors with no sales rep!');
+    }
+    
+    if(query._id && query._id.$nin) {
+        for(var i in query._id.$nin) {
+           query._id.$nin[i] = generateBSON(query._id.$nin[i]);
+        }
+    }
     
     
     db.collection(req.params.resource, function(err, collection) {
         collection.find(query, fields, options).toArray(function(err, items) {
+            
+            console.log('resource is IS...');
+            console.log(req.params.resource);
+            
+            console.log('query IS...');
+            console.log(query);
+            console.log('options IS...');
+            console.log(options);
+            console.log('fields IS...');
+            console.log(fields);
             
             if(err) res.send({'error':'An error has occurred - ' + err});
             if(!items) res.send({error : 'No results'});
@@ -278,6 +324,13 @@ exports.update = function() {
         if(!id) res.send({error: 'Invalid ID'}, 404);
         
         var item = req.body;
+        
+        if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
+        if(item.programIds) {
+            for (var i in item.programIds) {
+                item.programIds[i] = generateBSON(item.programIds[i]);
+            }
+        }
         
         console.log('Updating item: ' + id);
         console.log(JSON.stringify(item));

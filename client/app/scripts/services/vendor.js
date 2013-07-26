@@ -38,7 +38,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     
     // remove item by item
     exports.remove = function(id) {
-        return $http.delete(url + 'vendor/' + id).then(function (response) {
+        return $http({method: 'DELETE', url: url + 'vendor/' + id}).then(function (response) {
             return response.data;
         }); 
     };
@@ -88,6 +88,38 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         //console.log(itemList[theId]);
         
         return itemList[theId].programIds;
+    };
+    
+    exports.getManyWhere = function(key, value) {
+        var str = {};
+        str[key] = value;
+        
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log('getManyWhere');
+        console.log(params);
+        
+        return $http.get(url + 'vendor', { params : params }).then(function (response) {
+            return response.data;
+        });
+    };
+    
+    exports.getManyWhereEmpty = function(key) {
+        var str = {};
+        str[key] = '';
+        
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log('getManyWhereEmpty');
+        console.log(params);
+        
+        return $http.get(url + 'vendor', { params : params }).then(function (response) {
+            return response.data;
+        });
     };
     
     
@@ -150,30 +182,11 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             
             console.log(vendorIds);
             
+            console.log('There are ' + vendorIds.length + ' without sales reps');
+            
             return exports.getManyWhereNotIn(vendorIds);
             
         });
-        
-        /*
-var params = {
-            query : JSON.stringify({
-                "email" : { "$nin": }
-            })  
-        };
-        console.log(params);
-        
-        return $http.get(url + 'vendor', {params: params}).then(function (response) {
-            return response.data;
-        });
-        
-        // get all vendors, whose id doesn't exist in a users vendorId's array
-        
-        
-        var reducedList = _.filter(itemList, function(item) {
-            return !User.getOneWhereIn('vendorIds', item._id);
-        });
-        return reducedList;
-*/
         
     };
     

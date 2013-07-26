@@ -21,8 +21,8 @@ describe('Tools: Quoter Tool', function() {
     describe('Viewing a quote by visiting its permalink', function() {
         
         it('Should display an existing quote when visting its url', function() {
-            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
-            expect(browser().location().url()).toEqual('/tools/quoter/51e71518ed32080ffc000017');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000019');
+            expect(browser().location().url()).toEqual('/tools/quoter/51e71518ed32080ffc000019');
             expect(input('quoteCost').val()).not().toEqual('');
         }); 
         
@@ -32,7 +32,7 @@ describe('Tools: Quoter Tool', function() {
         });
         
         it('Should not allow user to change vendor when visiting by permalink', function() {
-            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000019');
             expect(element('#vendorName').count()).toBe(0);
         });
         
@@ -80,7 +80,7 @@ describe('Tools: Quoter Tool', function() {
     describe('Showing programs for a quote', function() {
         
         it('Should use the custom display name if set for the vendor', function() {
-            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000019');
             expect(element('div > h4:first').text()).toEqual('A Custom Display Name for Program 1');
             
         });
@@ -108,7 +108,7 @@ describe('Tools: Quoter Tool', function() {
         });
         
         it('Should not allow user to regenerate a quote they have not just created.', function() {
-            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000019');
             expect(element('#generateQuote').count()).toEqual(0);
         });
     }); 

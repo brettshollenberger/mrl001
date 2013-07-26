@@ -5,8 +5,9 @@ angular
     '$scope',
     '$location',
     'authService',
-    function($rootScope, $scope, $location, Auth) {
-        
+    '$timeout',
+    function($rootScope, $scope, $location, Auth, $timeout) {
+        $scope.isProcessing = false;
         
         if($rootScope.credentials) {
            
@@ -19,11 +20,20 @@ angular
             
             var loginSuccess = Auth.login($scope.username, $scope.password);
             
-            if(!loginSuccess) {
-                $scope.message = 'Login failed, please try again';
-            } else {
-                $location.url('/dashboard');
-            }
+            $scope.isProcessing = true;
+            
+            $timeout(function() {
+                if(!loginSuccess) {
+                    $scope.message = 'Login failed, please try again';
+                    $scope.isProcessing = true;
+                } else {
+                    $location.url('/dashboard');
+                    $scope.isProcessing = false;
+                } 
+                
+            }, 2000);
+            
+            
             
         };
 

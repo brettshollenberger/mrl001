@@ -33,6 +33,7 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
+/*
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new Db('marlindb', server);
 
@@ -47,6 +48,24 @@ db.open(function(err, db) {
         console.log(err);
     }
 });
+*/
+
+
+
+var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
+db = new Db('marlin_dev', server);
+
+db.open(function(err, client) {
+    client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+        if(!err) {
+            console.log("Connected to 'marlindb' database");
+            populateDB();
+        } else {
+            console.log(err);
+        }
+    });
+});
+
 
 var populateDB = function() {
 

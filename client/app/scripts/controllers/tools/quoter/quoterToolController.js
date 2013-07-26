@@ -61,6 +61,8 @@ angular
             // get the quote
             Quote.getById(quoteId).then(function(response) {
                 
+                console.log('wehave a quote id... its: ' + quoteId);
+                
                 $scope.quote = response;
                 
                 console.log($scope.quote);
@@ -74,8 +76,7 @@ angular
                     
                     filterQuotesByTotalCost();
                     
-                    // ensures that custom displayNames appear if set
-                    _.merge($scope.quote.programs, $scope.vendor.programs);
+                    
                 });
             }, function(error) {
                 $location.path('/tools/quoter');
@@ -108,34 +109,40 @@ angular
             
             console.log($scope.vendor.programIds);
             
-            $scope.quote.programs = Program.getAllForVendorId($scope.vendor._id); 
-            $scope.filteredPrograms =  $scope.quote.programs;
-            
-            console.log($scope.quote.programs);
-            
-            _.each($scope.filteredPrograms, function(program, $programIdx){
+            Program.getAllForVendorId($scope.vendor._id).then(function(response) {
+                $scope.quote.programs = response;
                 
-                console.log('Program...');
+                // ensures that custom displayNames appear if set
+                _.merge($scope.quote.programs, $scope.vendor.programs);
                 
-                _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx){
+                $scope.filteredPrograms = $scope.quote.programs;
+                
+                _.each($scope.filteredPrograms, function(program, $programIdx){
                     
-                    _.each(buyOutOption.costs, function(cost, $costIdx){
+                    console.log('Program...');
+                    
+                    _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx){
                         
-                        if(cost && $scope.quoteCost <= cost.min || cost && $scope.quoteCost >= cost.max){
-                            //console.log($costIdx);
-                            $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.splice($costIdx, 1);
-                        
+                        _.each(buyOutOption.costs, function(cost, $costIdx){
                             
-                        }
+                            if(cost && $scope.quoteCost <= cost.min || cost && $scope.quoteCost >= cost.max){
+                                //console.log($costIdx);
+                                $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.splice($costIdx, 1);
+                            
+                                
+                            }
+                            
+                        });
                         
-                    });
-                    
-                    if($scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.length === 0){
-                        $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions.splice($buyOutIdx, 1);  
-                    }   
-                    
-                });    
-            });
+                        if($scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.length === 0){
+                            $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions.splice($buyOutIdx, 1);  
+                        }   
+                        
+                    });    
+                });
+            
+            }); 
+            
         }
         
                         

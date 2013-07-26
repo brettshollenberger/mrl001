@@ -106,6 +106,22 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         });
     };
     
+    exports.getManyWhereNot = function(key, value) {
+        var str = {};
+        str[key] = {$ne : value};
+        
+        var params = {
+            query : JSON.stringify(str)
+        };
+        
+        console.log('getManyWhere');
+        console.log(params);
+        
+        return $http.get(url + 'vendor', { params : params }).then(function (response) {
+            return response.data;
+        });
+    };
+    
     
     /**
     * Reduces the itemList to those where ID is in values array

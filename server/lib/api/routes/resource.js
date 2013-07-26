@@ -213,9 +213,14 @@ exports.list = function() {
     //query = {salesRepId : generateBSON("51e71518ed32080ffc000016")};
     
     
-    if(query.salesRepId) {
+    if(query.salesRepId && !query.salesRepId.$ne) {
         query.salesRepId = generateBSON(query.salesRepId);
         console.log('Converting salesRepId to BSON');
+    }
+    
+    if(query.salesRepId && query.salesRepId.$ne) {
+        query.salesRepId.$ne = generateBSON(query.salesRepId.$ne);
+        console.log('Converting $ne salesRepId to BSON');
     }
     
     

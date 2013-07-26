@@ -106,15 +106,15 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         });
     };
     
-    exports.getManyWhereNot = function(key, value) {
+    exports.getManyWhereEmpty = function(key) {
         var str = {};
-        str[key] = {$ne : value};
+        str[key] = '';
         
         var params = {
             query : JSON.stringify(str)
         };
         
-        console.log('getManyWhere');
+        console.log('getManyWhereEmpty');
         console.log(params);
         
         return $http.get(url + 'vendor', { params : params }).then(function (response) {

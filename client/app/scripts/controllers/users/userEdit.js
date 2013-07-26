@@ -115,7 +115,7 @@ angular
         function refreshVendors() {
             
             $scope.user.vendors = Vendor.getManyWhere('salesRepId', $scope.user._id);
-            $scope.allVendors = Vendor.getManyWhereNot('salesRepId', $scope.user._id);
+            $scope.allVendors = Vendor.getManyWhereEmpty('salesRepId');
             
         }
         

@@ -6,7 +6,7 @@
                 <div class="span10">
                     <h2>New Vendor</h2>
                     <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
                     
                     <div class="actions">
@@ -24,7 +24,7 @@
                     
                     <label>Vendor Name</label>
                     <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
-                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor.id"> -->
+                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                     
                     <label>Website</label>
                     <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
@@ -90,7 +90,7 @@
                         
                         <label>Add sales rep by searching by name</label>
                         <div class="input-append">
-                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep.id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                             <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
                             <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" />
                         </div>
@@ -101,7 +101,7 @@
                                 <p>
                                     <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                                     {{item.fullname}}
-                                    <button class="pull-right btn" ng-click="addSalesRep(item.id)">
+                                    <button class="pull-right btn" ng-click="addSalesRep(item._id)">
                                         <i class="icon-plus"></i>
                                     </button>
                                 </p>
@@ -117,13 +117,13 @@
                 
             <div class="row" ng-show="isActiveTab(2)">    
 
-                <div class="span5" ng-hide="!vendor.id">
+                <div class="span5" ng-hide="!vendor._id">
                     <h3>Vendor Lease Programs</h3>
                     <ul id="vendorPrograms" class="unstyled">
                         <li ng-repeat="item in vendorPrograms">
                             <hr />
                             <p>Name: {{item.name}}</p>
-                            <label>Display Name: This how the program will display to end users.</label>
+                            <label>Display Name: This is how the program will display to end users.</label>
                             <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
                             <br />
                             <button ng-click="removeProgram(item)" class="btn">Remove</button>
@@ -134,7 +134,7 @@
                     <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>  
                       
                 </div>
-                <div class="span5" ng-hide="!vendor.id">
+                <div class="span5" ng-hide="!vendor._id">
                     <h3>All Available Lease Programs</h3>
                     <ul id="allPrograms" class="unstyled">
                         <li ng-repeat="item in programs">
@@ -188,25 +188,30 @@
                             
                             <label>Zip</label>
                             <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
-                            
-                           
                         
                         </div>
                     
                         <div class="span4">
                             <p>Current Geo Location Shown to visitors.</p>
-                            <google-map center="center" 
-                                draggable="true" 
-                                zoom="zoom" 
-                                markers="vendorMarker" 
-                                mark-click="false"
-                                fit="true" 
-                                latitude="latitude" 
-                                longitude="longitude"
-                                events="mapEvents" 
-                                refresh="activeTab"
-                                style="height: 320px; width: 100%; display: block; position:relative;">
-                            </google-map>
+                            <div class="google-map"
+                        		center="map.center"
+                        		zoom="map.zoom"
+                        		draggable="true"
+                        		refresh="activeTab"
+                        		dragging="map.dragging">
+                        		<!-- prefedined markers -->
+                        		<marker ng-repeat="m in vendorMarker" coords="m" icon="m.icon" >
+                    				<window show="m.showWindow" closeClick="m.closeClick()">
+                    					<img ng-src="{{m.logo}}" class="img-medium"/>
+                    					<p>{{m.name}}</p>
+                                        <p>{{m.businessPhone}}</p>
+                                        <p>{{m.businessAddress.address1}}<br/>
+                                        <p>{{m.businessAddress.address2}}</p>
+                                        <p>{{m.businessAddress.city}}, {{m.businessAddress.state}} {{m.businessAddress.zip}}</p>
+                    					<p ng-show="m.distance && hasLocation">{{m.distance| number:0}} miles away</p>
+                    					<p><a target="_blank" ng-href="{{m.destAddress}}">Directions</a></p>
+                    				</window>
+                    			</marker>
                         
                         </div>
                     
@@ -214,13 +219,6 @@
                     
                 </div>
             
-                <div class="span10">    
-                            
-                    <hr />
-                    
-                    
-                    
-                </div>
             </div><!-- row -->
             
         </div><!-- offset 2 -->

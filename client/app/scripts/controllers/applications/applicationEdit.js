@@ -45,10 +45,12 @@ angular
         // get and store the application 
         if(applicationId) {
             // get the application
-            $scope.application = Application.getById(applicationId);
-            console.log($scope.application);
-            $scope.formAction = 'Update';
+            Application.getById(applicationId).then(function(response){
+               $scope.application = response;
+            });
             
+            //console.log($scope.application);
+            $scope.formAction = 'Update';
         }
     
         // activated when user clicks the save button
@@ -57,14 +59,13 @@ angular
             if(!applicationId) {
                 
                 // create new item
-                Application.add($scope.application);
+                Application.add($scope.application).then(function(response) {
+                
+                });
                 
             } else {
-            
-                // update existing item 
-                //Application.updateById($scope.application.id, $scope.application);
-                Application.update($scope.application);
-                
+                // update existing item
+                Application.update($scope.application);    
             }
             
             $location.url('/dashboard/applications');
@@ -89,7 +90,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.application.id) return false;
+            if(!$scope.application._id) return false;
             
             $scope.activeTab = tab;
         };

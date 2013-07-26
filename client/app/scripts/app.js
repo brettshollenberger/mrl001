@@ -1,8 +1,131 @@
+angular.module('SharedServices', [])
+    .config(function ($httpProvider) {
+        $httpProvider.responseInterceptors.push('myHttpInterceptor');
+        var spinnerFunction = function (data, headersGetter) {
+            // todo start the spinner here
+            
+            //alert('start spinner');
+            return data;
+        };
+        
+       /*
+ var toJsonReplacer = function(key, value) {
+            var val = value;
+
+            if (/^\$+/.test(key) && key !== '$oid') {
+                val = undefined;
+            } else if (value && value.document && value.location && value.alert && value.setInterval) {
+                val = '$WINDOW';
+            } else if (value && $document === value) {
+                val = '$DOCUMENT';
+            } else if (value && value.$evalAsync && value.$watch) {
+                val = '$SCOPE';
+            }
+            return val;
+        };
+        
+        
+        angular.toJson = function(obj, pretty) {
+            return JSON.stringify(obj, toJsonReplacer, pretty ? '  ' : null);
+        };
+
+        var parser = function(data, headersGetter) {
+            console.log(data);
+            //return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ? angular.toJson(d) : d;
+            
+            //return isObject(d) && !isFile(d) ? toJson(d) : d;
+            return data;
+        };
+        
+        
+        $httpProvider.defaults.transformRequest.push(parser);
+*/
+    })
+// register the interceptor as a service, intercepts ALL angular ajax http calls
+    .factory('myHttpInterceptor', function ($q, $window) {
+        return function (promise) {
+            return promise.then(function (response) {
+                // do something on success
+                // todo hide the spinner
+                //alert('stop spinner');
+                return response;
+
+            }, function (response) {
+                // do something on error
+                // todo hide the spinner
+                //alert('stop spinner');
+                return $q.reject(response);
+            });
+        };
+    });
+
+
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
+  .module('app', [ 'SharedServices', 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
   
   }])
-    
+  .config(['$httpProvider', function($httpProvider) {
+               
+        var toJsonReplacer = function(key, value) {
+            var val = value;
+
+            if (/^\$+/.test(key) && key !== '$oid') {
+                val = undefined;
+            } else if (value && value.document && value.location && value.alert && value.setInterval) {
+                val = '$WINDOW';
+            } else if (value && $document === value) {
+                val = '$DOCUMENT';
+            } else if (value && value.$evalAsync && value.$watch) {
+                val = '$SCOPE';
+            }
+            return val;
+        };
+        
+        var customRequest = function(d) {
+            console.log(d);
+            return d;
+        };
+        
+/*
+        $httpProvider.defaults.transformRequest.push(customRequest);
+        
+        console.log($httpProvider.defaults.transformRequest);
+*/
+        
+        
+        
+        
+            /*
+return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ? angular.toJson(d) : d;
+            
+            return isObject(d) && !isFile(d) ? toJson(d) : d;
+*/
+        
+        
+        
+        
+/*         console.log($http.defaults.transformRequest); */
+        /*
+
+
+        angular.toJson = function(obj, pretty) {
+            return JSON.stringify(obj, toJsonReplacer, pretty ? '  ' : null);
+        };
+
+        $http.defaults.transformRequest[0] = function(d) {
+            console.log(d);
+            return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ? angular.toJson(d) : d;
+            
+            return isObject(d) && !isFile(d) ? toJson(d) : d;
+        
+        };
+*/
+      
+  }])
+  
+  .constant('MARLINAPI_CONFIG', {
+    base_url: 'http://localhost:3000/api/v1/'
+  })  
   .config(['$routeProvider', function($router) {
         
     $router
@@ -141,9 +264,9 @@ angular
       
     ;
   }])
-  .run(['$rootScope', '$location', 'authService', function($rootScope, $location, Auth) {
-  
-  
+ 
+  .run(['$rootScope', '$location', 'authService', '$document', '$http', function($rootScope, $location, Auth, $document, $http) {
+   
         // global functions and variables available app wide in $rootScope go here!
         $rootScope.version = '0.1.6';
         
@@ -198,6 +321,57 @@ angular
         
   
   }])
+  .directive('decimalPlaces',function(){
+    return {
+        link:function(scope,ele,attrs){
+            ele.bind('keypress',function(e){
+                var newVal=ele.val()+(e.charCode!==0?String.fromCharCode(e.charCode):'');
+                
+                var theCharacter = String.fromCharCode(e.charCode);
+                
+                console.log(ele.val().split(".").length);
+                if(theCharacter.search(/\d/)===-1) {
+                    console.log('not a number, checking for .');
+                    if(theCharacter.search(/\./)===-1 || ele.val().split(".").length > 1) {
+                        console.log('Too many .');
+                        e.preventDefault();
+                    }
+                }
+                
+                if(theCharacter.indexOf('0')===1 && theCharacter.search(/\./)===-1 && ele.val().split(".").length === 1) {
+                    console.log('User is trying to enter a non-decimal number');
+                    e.preventDefault();
+                }
+                
+                if(ele.val().search(/\d+\.\d{3}/)===0 && newVal.length>ele.val().length){
+                    e.preventDefault();
+                }
+                
+                if(ele.val().search(/\.\d{3}/)===0 && newVal.length>ele.val().length){
+                    e.preventDefault();
+                }
+                
+                
+            });
+        }
+    };
+   
+   })
+   .directive('numberOnly',function(){
+    return {
+        link:function(scope,ele,attrs){
+            ele.bind('keypress',function(e){
+                var newVal=ele.val()+(e.charCode!==0?String.fromCharCode(e.charCode):'');
+                var theCharacter = String.fromCharCode(e.charCode);
+                
+                if(theCharacter.search(/\d/)===-1) {
+                    e.preventDefault();
+                }
+            });
+        }
+    };
+   
+   })
   .directive('userTray', [ 'authService', '$location', function(Auth, $location) {
       
       return {

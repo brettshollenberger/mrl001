@@ -24,12 +24,16 @@ angular
         
         // support getting a vendor ID from the URL, so user doesn't 
         $scope.vendor_id = $routeParams.vendor_id;
-        $scope.vendor = Vendor.getById($scope.vendor_id);
-        
-        // not a valid vendor id
-        if($scope.vendor_id && !$scope.vendor) {
-            $location.url('tools/quoter');
-            $location.search('vendor_id', null);
+
+        if($scope.vendor_id) {
+            Vendor.getById($scope.vendor_id).then(function(response){
+                $scope.vendor = response;
+                // not a valid vendor id
+                if(!$scope.vendor) {
+                    $location.url('tools/quoter');
+                    $location.search('vendor_id', null);
+                }
+            });
         }
         
         // assign to the quote
@@ -55,45 +59,59 @@ angular
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            $scope.quote = Quote.getById(quoteId);
-            if(!$scope.quote) $location.path('/tools/quoter');
+            Quote.getById(quoteId).then(function(response) {
+                
+                $scope.quote = response;
+                
+                console.log($scope.quote);
+                
+                $scope.quoteCost = $scope.quote.totalCost;
+                
+                // get the vendor
+                Vendor.getById($scope.quote.vendorId).then(function(response) {
+                    $scope.vendor = response;
+                    console.log($scope.vendor);
+                    
+                    filterQuotesByTotalCost();
+                    
+                    // ensures that custom displayNames appear if set
+                    _.merge($scope.quote.programs, $scope.vendor.programs);
+                });
+            }, function(error) {
+                $location.path('/tools/quoter');
+            });
+            
             $scope.didQuote = true; 
             $scope.buttonText = 'Re-calculate Quote';
-            
-            $scope.quoteCost = $scope.quote.totalCost;
-            
             $scope.permalink = $location.absUrl();
             
             if($rootScope.previewQuote !== true) $scope.canEdit = false;
             
-            // get the vendor
-            $scope.vendor = Vendor.getById($scope.quote.vendorId);
+            // get programs from VendorID    
             
-            // get programs from VendorID
-                       
             
-            filterQuotesByTotalCost();
             
             //console.log($scope.vendor);
-            
-            // ensures that custom displayNames appear if set
-            _.merge($scope.quote.programs, $scope.vendor.programs);
-            
             
         } else {
             $scope.quote.status = 'Open';
             // get the vendors
-            $scope.vendors = Vendor.getAll();
-            $scope.quote.vendorId = $scope.vendors[0].id;
+            Vendor.getAll().then(function(response) {
+                $scope.vendors = response;
+                $scope.quote.vendorId = $scope.vendors[0]._id;
+            });
             
             if($rootScope.previewQuote === true) $rootScope.previewQuote = false;
-            
         }
         
         function filterQuotesByTotalCost() {
+            
+            console.log($scope.vendor.programIds);
+            
             $scope.quote.programs = Program.getManyByIds($scope.vendor.programIds); 
             $scope.filteredPrograms =  $scope.quote.programs;
             
+            console.log($scope.quote.programs);
             
             _.each($scope.filteredPrograms, function(program, $programIdx){
                 
@@ -118,33 +136,33 @@ angular
                     
                 });    
             });
-            
-
         }
-        
         
                         
         $scope.generateQuote = function() {
             
             $scope.quote.totalCost = $scope.quoteCost;
             
-            
             if(!quoteId) {
                 
                 $rootScope.previewQuote = true;
                 
                 // create new item
-                var newQuote = Quote.add($scope.quote);
-                $location.url('/tools/quoter/' + newQuote.id );
-                
+                Quote.add($scope.quote).then(function(response) {
+                    var newQuote = response;
+                    console.log(newQuote);
+                    $location.url('/tools/quoter/' + newQuote._id);
+                });
+
             } else {
                 
                 filterQuotesByTotalCost();
                 
-                
-                Quote.update($scope.quote);
+                Quote.update($scope.quote).then(function(response) {
+                    console.log('Updated quote successfully...'); 
+                });
+
             }
-            
         };
         
         $scope.getTermLength = function(item) {
@@ -162,7 +180,7 @@ angular
             // build the application for us to save
             var application = {
                 status: 'Open',
-                quoteId: $scope.quote.id,
+                quoteId: $scope.quote._id,
                 vendorId: $scope.quote.vendorId,
                 quote: {
                     totalCost: $scope.quote.totalCost,
@@ -179,14 +197,15 @@ angular
             $rootScope.fromQuote = true;
             
             // create new item
-            var newApplication = Application.add(application);
-            $location.url('/tools/application/' + newApplication.id );
+            Application.add(application).then(function(response) {
             
+                var newApplication = response;
+                
+                $location.url('/tools/application/' + newApplication._id ); 
+
+            });
             
         };
-        
-        
-        
     }
   ])
 ;

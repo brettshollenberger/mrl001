@@ -1,93 +1,53 @@
-angular.module('app').factory('programService', ['$http', function($http) {
+angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG', function($http, MARLINAPI_CONFIG) {
+       
+    var url = MARLINAPI_CONFIG.base_url;
     
-    // dummy data
-    
-    var itemList = [{
-        id: 1,
-        name: 'Program numero uno, a Yearly plan',
-        rateSheet: {
-            termPeriod: 'Year',
-            buyoutOptions: [
-                    { 
-                    name: '$1.00 Buyout Program', 
-                    terms: [{length: 1}, {length: 2}, {length: 3}],
-                    costs: [
-                        {
-                            min: 1000,
-                            max: 2000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
-                        },
-                        {
-                            min: 2001,
-                            max: 10000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}]
-                        }
-                        ]
-                    },
-                    { 
-                    name: '10% Purchase Option', 
-                    terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
-                    costs: [
-                        {
-                            min: 1000,
-                            max: 2000,
-                            rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
-                            
-                        }]
-                    }]
-            }
-        }];
-    
-  
-      
-    
+    // get itemList for old functions
+    // TODO: Remove this when we rewrite the old functions
+    var itemList = '';
+    $http.get(url + 'program').then(function (response) {
+        itemList = response.data;
+    });
+        
     // create and expose service methods
     var exports = {};
     
     // get all items
     exports.getAll = function() {
-        return itemList;
+        return $http.get(url + 'program').then(function (response) {
+            return response.data;
+        });
     };
     
     // get one item by id
     exports.getById = function(id) {
-        var theItem = _.find(itemList, function(item) {
-            return item.id == id;
+        return $http.get(url + 'program/' + id).then(function (response) {
+            return response.data;
         });
-        return theItem ? theItem : false;
-    };
-    
-    // update one item by id
-    // @todo check for updating the id!
-    exports.updateById = function(id, newData) {
-        var theId = _.findIndex(itemList, function(item) {
-            return item.id == id;
-        });
-        theList = _.extend(itemList[theId], newData);
-        return theList;
     };
     
     // update one item by item 
     // @note we figure out id from item
     exports.update = function(newItem) {
-        var theIndex = _.findIndex(itemList, function(item) {
-            return item.id == newItem.id;
+        var id = newItem._id;
+        newItem = _.omit(newItem, '_id');
+        return $http.put(url + 'program/' + id, newItem).then(function (response) {
+            return response.data;
         });
-        theList = _.extend(itemList[theIndex], newItem);
-        return theList;
     };
     
     // add a new item
     exports.add = function(item) {
-        item.id = itemList.length + 1;
-        itemList.push(item);
-        return item;
+        return $http.post(url + 'program', item).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // remove item by item
-    exports.remove = function(item) {
-        itemList.splice(itemList.indexOf(item), 1);
-        return item;
+    exports.remove = function(id) {
+        return $http.delete(url + 'program/' + id).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // --------
@@ -139,7 +99,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
     */
     exports.addVendorToProgram = function(vendorId, programId) {
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == programId;
+            return item._id == programId;
         });
         
         // just in case this vendor has no ids array yet! 
@@ -159,11 +119,11 @@ angular.module('app').factory('programService', ['$http', function($http) {
     */
     exports.removeVendorFromProgram = function(vendorId, programId) {
         var theId = _.findIndex(itemList, function(item) {
-            return item.id == programId;
+            return item._id == programId;
         });
         
         itemList[theId].vendorIds = _.reject(itemList[theId].vendorIds, function(item) {
-            return vendorId !== item.id;
+            return vendorId !== item._id;
         });
         
         return exports.getAllForVendorId(vendorId);
@@ -179,7 +139,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
         var programs = [];
         _.each(idArray, function(id) {
             var match = _.find(itemList, function(subItem) {
-                return subItem.id == id;
+                return subItem._id == id;
             });
             if(match) programs.push(match);
         });
@@ -191,7 +151,7 @@ angular.module('app').factory('programService', ['$http', function($http) {
         var returnItems = [];
         _.each(itemList, function(item) {
             var match = _.find(idArray, function(vendorId) {
-                return vendorId == item.id;
+                return vendorId == item._id;
             });    
             if(!match) {
                  returnItems.push(item);

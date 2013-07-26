@@ -275,10 +275,35 @@ textarea.legalTerms {
 
 
 
-.angular-google-map {
-    img {
-        max-width: none;
-    }
+.locator .angular-google-map-container {
+	width: 100%;
+	height: 600px;
 }
 
+.vendors .angular-google-map-container {
+	width: 100%;
+	height: 400px;
+	display: block;
+}
+
+.angular-google-map {
+    display: block;
+    width: 100%;
+    height: 100%;
+    float: none;
+}
+
+/* fix for Twitter Bootstrap handling of responsive images */
+.angular-google-map img {
+	max-width: inherit;
+}
+
+
+
+form[name*="formBuyoutOptions"] .ng-invalid {
+  border-color: #e9322d;
+  -webkit-box-shadow: 0 0 6px #f8b9b7;
+  -moz-box-shadow: 0 0 6px #f8b9b7;
+  box-shadow: 0 0 6px #f8b9b7;
+}
 

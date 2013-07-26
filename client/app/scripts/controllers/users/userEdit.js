@@ -52,14 +52,15 @@ angular
         // get and store the user 
         if(userId) {
             // get the user
-            $scope.user = User.getById(userId);
-            console.log($scope.user);
+            User.getById(userId).then(function(response){
+                $scope.user = response;
+                
+                // get vendors for this user
+                // @todo this will now save when we udate the vendors, so we need to fix this! 
+                $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);                
+            });
+            //console.log($scope.user);
             $scope.formAction = 'Update';
-            
-            // get vendors for this user
-            // @todo this will now save when we udate the vendors, so we need to fix this! 
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            
         }
     
         // activated when user clicks the save button
@@ -68,38 +69,34 @@ angular
             if(!userId) {
                 
                 // create new item
-                $scope.user = User.add($scope.user);
-                // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-                userId = $scope.user.id;
+                User.add($scope.user).then(function(response) {
+                   $scope.user = response;
+                   // this ensures that on the next save, vendorId is set and the previous if() doesnt run
+                   userId = $scope.user._id;
+                });
                 
             } else {
-            
-                // update existing item 
-                //User.updateById($scope.user.id, $scope.user);
+                // update existing item
                 User.update($scope.user);
-                
             }
-            
             
             if(doRedirect) {
                 $location.url('/dashboard/users'); 
             }
-            
-            
         };
-        
+
         
         $scope.addVendor = function(id) {
             console.log('Vendor id: ' + id);
-            User.addVendorToSalesRep(id, $scope.user.id);
+            User.addVendorToSalesRep(id, $scope.user._id);
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.vendorId = '';
-            $scope.allVendors = Vendor.getAllWithoutSalesReps();
+            //$scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
         
         
         $scope.removeVendor = function(id) {
-            User.removeVendorFromSalesRep(id, $scope.user.id);  
+            User.removeVendorFromSalesRep(id, $scope.user._id);  
             $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
             $scope.allVendors = Vendor.getAllWithoutSalesReps();
         };
@@ -125,7 +122,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.user.id) return false;
+            if(!$scope.user._id) return false;
             
             $scope.activeTab = tab;
         };

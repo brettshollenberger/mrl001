@@ -45,7 +45,9 @@
     "grunt-express-server": "~0.3.1",
     "grunt-usemin": "~0.1.12",
     "grunt-strip":"0.2.1",
-    "mongodb" : "latest"
+    "passport": "latest",
+    "mongodb": "latest",
+    "grunt-sleep" : "1.1.1"
   },
   "devDependencies": {
     "grunt-karma": "~0.4.5"

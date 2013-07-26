@@ -8,7 +8,7 @@ describe('Relating programs to vendors', function() {
     });
     
     it('Should list the programs that are currently related to a vendor', function() {
-        browser().navigateTo('/dashboard/vendors/1');
+        browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023');
         expect(repeater('#vendorPrograms li').count()).toBe(3);
     });
 
@@ -34,14 +34,14 @@ describe('Relating programs to vendors', function() {
     describe('Give a program a custom displayName on a per vendor basis', function() {
         
         it('Should provide input form for user to enter custom display name', function() {
-            browser().navigateTo('/dashboard/vendors/1');
+            browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023');
             expect(repeater('#vendorPrograms li:first > input').count()).toBeGreaterThan(0);
         });
         
         it('Should save the displayName with the vendor', function() {
             using('#vendorPrograms li:first').input('item.displayName').enter('Custom Display Name');
             element('#save').click();
-            element('.edit:first').click();
+            element('.edit:last').click();
             expect(using('#vendorPrograms li:first').input('item.displayName').val()).toEqual('Custom Display Name');
             
         });
@@ -58,6 +58,6 @@ describe('Relating programs to vendors', function() {
             
         });
         
-    });        
-
+    });
+    
 });

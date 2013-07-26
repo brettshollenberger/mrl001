@@ -1,148 +1,53 @@
-angular.module('app').factory('applicationService', ['$http', function($http) {
+angular.module('app').factory('applicationService', ['$http', 'MARLINAPI_CONFIG', function($http, MARLINAPI_CONFIG) {
     
-    // dummy data
-    var itemList = [{
-        id: 1,
-        name: 'Application 1',
-        status: 'Open',
-        quoteId: 2,
-        vendorId: 1,
-        vendor: {},
-        quote: {
-           totalCost: 9900,
-           description: 'Manaquins for my art project in the SkyBox',
-           termInMonths: 12
-        },
-        leasee: {
-            fullLegalBusineessName: 'Smith Medical',
-            contactPerson: {
-                name: 'John Smith',
-                email: 'john@smith.com',
-                phone: '556-669-4444',
-                contactMethod:'phone'
-            },
-            businessAddress: {
-                address1: '2424 York Street',
-                address2: '',
-                city: 'Philadelphia',
-                state: 'PA',
-                zip: '19125'
-            },
-            yearsInBusiness: 1,
-            soleProp: 0
-        },
-        guarantorInfo: {
-            name: 'Jane Smith',
-            email: 'jane@smith.com',
-            phone: '556-669-4444',
-            socialSecurityNumber: '111-111-1122',
-            homeAddress: {
-                address1: '123 Home Lane',
-                address2: '',
-                city: 'Philadelphia',
-                state: 'PA',
-                zip: '19125'
-            }
-        },
-        notes: {}
-    },
+    var url = MARLINAPI_CONFIG.base_url;
     
-    {
-        id: 1,
-        name: 'Application 2',
-        status: 'Open',
-        quoteId: 2,
-        vendorId: 2,
-        vendor: {},
-        quote: {
-           totalCost: 9900,
-           description: 'Manaquins for my art project in the SkyBox',
-           termInMonths: 12
-        },
-        leasee: {
-            fullLegalBusineessName: 'Max Fridge',
-            contactPerson: {
-                name: 'John Doe',
-                email: 'john@doe.com',
-                phone: '556-669-4444'
-            },
-            businessAddress: {
-                address1: '2424 York Street',
-                address2: '',
-                city: 'Philadelphia',
-                state: 'PA',
-                zip: '19125'
-            },
-            yearsInBusiness: 1,
-            soleProp: 0
-        },
-        guarantorInfo: {
-            name: 'John Doe',
-            email: 'jane@doe.com',
-            phone: '556-669-4444',
-            socialSecurityNumber: '111-111-1122',
-            homeAddress: {
-                address1: '123 Home Lane',
-                address2: '',
-                city: 'Philadelphia',
-                state: 'PA',
-                zip: '19125'
-            }
-        },
-        notes: {}
-    }
-    
-    
-    ];
-
+    // get itemList for old functions
+    // TODO: Remove this when we rewrite the old functions
+    var itemList = '';
+    $http.get(url + 'application').then(function (response) {
+        itemList = response.data;
+    });
     
     // create and expose service methods
     var exports = {};
     
     // get all items
     exports.getAll = function() {
-        return itemList;
+        return $http.get(url + 'application').then(function (response) {
+            return response.data;
+        });
     };
     
     // get one item by id
     exports.getById = function(id) {
-        var theItem = _.find(itemList, function(item) {
-            return item.id == id;
+        return $http.get(url + 'application/' + id).then(function (response) {
+            return response.data;
         });
-        return theItem ? theItem : false;
-    };
-    
-    // update one item by id
-    // @todo check for updating the id!
-    exports.updateById = function(id, newData) {
-        var theId = _.findIndex(itemList, function(item) {
-            return item.id == id;
-        });
-        theList = _.extend(itemList[theId], newData);
-        return theList;
     };
     
     // update one item by item 
     // @note we figure out id from item
     exports.update = function(newItem) {
-        var theIndex = _.findIndex(itemList, function(item) {
-            return item.id == newItem.id;
+        var id = newItem._id;
+        newItem = _.omit(newItem, '_id');
+        return $http.put(url + 'application/' + id, newItem).then(function (response) {
+            return response.data;
         });
-        theList = _.extend(itemList[theIndex], newItem);
-        return theList;
     };
     
     // add a new item
     exports.add = function(item) {
-        item.id = itemList.length + 1;
-        itemList.push(item);
-        return item;
+        return $http.post(url + 'application', item).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // remove item by item
-    exports.remove = function(item) {
-        itemList.splice(itemList.indexOf(item), 1);
-        return item;
+    exports.remove = function(id) {
+        return $http.delete(url + 'application/' + id).then(function (response) {
+            return response.data;
+        }); 
     };
     
     // --------

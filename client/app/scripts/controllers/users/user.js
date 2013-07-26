@@ -14,10 +14,14 @@ angular
         // gets all the users, with their vendors
         function getAllUsersWithVendors() {
             // Gets all the vendors
-            $scope.users = User.getAll();
-            _.each($scope.users, function(item) {
-                 item.vendors = Vendor.getManyWhereIn(item.vendorIds);
-            }); 
+            User.getAll().then(function(response) {
+            
+                $scope.users = response;
+                
+                _.each($scope.users, function(item) {
+                    item.vendors = Vendor.getManyWhereIn(item.vendorIds);
+                });
+            });
         }
         
         getAllUsersWithVendors();
@@ -28,8 +32,8 @@ angular
         };
         
         // deletes an item and then gets the list again to reflect the deleted item.
-        $scope.deleteItem = function(item) {
-            User.remove(item);
+        $scope.deleteItem = function(id) {
+            User.remove(id);
             getAllUsersWithVendors();
         };
 

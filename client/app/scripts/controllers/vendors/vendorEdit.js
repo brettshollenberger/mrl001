@@ -11,7 +11,9 @@ angular
     'stateService',
     'userService',
     'googleMapsService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps) {
+    '$timeout',
+    '$window',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
        
         Auth.canUserDoAction('edit-vendor');
         
@@ -28,7 +30,9 @@ angular
         $scope.vendor.state = $scope.states[0].abbreviation;
         
         // get all the reps
-        $scope.allReps = User.getAll();
+        User.getAll().then(function(response) {
+            $scope.allReps = response;
+        });
       
         // filepicker settings
         // @todo make a global service
@@ -89,17 +93,21 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
-            
-            // make sure we have an integer, as User.getOneWhereIn gets picky with this :)
-            vendorId = parseInt(vendorId, 10);
-        
+                
             // get the vendor
-            $scope.vendor = Vendor.getById(vendorId);
-            $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
-            
-            if($scope.vendor.locatorEnabled) {
-                $scope.tabs.push('Locator Tool');
-            }
+            Vendor.getById(vendorId).then(function(response){
+                $scope.vendor = response;
+                
+                User.getOneWhereIn('vendorIds',  vendorId).then(function(response) {
+                    $scope.vendor.salesRep = response;
+                });
+                
+                if($scope.vendor.locatorEnabled) {
+                    $scope.tabs.push('Locator Tool');
+                }
+                
+                updatePrograms();
+            });
             
             $scope.formAction = 'Update';
         }
@@ -123,9 +131,12 @@ angular
             if(!vendorId) {
                 
                 // create new item
-                $scope.vendor = Vendor.add($scope.vendor);
-                vendorId = $scope.vendor.id;
-                console.log('Adding a new vendor');
+                Vendor.add($scope.vendor).then(function(response) {
+                    //console.log('VendorEdit Add Vendor');
+                    //console.log(response);
+                    $scope.vendor = response;
+                    vendorId = $scope.vendor._id;
+                });
                 
             } else {
                 
@@ -133,24 +144,19 @@ angular
                 
                 console.log('Updating vendor # ' + vendorId);
             
-                // update existing item 
-                //Vendor.updateById($scope.vendor.id, $scope.vendor);
+                // update existing item
                 Vendor.update($scope.vendor);
-                
             }
 
             if(doRedirect) {
                 $location.url('/dashboard/vendors'); 
             }
-
-            
-            
         };
 
         $scope.addProgram = function(program) {
             
             // add program thorugh api service 
-            $scope.vendor.programIds = Vendor.addProgramToVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programIds = Vendor.addProgramToVendor(program._id, $scope.vendor._id);
             
             // update programs
             updatePrograms();
@@ -163,7 +169,7 @@ angular
             delete program.displayName;
             
             // save to the vendorService
-            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program._id, $scope.vendor._id);
             
             // update programs
             updatePrograms();
@@ -175,7 +181,6 @@ angular
             // get the vendors programs
             $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
             
-            
             // merge into the vendors.programs data, which may contain custom displayNames
             _.merge($scope.vendorPrograms, $scope.vendor.programs);
             
@@ -183,19 +188,22 @@ angular
             $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
         }
         
-        // loads programs the first time
-        updatePrograms();
+        
         
         
         $scope.addSalesRep = function(id) {
             
             $scope.salesRepId = '';
-            $scope.vendor.salesRep = User.getById(id);
-            User.addVendorToSalesRep($scope.vendor.id, id);
+            
+            User.getById(id).then(function(response){
+                $scope.vendor.salesRep = response;
+            });
+            
+            User.addVendorToSalesRep($scope.vendor._id, id);
             /*
-$scope.vendor.salesRep = User.getById($scope.salesRepId);
-            User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
-*/
+            $scope.vendor.salesRep = User.getById($scope.salesRepId);
+            User.addVendorToSalesRep($scope.vendor._id, $scope.salesRepId);
+            */
             
             //$scope.vendor.salesRep = 
              
@@ -203,7 +211,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         
         
         $scope.removeSalesRep = function(id) {
-            User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
+            User.removeVendorFromSalesRep($scope.vendor._id, $scope.vendor.salesRep._id);  
             $scope.vendor.salesRep = '';
         };
         
@@ -225,8 +233,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         $scope.changeTab = function(tab) {
             
             // @todo, this will need to be more generic if we make into a directive. 
-            if(!$scope.vendor.id) return false;
-            
+            if(!$scope.vendor._id) return false;
+
             $scope.activeTab = tab;
         };
         
@@ -234,8 +242,6 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
             
             // only make map if user is switching to tab 4, and there is no map made
             if(newValue === 4) {
-                
-                // we only need to make the map one time
                 if(!$scope.isMapMade) makeMap();
             }
         });
@@ -247,11 +253,13 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         */
         $scope.vendorMarker = [];
         
-        $scope.zoom = 4;
+        $scope.map = {};
+        
+        $scope.map.zoom = 4;
         
         // default center point
         // @todo find better center point! 
-        $scope.center = {
+        $scope.map.center = {
             latitude: 45,
             longitude: -73
         };
@@ -270,17 +278,16 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
             // if vendor has geo set, lets make map center from this
             if($scope.vendor.geo) {
                 
-                $scope.center = {
-                    latitude: $scope.vendor.geo.lat,
-                    longitude: $scope.vendor.geo.lng
+                $scope.map.center = {
+                    latitude: $scope.vendor.geo.latitude,
+                    longitude: $scope.vendor.geo.longitude
                 };
                 
-                makeMarkerFromVendor();
-             
-            }
+                console.log('Updated the center');
                 
+                makeMarkerFromVendor();
+            }
         }
-        
         
         /**
         * Find geo location for vendor from address
@@ -307,19 +314,19 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                 console.log('Saving geo return data: ');
                 console.log(data);
                 
-                $scope.center = {
+                $scope.map.center = {
                     latitude: data.lat,
                     longitude: data.lng
                 };
                 
-                console.log('vendor id is: ' + $scope.vendor.id);
+                console.log('vendor id is: ' + $scope.vendor._id);
                 
                 $scope.vendor.geo = {
-                    lat: data.lat,
-                    lng: data.lng
+                    latitude: data.lat,
+                    longitude: data.lng
                 };
                 
-                console.log($scope.center);
+                console.log($scope.map.center);
                 
                 // make a marker from our vendor
                 makeMarkerFromVendor();
@@ -334,6 +341,21 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
             listener();
         });
         
+        function genereateSingleLineAddress(businessAddress) {
+           
+           var address = _.filter(businessAddress, function(item) {
+               return item !== undefined && item !== "";
+           });
+           
+           var addr = '';
+           
+           _.each(address, function(item) {
+               addr += item + ' ';
+           });
+           
+           return addr;
+       } 
+        
         
         /**
         * Will generate a marker for a vendor
@@ -342,22 +364,39 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         */
         function makeMarkerFromVendor() {
             
+            console.log('VENDOR GEO data is...');
+            console.log($scope.vendor.geo);
+            
             // build marker object from vendor info
             // @note this is duplicate code from locator tool, move to service? 
-            var marker = {
-                latitude: $scope.vendor.geo.lat,
-                longitude: $scope.vendor.geo.lng,
-                label: $scope.vendor.name,
-                infoWindow: '<img class="img-medium" src="'+$scope.vendor.logo.original+'" />',
-                name: $scope.vendor.name
-            };
+            // we need to create the marker from the vendor
+                var newMarker = {
+                    latitude: $scope.vendor.geo.latitude,
+                    longitude: $scope.vendor.geo.longitude,
+                    label: $scope.vendor.name,
+                    distance: $scope.vendor.geo.distance, // gets miles
+                    logo: $scope.vendor.logo.original,
+                    businessAddress: $scope.vendor.businessAddress,
+                    infoWindow: '<img class="img-medium" src="'+$scope.vendor.logo.original+'" />',
+                    name: $scope.vendor.name,
+                    destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress($scope.vendor.businessAddress)
+                };
+                
+                console.log('VENDOR NEW MARKER is...');
+                console.log(newMarker);
+                
             
-            $scope.vendorMarker = [marker];
+            $scope.vendorMarker = [newMarker];
             
             // @note we need to find an auto way to fit here!
-            $scope.zoom = 16;
+            $scope.map.zoom = 16;
+            
+            var win = angular.element(window);
+            console.log('window');
+            win.triggerHandler('resize');
             
         }
+        
         
     }
   ])

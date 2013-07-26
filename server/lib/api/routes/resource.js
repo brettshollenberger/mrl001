@@ -113,6 +113,9 @@ exports.create = function() {
 
     return function(req, res, next) {
         var item = req.body;
+        
+        if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
+        
         console.log('Adding item: ' + JSON.stringify(item));
         db.collection(req.params.resource, function(err, collection) {
             collection.insert(item, {safe:true}, function(err, result) {
@@ -296,6 +299,8 @@ exports.update = function() {
         if(!id) res.send({error: 'Invalid ID'}, 404);
         
         var item = req.body;
+        
+        if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
         
         console.log('Updating item: ' + id);
         console.log(JSON.stringify(item));

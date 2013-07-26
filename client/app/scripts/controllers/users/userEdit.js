@@ -100,13 +100,14 @@ angular
         };
         
         
-        $scope.removeVendor = function(id) {
+        $scope.removeVendor = function(vendor) {
             
             console.log('Vendor id: ' + vendor._id);
             
-            vendor.salesRepId = null;
+            vendor.salesRepId = '';
             
             Vendor.update(vendor).then(function(response) {
+                console.log(response);
                 refreshVendors();
             });
         };

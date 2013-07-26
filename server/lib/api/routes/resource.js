@@ -80,14 +80,15 @@ exports.children = function() {
                 if(err) res.send({'error':'An error has occurred - ' + err});
                 if(!item) res.send({error : 'This ' + resource + ' was not found'});
                 
-                guidsPlain = item[field];
+                guidsBson = item[field];
                 
                 if(guidsPlain instanceof Array) {
                 
                     // convert all of the guids to BSON Object ID's
-                    for(var i in guidsPlain) {
-                        guidsBson.push(generateBSON(guidsPlain[i]));
-                    }
+                    // @note we removed this since Object IDs are now stored properly
+                    //for(var i in guidsPlain) {
+                    //    guidsBson.push(generateBSON(guidsPlain[i]));
+                    //}
                 
                     db.collection(child, function(err, collection) {
                         collection.find({ '_id' : { $in : guidsBson }}).toArray(function(err, items) {

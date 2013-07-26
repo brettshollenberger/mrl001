@@ -35,9 +35,9 @@ var data = [
     },
     "locatorEnabled": true,
     "programIds": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007',
-      '51e71518ed32080ffc000050'
+      new BSON.ObjectID('51e71518ed32080ffc000006'),
+      new BSON.ObjectID('51e71518ed32080ffc000007'),
+      new BSON.ObjectID('51e71518ed32080ffc000050')
     ],
     "programs": [
       {
@@ -71,8 +71,8 @@ var data = [
     },
     "locatorEnabled": true,
     "programIds": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
+      new BSON.ObjectID('51e71518ed32080ffc000006'),
+      new BSON.ObjectID('51e71518ed32080ffc000007')
     ],
     "programs": [
       {
@@ -114,8 +114,8 @@ var data = [
     },
     "locatorEnabled": true,
     "programIds": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
+      new BSON.ObjectID('51e71518ed32080ffc000006'),
+      new BSON.ObjectID('51e71518ed32080ffc000007')
     ],
     "programs": [
       {
@@ -153,8 +153,8 @@ var data = [
     },
     "locatorEnabled": true,
     "programIds": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
+      new BSON.ObjectID('51e71518ed32080ffc000006'),
+      new BSON.ObjectID('51e71518ed32080ffc000007')
     ],
     "programs": [
       {
@@ -187,8 +187,8 @@ var data = [
       "zip": "29045"
     },
     "programIds": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
+      new BSON.ObjectID('51e71518ed32080ffc000006'),
+      new BSON.ObjectID('51e71518ed32080ffc000007')
     ],
     "locatorEnabled": true,
     "programs": [

@@ -128,6 +128,23 @@ angular
             });
             
             _.merge($scope.vendor.programs, needsUpdate);
+            
+            var newPrograms = [];
+            
+            _.each($scope.vendor.programs, function(item) {
+                delete item.rateSheet;
+                
+                console.log(item._id);
+                console.log($scope.vendor.programIds);
+                
+                if(_.contains($scope.vendor.programIds, item._id) === true) {
+                    newPrograms.push(item);
+                }
+                
+            });
+            
+            $scope.vendor.programs = newPrograms;
+            //$scope.vendorPrograms = $scope.vendor.programs;
            
             if(!vendorId) {
                 
@@ -156,11 +173,13 @@ angular
 
         $scope.addProgram = function(program) {
             
-            // add program thorugh api service 
-            $scope.vendor.programIds = Vendor.addProgramToVendor(program._id, $scope.vendor._id);
+            $scope.vendor.programIds.push(program._id);
             
-            // update programs
-            updatePrograms();
+            Vendor.update($scope.vendor).then(function() {
+                // update programs
+                updatePrograms();
+            });
+            
         };
         
         
@@ -169,21 +188,34 @@ angular
             // clear out any diplayName that wasnt saved
             delete program.displayName;
             
-            // save to the vendorService
-            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program._id, $scope.vendor._id);
             
-            // update programs
-            updatePrograms();
+            $scope.vendor.programIds.splice($scope.vendor.programIds.indexOf(program._id), 1);
+            
+            Vendor.update($scope.vendor).then(function() {
+                // update programs
+                updatePrograms();
+            });
             
         };
         
         function updatePrograms() {
             
             // get the vendors programs
-            $scope.vendorPrograms = Program.getAllForVendorId($scope.vendor._id);
+            Program.getAllForVendorId($scope.vendor._id).then(function(response) {
+                $scope.vendorPrograms = response;
+                
+                // merge into the vendors.programs data, which may contain custom displayNames
+                _.merge($scope.vendorPrograms, $scope.vendor.programs);
+                
+                _.each($scope.vendorPrograms, function(item) {
+                    item.displayName = item.displayName ? item.displayName : item.name;
+                });
+                
+                //$scope.vendor.programs = $scope.vendorPrograms;
+                
+            });
             
-            // merge into the vendors.programs data, which may contain custom displayNames
-            _.merge($scope.vendorPrograms, $scope.vendor.programs);
+            
             
             // get the programs this vendor is not using
             $scope.programs = Program.getAllNotIn($scope.vendor.programIds);

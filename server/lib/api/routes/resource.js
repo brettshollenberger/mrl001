@@ -115,6 +115,11 @@ exports.create = function() {
         var item = req.body;
         
         if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
+        if(item.programIds) {
+            for (var i in item.programIds) {
+                item.programIds[i] = generateBSON(item.programIds[i]);
+            }
+        }
         
         console.log('Adding item: ' + JSON.stringify(item));
         db.collection(req.params.resource, function(err, collection) {
@@ -305,6 +310,11 @@ exports.update = function() {
         var item = req.body;
         
         if(item.salesRepId) item.salesRepId = generateBSON(item.salesRepId);
+        if(item.programIds) {
+            for (var i in item.programIds) {
+                item.programIds[i] = generateBSON(item.programIds[i]);
+            }
+        }
         
         console.log('Updating item: ' + id);
         console.log(JSON.stringify(item));

@@ -186,6 +186,8 @@ angular
             
             // needed when creating new rate sheet. 
             if(!$scope.program.rateSheet) $scope.program.rateSheet = {buyoutOptions: []};
+            // @todo, this can be removed when the API is mongoose. 
+            if(!$scope.program.rateSheet.buyoutOptions) $scope.program.rateSheet.buyoutOptions = [];
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
             

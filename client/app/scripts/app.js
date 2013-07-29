@@ -268,7 +268,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
   .run(['$rootScope', '$location', 'authService', '$document', '$http', function($rootScope, $location, Auth, $document, $http) {
    
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.6';
+        $rootScope.version = '0.2';
         
         
         $rootScope.goTo = function(urlToGoTo) {

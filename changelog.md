@@ -3,7 +3,15 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.1.7 (current)
+Release 0.2 (current)
+--------
+- [FEATURE] - Quoter and locator tool now save to the database. This is a major milestone and marks the transition to the 0.2 version.
+- [BUG] - Fixed issue where adding a new rate sheet was broken
+- [BUG IE8] - Fixed various bugs with IE8
+- [CHORE] - General code / stability enhancements  
+
+
+Release 0.1.7
 --------
 - [FEATURE] [DEALER LOCATOR] - Show distance with dealer locator, order results by distance
 - [FEATURE] [DEALER LOCATOR] - Clicking on list opens their markers

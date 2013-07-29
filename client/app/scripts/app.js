@@ -145,7 +145,7 @@ angular
   
   
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.6';
+        $rootScope.version = '0.2';
         
         
         $rootScope.goTo = function(urlToGoTo) {

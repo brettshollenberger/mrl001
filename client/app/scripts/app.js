@@ -1,5 +1,5 @@
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'SharedServices', function() {
   
   }])
     
@@ -270,3 +270,67 @@ angular
       
   }])
 ;
+
+
+angular.module('SharedServices', [])
+    .config(function ($httpProvider) {
+        $httpProvider.responseInterceptors.push('myHttpInterceptor');
+        var spinnerFunction = function (data, headersGetter) {
+            // todo start the spinner here
+            
+            console.log(headersGetter());
+            
+            console.log('start spinner');
+            return data;
+        };
+        $httpProvider.defaults.transformRequest.push(spinnerFunction);
+    })
+// register the interceptor as a service, intercepts ALL angular ajax http calls
+    .factory('myHttpInterceptor', function ($q, $window) {
+        return function (promise) {
+            return promise.then(function (response) {
+                // do something on success
+                // todo hide the spinner
+                
+                console.log(response);
+                
+                console.log('stop spinner');
+                return response;
+
+            }, function (response) {
+                // do something on error
+                // todo hide the spinner
+                console.log('stop spinner');
+                return $q.reject(response);
+            });
+        };
+    });
+
+/*
+angular.module('app').config( function( $httpProvider ) {
+  $httpProvider.responseInterceptors.push( interceptor );
+});
+
+var interceptor = function( $q ) {
+  return function( promise ) {
+ 
+    // convert the returned data using values passed to $http.get()'s config param
+    var resolve = function( value ) {
+       console.log(value.data);
+    
+      //convertList( value.data, value.config.cls, value.config.initFn );
+    };
+ 
+    var reject = function( reason ) {
+      console.log( "rejected because: ", reason );
+    };
+ 
+    // attach our actions
+    promise.then( resolve, reject );
+ 
+    // return the original promise
+    return promise;
+  };
+};
+*/
+

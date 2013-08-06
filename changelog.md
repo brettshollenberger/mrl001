@@ -3,7 +3,12 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.2 (current)
+Release 0.2.1 (current)
+--------
+- 
+
+
+Release 0.2 
 --------
 - [FEATURE] - Quoter and locator tool now save to the database. This is a major milestone and marks the transition to the 0.2 version.
 - [BUG] - Fixed issue where adding a new rate sheet was broken

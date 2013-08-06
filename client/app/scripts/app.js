@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'SharedServices', 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'SharedServices', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider) {
@@ -207,7 +207,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
   .run(['$rootScope', '$location', 'authService', '$document', '$http', function($rootScope, $location, Auth, $document, $http) {
    
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.1.6';
+        $rootScope.version = '0.2';
         
         
         $rootScope.goTo = function(urlToGoTo) {
@@ -266,13 +266,15 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
             ele.bind('keypress',function(e){
                 var newVal=ele.val()+(e.charCode!==0?String.fromCharCode(e.charCode):'');
                 
+                // get the actual letter user has entered
                 var theCharacter = String.fromCharCode(e.charCode);
                 
                 console.log(ele.val().split(".").length);
+                
                 if(theCharacter.search(/\d/)===-1) {
-                    console.log('not a number, checking for .');
+                    console.log('not a number, checking for period (.)');
                     if(theCharacter.search(/\./)===-1 || ele.val().split(".").length > 1) {
-                        console.log('Too many .');
+                        console.log('Too many periods (.)');
                         e.preventDefault();
                     }
                 }
@@ -283,11 +285,11 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
                 }
                 
                 if(ele.val().search(/\d+\.\d{3}/)===0 && newVal.length>ele.val().length){
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
                 
                 if(ele.val().search(/\.\d{3}/)===0 && newVal.length>ele.val().length){
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
                 
                 
@@ -329,4 +331,69 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
       };
       
   }])
+
 ;
+
+
+angular.module('SharedServices', [])
+    .config(function ($httpProvider) {
+        $httpProvider.responseInterceptors.push('myHttpInterceptor');
+        var spinnerFunction = function (data, headersGetter) {
+            // todo start the spinner here
+            
+            console.log(headersGetter());
+            
+            console.log('start spinner');
+            return data;
+        };
+        $httpProvider.defaults.transformRequest.push(spinnerFunction);
+    })
+// register the interceptor as a service, intercepts ALL angular ajax http calls
+    .factory('myHttpInterceptor', function ($q, $window) {
+        return function (promise) {
+            return promise.then(function (response) {
+                // do something on success
+                // todo hide the spinner
+                
+                console.log(response);
+                
+                console.log('stop spinner');
+                return response;
+
+            }, function (response) {
+                // do something on error
+                // todo hide the spinner
+                console.log('stop spinner');
+                return $q.reject(response);
+            });
+        };
+    });
+
+/*
+angular.module('app').config( function( $httpProvider ) {
+  $httpProvider.responseInterceptors.push( interceptor );
+});
+
+var interceptor = function( $q ) {
+  return function( promise ) {
+ 
+    // convert the returned data using values passed to $http.get()'s config param
+    var resolve = function( value ) {
+       console.log(value.data);
+    
+      //convertList( value.data, value.config.cls, value.config.initFn );
+    };
+ 
+    var reject = function( reason ) {
+      console.log( "rejected because: ", reason );
+    };
+ 
+    // attach our actions
+    promise.then( resolve, reject );
+ 
+    // return the original promise
+    return promise;
+  };
+};
+*/
+

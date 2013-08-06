@@ -204,13 +204,15 @@ angular
             ele.bind('keypress',function(e){
                 var newVal=ele.val()+(e.charCode!==0?String.fromCharCode(e.charCode):'');
                 
+                // get the actual letter user has entered
                 var theCharacter = String.fromCharCode(e.charCode);
                 
                 console.log(ele.val().split(".").length);
+                
                 if(theCharacter.search(/\d/)===-1) {
-                    console.log('not a number, checking for .');
+                    console.log('not a number, checking for period (.)');
                     if(theCharacter.search(/\./)===-1 || ele.val().split(".").length > 1) {
-                        console.log('Too many .');
+                        console.log('Too many periods (.)');
                         e.preventDefault();
                     }
                 }
@@ -221,11 +223,11 @@ angular
                 }
                 
                 if(ele.val().search(/\d+\.\d{3}/)===0 && newVal.length>ele.val().length){
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
                 
                 if(ele.val().search(/\.\d{3}/)===0 && newVal.length>ele.val().length){
-                    e.preventDefault();
+                    //e.preventDefault();
                 }
                 
                 

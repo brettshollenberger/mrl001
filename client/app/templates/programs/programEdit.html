@@ -64,7 +64,7 @@
                 
                 <div ng-repeat="buyoutOptions in program.rateSheet.buyoutOptions" ng-init="buyoutIndex = $index">
                     <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
-                    <h3>{{buyoutOptions.name}}</h3>
+                    <h3><input type="text" required ng-model="buyoutOptions.name" /></h3>
                     
                     <table class="table table-condensed">
                         <thead>

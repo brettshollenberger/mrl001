@@ -192,6 +192,14 @@ angular
         };
         
         
+        /**
+        * Deletes a row or column from the rate sheet
+        * 
+        * @param {type} String, Either row|column to indicate if we are removing a row or column! 
+        * @param {index} Int, Index from the ngRepeat
+        * @param {options} Object, Options object we are manipulating stuff from
+        *
+        */
         $scope.remove = function(type, index, options) {
             
             console.log(options);
@@ -215,7 +223,6 @@ angular
                 options.costs.splice(index, 1);
                 
             }
-            
             
         };
         

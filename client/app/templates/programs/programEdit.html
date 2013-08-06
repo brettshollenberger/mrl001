@@ -71,6 +71,7 @@
                             <tr>
                                 <td>Equipment Cost</td>
                                 <td ng-repeat="item in buyoutOptions.terms">
+                                    <button class="btn" ng-click="remove('column', $index, buyoutOptions)"><icon class="icon icon-trash"></icon></button><br />
                                     <input required number-only type="text" class="input-small" ng-model="item.length"/> 
                                 </td>
                             </tr>  
@@ -78,6 +79,7 @@
                         <tbody>
                             <tr ng-repeat="cost in buyoutOptions.costs" >
                                 <td style="width: 200px;">
+                                    <button class="btn" ng-click="remove('row', $index, buyoutOptions)"><icon class="icon icon-trash"></icon></button>
                                     <input required number-only type="text" class="input-mini" ng-disabled="$index != 0" ng-model="cost.min"/> <input number-only required type="text" class="input-mini" ng-model="cost.max" ng-change="adjustValues(buyoutOptions, cost.max, $index)"/>
                                 </td>
                                 <td ng-repeat="rate in cost.rates">

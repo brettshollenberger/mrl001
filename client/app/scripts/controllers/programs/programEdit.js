@@ -169,7 +169,6 @@ angular
             
             for(var i = 0; i < $scope.newOption.columns; i++){
                 newBuyOut.terms.push({length: ''});
-                
             }
             
             for(i = 0; i < $scope.newOption.rows - 1; i++){
@@ -189,6 +188,34 @@ angular
             if(!$scope.program.rateSheet.buyoutOptions) $scope.program.rateSheet.buyoutOptions = [];
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
+            
+        };
+        
+        
+        $scope.remove = function(type, index, options) {
+            
+            console.log(options);
+            
+            if(type === 'column') {
+                
+                console.log(options.terms[index]);
+                console.log(options);
+                
+                // remove costs at this index
+                _.each(options.costs, function(item) {
+                    item.rates.splice(index, 1);
+                });
+                
+                // remove label
+                options.terms.splice(index, 1);
+                
+            } else if (type === 'row') {
+                
+                // remove costs at this index
+                options.costs.splice(index, 1);
+                
+            }
+            
             
         };
         

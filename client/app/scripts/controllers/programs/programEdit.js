@@ -152,6 +152,9 @@ angular
         $scope.makeNewOption = function() {
             //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
             //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+            
+            $scope.newOption.columns = 3;
+            
             var newBuyOut = { 
                     name: '', 
                     terms: [],

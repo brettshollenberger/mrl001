@@ -21,7 +21,7 @@
         <div class="row">
             <div class="span3">
                 
-                <h3>Name</h3>
+                <h3>Rate Sheet Name</h3>
                 
                 <label>Program Name</label>
                 <input type="text" placeholder="" ng-model="program.name">
@@ -52,14 +52,16 @@
          
             <div class="span10">
             
+                <h3>Rate Sheet Details</h3>
+            
                 <span class="pull-left">
                     <label>Term Length</label>
                     <select ng-options="option for option in termPeriodOptions" type="text" class="input-small" ng-model="program.rateSheet.termPeriod"></select>
                 </span>
-                
+                <span class="pull-left">&nbsp;&nbsp;&nbsp;</span>
                 <span class="pull-left">
                     <label>Deferred Payments</label>
-                    <input type="text" class="input-medium"/>
+                    <input type="text" class="input-medium disabled" disabled/>
                 </span>
             </div>
             
@@ -68,6 +70,8 @@
         <div class="row">
         
             <div class="span10">
+                
+                <h3>Rate Sheet Buyout Options</h3>
                 
                 <!--
   
@@ -85,6 +89,7 @@
                     <hr />
                     
                     <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
+                    <label>Buyout Name</label>
                     <input type="text" required ng-model="buyoutOptions.name" />
                     
                     <table class="table table-condensed">
@@ -140,13 +145,13 @@
                 
                 </form>
                 
-                <form class="newOption form-inline" name="newOptionForm">
-                    <h3>New Option</h3>
+                <form class="newOption" name="newOptionForm">
                     
-                    <label>Buyout:</label><input type="text" required="required" class="input-large" ng-model="newOption.name">
-                    <label>Minimum Cost:</label><input type="number" required="required" class="input-small" ng-model="newOption.minCost">
-                    <label>Columns:</label><input type="number" required="required" class="input-mini" ng-model="newOption.columns">
-                    <label>Rows:</label><input type="number" required="required" class="input-mini" ng-model="newOption.rows">
+                    <hr />
+                    
+                    
+                    <label>Buyout Name</label>
+                    <input type="text" required="required" class="input-large" ng-model="newOption.name">
                 
                     <button class="btn btn-large" ng-click="makeNewOption()" ng-disabled="newOptionForm.$invalid"><i class="icon-plus"></i></button> 
                     

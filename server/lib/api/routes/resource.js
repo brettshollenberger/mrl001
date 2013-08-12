@@ -8,7 +8,6 @@
 */
 var mongo = require('mongodb');
 var vendor = require('./vendor');
-var sleep = require('sleep');
  
 var Server = mongo.Server,
     Db = mongo.Db,

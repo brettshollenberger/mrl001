@@ -1,6 +1,6 @@
 console.log('SERVER : INIT : Seeder');
 
-var environment = 'development';
+var environment = 'production';
 
 // our master resources object
 var resources = {};
@@ -73,8 +73,10 @@ if('development' === environment) {
                 console.log("Connected to 'marlindb' database");
                 
                 console.log('=============');
-                console.log('WARNING: CANT SEED LIVE DB'); 
+                console.log('WARNING: YOU ARE SEEDING THE LIVE DB'); 
                 console.log('=============');
+                
+                populateDB();
                 
             } else {
                 console.log(err);

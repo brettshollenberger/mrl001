@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'SharedServices', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider) {
@@ -351,7 +351,7 @@ angular.module('SharedServices', [])
         
         $httpProvider.responseInterceptors.push('myHttpInterceptor');
         
-        var spinnerFunction = function (data, headersGetter, $rootScope) {
+        var spinnerFunction = function (data, headersGetter) {
             // todo start the spinner here
             
             // store local instance of queue
@@ -432,4 +432,141 @@ var interceptor = function( $q ) {
   };
 };
 */
+
+
+/*
+
+var SpinnerController, spinner,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+spinner = angular.module("mb.spinner", []);
+
+spinner.value("pendingRequests", {
+  counter: 0,
+  increment: function() {
+    return this.counter += 1;
+  },
+  decrement: function() {
+    if (this.isPending()) {
+      return this.counter -= 1;
+    }
+  },
+  isPending: function() {
+    return this.counter > 0;
+  }
+});
+
+spinner.factory("pendingRequestsInterceptor", [
+  "$injector", "$q", "pendingRequests", function($injector, $q, pendingRequests) {
+    return function(promise) {
+      var $http, onError, onSuccess;
+      $http = $injector.get("$http");
+      onSuccess = function(response) {
+        pendingRequests.decrement();
+        return response;
+      };
+      onError = function(response) {
+        pendingRequests.decrement();
+        return $q.reject(response);
+      };
+      return promise.then(onSuccess, onError);
+    };
+  }
+]);
+
+spinner.config([
+  "$httpProvider", "pendingRequestsProvider", function($httpProvider, pendingRequestsProvider) {
+    var pendingRequests;
+    pendingRequests = pendingRequestsProvider.$get();
+    $httpProvider.defaults.transformRequest.push(function(data) {
+      pendingRequests.increment();
+      return data;
+    });
+    return $httpProvider.responseInterceptors.push("pendingRequestsInterceptor");
+  }
+]);
+
+SpinnerController = (function() {
+
+  SpinnerController.$inject = ["$scope", "pendingRequests"];
+
+  function SpinnerController($scope, pendingRequests) {
+    this.$scope = $scope;
+    this.pendingRequests = pendingRequests;
+    this.showSpinner = __bind(this.showSpinner, this);
+
+    this.$scope.showSpinner = this.showSpinner;
+  }
+
+  SpinnerController.prototype.showSpinner = function() {
+    return this.pendingRequests.isPending();
+  };
+
+  return SpinnerController;
+
+})();
+
+spinner.controller("spinner", SpinnerController);
+
+spinner.directive("spinner", function() {
+  return {
+    replace: true,
+    restrict: "E",
+    template: "<li class=\"spinner\">\n  <a href=\"#\">\n    <img ng-show=\"showSpinner()\" src=\"/assets/ajax-loader.gif\" />\n  </a>\n</li>",
+    controller: "spinner"
+  };
+});
+
+*/
+
+
+
+
+
+var SpinnerController, spinner,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+spinner = angular.module("mb.spinner", []);
+
+spinner.factory("httpRequestTracker", [
+  "$http", function($http) {
+    return {
+      hasPendingRequests: function() {
+        return $http.pendingRequests.length > 0;
+      }
+    };
+  }
+]);
+
+SpinnerController = (function() {
+
+  SpinnerController2.$inject = ["$scope", "httpRequestTracker"];
+
+  function SpinnerController2($scope, httpRequestTracker) {
+    this.$scope = $scope;
+    this.httpRequestTracker = httpRequestTracker;
+    this.showSpinner = __bind(this.showSpinner, this);
+
+    this.$scope.showSpinner = this.showSpinner;
+  }
+
+  SpinnerController2.prototype.showSpinner = function() {
+    return this.httpRequestTracker.hasPendingRequests();
+  };
+
+  return SpinnerController2;
+
+})();
+
+spinner.controller("spinner", SpinnerController);
+
+spinner.directive("spinner", function() {
+  return {
+    replace: true,
+    template: "<p ng-show='showSpinner()'>Loading...</p>",
+    controller: "spinner"
+  };
+});
+
+
 

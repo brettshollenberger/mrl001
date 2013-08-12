@@ -336,34 +336,70 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 
 
 angular.module('SharedServices', [])
+    .run(function($rootScope) {
+        
+        console.log('Factor it!');
+        console.log($rootScope);
+        
+        // this will be incrimented up/ down in our requests and responses
+        // when its greater than 0, we know to show a loading indicator
+        $rootScope.requestQueue = 0;
+        
+    })
+    
     .config(function ($httpProvider) {
+        
         $httpProvider.responseInterceptors.push('myHttpInterceptor');
-        var spinnerFunction = function (data, headersGetter) {
+        
+        var spinnerFunction = function (data, headersGetter, $rootScope) {
             // todo start the spinner here
             
-            console.log(headersGetter());
+            // store local instance of queue
+            //var queue = $rootScope.requestQueue;
+            var queue = 0;
             
-            console.log('start spinner');
+            queue++;
+            console.log('Queue is... ' + queue);
+            
+            //console.log(data);
+            //console.log('start spinner, headers are...');
+            //console.log(headersGetter());
+            
             return data;
         };
         $httpProvider.defaults.transformRequest.push(spinnerFunction);
     })
-// register the interceptor as a service, intercepts ALL angular ajax http calls
-    .factory('myHttpInterceptor', function ($q, $window) {
+    
+    // register the interceptor as a service, intercepts ALL angular ajax http calls
+    .factory('myHttpInterceptor', function ($q, $window, $rootScope) {
+        
+        // store local instance of queue
+        var queue = $rootScope.requestQueue;
+                
         return function (promise) {
             return promise.then(function (response) {
                 // do something on success
                 // todo hide the spinner
                 
-                console.log(response);
+                // templates will trigger this call too... although they will come back as a data string
+                // we can check for an object 
+                //console.log('stop spinner, response.data is');
+                //console.log(response.data);
                 
-                console.log('stop spinner');
+                queue--;
+                console.log('Queue is... ' + queue);
+                
                 return response;
 
             }, function (response) {
                 // do something on error
                 // todo hide the spinner
-                console.log('stop spinner');
+                //console.log('stop spinner, failed response is...');
+                //console.log(response);
+                
+                queue--;
+                console.log('Queue is... ' + queue);
+                
                 return $q.reject(response);
             });
         };

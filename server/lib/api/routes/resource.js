@@ -8,6 +8,7 @@
 */
 var mongo = require('mongodb');
 var vendor = require('./vendor');
+var sleep = require('sleep');
  
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -17,6 +18,9 @@ var server = new Server('localhost', 27017, {auto_reconnect: true});
 db = new Db('marlindb', server);
 
 db.open(function(err, db) {
+    
+    sleep.sleep(0.8);
+    
     if(!err) {
         console.log("Connected to 'marlindb' database");
     } else {

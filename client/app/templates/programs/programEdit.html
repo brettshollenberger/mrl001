@@ -50,8 +50,27 @@
          
             <div class="span10">
             
-                <label>Term Length</label>
-                <select ng-options="option for option in termPeriodOptions" type="text" class="input-small" ng-model="program.rateSheet.termPeriod"></select>
+                <h3>Details</h3>
+            
+                <span class="pull-left">
+                    <label>Term Length</label>
+                    <select ng-options="option for option in termPeriodOptions" type="text" class="input-small" ng-model="program.rateSheet.termPeriod"></select>
+                </span>
+                <span class="pull-left">&nbsp;&nbsp;&nbsp;</span>
+                <span class="pull-left">
+                    <label>Deferred Payments</label>
+                    <input type="text" class="input-medium disabled" disabled/>
+                </span>
+            </div>
+            
+        </div>
+        
+        <div class="row">
+        
+            <div class="span10">
+                
+                <h3>Buyout Options</h3>
+                
                 <!--
   
                 <label>Cost Range Min</label>   
@@ -60,34 +79,62 @@
                 <label>Cost Range Max</label> 
                 <input type="text" class="input-small" ng-model="program.rateSheet.range.max"/>
 -->
-                <form name="formBuyoutOptions" novalidate>
+                <form class="buyoutEditForm" name="formBuyoutOptions" novalidate>
                 
                 <div ng-repeat="buyoutOptions in program.rateSheet.buyoutOptions" ng-init="buyoutIndex = $index">
+                    
+                    
+                    <hr />
+                    
                     <!-- <pre>{{buyoutOptions.costs | json}}</pre> -->
-                    <h3>{{buyoutOptions.name}}</h3>
+                    <label>Buyout Name</label>
+                    <input type="text" required ng-model="buyoutOptions.name" />
+                    
+                    <button class="btn pull-right" ng-click="removeOption(buyoutOptions)"><icon class="icon icon-trash"></icon></button>
                     
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <td>Equipment Cost</td>
-                                <td ng-repeat="item in buyoutOptions.terms">
-                                    <input required number-only type="text" class="input-small" ng-model="item.length"/> 
+                                <th colspan="10">&nbsp;</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="cost-range"></td>
+                                <td colspan="{{buyoutOptions.terms.length}}">
+                                    <span>Available Terms</span><br />
+                                    <button class="btn" ng-click="addColumnToOption(buyoutOptions)">Add Term</button>
                                 </td>
-                            </tr>  
+                                <td colspan="{{8 - buyoutOptions.terms.length}}" class="td-pad">&nbsp;</td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="2" class="cost-range"></td>
+                                <td colspan="1" ng-repeat="item in buyoutOptions.terms" class="">
+                                    <input required number-only type="text" class="span1" ng-model="item.length"/> 
+                                </td>
+                                <td colspan="{{8 - buyoutOptions.terms.length}}" class="td-pad">&nbsp;</td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2" class="cost-range">Total Cost Range</td>
+                                <td colspan="1" ng-repeat="item in buyoutOptions.terms" class="">
+                                    <button class="btn" ng-click="remove('column', $index, buyoutOptions)"><icon class="icon icon-minus-sign"></icon></button>
+                                </td>
+                                <td colspan="{{8 - buyoutOptions.terms.length}}" class="td-pad">&nbsp;</td>
+                            </tr> 
                         </thead>
                         <tbody>
                             <tr ng-repeat="cost in buyoutOptions.costs" >
-                                <td style="width: 200px;">
-                                    <input required number-only type="text" class="input-mini" ng-disabled="$index != 0" ng-model="cost.min"/> <input number-only required type="text" class="input-mini" ng-model="cost.max" ng-change="adjustValues(buyoutOptions, cost.max, $index)"/>
+                                <td colspan="2" class="cost-range">
+                                    <button class="btn" ng-click="remove('row', $index, buyoutOptions)"><icon class="icon icon-minus-sign"></icon></button>
+                                    <input required number-only type="text" class="span1" ng-disabled="$index != 0" ng-model="cost.min"/> <input number-only required type="text" class="span1" ng-model="cost.max" ng-change="adjustValues(buyoutOptions, cost.max, $index)"/>
                                 </td>
-                                <td ng-repeat="rate in cost.rates">
-                                    <input type="text" decimal-places required class="input-small" ng-model="rate.rate"/>  
+                                <td colspan="1" ng-repeat="rate in cost.rates" class="">
+                                    <input class="span1" type="text" decimal-places required ng-model="rate.rate"/>  
                                 </td>
+                                <td colspan="{{8 - buyoutOptions.terms.length}}" class="td-pad">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td style="width: 200px;">
-                                    <button class="btn" ng-click="addRowToOption(buyoutOptions)">Add Row</button> 
-                                    <button class="btn" ng-click="addColumnToOption(buyoutOptions)">Add Column</button> 
+                                    <button class="btn" ng-click="addRowToOption(buyoutOptions)">Add Cost Range</button> 
                                 </td>
                             </tr>
                             
@@ -98,13 +145,13 @@
                 
                 </form>
                 
-                <form class="newOption form-inline" name="newOptionForm">
-                    <h3>New Option</h3>
+                <form class="newOption" name="newOptionForm">
                     
-                    <label>Buyout:</label><input type="text" required="required" class="input-large" ng-model="newOption.name">
-                    <label>Minimum Cost:</label><input type="number" required="required" class="input-small" ng-model="newOption.minCost">
-                    <label>Columns:</label><input type="number" required="required" class="input-mini" ng-model="newOption.columns">
-                    <label>Rows:</label><input type="number" required="required" class="input-mini" ng-model="newOption.rows">
+                    <hr />
+                    
+                    
+                    <label>Buyout Name</label>
+                    <input type="text" required="required" class="input-large" ng-model="newOption.name">
                 
                     <button class="btn btn-large" ng-click="makeNewOption()" ng-disabled="newOptionForm.$invalid"><i class="icon-plus"></i></button> 
                     

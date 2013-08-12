@@ -152,6 +152,9 @@ angular
         $scope.makeNewOption = function() {
             //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
             //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
+            
+            $scope.newOption.columns = 3;
+            
             var newBuyOut = { 
                     name: '', 
                     terms: [],
@@ -170,7 +173,6 @@ angular
             
             for(var i = 0; i < $scope.newOption.columns; i++){
                 newBuyOut.terms.push({length: ''});
-                
             }
             
             for(i = 0; i < $scope.newOption.rows - 1; i++){
@@ -190,6 +192,56 @@ angular
             if(!$scope.program.rateSheet.buyoutOptions) $scope.program.rateSheet.buyoutOptions = [];
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
+            
+        };
+        
+        
+        /**
+        * Deletes a row or column from the rate sheet
+        * 
+        * @param {type} String, Either row|column to indicate if we are removing a row or column! 
+        * @param {index} Int, Index from the ngRepeat
+        * @param {options} Object, Options object we are manipulating stuff from
+        *
+        */
+        $scope.remove = function(type, index, options) {
+            
+            console.log(options);
+            
+            if(type === 'column') {
+                
+                console.log(options.terms[index]);
+                console.log(options);
+                
+                // remove costs at this index
+                _.each(options.costs, function(item) {
+                    item.rates.splice(index, 1);
+                });
+                
+                // remove label
+                options.terms.splice(index, 1);
+                
+            } else if (type === 'row') {
+                
+                // remove costs at this index
+                options.costs.splice(index, 1);
+                
+            }
+            
+        };
+        
+        
+        /**
+        * Remove an entire buyout option from program
+        * @param {option} Buyout option to remove
+        *
+        */
+        $scope.removeOption = function(option) {
+             
+             // save shortcut reference
+             var bPs = $scope.program.rateSheet.buyoutOptions;
+             
+             bPs.splice(bPs.indexOf(option), 1); 
             
         };
         

@@ -307,3 +307,69 @@ form[name*="formBuyoutOptions"] .ng-invalid {
   box-shadow: 0 0 6px #f8b9b7;
 }
 
+
+
+
+.spinner-overlay {
+    z-index: 1200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    text-align: center;
+    
+    .icon-spinner {
+        font-size: 40px;
+        color: white;
+        margin-top: 200px;
+    }
+    
+}
+
+
+
+
+
+// ---------------------------------------------------
+// 
+// Buyout Program Table
+//
+// ---------------------------------------------------
+
+// prevent cost range area from getting too small
+td.cost-range {
+    min-width: 250px;
+}
+
+// we use an extra td to pad out the table, so columns always float left.
+// this is a trick to make the padded one go away if we dont need it
+td[colspan*="0"] {
+    display: none;
+}
+
+.buyoutEditForm {
+    
+    .span1 {
+        width: 60px;
+        padding: 8px 6px;
+    }
+    
+    .td-pad {
+        width: 100%;
+    }
+    
+}
+
+// delete buttons, @note could be other selectors though 
+td[colspan*="1"] button {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+
+
+
+

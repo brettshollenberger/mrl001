@@ -8,37 +8,57 @@
 */
 var mongo = require('mongodb');
 var vendor = require('./vendor');
+var sleep = require('sleep');
  
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-//var server = new Server('localhost', 27017, {auto_reconnect: true});
-//db = new Db('marlindb', server);
-var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
-db = new Db('marlin_dev', server);
 
+var environment = 'development';
 
-/*
-db.open(function(err, db) {
-    if(!err) {
-        console.log("Connected to 'marlindb' database");
-    } else {
-        console.log(err);
-    }
-});
+/**
+* CONNECT to db, depending on environment
+*
 */
-
-
-db.open(function(err, client) {
-    client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+if('development' === environment) {
+ 
+    console.log('=============');
+    console.log('CONNECTING TO DEVELOPMENT DB'); 
+    console.log('=============');
+    
+    var server = new Server('localhost', 27017, {auto_reconnect: true});
+    db = new Db('marlindb', server);
+ 
+    db.open(function(err, db) {
         if(!err) {
             console.log("Connected to 'marlindb' database");
         } else {
             console.log(err);
         }
+    });  
+       
+} else {
+    
+    console.log('=============');
+    console.log('WARNING: CONNECTING TO LIVE DB, be careful!'); 
+    console.log('=============');
+    
+    var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
+    db = new Db('marlin_dev', server);
+   
+    db.open(function(err, client) {
+        client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+            if(!err) {
+                console.log("Connected to 'marlindb' database");
+            } else {
+                console.log(err);
+            }
+        });
     });
-});
+}
+
+
 
 /**
 * Default error message 

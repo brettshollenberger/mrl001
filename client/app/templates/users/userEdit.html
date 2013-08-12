@@ -26,7 +26,7 @@
                 <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
                 
                 <br /><br />
-                <button ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
+                <button  ng-disabled="!user.id" ng-click="pickImage()" class="btn btn-primary">Pick Avatar</button>
                
             </div>
 

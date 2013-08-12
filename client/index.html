@@ -36,7 +36,7 @@
     <![endif]-->   
 
     <!--[if lt IE 9]>
-    <script src="components/html5shiv-dist/html5shiv.js"></script>
+    <script src="bower_components/html5shiv-dist/html5shiv.js"></script>
     <![endif]-->
   </head>
   <body id="ng-app" ng-app="app">
@@ -50,6 +50,8 @@
       </noscript>
 
       <div ng-view></div>
+      
+      <div class="spinner spinner-overlay" spinner></div>
 
       <hr>
       
@@ -73,7 +75,7 @@
    
     
     <!--[if lte IE 8]>
-      <script src="/components/json3/lib/json3.js"></script>
+      <script src="bower_components/json3/lib/json3.js"></script>
     <![endif]-->
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
@@ -94,6 +96,8 @@
     <script src="bower_components/showdown/compressed/extensions/github.js"></script>
     <script src="bower_components/angular-markdown/angular.markdown.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/promise-tracker/promise-tracker.js"></script>
+
 
 
     <script src="app/scripts/app.js"></script>

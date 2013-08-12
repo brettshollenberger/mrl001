@@ -33,8 +33,11 @@ angular
         // get and store the quote 
         if(quoteId) {
             // get the quote
-            $scope.quote = Quote.getById(quoteId);
-            if(!$scope.quote) $location.path('/dashboard/quotes');
+            Quote.getById(quoteId).then(function(response){
+                $scope.quote = response;
+                if(!$scope.quote) $location.path('/dashboard/quotes');
+            });
+            
             $scope.formAction = 'Update';
         } else {
             $scope.quote.status = 'Open';
@@ -46,14 +49,13 @@ angular
             if(!quoteId) {
                 
                 // create new item
-                Quote.add($scope.quote);
+                Quote.add($scope.quote).then(function(response) {
+
+                });
                 
             } else {
-            
-                // update existing item 
-                //Quote.updateById($scope.quote.id, $scope.quote);
+                // update existing item
                 Quote.update($scope.quote);
-                
             }
             
             $location.url('/dashboard/quotes');
@@ -79,7 +81,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.quote.id) return false;
+            if(!$scope.quote._id) return false;
             
             $scope.activeTab = tab;
         };

@@ -1,8 +1,70 @@
+
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'SharedServices', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', function() {
   
   }])
-    
+  .config(['$httpProvider', function($httpProvider, promiseTracker) {
+               
+        var toJsonReplacer = function(key, value) {
+            var val = value;
+
+            if (/^\$+/.test(key) && key !== '$oid') {
+                val = undefined;
+            } else if (value && value.document && value.location && value.alert && value.setInterval) {
+                val = '$WINDOW';
+            } else if (value && $document === value) {
+                val = '$DOCUMENT';
+            } else if (value && value.$evalAsync && value.$watch) {
+                val = '$SCOPE';
+            }
+            return val;
+        };
+        
+        var customRequest = function(d) {
+            console.log(d);
+            return d;
+        };
+        
+/*
+        $httpProvider.defaults.transformRequest.push(customRequest);
+        
+        console.log($httpProvider.defaults.transformRequest);
+*/
+        
+        
+        
+        
+            /*
+return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ? angular.toJson(d) : d;
+            
+            return isObject(d) && !isFile(d) ? toJson(d) : d;
+*/
+        
+        
+        
+        
+/*         console.log($http.defaults.transformRequest); */
+        /*
+
+
+        angular.toJson = function(obj, pretty) {
+            return JSON.stringify(obj, toJsonReplacer, pretty ? '  ' : null);
+        };
+
+        $http.defaults.transformRequest[0] = function(d) {
+            console.log(d);
+            return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ? angular.toJson(d) : d;
+            
+            return isObject(d) && !isFile(d) ? toJson(d) : d;
+        
+        };
+*/
+      
+  }])
+  
+  .constant('MARLINAPI_CONFIG', {
+    base_url: 'http://localhost:3000/api/v1/'
+  })  
   .config(['$routeProvider', function($router) {
         
     $router
@@ -141,12 +203,13 @@ angular
       
     ;
   }])
-  .run(['$rootScope', '$location', 'authService', function($rootScope, $location, Auth) {
-  
-  
+ 
+  .run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', function($rootScope, $location, Auth, $document, $http, promiseTracker) {
+   
         // global functions and variables available app wide in $rootScope go here!
         $rootScope.version = '0.2';
         
+        $rootScope.apiTracker = promiseTracker('api');       
         
         $rootScope.goTo = function(urlToGoTo) {
             $location.url(urlToGoTo);
@@ -269,38 +332,75 @@ angular
       };
       
   }])
+
 ;
 
 
 angular.module('SharedServices', [])
+    .run(function($rootScope) {
+        
+        console.log('Factor it!');
+        console.log($rootScope);
+        
+        // this will be incrimented up/ down in our requests and responses
+        // when its greater than 0, we know to show a loading indicator
+        $rootScope.requestQueue = 0;
+        
+    })
+    
     .config(function ($httpProvider) {
+        
         $httpProvider.responseInterceptors.push('myHttpInterceptor');
+        
         var spinnerFunction = function (data, headersGetter) {
             // todo start the spinner here
             
-            console.log(headersGetter());
+            // store local instance of queue
+            //var queue = $rootScope.requestQueue;
+            var queue = 0;
             
-            console.log('start spinner');
+            queue++;
+            console.log('Queue is... ' + queue);
+            
+            //console.log(data);
+            //console.log('start spinner, headers are...');
+            //console.log(headersGetter());
+            
             return data;
         };
         $httpProvider.defaults.transformRequest.push(spinnerFunction);
     })
-// register the interceptor as a service, intercepts ALL angular ajax http calls
-    .factory('myHttpInterceptor', function ($q, $window) {
+    
+    // register the interceptor as a service, intercepts ALL angular ajax http calls
+    .factory('myHttpInterceptor', function ($q, $window, $rootScope) {
+        
+        // store local instance of queue
+        var queue = $rootScope.requestQueue;
+                
         return function (promise) {
             return promise.then(function (response) {
                 // do something on success
                 // todo hide the spinner
                 
-                console.log(response);
+                // templates will trigger this call too... although they will come back as a data string
+                // we can check for an object 
+                //console.log('stop spinner, response.data is');
+                //console.log(response.data);
                 
-                console.log('stop spinner');
+                queue--;
+                console.log('Queue is... ' + queue);
+                
                 return response;
 
             }, function (response) {
                 // do something on error
                 // todo hide the spinner
-                console.log('stop spinner');
+                //console.log('stop spinner, failed response is...');
+                //console.log(response);
+                
+                queue--;
+                console.log('Queue is... ' + queue);
+                
                 return $q.reject(response);
             });
         };
@@ -333,4 +433,142 @@ var interceptor = function( $q ) {
   };
 };
 */
+
+
+/*
+
+var SpinnerController, spinner,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+spinner = angular.module("mb.spinner", []);
+
+spinner.value("pendingRequests", {
+  counter: 0,
+  increment: function() {
+    return this.counter += 1;
+  },
+  decrement: function() {
+    if (this.isPending()) {
+      return this.counter -= 1;
+    }
+  },
+  isPending: function() {
+    return this.counter > 0;
+  }
+});
+
+spinner.factory("pendingRequestsInterceptor", [
+  "$injector", "$q", "pendingRequests", function($injector, $q, pendingRequests) {
+    return function(promise) {
+      var $http, onError, onSuccess;
+      $http = $injector.get("$http");
+      onSuccess = function(response) {
+        pendingRequests.decrement();
+        return response;
+      };
+      onError = function(response) {
+        pendingRequests.decrement();
+        return $q.reject(response);
+      };
+      return promise.then(onSuccess, onError);
+    };
+  }
+]);
+
+spinner.config([
+  "$httpProvider", "pendingRequestsProvider", function($httpProvider, pendingRequestsProvider) {
+    var pendingRequests;
+    pendingRequests = pendingRequestsProvider.$get();
+    $httpProvider.defaults.transformRequest.push(function(data) {
+      pendingRequests.increment();
+      return data;
+    });
+    return $httpProvider.responseInterceptors.push("pendingRequestsInterceptor");
+  }
+]);
+
+SpinnerController = (function() {
+
+  SpinnerController.$inject = ["$scope", "pendingRequests"];
+
+  function SpinnerController($scope, pendingRequests) {
+    this.$scope = $scope;
+    this.pendingRequests = pendingRequests;
+    this.showSpinner = __bind(this.showSpinner, this);
+
+    this.$scope.showSpinner = this.showSpinner;
+  }
+
+  SpinnerController.prototype.showSpinner = function() {
+    return this.pendingRequests.isPending();
+  };
+
+  return SpinnerController;
+
+})();
+
+spinner.controller("spinner", SpinnerController);
+
+spinner.directive("spinner", function() {
+  return {
+    replace: true,
+    restrict: "E",
+    template: "<li class=\"spinner\">\n  <a href=\"#\">\n    <img ng-show=\"showSpinner()\" src=\"/assets/ajax-loader.gif\" />\n  </a>\n</li>",
+    controller: "spinner"
+  };
+});
+
+*/
+
+
+
+
+
+var SpinnerController, spinner,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+spinner = angular.module("mb.spinner", []);
+
+spinner.factory("httpRequestTracker", [
+  "$http", function($http) {
+    return {
+      hasPendingRequests: function() {
+        return $http.pendingRequests.length > 0;
+      }
+    };
+  }
+]);
+
+SpinnerController = (function() {
+
+  SpinnerController2.$inject = ["$scope", "httpRequestTracker"];
+
+  function SpinnerController2($scope, httpRequestTracker) {
+    this.$scope = $scope;
+    this.httpRequestTracker = httpRequestTracker;
+    this.showSpinner = __bind(this.showSpinner, this);
+
+    this.$scope.showSpinner = this.showSpinner;
+    //this.$scope.showSpinner = true;
+  }
+
+  SpinnerController2.prototype.showSpinner = function() {
+    return this.httpRequestTracker.hasPendingRequests();
+  };
+
+  return SpinnerController2;
+
+})();
+
+spinner.controller("spinner", SpinnerController);
+
+spinner.directive("spinner", function() {
+  return {
+    replace: true,
+    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'</div>",
+    controller: "spinner"
+  };
+});
+
+
 

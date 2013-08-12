@@ -22,7 +22,7 @@ describe('Authentication', function() {
             expect(browser().location().url()).toEqual('/login');
             browser().navigateTo('/dashboard/vendors/new');
             expect(browser().location().url()).toEqual('/login');
-            browser().navigateTo('/dashboard/vendors/1');
+            browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023');
             expect(browser().location().url()).toEqual('/login');
         });
         
@@ -74,8 +74,8 @@ describe('Authentication', function() {
             browser().navigateTo('/tools/quoter');
             expect(browser().location().url()).toEqual('/tools/quoter');
             
-            browser().navigateTo('/tools/quoter/1');
-            expect(browser().location().url()).toEqual('/tools/quoter/1');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
+            expect(browser().location().url()).toEqual('/tools/quoter/51e71518ed32080ffc000017');
         });
         
     });

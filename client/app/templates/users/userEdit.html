@@ -5,7 +5,7 @@
             <div class="span10">
                 <h2>New User</h2>
                 <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user.id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
                 
                 <div class="actions">
@@ -65,7 +65,7 @@
                         <p>
                         <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                         {{item.name}}
-                        <button class="pull-right btn" ng-click="removeVendor()">
+                        <button class="pull-right btn" ng-click="removeVendor(item)">
                             <i class="icon icon-trash" ></i>
                         </button>
                         </p>
@@ -77,7 +77,7 @@
                 <label>Add vendor by searching by name</label>
                 
                 <div class="input-append">
-                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor.id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
+                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor._id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
                     <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId"/>
                     <!-- <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button> -->
                     
@@ -89,7 +89,7 @@
                         <p>
                             <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                             {{item.name}}
-                            <button class="pull-right btn" ng-click="addVendor(item.id)">
+                            <button class="pull-right btn" ng-click="addVendor(item)">
                                 <i class="icon-plus"></i>
                             </button>
                         </p>

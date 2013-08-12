@@ -1,12 +1,12 @@
-
 /**
  * Module dependencies.
  */
 
 var express   = require('express');
+var app       = module.exports = express();
+
 var path      = require('path');
 var api       = require('./lib/api');
-var app       = module.exports = express();
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -27,6 +27,4 @@ if ('development' === app.get('env')) {
 app.get('*', function(req, res) {
   res.redirect('/#' + req.url);
 });
-
-
 

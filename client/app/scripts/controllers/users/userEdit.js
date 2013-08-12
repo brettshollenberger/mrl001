@@ -20,10 +20,7 @@ angular
         // filepicker settings
         // @todo move to global config
         filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');
-        
-        
-        $scope.allVendors = Vendor.getAllWithoutSalesReps();
-        console.log($scope.allVendors);
+    
       
         // pick logo function
         // simple callback assigans to user logo when complete
@@ -52,14 +49,15 @@ angular
         // get and store the user 
         if(userId) {
             // get the user
-            $scope.user = User.getById(userId);
-            console.log($scope.user);
+            User.getById(userId).then(function(response){
+                $scope.user = response;
+                
+                // get vendors for this user
+                // @todo this will now save when we udate the vendors, so we need to fix this! 
+                refreshVendors();                
+            });
+            //console.log($scope.user);
             $scope.formAction = 'Update';
-            
-            // get vendors for this user
-            // @todo this will now save when we udate the vendors, so we need to fix this! 
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            
         }
     
         // activated when user clicks the save button
@@ -68,42 +66,59 @@ angular
             if(!userId) {
                 
                 // create new item
-                $scope.user = User.add($scope.user);
-                // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-                userId = $scope.user.id;
+                User.add($scope.user).then(function(response) {
+                   $scope.user = response;
+                   // this ensures that on the next save, vendorId is set and the previous if() doesnt run
+                   userId = $scope.user._id;
+                });
                 
             } else {
-            
-                // update existing item 
-                //User.updateById($scope.user.id, $scope.user);
+                // update existing item
                 User.update($scope.user);
-                
             }
-            
             
             if(doRedirect) {
                 $location.url('/dashboard/users'); 
             }
+        };
+
+        
+        /**
+        * Adds a sales reps id to the passed vendor
+        * @param vendor {object} vendor object
+        *
+        */
+        $scope.addVendor = function(vendor) {
+            console.log('Vendor id: ' + vendor._id);
             
+            vendor.salesRepId = $scope.user._id;
             
+            Vendor.update(vendor).then(function(response) {
+                console.log(response);
+                refreshVendors();
+            });
         };
         
         
-        $scope.addVendor = function(id) {
-            console.log('Vendor id: ' + id);
-            User.addVendorToSalesRep(id, $scope.user.id);
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            $scope.vendorId = '';
-            $scope.allVendors = Vendor.getAllWithoutSalesReps();
+        $scope.removeVendor = function(vendor) {
+            
+            console.log('Vendor id: ' + vendor._id);
+            
+            vendor.salesRepId = '';
+            
+            Vendor.update(vendor).then(function(response) {
+                console.log(response);
+                refreshVendors();
+            });
         };
         
         
-        $scope.removeVendor = function(id) {
-            User.removeVendorFromSalesRep(id, $scope.user.id);  
-            $scope.user.vendors = Vendor.getManyWhereIn($scope.user.vendorIds);
-            $scope.allVendors = Vendor.getAllWithoutSalesReps();
-        };
-        
+        function refreshVendors() {
+            
+            $scope.user.vendors = Vendor.getManyWhere('salesRepId', $scope.user._id);
+            $scope.allVendors = Vendor.getManyWhereEmpty('salesRepId');
+            
+        }
         
         
         $scope.tabs = ['Basic information', 'Vendors', 'Password'];
@@ -125,7 +140,7 @@ angular
             
             console.log(tab);
             
-            if(!$scope.user.id) return false;
+            if(!$scope.user._id) return false;
             
             $scope.activeTab = tab;
         };

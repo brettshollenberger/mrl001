@@ -9,7 +9,11 @@ describe('App', function() {
     });
     
     angular.scenario.matcher('toBeOneLessThan', function(future) {
-        return +this.actual === +(future.value - 1);
+        return +this.actual < +future.value;
+    });
+    
+     angular.scenario.matcher('toBeOneMoreThan', function(future) {
+        return +this.actual > +future.value;
     });
     
 });

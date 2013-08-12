@@ -71,7 +71,7 @@ input('searchTerm').enter('The Only Program that doesnt exist');
         
         it('Clicking edit should take user to edit program form', function() {
             element('.edit:first').click();
-            expect(browser().location().url()).toEqual('/dashboard/programs/1');
+            expect(browser().location().url()).toEqual('/dashboard/programs/51e71518ed32080ffc000006');
         });
         
         it('Button text should read "Save"', function() {

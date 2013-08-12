@@ -21,6 +21,7 @@ angular
        
         // empty vendor object
         $scope.vendor = {};
+        $scope.vendor.salesRepId = '';
         var vendor = {};
         // empty logo object, or filepicker gets mad :)
         $scope.vendor.logo = {};
@@ -30,7 +31,9 @@ angular
         $scope.vendor.state = $scope.states[0].abbreviation;
         
         // get all the reps
-        $scope.allReps = User.getAll();
+        User.getAll().then(function(response) {
+            $scope.allReps = response;
+        });
       
         // filepicker settings
         // @todo make a global service
@@ -91,17 +94,21 @@ angular
         
         // get and store the vendor 
         if(vendorId) {
-            
-            // make sure we have an integer, as User.getOneWhereIn gets picky with this :)
-            vendorId = parseInt(vendorId, 10);
-        
+                
             // get the vendor
-            $scope.vendor = Vendor.getById(vendorId);
-            $scope.vendor.salesRep = User.getOneWhereIn('vendorIds',  vendorId);
-            
-            if($scope.vendor.locatorEnabled) {
-                $scope.tabs.push('Locator Tool');
-            }
+            Vendor.getById(vendorId).then(function(response){
+                $scope.vendor = response;
+                
+                if($scope.vendor.salesRepId) {
+                   $scope.vendor.salesRep = User.getById($scope.vendor.salesRepId); 
+                }
+                
+                if($scope.vendor.locatorEnabled) {
+                    $scope.tabs.push('Locator Tool');
+                }
+                
+                updatePrograms();
+            });
             
             $scope.formAction = 'Update';
         }
@@ -121,13 +128,33 @@ angular
             });
             
             _.merge($scope.vendor.programs, needsUpdate);
+            
+            var newPrograms = [];
+            
+            _.each($scope.vendor.programs, function(item) {
+                delete item.rateSheet;
+                
+                console.log(item._id);
+                console.log($scope.vendor.programIds);
+                
+                if(_.contains($scope.vendor.programIds, item._id) === true) {
+                    newPrograms.push(item);
+                }
+                
+            });
+            
+            $scope.vendor.programs = newPrograms;
+            //$scope.vendorPrograms = $scope.vendor.programs;
            
             if(!vendorId) {
                 
                 // create new item
-                $scope.vendor = Vendor.add($scope.vendor);
-                vendorId = $scope.vendor.id;
-                console.log('Adding a new vendor');
+                Vendor.add($scope.vendor).then(function(response) {
+                    //console.log('VendorEdit Add Vendor');
+                    //console.log(response);
+                    $scope.vendor = response;
+                    vendorId = $scope.vendor._id;
+                });
                 
             } else {
                 
@@ -135,27 +162,24 @@ angular
                 
                 console.log('Updating vendor # ' + vendorId);
             
-                // update existing item 
-                //Vendor.updateById($scope.vendor.id, $scope.vendor);
+                // update existing item
                 Vendor.update($scope.vendor);
-                
             }
 
             if(doRedirect) {
                 $location.url('/dashboard/vendors'); 
             }
-
-            
-            
         };
 
         $scope.addProgram = function(program) {
             
-            // add program thorugh api service 
-            $scope.vendor.programIds = Vendor.addProgramToVendor(program.id, $scope.vendor.id);
+            $scope.vendor.programIds.push(program._id);
             
-            // update programs
-            updatePrograms();
+            Vendor.update($scope.vendor).then(function() {
+                // update programs
+                updatePrograms();
+            });
+            
         };
         
         
@@ -164,49 +188,74 @@ angular
             // clear out any diplayName that wasnt saved
             delete program.displayName;
             
-            // save to the vendorService
-            $scope.vendor.programIds = Vendor.removeProgramFromVendor(program.id, $scope.vendor.id);
             
-            // update programs
-            updatePrograms();
+            $scope.vendor.programIds.splice($scope.vendor.programIds.indexOf(program._id), 1);
+            
+            Vendor.update($scope.vendor).then(function() {
+                // update programs
+                updatePrograms();
+            });
             
         };
         
         function updatePrograms() {
             
             // get the vendors programs
-            $scope.vendorPrograms = Program.getManyByIds($scope.vendor.programIds);
+            Program.getAllForVendorId($scope.vendor._id).then(function(response) {
+                $scope.vendorPrograms = response;
+                
+                // merge into the vendors.programs data, which may contain custom displayNames
+                _.merge($scope.vendorPrograms, $scope.vendor.programs);
+                
+                _.each($scope.vendorPrograms, function(item) {
+                    item.displayName = item.displayName ? item.displayName : item.name;
+                });
+                
+                //$scope.vendor.programs = $scope.vendorPrograms;
+                
+            });
             
             
-            // merge into the vendors.programs data, which may contain custom displayNames
-            _.merge($scope.vendorPrograms, $scope.vendor.programs);
             
             // get the programs this vendor is not using
-            $scope.programs = Program.getManyByNotIds($scope.vendor.programIds);
+            $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
         }
         
-        // loads programs the first time
-        updatePrograms();
         
         
+        /**
+        * Add sales rep to a vendor
+        *
+        */
         $scope.addSalesRep = function(id) {
             
-            $scope.salesRepId = '';
-            $scope.vendor.salesRep = User.getById(id);
-            User.addVendorToSalesRep($scope.vendor.id, id);
-            /*
-$scope.vendor.salesRep = User.getById($scope.salesRepId);
-            User.addVendorToSalesRep($scope.vendor.id, $scope.salesRepId);
-*/
-            
-            //$scope.vendor.salesRep = 
+            // first we get the user to display
+            User.getById(id).then(function(response){
+                $scope.vendor.salesRep = response;
+                
+                $scope.vendor.salesRepId = id;
+                
+                Vendor.update($scope.vendor).then(function(response) {
+                    console.log('Vendor is now updated.');
+                    console.log(response);
+                });
+                
+            });
              
         };
         
-        
+        /**
+        * Removes sales rep from a vendor
+        *
+        */
         $scope.removeSalesRep = function(id) {
-            User.removeVendorFromSalesRep($scope.vendor.id, $scope.vendor.salesRep.id);  
-            $scope.vendor.salesRep = '';
+            
+            $scope.vendor.salesRepId = null;
+            Vendor.update($scope.vendor).then(function(response) {
+                console.log('Vendor is now updated.');
+                console.log(response);
+                $scope.vendor.salesRep = null;
+            });
         };
         
         
@@ -227,8 +276,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
         $scope.changeTab = function(tab) {
             
             // @todo, this will need to be more generic if we make into a directive. 
-            if(!$scope.vendor.id) return false;
-            
+            if(!$scope.vendor._id) return false;
+
             $scope.activeTab = tab;
         };
         
@@ -280,12 +329,8 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                 console.log('Updated the center');
                 
                 makeMarkerFromVendor();
-             
             }
-                
         }
-        
-        
         
         /**
         * Find geo location for vendor from address
@@ -317,7 +362,7 @@ $scope.vendor.salesRep = User.getById($scope.salesRepId);
                     longitude: data.lng
                 };
                 
-                console.log('vendor id is: ' + $scope.vendor.id);
+                console.log('vendor id is: ' + $scope.vendor._id);
                 
                 $scope.vendor.geo = {
                     latitude: data.lat,

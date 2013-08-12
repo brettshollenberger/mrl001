@@ -120,10 +120,9 @@
                 <div class="span5" ng-hide="!vendor._id">
                     <h3>Vendor Lease Programs</h3>
                     <ul id="vendorPrograms" class="unstyled">
-                        <li ng-repeat="item in vendorPrograms">
+                        <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
                             <hr />
-                            <p>Name: {{item.name}}</p>
-                            <label>Display Name: This is how the program will display to end users.</label>
+                            <label>Program name for this vendor. Changing this will not effect other vendors with the same program.</label>
                             <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
                             <br />
                             <button ng-click="removeProgram(item)" class="btn">Remove</button>

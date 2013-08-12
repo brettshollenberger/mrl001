@@ -15,7 +15,7 @@ angular
         $scope.vendors = Vendor.getAll().then(function(response) {
             $scope.vendors = response;
             _.each($scope.vendors, function(item) {
-                item.salesRep = User.getOneWhereIn('vendorIds', item._id);
+                if(item.salesRepId) item.salesRep = User.getById(item.salesRepId);
             });
         });
         

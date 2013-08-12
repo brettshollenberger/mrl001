@@ -110,7 +110,7 @@ describe('Vendor management', function() {
             expect(repeater('ul.salesReps li').count()).toBe(1);
             element('ul.salesReps li:first button').click();            
             expect(element('h5.salesRepName').text()).toEqual('Jennifer DeLong');
-            
+            input('salesRepId').enter('');
         });
         
         it('Should be able to remove Sales Rep', function() {

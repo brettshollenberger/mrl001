@@ -38,7 +38,7 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG', func
     
     // remove item by item
     exports.remove = function(id) {
-        return $http.delete(url + 'quote/' + id).then(function (response) {
+        return $http({method: 'DELETE', url: url + 'quote/' + id}).then(function (response) {
             return response.data;
         });
     };

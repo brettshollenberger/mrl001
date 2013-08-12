@@ -8,7 +8,8 @@ describe('Relating Users to vendors', function() {
     });
     
     
-    it('Should display a count of the vendors a user is connected to on the users table', function() {
+    /*
+it('Should display a count of the vendors a user is connected to on the users table', function() {
          browser().navigateTo('/dashboard/users'); 
          expect(element('tr:eq(2) > td:eq(3)').text()).toEqual('1');
     });
@@ -17,6 +18,7 @@ describe('Relating Users to vendors', function() {
          browser().navigateTo('/dashboard/vendors'); 
          expect(element('tr:eq(1) > td:eq(4) > img').count()).toBe(1); 
     });
+*/
     
     describe('Managing relationships from the Vendor Edit page', function() {
         

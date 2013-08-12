@@ -23,8 +23,7 @@ var data = [
         original: 'https://www.filepicker.io/api/file/Lzt97D7RaaMqubCiiRUw'
     },
     status: 'Active',
-    groups: [1],
-    vendorIds: []
+    groups: [1]
 },
 {
     // 2
@@ -42,10 +41,7 @@ var data = [
         original: 'https://www.filepicker.io/api/file/5Ur9llgFTkSpz1PlV4g9'
     },
     status: 'Active',
-    groups: [2],
-    vendorIds: [
-        '51e71518ed32080ffc000027'
-    ]
+    groups: [2]
 },
 {
     // 3
@@ -63,10 +59,7 @@ var data = [
     username: 'jcampbell',
     password: 'jcampbell',
     status: 'Active',
-    groups: [2],
-    vendorIds: [
-        '51e71518ed32080ffc000025'
-    ]
+    groups: [2]
 },
 {
     // 4
@@ -84,8 +77,7 @@ var data = [
     username: 'cbarraro',
     password: 'cbarraro',
     status: 'Active',
-    groups: [2],
-    vendorIds: []
+    groups: [2]
 },
 {
     // 5
@@ -103,8 +95,7 @@ var data = [
     username: 'bmcmahon',
     password: 'bmcmahon',
     status: 'Active',
-    groups: [2],
-    vendorIds: []
+    groups: [2]
 },
 {
     // 6
@@ -122,8 +113,7 @@ var data = [
     username: 'nara',
     password: 'nara',
     status: 'Active',
-    groups: [2],
-    vendorIds: []
+    groups: [2]
 },
 {
     // 7
@@ -141,8 +131,7 @@ var data = [
     username: 'ccole',
     password: 'ccole',
     status: 'Active',
-    groups: [2],
-    vendorIds: []
+    groups: [2]
 },
 {
     // 8
@@ -160,10 +149,7 @@ var data = [
     username: 'jfortune',
     password: 'jfortune',
     status: 'Active',
-    groups: [2],
-    vendorIds: [
-        '51e71518ed32080ffc000026'
-    ]
+    groups: [2]
 },
 {
     // 9
@@ -181,10 +167,5 @@ var data = [
     username: 'jdelong',
     password: 'jdelong',
     status: 'Active',
-    groups: [2],
-    vendorIds: [
-        '51e71518ed32080ffc000023',
-        '51e71518ed32080ffc000024',
-        '51e71518ed32080ffc000025'
-    ]
+    groups: [2]
 }];

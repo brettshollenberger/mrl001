@@ -549,6 +549,7 @@ SpinnerController = (function() {
     this.showSpinner = __bind(this.showSpinner, this);
 
     this.$scope.showSpinner = this.showSpinner;
+    //this.$scope.showSpinner = true;
   }
 
   SpinnerController2.prototype.showSpinner = function() {
@@ -564,7 +565,7 @@ spinner.controller("spinner", SpinnerController);
 spinner.directive("spinner", function() {
   return {
     replace: true,
-    template: "<p ng-show='showSpinner()'>Loading...</p>",
+    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'</div>",
     controller: "spinner"
   };
 });

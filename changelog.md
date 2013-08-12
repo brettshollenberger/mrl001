@@ -5,7 +5,25 @@ The following documents current release features and bug fixes. It also outlines
 
 Release 0.2.1 (current)
 --------
-- 
+This release centered around an overhauled rate sheet editing experience. In addition, we fixed a number of vendor editing bugs. We also added a global loading indicator to compensate for the delay caused by API calls. 
+
+**Rate Sheet Editing**
+- [UX CHORE] Overhauled the style on the quote editor page to better match wireframes.
+- [FEATURE] Admin can now delete a single buyout option from a rate sheet.
+- [FEATURE] Admin can now change name on rate sheet buyout options.
+- [FEATURE] Admin can now remove rows/ columns when editing rate sheets.
+- [FEATURE] Added default legal terms for vendors if no custom terms are set.
+- [CHORE] - Simplified the add option button; now it only requires a name. 
+- [CHORE] - Clarified labels and titles on rate sheet edit page.   
+- [BUG] Fixed bug were rate sheet validation was limiting rates to 3 decimal places.
+
+**Vendor Edit**
+- [BUG] Fixed issue were admin couldn't add rate sheets to new vendors. 
+- [BUG] Fixed bug where picking user avatar before initial save would fail.
+
+**Site Wide**
+- [FEATURE] Added loading indicator to dashboard, quoter, and locator tools
+
 
 
 Release 0.2 

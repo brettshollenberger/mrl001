@@ -7,7 +7,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
     
     // get all items
     exports.getAll = function() {
-        return $http.get(url + 'vendor').then(function (response) {
+        return $http.get(url + 'vendor', {'tracker' : 'api'}).then(function (response) {
             return response.data;
         });
     };

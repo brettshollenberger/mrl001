@@ -173,6 +173,8 @@ angular
 
         $scope.addProgram = function(program) {
             
+            if(!$scope.vendor.programIds) $scope.vendor.programIds = [];
+            
             $scope.vendor.programIds.push(program._id);
             
             Vendor.update($scope.vendor).then(function() {
@@ -213,12 +215,17 @@ angular
                 
                 //$scope.vendor.programs = $scope.vendorPrograms;
                 
-            });
-            
-            
+            });            
             
             // get the programs this vendor is not using
-            $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
+            
+            if($scope.vendor.programIds) {
+                $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
+            } else {
+                $scope.programs = Program.getAll();
+            }
+            
+            
         }
         
         

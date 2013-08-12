@@ -1,5 +1,7 @@
 console.log('SERVER : INIT : Seeder');
 
+var environment = 'development';
+
 // our master resources object
 var resources = {};
 
@@ -29,42 +31,57 @@ var insertResource = function(resource) {
 
 var mongo = require('mongodb');
  
+ 
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-/*
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('marlindb', server);
-
-db.open(function(err, db) {
-    if(!err) {
-        console.log('------------------------------------------------------------');
-        console.log("Connected to 'marlindb' database");
-        console.log("Seeding the Database");
-        console.log('------------------------------------------------------------');
-        populateDB();
-    } else {
-        console.log(err);
-    }
-});
+/**
+* CONNECT to db, depending on environment
+*
 */
-
-
-
-var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
-db = new Db('marlin_dev', server);
-
-db.open(function(err, client) {
-    client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+if('development' === environment) {
+ 
+    console.log('=============');
+    console.log('CONNECTING TO DEVELOPMENT DB'); 
+    console.log('=============');
+    
+    var server = new Server('localhost', 27017, {auto_reconnect: true});
+    db = new Db('marlindb', server);
+ 
+    db.open(function(err, db) {
         if(!err) {
             console.log("Connected to 'marlindb' database");
             populateDB();
         } else {
             console.log(err);
         }
+    });  
+       
+} else {
+    
+    console.log('=============');
+    console.log('WARNING: CONNECTING TO LIVE DB, be careful!'); 
+    console.log('=============');
+    
+    var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
+    db = new Db('marlin_dev', server);
+   
+    db.open(function(err, client) {
+        client.authenticate('facultymatt', 'scrapple1', function(err, success) {
+            if(!err) {
+                console.log("Connected to 'marlindb' database");
+                
+                console.log('=============');
+                console.log('WARNING: CANT SEED LIVE DB'); 
+                console.log('=============');
+                
+            } else {
+                console.log(err);
+            }
+        });
     });
-});
+}
 
 
 var populateDB = function() {

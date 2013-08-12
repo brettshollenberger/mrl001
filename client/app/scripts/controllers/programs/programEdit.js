@@ -230,6 +230,21 @@ angular
             
         };
         
+        
+        /**
+        * Remove an entire buyout option from program
+        * @param {option} Buyout option to remove
+        *
+        */
+        $scope.removeOption = function(option) {
+             
+             // save shortcut reference
+             var bPs = $scope.program.rateSheet.buyoutOptions;
+             
+             bPs.splice(bPs.indexOf(option), 1); 
+            
+        };
+        
     }
   ])
 ;

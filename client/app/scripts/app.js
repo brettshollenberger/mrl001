@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'saveChanges', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'saveChanges', 'AngularGM', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider, promiseTracker) {

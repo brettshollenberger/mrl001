@@ -44,7 +44,7 @@
             <h3>Results</h3>
             <p>We found {{markers.length}} Marlin dealers near you.</p>
             <table id="markerList" class="table table-striped">
-                <tr ng-repeat="item in markers | orderBy:'distance'" ng-click="remoteOpenWindow(item)">
+                <tr ng-repeat="item in markers | orderBy:'distance'" ng-click="infoWindow.open(item.getMap(), item);">
                     <td><img ng-src="{{item.logo}}" class="img-tiny"/></td>
                     <td>{{item.name}}<br/>
                     <span ng-show="item.distance && hasLocation">{{item.distance | number:0}} miles away</span>
@@ -59,6 +59,22 @@
     </div>
     
     <div class="span8">
+    {{options.map}}
+        <h3 id="infowindows">InfoWindows</h3>
+          <div class="row-fluid margin-bottom60">
+              <div gm-info-window="infoWindow">
+                <h4>{{selectedVolcano.name}}</h4>
+                {{selectedVolcano.elevationMeters}}m
+              </div>
+              <gm-map gm-map-id="'infoWindows'" gm-center="center" gm-zoom="zoom" gm-map-options="options.map" class="map">
+                <gm-markers gm-objects="markers"
+                            gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }"
+                            gm-get-marker-options="{ title: object.name }"
+                            gm-on-click="selectedVolcano = object; infoWindow.open(marker.getMap(), marker);">
+                </gm-markers>
+              </gm-map>
+          </div>
+        
         
         <div class="google-map"
     		center="map.center"

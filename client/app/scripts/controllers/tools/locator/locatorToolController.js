@@ -10,6 +10,28 @@ angular
     '$timeout',
     function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
        
+       
+        /**
+        * New map options
+        *
+        */
+        $scope.options = {
+          map: {
+            zoom: 4,
+            mapTypeId: google.maps.MapTypeId.TERRAIN
+          },
+        };
+        
+        setCenter(39.952335, -75.163789);
+        
+        /**
+        * Private funtion to set center
+        */
+        function setCenter(lat, lng) {
+            $scope.options.map.center = new google.maps.LatLng(lat, lng);
+        }
+           
+       
         //google.maps.visualRefresh = true;
        
         // markers will be vendors that match out serarch! 
@@ -75,6 +97,9 @@ angular
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
+                
+                setCenter(position.coords.latitude, position.coords.longitude);
+                
                 // create latLng object, which we need for distanc comparisons
                 
                 $scope.hasLocation = true;
@@ -130,6 +155,8 @@ angular
                     longitude: data.lng
                 };
                 
+                setCenter(position.coords.latitude, position.coords.longitude);
+                
                 $scope.hasLocation = true;
                 
                 //console.log($scope.map.center);
@@ -167,6 +194,9 @@ angular
                 // check if distance is withing range
                 // @note that users can set "unlimited" distance
                 item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
+                
+                item.geo.distance = 1;
+                
                 //console.log(distance);
                 if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
                                 
@@ -185,7 +215,7 @@ angular
                 };
                 
                 $scope.markers.push(newMarker);
-            
+                
             });
 
         }

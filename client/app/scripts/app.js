@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'saveChanges', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider, promiseTracker) {
@@ -570,4 +570,57 @@ spinner.directive("spinner", function() {
 });
 
 
+
+
+/**
+* Module that will prompt user when they try to nagivate away from page with unsaved data
+* Will prompt user to discard changed, or stay on page
+*
+* Provides a method to call which will remove the listener, ie: on save button clicked
+*
+* @todo make it auto save when user clicks "Save"
+* @note the init() method must be called after view did load, so that forms are defined
+*
+*/
+angular.module('saveChanges', [])
+    .factory('saveChangesPrompt', ['$rootScope', function($rootScope) {
+        console.log('Saving changes');     
+        
+        // empty return function
+        var removeFunction = function() {};
+        
+        return {
+            init: function(forms) {
+                
+                removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
+                    
+                    console.log('ROUTE CHANGE START');
+                    var isDirty = false;
+                                        
+                    angular.forEach(forms, function(item) {
+                       if(item.$dirty) isDirty = true;
+                    });
+                    
+                    console.log('ARE FORMS DIRTY? ' + isDirty);
+                    
+                    // @todo this could be written a lot cleaner! 
+                    if(isDirty) {
+                        if(!confirm('You will loose unsaved changes if you click OK')) {
+                             event.preventDefault(); 
+                        } else {
+                            removeFunction();
+                        }
+                    } else {
+                        removeFunction();
+                    }            
+                    
+                });                
+            },
+            removeListener: function() {
+                console.log('CHOOSING TO REMOVE THIS FUNCTION');
+                removeFunction();
+            }            
+        };        
+    }])
+;
 

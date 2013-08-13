@@ -13,7 +13,8 @@ angular
     'googleMapsService',
     '$timeout',
     '$window',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
+    'saveChangesPrompt',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, saveChangesPrompt) {
        
         Auth.canUserDoAction('edit-vendor');
         
@@ -161,6 +162,7 @@ angular
                 // this ensures that on the next save, vendorId is set and the previous if() doesnt run
                 
                 console.log('Updating vendor # ' + vendorId);
+                saveChangesPrompt.removeListener();
             
                 // update existing item
                 Vendor.update($scope.vendor);
@@ -482,41 +484,15 @@ angular
             
         };
         
-        
-        /**
-        * Function to bind when user tries to nagivate away from page
-        * Will prompt user to discard changed, or stay on page
-        *
-        * @todo make it auto save when user clicks "Save"
-        *
-        */
-        var removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
-            
-            console.log('ROUTE CHANGE START');
-            var isDirty = false;
-            
+
+        var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+            // this will prompt users to save when the leave the page. 
             var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm];
-            
-            angular.forEach(forms, function(item) {
-               if(item.$dirty) isDirty = true;
-            });
-            
-            console.log('ARE FORMS DIRTY? ' + isDirty);
-            
-            
-            // @todo this could be written a lot cleaner! 
-            if(isDirty) {
-                if(!confirm('You will loose unsaved changes if you click OK')) {
-                     event.preventDefault(); 
-                } else {
-                    removeFunction();
-                }
-            } else {
-                removeFunction();
-            }            
-            
+            saveChangesPrompt.init(forms); 
+            removeViewLoad();
         });
-        
+
+               
         
     }
   ])

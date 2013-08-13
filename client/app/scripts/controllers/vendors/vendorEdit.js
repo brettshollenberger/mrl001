@@ -155,6 +155,12 @@ angular
                     //console.log(response);
                     $scope.vendor = response;
                     vendorId = $scope.vendor._id;
+                    saveChangesPrompt.removeListener();
+                    
+                    if(doRedirect) {
+                        $location.url('/dashboard/vendors'); 
+                    }
+
                 });
                 
             } else {
@@ -166,11 +172,14 @@ angular
             
                 // update existing item
                 Vendor.update($scope.vendor);
+                
+                
+                if(doRedirect) {
+                    $location.url('/dashboard/vendors'); 
+                }
+                
             }
 
-            if(doRedirect) {
-                $location.url('/dashboard/vendors'); 
-            }
         };
 
         $scope.addProgram = function(program) {

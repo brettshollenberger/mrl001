@@ -448,6 +448,12 @@ angular
         }
         
         
+        /**
+        * Used to check the current object, against the original returned object
+        * This is useful when you are editing an object outside of a form, where form.$dirty wont work.
+        *
+        *
+        */
         var existingObject = null;
         
         $scope.$watch('vendor', function(newValue, oldValue) {
@@ -475,6 +481,42 @@ angular
             return !doesMatch;
             
         };
+        
+        
+        /**
+        * Function to bind when user tries to nagivate away from page
+        * Will prompt user to discard changed, or stay on page
+        *
+        * @todo make it auto save when user clicks "Save"
+        *
+        */
+        var removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
+            
+            console.log('ROUTE CHANGE START');
+            var isDirty = false;
+            
+            var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm];
+            
+            angular.forEach(forms, function(item) {
+               if(item.$dirty) isDirty = true;
+            });
+            
+            console.log('ARE FORMS DIRTY? ' + isDirty);
+            
+            
+            // @todo this could be written a lot cleaner! 
+            if(isDirty) {
+                if(!confirm('You will loose unsaved changes if you click OK')) {
+                     event.preventDefault(); 
+                } else {
+                    removeFunction();
+                }
+            } else {
+                removeFunction();
+            }            
+            
+        });
+        
         
     }
   ])

@@ -45,7 +45,7 @@ it('Should list the programs that are currently related to a vendor', function()
         it('Should save the displayName with the vendor', function() {
             using('#vendorPrograms li:first').input('item.displayName').enter('Custom Display Name');
             element('#save').click();
-            element('.edit:last').click();
+            browser().navigateTo('/dashboard/vendors/51e71518ed32080ffc000023');
             expect(using('#vendorPrograms li:first').input('item.displayName').val()).toEqual('Custom Display Name');
             
         });

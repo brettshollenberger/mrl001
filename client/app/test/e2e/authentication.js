@@ -74,8 +74,8 @@ describe('Authentication', function() {
             browser().navigateTo('/tools/quoter');
             expect(browser().location().url()).toEqual('/tools/quoter');
             
-            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000017');
-            expect(browser().location().url()).toEqual('/tools/quoter/51e71518ed32080ffc000017');
+            browser().navigateTo('/tools/quoter/51e71518ed32080ffc000018');
+            expect(browser().location().url()).toEqual('/tools/quoter/51e71518ed32080ffc000018');
         });
         
     });

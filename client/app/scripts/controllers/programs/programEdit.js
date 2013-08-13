@@ -7,9 +7,22 @@ angular
     '$routeParams',
     'authService',
     'programService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Program) {
+    'saveChangesPrompt',
+    function($rootScope, $scope, $location, $routeParams, Auth, Program, saveChangesPrompt) {
        
         Auth.canUserDoAction('edit-program');
+       
+        /**
+        * Initiates function which checks for un saved changes when navigating away from the page
+        * @todo move all this login into a directive, module? 
+        *
+        */
+        var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+            // this will prompt users to save when the leave the page. 
+            var forms = [$scope.formBuyoutOptions, $scope.basicForm];
+            saveChangesPrompt.init(forms); 
+            removeViewLoad();
+        });
        
         $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
        
@@ -63,15 +76,18 @@ angular
                 
                 // create new item
                 Program.add($scope.program).then(function(response) {
-
+                    saveChangesPrompt.removeListener();
+                    $location.url('/dashboard/programs');
                 });
                 
             } else {
                 // update existing item
                 Program.update($scope.program);
+                saveChangesPrompt.removeListener();
+                $location.url('/dashboard/programs');
             }
             
-            $location.url('/dashboard/programs');
+            
             
         };
         

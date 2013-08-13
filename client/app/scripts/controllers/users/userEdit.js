@@ -13,6 +13,11 @@ angular
        
         Auth.canUserDoAction('edit-user');
         
+        /**
+        * Initiates function which checks for un saved changes when navigating away from the page
+        * @todo move all this login into a directive, module? 
+        *
+        */
         var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
             // this will prompt users to save when the leave the page. 
             var forms = [$scope.basicForm, $scope.passwordForm];

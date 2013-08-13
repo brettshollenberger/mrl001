@@ -7,7 +7,7 @@
     </div>
 
 
-    <div class="span10 offset2">
+    <form name="applicationForm" class="span10 offset2">
         
         <div class="row">
 
@@ -109,7 +109,7 @@
         </pre>
         -->
 
-    </div>
+    </form>
 
 
         
@@ -117,8 +117,9 @@
         
         <hr />
         
+        <a class="btn btn-primary" id="save" ng-show="applicationForm.$dirty" ng-click="save()">Save</a>
         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        <a class="btn btn-primary" id="save" ng-click="save()">Save</a>
+        
     
     </div>
 

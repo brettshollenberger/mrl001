@@ -18,6 +18,7 @@
     "json3" : "3.2.5",
     "angular-bootstrap" : "0.3.0",
     "angular-markdown" : "0.0.1",
-    "angular-google-maps" : "https://github.com/nlaplante/angular-google-maps/archive/r1-dev.zip"
+    "angular-google-maps" : "https://github.com/nlaplante/angular-google-maps/archive/r1-dev.zip",
+    "angulartics" : ">=0.3.7"
    }
 }

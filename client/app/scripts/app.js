@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider, promiseTracker) {
@@ -254,7 +254,6 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
             
             
         });
-        
         
         // we use this to set credentials for demo on initial page screen
         $rootScope.credentials = {userName: 'bwalsh', password: 'bwalsh'};

@@ -41,7 +41,16 @@
                 <label>Total Cost</label>
                 <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost">
                 <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
-                <a class="btn btn-primary" id="re-generateQuote" ng-disabled="" ng-click="generateQuote()" ui-if="didQuote && canEdit">{{buttonText}}</a>
+                
+                <a  class="btn btn-primary" 
+                    id="re-generateQuote"
+                    analytics-on="click" 
+                    analytics-event="ReCalcuate Quote"
+                    analytics-category="Tools : Quoter" 
+                    ng-disabled="" 
+                    ng-click="generateQuote()" 
+                    ui-if="didQuote && canEdit">{{buttonText}}</a>
+                    
                 <p ui-if="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
             
             </div>

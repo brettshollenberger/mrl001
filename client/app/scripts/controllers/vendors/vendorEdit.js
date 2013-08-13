@@ -448,6 +448,34 @@ angular
         }
         
         
+        var existingObject = null;
+        
+        $scope.$watch('vendor', function(newValue, oldValue) {
+            
+            // if we have an _id, we can assume the object came from the DB.
+            // so store a copy of it for comparisions later
+            if(newValue._id) {
+                console.log('COMAPRE : Asigning existingObject');
+                existingObject = angular.copy(newValue, existingObject);
+            }
+            
+        });
+        
+        $scope.userHasEditied = function() {
+          
+            // in this case, its likely the user is creating the object from scratch
+            // in this case, we'll have another check on the form for valid form, which should make
+            // the button still be disabled, even though we are returning true here
+            if(existingObject === null) return true;
+          
+            console.log('COMAPRE : CHECKING OBJECTS MATCH');
+            var doesMatch = angular.equals(existingObject, $scope.vendor);
+            console.log(doesMatch);
+          
+            return !doesMatch;
+            
+        };
+        
     }
   ])
 ;

@@ -11,7 +11,7 @@
                     
                     <div class="actions">
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                        <a class="btn btn-primary" id="save" ng-click="save(true)">Save</a>
+                        <a class="btn btn-primary" id="save" ng-disabled="!userHasEditied()" ng-click="save(true)">Save</a>
                         <a class="btn btn-primary" id="saveAddMore" ng-click="save(false)">Save &amp; add more info</a>
                     </div>
                 

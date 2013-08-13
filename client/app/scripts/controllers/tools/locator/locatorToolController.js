@@ -197,6 +197,7 @@ angular
                     // check if distance is withing range
                     // @note that users can set "unlimited" distance
                     item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
+                    
                     //console.log(distance);
                     if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
                                     
@@ -234,9 +235,11 @@ angular
                         
                     });
                     
-                }, 50);
+                });
+                    
+            }, 50);
 
-        }
+        };
         
         /**
         * Opens a marker when a user click on it

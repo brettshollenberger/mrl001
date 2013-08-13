@@ -733,15 +733,16 @@ angular.module("google-maps").
                       var initialMarkerVisibility;
                       google.maps.event.addListener(markerInstance, 'click', function () {
                           
-                          //console.log('Clicked on marker...');
-                          //win.setPosition(markerInstance.getPosition());
-                          //win.open(mapCtrl.getMap());
+                          win.setPosition(markerInstance.getPosition());
+                          win.open(mapCtrl.getMap());
 
-                          //initialMarkerVisibility = markerInstance.getVisible();
+                          initialMarkerVisibility = markerInstance.getVisible();
 
-                          //markerInstance.setVisible(isIconVisibleOnClick);
+                          markerInstance.setVisible(isIconVisibleOnClick);
+                          
+                          // set bound prop to true, so marker will be updated
                           scope.show = true;
-                          //console.log(scope.show);
+                          
                           scope.openClick();
                           scope.$apply();
                           

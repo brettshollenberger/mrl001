@@ -60,22 +60,6 @@
     </div>
     
     <div class="span8">
-    {{options.map}}
-        <h3 id="infowindows">InfoWindows</h3>
-          <div class="row-fluid margin-bottom60">
-              <div gm-info-window="infoWindow">
-                <h4>{{selectedVolcano.name}}</h4>
-                {{selectedVolcano.elevationMeters}}m
-              </div>
-              <gm-map gm-map-id="'infoWindows'" gm-center="center" gm-zoom="zoom" gm-map-options="options.map" class="map">
-                <gm-markers gm-objects="markers"
-                            gm-get-lat-lng="{ lat: object.latitude, lng: object.longitude }"
-                            gm-get-marker-options="{ title: object.name }"
-                            gm-on-click="selectedVolcano = object; infoWindow.open(marker.getMap(), marker);">
-                </gm-markers>
-              </gm-map>
-          </div>
-        
         
         <div class="google-map"
     		center="map.center"

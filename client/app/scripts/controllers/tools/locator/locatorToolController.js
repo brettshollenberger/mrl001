@@ -175,12 +175,13 @@ angular
                     latitude: item.geo.latitude,
                     longitude: item.geo.longitude,
                     label: item.name,
+                    website: item.website,
                     distance: item.geo.distance, // gets miles
                     logo: item.logo.original,
                     businessAddress: item.businessAddress,
                     infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
                     name: item.name,
-                    destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress(item.businessAddress)
+                    destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
                 };
                 
                 $scope.markers.push(newMarker);

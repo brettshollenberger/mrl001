@@ -12,8 +12,8 @@
                 </ul>
                 
                 <div class="actions">
-                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                     <a class="btn btn-primary" id="save" ng-disabled="formBuyoutOptions.$invalid" ng-click="save()">Save</a>
+                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
+                     <a class="btn btn-primary" id="save" ng-disabled="formBuyoutOptions.$invalid || !formBuyoutOptions.$dirty" ng-click="save()">Save</a>
                 </div>
             
             </div>

@@ -209,6 +209,10 @@ angular
             $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
             $scope.newOption = {};
             
+            // force the form to be dirty, which triggers our unsavedChanges module
+            // this will cause a check if the user navigates away from this page             
+            $scope.formBuyoutOptions.$dirty = true; 
+            
         };
         
         
@@ -257,7 +261,11 @@ angular
              // save shortcut reference
              var bPs = $scope.program.rateSheet.buyoutOptions;
              
-             bPs.splice(bPs.indexOf(option), 1); 
+             bPs.splice(bPs.indexOf(option), 1);
+             
+             // force the form to be dirty, which triggers our unsavedChanges module
+             // this will cause a check if the user navigates away from this page             
+             $scope.formBuyoutOptions.$dirty = true; 
             
         };
         

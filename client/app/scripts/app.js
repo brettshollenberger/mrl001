@@ -576,7 +576,7 @@ spinner.controller("spinner", SpinnerController);
 spinner.directive("spinner", function() {
   return {
     replace: true,
-    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'</div>",
+    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'></i></div>",
     controller: "spinner"
   };
 });

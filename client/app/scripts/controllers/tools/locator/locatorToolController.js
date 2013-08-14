@@ -158,6 +158,12 @@ angular
         function filterMarkers() {
         
             closeAllWindows();
+            
+            if(!$scope.vendors) {
+                console.log('$scope.vendors is undefined, aborting!');
+                return;
+            }
+            
         
             $timeout(function() {
                 $scope.markers = [];

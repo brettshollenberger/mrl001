@@ -7,7 +7,7 @@ var path      = require('path');
 var resource  = require('./routes/resource');
 var webshot = require('webshot');
 
-resource.setup(app);
+
 
 app.get('/api/bower', function(req, res) {
   res.send(fs.readFileSync(__dirname + '/../../../bower.json'));
@@ -21,7 +21,7 @@ app.get('/api/changelog', function(req, res) {
   res.send(fs.readFileSync(__dirname + '/../../../changelog.md'));
 });
 
-app.get('/api/quote/:id/pdf', function(req, res) {
+app.get('/api/v1/quote/:id/pdf', function(req, res) {
     
     console.log('generating pdf for quote id: ' + req.params.id);
     
@@ -43,11 +43,15 @@ app.get('/api/quote/:id/pdf', function(req, res) {
     };
     webshot(url, fileName, options, function(err) {
         console.log('OK');
-        res.download(path.resolve(__dirname + '/../../../' + fileName));
+        
+        var pathToDownload = path.resolve(__dirname + '/../../../' + fileName);
+        
+        console.log('path is ' + pathToDownload); 
+        res.download(pathToDownload);
     });
 });
 
-
+resource.setup(app);
 
 /*
 app.get('/api/me/auth', 

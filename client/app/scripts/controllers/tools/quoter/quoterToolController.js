@@ -84,7 +84,9 @@ angular
             
             $scope.didQuote = true; 
             $scope.buttonText = 'Re-calculate Quote';
-            $scope.permalink = $location.absUrl();
+            
+            // we create a preview link, removing the print param if present
+            $scope.permalink = $location.absUrl().replace('/print', '');
             
             if($rootScope.previewQuote !== true) $scope.canEdit = false;
             

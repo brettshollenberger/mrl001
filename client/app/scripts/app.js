@@ -103,6 +103,10 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         controller:   'quoterToolController',
         templateUrl:  'app/templates/tools/quoter/quoterTool.html'
       })
+      .when('/tools/quoter/:id/print', {
+        controller:   'quoterToolController',
+        templateUrl:  'app/templates/tools/quoter/quoterTool.html'
+      })
       
       
       // Quoter tool! 

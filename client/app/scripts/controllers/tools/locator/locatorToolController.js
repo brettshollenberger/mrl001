@@ -167,8 +167,10 @@ angular
         
             $timeout(function() {
                 $scope.markers = [];
+                $scope.tempMarkers = [];
             
                 console.log('Filtering markers...');
+                console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
                 
                 _.each($scope.vendors, function(item) {
                     
@@ -202,10 +204,12 @@ angular
                         destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
                     };
                     
-                    $scope.markers.push(newMarker);
+                    $scope.tempMarkers.push(newMarker);
                                 
                 });
                 
+                console.log('THERE are now ' + $scope.tempMarkers.length + ' markers');
+                $scope.markers = $scope.tempMarkers;
                 _.each($scope.markers,function(marker){
                         
                     closeAllWindows();

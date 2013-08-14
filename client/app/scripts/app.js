@@ -241,17 +241,25 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         
         // Handle updating page title
         $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
+            
+            $rootScope.pageSlug = "";
+            
             var pageSlug = $location.path().split('/');
-            //console.log(pageSlug[pageSlug.length - 1]);
-            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
             
-            //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
-            if($rootScope.pageSlug.match(/^[0-9]+$/) !== null){
-                $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
-            }else if($rootScope.pageSlug.length === 0){
+            // remove the first element, which is always ""
+            pageSlug.shift();
+            
+            console.log(pageSlug);
+            
+            if(pageSlug.length === 1 && pageSlug[0] === "") {
                 $rootScope.pageSlug = 'home';
+            } else {
+                
+                _.each(pageSlug, function(item) {
+                    $rootScope.pageSlug += item + " "; 
+                });
+                
             }
-            
             
         });
         

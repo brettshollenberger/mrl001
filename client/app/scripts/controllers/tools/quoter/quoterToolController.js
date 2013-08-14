@@ -211,8 +211,30 @@ angular
                 $location.url('/tools/application/' + newApplication._id ); 
 
             });
+                        
+        };
+        
+        
+        /**
+        * Download as pdf
+        *
+        */
+        $scope.download = function() {
+                
+            //$scope.downloading = true;
+            
+            window.open('api/v1/quote/'+quoteId+'/pdf');
+            
+            /*
+Quote.generatePDF(quoteId).then(function(response){
+               $scope.downloading = false;
+               console.log(response);
+               window.open(response.file, '_self');
+            });
+*/
             
         };
+        
     }
   ])
 ;

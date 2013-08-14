@@ -189,6 +189,8 @@
         <br /><br />
         <h3>Terms</h3>
         <div id="legalTerms">{{vendor.legalTerms}}</div>
+        <br />
+        <p>Quotes expire after 30 (Thirty) days.</p>
     </div>
 </div>
 
@@ -204,7 +206,7 @@
 
 </div>
 
-<div class="row">        
+<div class="row" ng-show="didQuote">        
     <div class="span10 offset1">
     
     <h3>Share</h3>
@@ -213,7 +215,11 @@
     <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
     
     <br />
-    <button disabled="disabled" class="btn btn-primary">Save as PDF</button>
+    <button class="btn btn-primary"
+        analytics-on="click" 
+        analytics-event="Download quote as PDF"
+        analytics-category="Tools : Quoter"  
+        ng-click="download()">Save as PDF<i ng-show="downloading" class="icon icon-spinner icon-spin"></i></button>
     
 </div>
 

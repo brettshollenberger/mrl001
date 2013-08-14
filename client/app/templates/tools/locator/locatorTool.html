@@ -68,7 +68,7 @@
     		dragging="map.dragging"
     		events="map.events">
     		<!-- prefedined markers -->
-    		<marker ng-repeat="m in markers" coords="m" icon="m.icon" ></marker>
+    		<marker ng-repeat="m in markers" coords="m" icon="m.icon" click="m.closeClick()" ></marker>
 
 			<!-- marker for clicked position -->
 

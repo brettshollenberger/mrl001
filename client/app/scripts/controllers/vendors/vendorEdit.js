@@ -500,7 +500,7 @@ angular
         */
         var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
             // this will prompt users to save when the leave the page. 
-            var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm];
+            var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm, $scope.customNameForm];
             saveChangesPrompt.init(forms); 
             removeViewLoad();
         });

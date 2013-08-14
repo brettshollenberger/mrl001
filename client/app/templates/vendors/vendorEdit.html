@@ -10,7 +10,7 @@
                 </ul>
                     
                     <div class="actions">
-                        <a class="btn btn-primary" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty" ng-disabled="" ng-click="save(true)">Save</a>
+                        <button type="submit" class="btn btn-primary" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || customNameForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid || customNameForm.$invalid" ng-click="save(true)">Save</button>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
                     </div>
                 
@@ -118,16 +118,17 @@
 
                 <div class="span5" ng-hide="!vendor._id">
                     <h3>Vendor Lease Programs</h3>
-                    <ul id="vendorPrograms" class="unstyled">
-                        <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
-                            <hr />
-                            <label>Program name for this vendor. Changing this will not effect other vendors with the same program.</label>
-                            <input type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
-                            <br />
-                            <button ng-click="removeProgram(item)" class="btn">Remove</button>
-                            
-                        </li>
-                    </ul>
+                    <form name="customNameForm">
+                        <ul id="vendorPrograms" class="unstyled">
+                            <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
+                                <hr />
+                                <label>Program name for this vendor. Changing this will not effect other vendors with the same program.</label>
+                                <input required type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
+                                <br />
+                                <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                            </li>
+                        </ul>
+                    </form>
                     
                     <!-- <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>   -->
                       

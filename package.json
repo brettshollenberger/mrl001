@@ -47,7 +47,7 @@
     "grunt-strip":"0.2.1",
     "passport": "latest",
     "mongodb": "latest",
-    "grunt-sleep" : "1.1.1"
+    "webshot" : ">=0.5.1"
   },
   "devDependencies": {
     "grunt-karma": "~0.4.5"

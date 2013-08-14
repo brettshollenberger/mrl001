@@ -10,27 +10,7 @@ angular
     '$timeout',
     function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
        
-       
-        /**
-        * New map options
-        *
-        */
-        $scope.options = {
-          map: {
-            zoom: 4,
-            mapTypeId: google.maps.MapTypeId.TERRAIN
-          },
-        };
-        
-        setCenter(39.952335, -75.163789);
-        
-        /**
-        * Private funtion to set center
-        */
-        function setCenter(lat, lng) {
-            $scope.options.map.center = new google.maps.LatLng(lat, lng);
-        }
-           
+
        
         //google.maps.visualRefresh = true;
        
@@ -89,7 +69,6 @@ angular
         // @todo we should add a marker here
         $scope.findMe = function () {
             
-            
             if (!$scope.geolocationAvailable) return false;
                 
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -98,7 +77,7 @@ angular
                     longitude: position.coords.longitude
                 };
                 
-                setCenter(position.coords.latitude, position.coords.longitude);
+                //setCenter(position.coords.latitude, position.coords.longitude);
                 
                 // create latLng object, which we need for distanc comparisons
                 
@@ -141,7 +120,7 @@ angular
         
         // function that will geo locate, and then
         $scope.findMyLocation = function() {
-            //console.log('User is searching by location:' + $scope.locationSearch);  
+            console.log('User is searching by location:' + $scope.locationSearch);  
             googleMaps.geo($scope.locationSearch, 'locationSearch');
         };
         
@@ -155,7 +134,9 @@ angular
                     longitude: data.lng
                 };
                 
-                setCenter(position.coords.latitude, position.coords.longitude);
+                console.log(data);
+                
+                //setCenter(position.coords.latitude, position.coords.longitude);
                 
                 $scope.hasLocation = true;
                 
@@ -216,30 +197,30 @@ angular
                     };
                     
                     $scope.markers.push(newMarker);
+                                
+                });
                 
-                    _.each($scope.markers,function(marker){
+                _.each($scope.markers,function(marker){
                         
+                    closeAllWindows();
+                    
+                    marker.closeClick = function(){  
                         closeAllWindows();
-                        
-                        marker.closeClick = function(){  
-                            closeAllWindows();
-                            console.log('CLOSING WINDOW....');                      
-                            this.showWindow = false;
-                            $scope.$apply();
-                        };
-                        
-                        marker.openClick = function(){  
-                            closeAllWindows();
-                            console.log('CLOSING WINDOWS by openClick....');                      
-                        };
-                        
-                    });
+                        console.log('CLOSING WINDOW....');                      
+                        this.showWindow = false;
+                        $scope.$apply();
+                    };
+                    
+                    marker.openClick = function(){  
+                        closeAllWindows();
+                        console.log('CLOSING WINDOWS by openClick....');                      
+                    };
                     
                 });
                     
             }, 50);
 
-        };
+        }
         
         /**
         * Opens a marker when a user click on it

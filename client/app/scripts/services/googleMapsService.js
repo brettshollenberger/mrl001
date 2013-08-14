@@ -24,10 +24,14 @@ angular
     
         var handleResult = function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-             //console.log(results[0]);
+             console.log(results[0]);
              
-             geoData.lat = results[0].geometry.location.jb;
-             geoData.lng = results[0].geometry.location.kb;
+             geoData.lat = results[0].geometry.location.mb; // mb
+             geoData.lng = results[0].geometry.location.nb; // nb
+             
+             
+             //geoData.lat = results[0].geometry.location.jb; // mb
+             //geoData.lng = results[0].geometry.location.kb; // nb
              //console.log(geoData);
              
              $rootScope.$broadcast('event:geo-location-success', geoData, type);

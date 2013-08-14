@@ -604,6 +604,30 @@ angular.module('saveChanges', [])
         return {
             init: function(forms) {
                 
+                
+                // @todo optimse this, because this code is duplicated. 
+                function confirmExit()
+                {
+                    console.log('Reload page START');
+                    var isDirty = false;
+                                        
+                    angular.forEach(forms, function(item) {
+                       if(item.$dirty) isDirty = true;
+                    });
+                    
+                    console.log('ARE FORMS DIRTY? ' + isDirty);
+                    
+                    // @todo this could be written a lot cleaner! 
+                    if(isDirty) {
+                        return "You will loose unsaved changes if you leave this page";
+                    } else {
+                        removeFunction();
+                        window.onbeforeunload = null;
+                    } 
+                }
+                
+                window.onbeforeunload = confirmExit;
+                
                 removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
                     
                     console.log('ROUTE CHANGE START');
@@ -621,9 +645,11 @@ angular.module('saveChanges', [])
                              event.preventDefault(); 
                         } else {
                             removeFunction();
+                            window.onbeforeunload = null;
                         }
                     } else {
                         removeFunction();
+                        window.onbeforeunload = null;
                     }            
                     
                 });                
@@ -631,6 +657,7 @@ angular.module('saveChanges', [])
             removeListener: function() {
                 console.log('CHOOSING TO REMOVE THIS FUNCTION');
                 removeFunction();
+                window.onbeforeunload = null;
             }            
         };        
     }])

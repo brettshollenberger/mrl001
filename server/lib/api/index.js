@@ -25,7 +25,7 @@ app.get('/api/v1/quote/:id/pdf', function(req, res) {
     
     console.log('generating pdf for quote id: ' + req.params.id);
     
-    var url = 'http://localhost:3000/#/tools/quoter/' + req.params.id;
+    var url = 'http://localhost:3000/#/tools/quoter/' + req.params.id + '/print';
     var fileName = 'temp/' + req.params.id + '.pdf';
     
     var options = {

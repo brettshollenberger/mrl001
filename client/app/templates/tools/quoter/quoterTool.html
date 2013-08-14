@@ -39,7 +39,7 @@
         <div class="row area-equiptment area">
             <div class="span5">
                 <label>Total Cost</label>
-                <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost">
+                <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit">
                 <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
                 
                 <a  class="btn btn-primary" 
@@ -56,7 +56,7 @@
             </div>
             <div class="span5">
                 <label>Description of Equipment</label>
-                <textarea type="text" class="large" ng-model="quote.description"></textarea>
+                <textarea type="text" class="large" ng-model="quote.description" ng-disabled="!canEdit"></textarea>
             </div>
         </div>
     </div>

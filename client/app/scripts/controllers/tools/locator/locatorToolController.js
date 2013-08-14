@@ -10,6 +10,8 @@ angular
     '$timeout',
     function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
        
+
+       
         //google.maps.visualRefresh = true;
        
         // markers will be vendors that match out serarch! 
@@ -67,7 +69,6 @@ angular
         // @todo we should add a marker here
         $scope.findMe = function () {
             
-            
             if (!$scope.geolocationAvailable) return false;
                 
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -75,6 +76,9 @@ angular
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
+                
+                //setCenter(position.coords.latitude, position.coords.longitude);
+                
                 // create latLng object, which we need for distanc comparisons
                 
                 $scope.hasLocation = true;
@@ -116,7 +120,7 @@ angular
         
         // function that will geo locate, and then
         $scope.findMyLocation = function() {
-            //console.log('User is searching by location:' + $scope.locationSearch);  
+            console.log('User is searching by location:' + $scope.locationSearch);  
             googleMaps.geo($scope.locationSearch, 'locationSearch');
         };
         
@@ -129,6 +133,10 @@ angular
                     latitude: data.lat,
                     longitude: data.lng
                 };
+                
+                console.log(data);
+                
+                //setCenter(position.coords.latitude, position.coords.longitude);
                 
                 $scope.hasLocation = true;
                 
@@ -149,44 +157,68 @@ angular
         // loop and filter based on above, save filteredSet of markers
         function filterMarkers() {
         
-            $scope.markers = [];
+            closeAllWindows();
+        
+            $timeout(function() {
+                $scope.markers = [];
             
-            console.log('Filtering markers...');
-            
-            _.each($scope.vendors, function(item) {
+                console.log('Filtering markers...');
                 
-                // check if vendor has geo data!
-                if(!item.geo) return;
-                
-                
-                // first check for text based search
-                // if this doesn't match, we dont care how close the vendor is! 
-                if($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
-                
-                
-                // check if distance is withing range
-                // @note that users can set "unlimited" distance
-                item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
-                //console.log(distance);
-                if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
+                _.each($scope.vendors, function(item) {
+                    
+                    // check if vendor has geo data!
+                    if(!item.geo) return;
+                    
+                    
+                    // first check for text based search
+                    // if this doesn't match, we dont care how close the vendor is! 
+                    if($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
+                    
+                    
+                    // check if distance is withing range
+                    // @note that users can set "unlimited" distance
+                    item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
+                    
+                    //console.log(distance);
+                    if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
+                                    
+                    // we need to create the marker from the vendor
+                    var newMarker = {
+                        latitude: item.geo.latitude,
+                        longitude: item.geo.longitude,
+                        label: item.name,
+                        website: item.website,
+                        distance: item.geo.distance, // gets miles
+                        logo: item.logo.original,
+                        businessAddress: item.businessAddress,
+                        infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
+                        name: item.name,
+                        destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
+                    };
+                    
+                    $scope.markers.push(newMarker);
                                 
-                // we need to create the marker from the vendor
-                var newMarker = {
-                    latitude: item.geo.latitude,
-                    longitude: item.geo.longitude,
-                    label: item.name,
-                    website: item.website,
-                    distance: item.geo.distance, // gets miles
-                    logo: item.logo.original,
-                    businessAddress: item.businessAddress,
-                    infoWindow: '<img class="img-medium" src="'+item.logo.original+'" />',
-                    name: item.name,
-                    destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
-                };
+                });
                 
-                $scope.markers.push(newMarker);
-            
-            });
+                _.each($scope.markers,function(marker){
+                        
+                    closeAllWindows();
+                    
+                    marker.closeClick = function(){  
+                        closeAllWindows();
+                        console.log('CLOSING WINDOW....');                      
+                        this.showWindow = false;
+                        $scope.$apply();
+                    };
+                    
+                    marker.openClick = function(){  
+                        closeAllWindows();
+                        console.log('CLOSING WINDOWS by openClick....');                      
+                    };
+                    
+                });
+                    
+            }, 50);
 
         }
         
@@ -195,6 +227,7 @@ angular
         *
         */
         $scope.remoteOpenWindow = function(item) {
+            closeAllWindows();
             item.showWindow = true;
         };
         
@@ -254,17 +287,10 @@ var e = originalEventArgs[0];
             
         }
         
-        _.each($scope.markers,function(marker){
-            marker.closeClick = function(){                        
-                this.showWindow = false;
-                $scope.$apply();
-            };
-        });
-    
         function closeAllWindows() {
             _.each($scope.markers,function(marker){
                 marker.showWindow = false;
-                $scope.$apply();
+                //$scope.$apply();
             }); 
         }
     

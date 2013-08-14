@@ -47,6 +47,7 @@
                 <tr ng-repeat="item in markers | orderBy:'distance'" ng-click="remoteOpenWindow(item)">
                     <td><img ng-src="{{item.logo}}" class="img-tiny"/></td>
                     <td>{{item.name}}<br/>
+                    <p>Show: {{item.showWindow}}</p>
                     <span ng-show="item.distance && hasLocation">{{item.distance | number:0}} miles away</span>
                     </td>
                 </tr>
@@ -68,7 +69,7 @@
     		events="map.events">
     		<!-- prefedined markers -->
     		<marker ng-repeat="m in markers" coords="m" icon="m.icon" >
-				<window show="m.showWindow" closeClick="m.closeClick()">
+				<window show="m.showWindow" closeClick="m.closeClick()" openClick="m.openClick()">
 					<img ng-src="{{m.logo}}" class="img-medium"/>
 					<p>{{m.name}}</p>
 					<p ng-show="m.website != ''"><a target="_blank" ng-href="{{m.website}}">Visit Website</a></p>

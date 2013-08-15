@@ -164,6 +164,7 @@
             </form><!-- row -->
             
             <form name="locationForm" class="row" ng-show="isActiveTab(4)">
+                
                 <div class="span10">
                     
                     <div class="row">
@@ -189,7 +190,7 @@
                             <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
                         
                         </div>
-                    
+                        
                         <div class="span4">
                             <p>Current Geo Location Shown to visitors.</p>
                             <div class="google-map"
@@ -211,6 +212,8 @@
                     					<p><a target="_blank" ng-href="{{m.destAddress}}">Directions</a></p>
                     				</window>
                     			</marker>
+                            
+                            </div>
                         
                         </div>
                     

@@ -532,7 +532,11 @@ spinner.directive("spinner", function() {
 */
 
 
-
+/**
+* Thanks to 
+* @see https://github.com/lucassus/mongo_browser/blob/1ba5dc609fdf73ce2acceed7e8bcd25349daf1fe/app/assets/javascripts/app/modules/spinner.js.coffee
+*
+*/
 
 
 var SpinnerController, spinner,

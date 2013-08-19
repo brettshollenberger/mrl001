@@ -158,11 +158,19 @@ angular
         function filterMarkers() {
         
             closeAllWindows();
+            
+            if(!$scope.vendors) {
+                console.log('$scope.vendors is undefined, aborting!');
+                return;
+            }
+            
         
             $timeout(function() {
                 $scope.markers = [];
+                $scope.tempMarkers = [];
             
                 console.log('Filtering markers...');
+                console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
                 
                 _.each($scope.vendors, function(item) {
                     
@@ -196,10 +204,12 @@ angular
                         destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
                     };
                     
-                    $scope.markers.push(newMarker);
+                    $scope.tempMarkers.push(newMarker);
                                 
                 });
                 
+                console.log('THERE are now ' + $scope.tempMarkers.length + ' markers');
+                $scope.markers = $scope.tempMarkers;
                 _.each($scope.markers,function(marker){
                         
                     closeAllWindows();
@@ -286,6 +296,14 @@ var e = originalEventArgs[0];
             
             
         }
+        
+        $scope.closeAllWindows = function() {
+            console.log('CLOSING all windows!!!!!');
+            _.each($scope.markers,function(marker){
+                marker.showWindow = false;
+                //$scope.$apply();
+            }); 
+        };
         
         function closeAllWindows() {
             _.each($scope.markers,function(marker){

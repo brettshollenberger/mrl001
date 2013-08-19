@@ -1,6 +1,6 @@
 
 angular
-  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'google-maps', 'mb.spinner', 'ajoslin.promise-tracker', function() {
+  .module('app', [ 'ui.if', 'ui.bootstrap','ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'saveChanges', 'google-maps', function() {
   
   }])
   .config(['$httpProvider', function($httpProvider, promiseTracker) {
@@ -100,6 +100,10 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         templateUrl:  'app/templates/tools/quoter/quoterTool.html'
       })
       .when('/tools/quoter/:id', {
+        controller:   'quoterToolController',
+        templateUrl:  'app/templates/tools/quoter/quoterTool.html'
+      })
+      .when('/tools/quoter/:id/print', {
         controller:   'quoterToolController',
         templateUrl:  'app/templates/tools/quoter/quoterTool.html'
       })
@@ -241,20 +245,27 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         
         // Handle updating page title
         $rootScope.$on('$routeChangeSuccess', function($event, $route, $previousRoute) {
-            var pageSlug = $location.path().split('/');
-            //console.log(pageSlug[pageSlug.length - 1]);
-            $rootScope.pageSlug = pageSlug[pageSlug.length - 1];
             
-            //console.log('Test '+ $rootScope.pageSlug +' for number' +  pageSlug.match(/^[0-9]+$/));
-            if($rootScope.pageSlug.match(/^[0-9]+$/) !== null){
-                $rootScope.pageSlug = pageSlug[pageSlug.length - 2];
-            }else if($rootScope.pageSlug.length === 0){
+            $rootScope.pageSlug = "";
+            
+            var pageSlug = $location.path().split('/');
+            
+            // remove the first element, which is always ""
+            pageSlug.shift();
+            
+            console.log(pageSlug);
+            
+            if(pageSlug.length === 1 && pageSlug[0] === "") {
                 $rootScope.pageSlug = 'home';
+            } else {
+                
+                _.each(pageSlug, function(item) {
+                    $rootScope.pageSlug += item + " "; 
+                });
+                
             }
             
-            
         });
-        
         
         // we use this to set credentials for demo on initial page screen
         $rootScope.credentials = {userName: 'bwalsh', password: 'bwalsh'};
@@ -521,7 +532,11 @@ spinner.directive("spinner", function() {
 */
 
 
-
+/**
+* Thanks to 
+* @see https://github.com/lucassus/mongo_browser/blob/1ba5dc609fdf73ce2acceed7e8bcd25349daf1fe/app/assets/javascripts/app/modules/spinner.js.coffee
+*
+*/
 
 
 var SpinnerController, spinner,
@@ -565,10 +580,90 @@ spinner.controller("spinner", SpinnerController);
 spinner.directive("spinner", function() {
   return {
     replace: true,
-    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'</div>",
+    template: "<div ng-show='showSpinner()'><i class='icon icon-spinner icon-spin'></i></div>",
     controller: "spinner"
   };
 });
 
 
+
+
+/**
+* Module that will prompt user when they try to nagivate away from page with unsaved data
+* Will prompt user to discard changed, or stay on page
+*
+* Provides a method to call which will remove the listener, ie: on save button clicked
+*
+* @todo make it auto save when user clicks "Save"
+* @note the init() method must be called after view did load, so that forms are defined
+*
+*/
+angular.module('saveChanges', [])
+    .factory('saveChangesPrompt', ['$rootScope', function($rootScope) {
+        console.log('Saving changes');     
+        
+        // empty return function
+        var removeFunction = function() {};
+        
+        return {
+            init: function(forms) {
+                
+                
+                // @todo optimse this, because this code is duplicated. 
+                function confirmExit()
+                {
+                    console.log('Reload page START');
+                    var isDirty = false;
+                                        
+                    angular.forEach(forms, function(item) {
+                       if(item.$dirty) isDirty = true;
+                    });
+                    
+                    console.log('ARE FORMS DIRTY? ' + isDirty);
+                    
+                    // @todo this could be written a lot cleaner! 
+                    if(isDirty) {
+                        return "You will loose unsaved changes if you leave this page";
+                    } else {
+                        removeFunction();
+                        window.onbeforeunload = null;
+                    } 
+                }
+                
+                window.onbeforeunload = confirmExit;
+                
+                removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
+                    
+                    console.log('ROUTE CHANGE START');
+                    var isDirty = false;
+                                        
+                    angular.forEach(forms, function(item) {
+                       if(item.$dirty) isDirty = true;
+                    });
+                    
+                    console.log('ARE FORMS DIRTY? ' + isDirty);
+                    
+                    // @todo this could be written a lot cleaner! 
+                    if(isDirty) {
+                        if(!confirm('You will loose unsaved changes if you click OK')) {
+                             event.preventDefault(); 
+                        } else {
+                            removeFunction();
+                            window.onbeforeunload = null;
+                        }
+                    } else {
+                        removeFunction();
+                        window.onbeforeunload = null;
+                    }            
+                    
+                });                
+            },
+            removeListener: function() {
+                console.log('CHOOSING TO REMOVE THIS FUNCTION');
+                removeFunction();
+                window.onbeforeunload = null;
+            }            
+        };        
+    }])
+;
 

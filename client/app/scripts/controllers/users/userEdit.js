@@ -8,9 +8,22 @@ angular
     'authService',
     'userService',
     'vendorService',
-    function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor) {
+    'saveChangesPrompt',
+    function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, saveChangesPrompt) {
        
         Auth.canUserDoAction('edit-user');
+        
+        /**
+        * Initiates function which checks for un saved changes when navigating away from the page
+        * @todo move all this login into a directive, module? 
+        *
+        */
+        var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+            // this will prompt users to save when the leave the page. 
+            var forms = [$scope.basicForm, $scope.passwordForm];
+            saveChangesPrompt.init(forms); 
+            removeViewLoad();
+        });
        
         // empty user object
         $scope.user = {};
@@ -70,16 +83,26 @@ angular
                    $scope.user = response;
                    // this ensures that on the next save, vendorId is set and the previous if() doesnt run
                    userId = $scope.user._id;
+                   saveChangesPrompt.removeListener();
+                   
+                    if(doRedirect) {
+                       $location.url('/dashboard/users'); 
+                    }
+                   
                 });
                 
             } else {
                 // update existing item
                 User.update($scope.user);
+                
+                saveChangesPrompt.removeListener();
+                
+                if(doRedirect) {
+                   $location.url('/dashboard/users'); 
+                }
             }
             
-            if(doRedirect) {
-                $location.url('/dashboard/users'); 
-            }
+            
         };
 
         

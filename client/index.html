@@ -28,22 +28,24 @@
  
     <!--[if lte IE 8]>
       <script>
-      window.myCustomTags = [ 'markdown', 'userTray' ];
+      window.myCustomTags = [ 'markdown', 'userTray', 'window', 'marker' ];
       </script>
       <script>
-      window.html5 = { 'elements': 'markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
+      window.html5 = { 'elements': 'windows markers window marker markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
       </script>
     <![endif]-->   
 
     <!--[if lt IE 9]>
     <script src="bower_components/html5shiv-dist/html5shiv.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/event-shim.js/event-shim.js"></script>
     <![endif]-->
   </head>
-  <body id="ng-app" ng-app="app">
+  <body id="ng-app" ng-app="app" class="{{pageSlug}}">
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
-     <div class="container {{pageSlug}}">
+     <div class="container">
 
       <noscript>
         Please enable Javascript to experience this site :)
@@ -59,18 +61,21 @@
       
      </div>
      
-      <footer class="muted text-center footer">
-        &copy; 2013 Marlin Leasing<br />
-        version {{ version }} <a href="#/changelog">View Changelog</a>
-      
-        <p class="hello"><em>Hello from the nerds at Faculty!</em>
-            <br/>We're here to guide you: 
-            <a href="#/login"><i class="icon icon-dashboard"></i> SuperAdmin Dashboard</a>
-            <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
-            <a href="#/tools/locator"><i class="icon icon-paste"></i> Locator Tool</a>
-        </p>
-        <img class="nerds" src="img/nerds.png" />
-      
+      <footer class="muted text-center footer container">
+          <div class="row">
+              <div class="span12">
+                &copy; 2013 Marlin Leasing<br />
+                version {{ version }} <a href="#/changelog">View Changelog</a>
+              
+                <p class="hello"><em>Hello from the nerds at Faculty!</em>
+                    <br/>We're here to guide you: 
+                    <a href="#/login"><i class="icon icon-dashboard"></i> Dashboard</a>
+                    <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
+                    <a href="#/tools/locator"><i class="icon icon-paste"></i> Locator Tool</a>
+                </p>
+                <img class="nerds" src="img/nerds.png" />
+              </div>
+          </div>
       </footer>
    
     
@@ -80,6 +85,7 @@
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en&libraries=geometry"></script>
+    
     
     <!-- build:js app/scripts/all.min.js -->
 
@@ -96,8 +102,11 @@
     <script src="bower_components/showdown/compressed/extensions/github.js"></script>
     <script src="bower_components/angular-markdown/angular.markdown.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
-    <script src="app/scripts/vendor/promise-tracker.js"></script>
-
+    
+    <script src="bower_components/angulartics/src/angulartics.js"></script>
+    <script src="bower_components/angulartics/src/angulartics-ga.js"></script>
+    
+    <script src="app/vendor/promise-tracker.js"></script>
 
 
     <script src="app/scripts/app.js"></script>
@@ -134,13 +143,16 @@
     <!-- endbuild -->
 
     <!-- Google Analytics -->
-    <!--
-<script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-43146763-1', {
+          'cookieDomain': 'none'
+      });
+    
     </script>
--->
   </body>
 </html>

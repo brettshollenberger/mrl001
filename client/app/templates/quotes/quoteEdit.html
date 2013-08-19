@@ -4,7 +4,7 @@
     
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     
-    <div class="span10 offset2">
+    <form name="quoteForm" class="span10 offset2">
         <div class="row title-bar">
             <div class="span10">
                 <h2>New Quote</h2>
@@ -13,8 +13,8 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-                    <a class="btn btn-primary" id="save" ng-click="save()">{{formAction}} Quote</a>
+                    <a class="btn btn-primary" id="save"ng-show="quoteForm.$dirty" ng-click="save()">Save</a>
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
                 </div>
             
             </div>
@@ -83,6 +83,6 @@
             </div>
             
         </div>
-    </div>
+    </form>
 </div>
 

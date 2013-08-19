@@ -39,15 +39,24 @@
         <div class="row area-equiptment area">
             <div class="span5">
                 <label>Total Cost</label>
-                <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost">
+                <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit">
                 <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
-                <a class="btn btn-primary" id="re-generateQuote" ng-disabled="" ng-click="generateQuote()" ui-if="didQuote && canEdit">{{buttonText}}</a>
+                
+                <a  class="btn btn-primary" 
+                    id="re-generateQuote"
+                    analytics-on="click" 
+                    analytics-event="ReCalcuate Quote"
+                    analytics-category="Tools : Quoter" 
+                    ng-disabled="" 
+                    ng-click="generateQuote()" 
+                    ui-if="didQuote && canEdit">{{buttonText}}</a>
+                    
                 <p ui-if="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
             
             </div>
             <div class="span5">
                 <label>Description of Equipment</label>
-                <textarea type="text" class="large" ng-model="quote.description"></textarea>
+                <textarea type="text" class="large" ng-model="quote.description" ng-disabled="!canEdit"></textarea>
             </div>
         </div>
     </div>
@@ -180,6 +189,8 @@
         <br /><br />
         <h3>Terms</h3>
         <div id="legalTerms">{{vendor.legalTerms}}</div>
+        <br />
+        <p>Quotes expire after 30 (Thirty) days.</p>
     </div>
 </div>
 
@@ -195,16 +206,20 @@
 
 </div>
 
-<div class="row">        
+<div class="row" ng-show="didQuote">        
     <div class="span10 offset1">
     
     <h3>Share</h3>
 
     <label>Send this link to share this quote!</label>
-    <input type="text" id="permalink" value="{{permalink}}" class="input-xxlarge" />
+    <input type="text" id="permalink" value="{{permalink}}" class="input-xxxlarge" />
     
     <br />
-    <button disabled="disabled" class="btn btn-primary">Save as PDF</button>
+    <button class="btn btn-primary"
+        analytics-on="click" 
+        analytics-event="Download quote as PDF"
+        analytics-category="Tools : Quoter"  
+        ng-click="download()">Save as PDF<i ng-show="downloading" class="icon icon-spinner icon-spin"></i></button>
     
 </div>
 

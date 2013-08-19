@@ -7,9 +7,22 @@ angular
     '$routeParams',
     'authService',
     'applicationService',
-    function($rootScope, $scope, $location, $routeParams, Auth, Application) {
+    'saveChangesPrompt',
+    function($rootScope, $scope, $location, $routeParams, Auth, Application, saveChangesPrompt) {
        
         Auth.canUserDoAction('edit-application');
+        
+        /**
+        * Initiates function which checks for un saved changes when navigating away from the page
+        * @todo move all this login into a directive, module? 
+        *
+        */
+        var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+            // this will prompt users to save when the leave the page. 
+            var forms = [$scope.applicationForm];
+            saveChangesPrompt.init(forms); 
+            removeViewLoad();
+        });
        
         // empty application object
         $scope.application = {};
@@ -60,15 +73,18 @@ angular
                 
                 // create new item
                 Application.add($scope.application).then(function(response) {
-                
+                    saveChangesPrompt.removeListener();
+                    $location.url('/dashboard/applications');
                 });
                 
             } else {
                 // update existing item
-                Application.update($scope.application);    
+                Application.update($scope.application);   
+                saveChangesPrompt.removeListener();
+                $location.url('/dashboard/applications'); 
             }
             
-            $location.url('/dashboard/applications');
+            
             
         };
         

@@ -9,15 +9,14 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-primary" id="saveClose" ng-click="save(false)">Save</a>
-                    <a class="btn btn-primary" id="save" ng-click="save(true)">Save &amp; Close</a>
+                    <a class="btn btn-primary" id="save" ng-show="basicForm.$dirty || passwordForm.$dirty" ng-click="save(true)">Save</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
                 </div>
             
             </div>
         </div>
 
-        <div class="row" ng-show="isActiveTab(0)">
+        <form name="basicForm" class="row" ng-show="isActiveTab(0)">
 
             <div class="span3">
                 
@@ -53,7 +52,7 @@
                 <input type="text" placeholder="" ng-model="user.phoneNumber">
                 
             </div>
-        </div>
+        </form>
         
         <div class="row" ng-show="isActiveTab(1)"> 
             
@@ -110,7 +109,7 @@
  
         </div>
         
-        <div class="row" ng-show="isActiveTab(2)">
+        <form name="passwordForm" class="row" ng-show="isActiveTab(2)">
             <div class="span4">
                 <h3>Change Password</h3>
                 
@@ -118,7 +117,7 @@
                 <input type="password" placeholder="" ng-model="user.password">
                 
             </div>
-        </div>
+        </form>
         
         
     </div>

@@ -84,7 +84,9 @@ angular
             
             $scope.didQuote = true; 
             $scope.buttonText = 'Re-calculate Quote';
-            $scope.permalink = $location.absUrl();
+            
+            // we create a preview link, removing the print param if present
+            $scope.permalink = $location.absUrl().replace('/print', '');
             
             if($rootScope.previewQuote !== true) $scope.canEdit = false;
             
@@ -211,8 +213,30 @@ angular
                 $location.url('/tools/application/' + newApplication._id ); 
 
             });
+                        
+        };
+        
+        
+        /**
+        * Download as pdf
+        *
+        */
+        $scope.download = function() {
+                
+            //$scope.downloading = true;
+            
+            window.open('api/v1/quote/'+quoteId+'/pdf');
+            
+            /*
+Quote.generatePDF(quoteId).then(function(response){
+               $scope.downloading = false;
+               console.log(response);
+               window.open(response.file, '_self');
+            });
+*/
             
         };
+        
     }
   ])
 ;

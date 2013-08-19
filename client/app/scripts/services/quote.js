@@ -44,6 +44,13 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG', func
     };
     
     // --------
+      
+    // creates a PDF from a quote url  
+    exports.generatePDF = function(id) {
+        return $http.get(url + 'quote/' + id + '/pdf').then(function (response) {
+            return response.data;
+        });
+    }; 
         
     return exports;
     

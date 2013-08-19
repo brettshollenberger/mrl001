@@ -13,7 +13,8 @@ angular
     'googleMapsService',
     '$timeout',
     '$window',
-    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
+    'saveChangesPrompt',
+    function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, saveChangesPrompt) {
        
         Auth.canUserDoAction('edit-vendor');
         
@@ -154,6 +155,12 @@ angular
                     //console.log(response);
                     $scope.vendor = response;
                     vendorId = $scope.vendor._id;
+                    saveChangesPrompt.removeListener();
+                    
+                    if(doRedirect) {
+                        $location.url('/dashboard/vendors'); 
+                    }
+
                 });
                 
             } else {
@@ -161,14 +168,18 @@ angular
                 // this ensures that on the next save, vendorId is set and the previous if() doesnt run
                 
                 console.log('Updating vendor # ' + vendorId);
+                saveChangesPrompt.removeListener();
             
                 // update existing item
                 Vendor.update($scope.vendor);
+                
+                
+                if(doRedirect) {
+                    $location.url('/dashboard/vendors'); 
+                }
+                
             }
 
-            if(doRedirect) {
-                $location.url('/dashboard/vendors'); 
-            }
         };
 
         $scope.addProgram = function(program) {
@@ -447,6 +458,54 @@ angular
             
         }
         
+        
+        /**
+        * Used to check the current object, against the original returned object
+        * This is useful when you are editing an object outside of a form, where form.$dirty wont work.
+        *
+        *
+        */
+        var existingObject = null;
+        
+        $scope.$watch('vendor', function(newValue, oldValue) {
+            
+            // if we have an _id, we can assume the object came from the DB.
+            // so store a copy of it for comparisions later
+            if(newValue._id) {
+                console.log('COMAPRE : Asigning existingObject');
+                existingObject = angular.copy(newValue, existingObject);
+            }
+            
+        });
+        
+        $scope.userHasEditied = function() {
+          
+            // in this case, its likely the user is creating the object from scratch
+            // in this case, we'll have another check on the form for valid form, which should make
+            // the button still be disabled, even though we are returning true here
+            if(existingObject === null) return true;
+          
+            console.log('COMAPRE : CHECKING OBJECTS MATCH');
+            var doesMatch = angular.equals(existingObject, $scope.vendor);
+            console.log(doesMatch);
+          
+            return !doesMatch;
+            
+        };
+        
+        /**
+        * Initiates function which checks for un saved changes when navigating away from the page
+        * @todo move all this login into a directive, module? 
+        *
+        */
+        var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+            // this will prompt users to save when the leave the page. 
+            var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm, $scope.customNameForm];
+            saveChangesPrompt.init(forms); 
+            removeViewLoad();
+        });
+
+               
         
     }
   ])

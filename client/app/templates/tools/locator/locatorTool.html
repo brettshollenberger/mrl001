@@ -47,7 +47,6 @@
                 <tr ng-repeat="item in markers | orderBy:'distance'" ng-click="remoteOpenWindow(item)">
                     <td><img ng-src="{{item.logo}}" class="img-tiny"/></td>
                     <td>{{item.name}}<br/>
-                    <p>Show: {{item.showWindow}}</p>
                     <span ng-show="item.distance && hasLocation">{{item.distance | number:0}} miles away</span>
                     </td>
                 </tr>

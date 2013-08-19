@@ -19,6 +19,8 @@
     "angular-bootstrap" : "0.3.0",
     "angular-markdown" : "0.0.1",
     "angular-google-maps" : "https://github.com/facultymatt/angular-google-maps/archive/r1-dev.zip",
-    "angulartics" : ">=0.3.7"
+    "angulartics" : ">=0.3.7",
+    "event-shim.js" : "latest",
+    "es5-shim" : "latest"
    }
 }

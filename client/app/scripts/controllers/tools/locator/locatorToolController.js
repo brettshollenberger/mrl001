@@ -297,6 +297,14 @@ var e = originalEventArgs[0];
             
         }
         
+        $scope.closeAllWindows = function() {
+            console.log('CLOSING all windows!!!!!');
+            _.each($scope.markers,function(marker){
+                marker.showWindow = false;
+                //$scope.$apply();
+            }); 
+        };
+        
         function closeAllWindows() {
             _.each($scope.markers,function(marker){
                 marker.showWindow = false;

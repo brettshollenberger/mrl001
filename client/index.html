@@ -31,12 +31,14 @@
       window.myCustomTags = [ 'markdown', 'userTray', 'window', 'marker' ];
       </script>
       <script>
-      window.html5 = { 'elements': 'window marker markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
+      window.html5 = { 'elements': 'windows markers window marker markdown userTray abbr article aside audio bdi canvas data datalist details figcaption figure footer header hgroup main mark meter nav output progress section summary time video', 'shivCSS': false, 'shivMethods': false };
       </script>
     <![endif]-->   
 
     <!--[if lt IE 9]>
     <script src="bower_components/html5shiv-dist/html5shiv.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/event-shim.js/event-shim.js"></script>
     <![endif]-->
   </head>
   <body id="ng-app" ng-app="app" class="{{pageSlug}}">

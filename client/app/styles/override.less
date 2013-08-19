@@ -326,6 +326,7 @@ form[name*="formBuyoutOptions"] .ng-invalid {
 
 
 
+
 .spinner-overlay {
     z-index: 1200;
     position: fixed;
@@ -344,6 +345,20 @@ form[name*="formBuyoutOptions"] .ng-invalid {
     
 }
 
+
+.lt-ie9 .spinner-overlay {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    margin-left: -50px;  
+    top: 200px; 
+    background: @gray;
+}
+
+.lt-ie9 .icon-spinner {
+    margin-top: 30px;
+}
 
 
 

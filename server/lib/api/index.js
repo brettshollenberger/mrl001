@@ -25,8 +25,10 @@ app.get('/api/v1/quote/:id/pdf', function(req, res) {
     
     console.log('generating pdf for quote id: ' + req.params.id);
     
-    var url = 'http://localhost:3000/#/tools/quoter/' + req.params.id + '/print';
-    var fileName = 'temp/' + req.params.id + '.pdf';
+    var url = app.get('base') + '#/tools/quoter/' + req.params.id + '/print';
+    var fileName = './temp/' + req.params.id + '.pdf';
+    
+    console.log('fileName is ' + fileName);
     
     var options = {
         screenSize: {
@@ -47,6 +49,7 @@ app.get('/api/v1/quote/:id/pdf', function(req, res) {
         var pathToDownload = path.resolve(__dirname + '/../../../' + fileName);
         
         console.log('path is ' + pathToDownload); 
+        
         res.download(pathToDownload);
     });
 });

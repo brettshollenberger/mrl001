@@ -64,6 +64,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
   
   .constant('MARLINAPI_CONFIG', {
     base_url: 'http://marlinquoter.herokuapp.com/api/v1/'
+    //base_url: 'http://localhost:5000/api/v1/'
   })  
   .config(['$routeProvider', function($router) {
         

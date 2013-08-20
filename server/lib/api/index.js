@@ -5,7 +5,7 @@ var fs        = require('fs');
 var passport  = require('passport');
 var path      = require('path');
 var resource  = require('./routes/resource');
-var webshot = require('webshot');
+var webshot   = require('webshot');
 
 
 

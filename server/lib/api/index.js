@@ -22,46 +22,47 @@ app.get('/api/changelog', function(req, res) {
 });
 
 
+var join = require('path').join
+  , tmpdir = '/tmp'
+  ;
 
-app.get('/pdftest', function(req, res) {
-    console.log('starting pdftest');
-    
-    var fileName = __dirname + '/../../../temp/testssss.pdf';
-    
-    var options = {
-        screenSize: {
-            width: 320,
-            height: 480
-        },
-        shotSize: {
-            width: 320,
-            height: 'all'
-        },
-        streamType: 'pdf',
-        paperSize: {format: 'letter', orientation: 'portrait'},
-        userAgent: 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_2 like Mac OS X; en-us)' + ' AppleWebKit/531.21.20 (KHTML, like Gecko) Mobile/7B298g'
-    };
-    
-    webshot('google.com', fileName, options, function(err, renderStream) {
-      
-      /*
-console.log('starting pdftest - webshot done');
-      
-      
-*/
-      
-      /*
-var file = fs.createWriteStream('test.png', {encoding: 'binary'});
+var getWebshot = function(url, file, cb) {
+  var options = {
+    screenSize: {
+      width: 320,
+      height: 280
+    },
+    shotSize: {
+      width: 'window',
+      height: 480
+    },
+    // timeout after 25 seconds
+    timeout: 25000,
+    script: function() {
+      // todo: return page title in json response
+      //console.log("Page Title: " + document.title);
 
-      renderStream.on('data', function(data) {
-        file.write(data.toString('binary'), 'binary');
-      });
-*/
+      return {title: document.title};
+    },
+    userAgent: 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_2 like Mac OS X; en-us)  AppleWebKit/531.21.20 (KHTML, like Gecko) Mobile/7B298g'
+  };
+  webshot(url, file, options, cb);
+};
 
-        renderStream.pipe(res);
-      
-    });
+app.get('/webshot/:url(*)', function(req, res){
+  var url = 'google.com'
+    , id = 12321312312312
+    , file = join(tmpdir, id + '.pdf');
     
+  getWebshot(url, file, function(err){
+    if (err) return console.log(err);
+    console.log('OK');
+    res.sendfile(file);
+    // res.json({
+    //   status: 'OK',
+    //   url: url
+    // });
+  });
 });
 
 app.get('/api/v1/quote/:id/pdf3', function(req, res) {

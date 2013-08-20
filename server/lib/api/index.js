@@ -124,46 +124,12 @@ app.get('/api/v1/quote/:id/pdf2', function(req, res) {
     });
 });
 
-app.get('/api/v1/quote/:id/pdf1a', function(req, res) {
+app.get('/api/v1/quote/:id/pdf1', function(req, res) {
     
     console.log('generating pdf for quote id: ' + req.params.id);
     
     var url = app.get('base') + '#/tools/quoter/' + req.params.id + '/print';
-    var fileName = '/../../../../tmp/' + req.params.id + '.pdf';
-    fileName = path.resolve(fileName);
-    
-    console.log('fileName is ' + fileName);
-    
-    var options = {
-        screenSize: {
-            width: 320,
-            height: 480
-        },
-        shotSize: {
-            width: 320,
-            height: 'all'
-        },
-        streamType: 'pdf',
-        paperSize: {format: 'letter', orientation: 'portrait'},
-        userAgent: 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_2 like Mac OS X; en-us)' + ' AppleWebKit/531.21.20 (KHTML, like Gecko) Mobile/7B298g'
-    };
-    webshot(url, fileName, options, function(err) {
-        console.log('OK');
-                
-        console.log('path is ' + fileName); 
-        
-        //res.send(fs.readFileSync(__dirname + '/../../../temp/' + req.params.id + '.pdf'));
-        
-        res.download(fileName);
-    });
-});
-
-app.get('/api/v1/quote/:id/pdf1b', function(req, res) {
-    
-    console.log('generating pdf for quote id: ' + req.params.id);
-    
-    var url = app.get('base') + '#/tools/quoter/' + req.params.id + '/print';
-    var fileName = './../../../../tmp/' + req.params.id + '.pdf';
+    var fileName = __dirname + '/../../../temp/' + req.params.id + '.pdf';
     fileName = path.resolve(fileName);
     
     console.log('fileName is ' + fileName);

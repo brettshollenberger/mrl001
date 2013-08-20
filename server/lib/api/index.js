@@ -22,7 +22,7 @@ app.get('/api/changelog', function(req, res) {
 });
 
 
-/*
+
 app.get('/pdftest', function(req, res) {
     console.log('starting pdftest');
     
@@ -55,7 +55,7 @@ app.get('/pdftest', function(req, res) {
     });
     
 });
-*/
+
 
 
 app.get('/api/v1/quote/:id/pdf', function(req, res) {
@@ -86,7 +86,9 @@ app.get('/api/v1/quote/:id/pdf', function(req, res) {
                 
         console.log('path is ' + fileName); 
         
-        res.download(fileName);
+        res.send(fs.readFileSync(__dirname + '/../../../temp/' + req.params.id + '.pdf'));
+        
+        //res.download(fileName);
     });
 });
 

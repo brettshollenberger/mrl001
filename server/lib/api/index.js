@@ -71,6 +71,20 @@ app.get('/webshot/:url(*)', function(req, res){
 });
 
 
+
+app.get('/shot.png', function(req, res) {
+  webshot(req.query.url, function(err, renderStream) {
+    renderStream.pipe(res);
+  });
+});
+
+app.get('/shot.pdf', function(req, res) {
+  webshot(req.query.url, function(err, renderStream) {
+    renderStream.pipe(res);
+  });
+});
+
+
 resource.setup(app);
 
 /*

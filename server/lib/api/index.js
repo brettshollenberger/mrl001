@@ -49,13 +49,19 @@ var getWebshot = function(url, file, cb) {
 };
 
 app.get('/webshot/:url(*)', function(req, res){
-  var url = 'google.com'
+  var url = 'http://google.com'
     , id = 12321312312312
     , file = join(tmpdir, id + '.pdf');
+   
+  console.log('WEBSHOT : FILE is ' + file); 
     
   getWebshot(url, file, function(err){
-    if (err) return console.log(err);
-    console.log('OK');
+    console.log('WEBSHOT : Complete'); 
+    if (err) {
+        console.log('WEBSHOT : ERROR');
+        return console.log(err);
+    }
+    console.log('WEBSHOT : OK');
     res.sendfile(file);
     // res.json({
     //   status: 'OK',

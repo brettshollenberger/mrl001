@@ -129,7 +129,7 @@ app.get('/api/v1/quote/:id/pdf1', function(req, res) {
     console.log('generating pdf for quote id: ' + req.params.id);
     
     var url = app.get('base') + '#/tools/quoter/' + req.params.id + '/print';
-    var fileName = __dirname + '/../../../temp/' + req.params.id + '.pdf';
+    var fileName = __dirname + '/../../../tmp/' + req.params.id + '.pdf';
     fileName = path.resolve(fileName);
     
     console.log('fileName is ' + fileName);
@@ -152,9 +152,9 @@ app.get('/api/v1/quote/:id/pdf1', function(req, res) {
                 
         console.log('path is ' + fileName); 
         
-        res.send(fs.readFileSync(__dirname + '/../../../temp/' + req.params.id + '.pdf'));
+        //res.send(fs.readFileSync(__dirname + '/../../../temp/' + req.params.id + '.pdf'));
         
-        //res.download(fileName);
+        res.download(fileName);
     });
 });
 

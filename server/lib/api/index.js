@@ -22,6 +22,7 @@ app.get('/api/changelog', function(req, res) {
 });
 
 
+<<<<<<< HEAD
 var join = require('path').join
   , tmpdir = '/tmp'
   ;
@@ -74,6 +75,11 @@ app.get('/api/v1/quote/:id/pdf3', function(req, res) {
     fileName = path.resolve(fileName);
     
     console.log('fileName is ' + fileName);
+=======
+/*
+app.get('/pdftest', function(req, res) {
+    console.log('starting pdftest');
+>>>>>>> parent of a1b71a6... Trying different save method
     
     var options = {
         screenSize: {
@@ -132,8 +138,15 @@ app.get('/api/v1/quote/:id/pdf2', function(req, res) {
         res.download(fileName);
     });
 });
+<<<<<<< HEAD
 
 app.get('/api/v1/quote/:id/pdf1', function(req, res) {
+=======
+*/
+
+
+app.get('/api/v1/quote/:id/pdf', function(req, res) {
+>>>>>>> parent of a1b71a6... Trying different save method
     
     console.log('generating pdf for quote id: ' + req.params.id);
     
@@ -161,8 +174,11 @@ app.get('/api/v1/quote/:id/pdf1', function(req, res) {
                 
         console.log('path is ' + fileName); 
         
+<<<<<<< HEAD
         //res.send(fs.readFileSync(__dirname + '/../../../temp/' + req.params.id + '.pdf'));
         
+=======
+>>>>>>> parent of a1b71a6... Trying different save method
         res.download(fileName);
     });
 });

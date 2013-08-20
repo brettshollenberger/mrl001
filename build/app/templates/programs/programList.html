@@ -1,0 +1,42 @@
+<div class="row has-title-bar has-no-tabs">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
+    <div class="span10 offset2">
+        
+        <div class="row title-bar">
+            <div class="span10">
+                <h2>Rate Sheets</h2>
+                <a id="addProgram" class="btn btn-primary actions" href="#/dashboard/programs/new">Add New Rate Sheet</a>
+            </div>
+        </div>
+        
+        <div class="row">  
+            <div class="span10">
+                
+                <div class="form-inline">
+                    <label>Search
+                    <input type="text" placeholder="Search" ng-model="searchTerm"></label>
+                </div>
+                
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in programs | filter: searchTerm">
+                            <td>{{item.name}}</td>
+                            <td>
+                                <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
+                                <a class="view" ng-click="editItem(item._id)">View</a> | 
+                                <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

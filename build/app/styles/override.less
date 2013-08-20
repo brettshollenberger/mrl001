@@ -1,0 +1,413 @@
+@import "bootstrap/variables.less"; 
+@import "bootstrap/mixins.less";
+@import "sidebar.less"; 
+
+/**
+ * Angular
+ */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+
+body {
+    padding-top: 10px;
+}
+
+.userTrayName {
+    margin: 10px 10px 0 0;
+}
+
+.center {
+    text-align: center;
+}
+
+.navbar .pull-right {
+    margin-top: 12px;
+}
+a:hover{text-decoration: none;}
+.table{margin: 10px 0;}
+.container{margin-right: 0; margin-left: 0;}
+body.quoter .container, 
+body.login .container, 
+body.home .container, 
+body.application .container,
+body.locator .container{
+    margin-left: auto; margin-right: auto; margin-top: 90px;
+}
+
+body.locator .container {
+    margin-top: 20px;
+}
+
+body.quoter .container, body.application .container {
+    margin-top: 20px;
+}
+
+
+.form-inline label{margin-right: 3px;}
+
+.quoter {
+    
+    h3 {
+        text-align: center;
+        
+        &:after {
+            content: "";
+            border: 0;
+            border-top: 1px solid @hrBorder;
+            border-bottom: 1px solid @white;
+            display: block;
+        }
+        
+    }
+    
+    label {
+        text-transform: uppercase;
+    }
+    
+    .dollarSign {
+        font-size: 25px;
+        margin-right: 10px;
+    }
+    
+    .area {
+        padding: 20px 0;        
+    }
+    
+    :disabled {
+        background: @white;
+        border-color: @white;
+    }
+
+    .area-equiptment textarea {
+        width: (@gridColumnWidth * 5) + 40;
+        height: 100px;
+    }
+    
+    .btn-mega {
+        margin: 0 auto;
+    }
+    
+    .input-xxxlarge {
+        width: 630px;
+    }
+    
+}
+
+.print {
+    
+    a, button, .push, .hello, .nerds {
+        display: none;
+    }
+    
+    .vendorSection a {
+        display: block;
+    }
+    
+}
+
+
+// Large
+.btn-mega {
+  padding: 25px 80px;
+  font-size: @fontSizeLarge;
+  .border-radius(10px);
+}
+.btn-mega [class^="icon-"],
+.btn-mega [class*=" icon-"] {
+  margin-top: 4px;
+}
+
+ul.unstyled li{min-height: 50px;}
+
+/*
+
+.sidebar{position: fixed; top: 0; left: 0; height: 100%; width: 198px; background: @navbarBackground; color: #fff; border-right: 3px solid #e6e6de;}
+
+.sidebar ul{list-style-type: none; margin-left: 0;}
+.sidebar ul.nav li a{font-size: 10px; text-transform: uppercase;}
+.sidebar ul.nav li.span1{margin-left: 0; width: 99px; padding: 20px 0;}
+.sidebar ul.nav li.active a{color: #fff;}
+.sidebar ul.nav li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);}
+.sidebar ul.nav .dark{background: #005194;}
+.sidebar ul.nav .light{background: #01569d;}
+.sidebar ul.nav i{font-size: 26px;}
+
+.sidebar a{color: @navbarLinkColor;}
+.sidebar a:hover{color: @navbarLinkColorHover;}
+.sidebar a.active{color: @navbarLinkColorActive;}
+.sidebar a.brand{display: block; text-align: center; padding: 25px 0;}
+*/
+
+/*
+ul.user-tray{display: block; background: #08487e; margin: 0; padding: 20px 0;}
+ul.user-tray img{width: 140px;}
+*/
+
+.nerds {
+    width: 200px;
+}
+
+
+footer p.hello {
+    margin-bottom: 0;
+    margin-top: 20px;
+    
+}
+
+footer em {
+    font-size: 20px;
+}
+
+// overrides bootstrap form-line behavior so the labels appear on top of the form element,
+// but the form elements all display inline. @see http://localhost:3000/#/dashboard/quotes search bar for example
+.form-inline  {
+
+    label input {
+        display: block;
+    }
+}
+
+
+.area-start {
+    
+    margin-bottom: 100px;
+    
+    i {
+        font-size: 120px;
+        text-shadow: 1px 1px 1px white;
+    }
+    
+    p {
+        font-size: 20px;
+        margin-top: 20px;
+    }
+    
+    .start-button {
+        
+        .transition(color 120ms ease);
+        
+        &:hover {
+             cursor: pointer;
+             color: @linkColor;
+        }
+        
+    }
+    
+} 
+
+
+html, body {
+	height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -200px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+	height: 200px; /* .push must be the same height as .footer */
+}
+
+/*
+
+Sticky Footer by Ryan Fait
+http://ryanfait.com/
+
+*/
+
+
+// apply top outtermost row when page contains title-bar. 
+// this ensures proper padding is applied to show title-bar under fixed title-bar
+.has-title-bar {
+    margin-top: 140px;
+}
+
+.has-no-tabs .title-bar [class*="span"] {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    display: block;
+    
+}
+
+.title-bar {
+    
+    position: fixed;
+    top: 0;
+    background: @bodyBackground;
+    z-index: @zindexFixedNavbar;
+    
+    .actions {
+        position: fixed;
+        right: @gridGutterWidth;
+        top: 20px;
+        
+        @newWidth: (@gridRowWidth + @gridGutterWidth);
+        
+        @media all and (min-width: @newWidth) {
+            position: absolute;
+            right: 0; 
+        }
+        
+    }
+}
+
+.area-locator-search {
+    
+    .pull-left {
+        margin-right: 20px;
+    }
+    
+}
+
+
+textarea.legalTerms {
+    width: 500px;
+    height: 200px;
+}
+
+
+
+
+
+
+.img-tiny {
+    max-width: 50px; // IE8 needs the max width to be set or the image will be distorted.
+    width: 50px;
+}
+
+.img-medium {
+    max-width: 100px;
+    width: 100px;
+}
+
+.img-large {
+    max-width: 200px;
+    width: 200px;
+}
+
+
+
+
+.locator .angular-google-map-container {
+	width: 100%;
+	height: 600px;
+}
+
+.vendors .angular-google-map-container {
+	width: 100%;
+	height: 400px;
+	display: block;
+}
+
+.angular-google-map {
+    display: block;
+    width: 100%;
+    height: 100%;
+    float: none;
+}
+
+/* fix for Twitter Bootstrap handling of responsive images */
+.angular-google-map img {
+	max-width: inherit;
+}
+
+
+
+form[name*="formBuyoutOptions"] .ng-invalid {
+  border-color: #e9322d;
+  -webkit-box-shadow: 0 0 6px #f8b9b7;
+  -moz-box-shadow: 0 0 6px #f8b9b7;
+  box-shadow: 0 0 6px #f8b9b7;
+}
+
+
+
+
+
+.spinner-overlay {
+    z-index: 1200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    text-align: center;
+    
+    .icon-spinner {
+        font-size: 40px;
+        color: white;
+        margin-top: 200px;
+    }
+    
+}
+
+
+.lt-ie9 .spinner-overlay {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    margin-left: -50px;  
+    top: 200px; 
+    background: @gray;
+}
+
+.lt-ie9 .icon-spinner {
+    margin-top: 30px;
+}
+
+
+
+
+// ---------------------------------------------------
+// 
+// Buyout Program Table
+//
+// ---------------------------------------------------
+
+// prevent cost range area from getting too small
+td.cost-range {
+    min-width: 250px;
+}
+
+// we use an extra td to pad out the table, so columns always float left.
+// this is a trick to make the padded one go away if we dont need it
+td[colspan*="0"] {
+    display: none;
+}
+
+.buyoutEditForm {
+    
+    .span1 {
+        width: 60px;
+        padding: 8px 6px;
+    }
+    
+    .td-pad {
+        width: 100%;
+    }
+    
+}
+
+// delete buttons, @note could be other selectors though 
+td[colspan*="1"] button {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.map {
+    display: block;
+    height: 500px;
+    
+    img {
+        max-width: inherit;
+    }   
+}
+
+

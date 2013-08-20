@@ -1,0 +1,228 @@
+<div class="row has-title-bar">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
+        <div class="span10 offset2">
+            
+            <div class="row title-bar">
+                <div class="span10">
+                    <h2>New Vendor</h2>
+                    <ul class="nav nav-tabs">
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                </ul>
+                    
+                    <div class="actions">
+                        <button type="submit" class="btn btn-primary" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || customNameForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid || customNameForm.$invalid" ng-click="save(true)">Save</button>
+                        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
+                    </div>
+                
+                </div>
+            </div>
+            
+            <form name="basicForm" class="row" ng-show="isActiveTab(0)">
+                <div class="span3">
+                    <h3>Vendor</h3>
+                    
+                    <label>Vendor Name</label>
+                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
+                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
+                    
+                    <label>Website</label>
+                    <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
+                    
+                    <label>Business Phone</label>
+                    <input type="text" class="medium" placeholder="Business Phone" ng-model="vendor.businessPhone">
+                    
+                    <label>Logo</label>
+                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
+                    <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+ 
+                </div>
+                
+                <div class="span3">            
+                    <h3>Location</h3>
+                    <label>Address 1</label>
+                    <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                    
+                    <label>Address 2</label>
+                    <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                    
+                    <label>City</label>
+                    <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
+                    <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+                    <label>State</label>
+                    <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                    
+                    <label>Zip</label>
+                    <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                    
+                </div>
+                
+                <div class="span3">  
+                   
+                    <h3>Primary Contact</h3>
+                    <label>Name</label>
+                    <input type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
+                    
+                    <label>Email</label>
+                    <input type="text" placeholder="Email" ng-model="vendor.contactPerson.email">
+                    
+                    <label>Phone</label>
+                    <input type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone">
+                </div>
+            </form>
+            
+            <div class="row" ng-show="isActiveTab(1)">
+                <div class="span5">
+                    <h3>Marlin Sales Rep</h3>
+                    
+                    <div ng-show="vendor.salesRep">
+                        <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
+                        <h5 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
+                        <p>{{vendor.salesRep.email}}</p>
+                        <p>{{vendor.salesRep.phone}}</p>
+                        
+                        <button class="btn btn-primary" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</button>
+                        
+                    </div>
+                    
+                    <div ng-show="!vendor.salesRep">
+                        <p class="alert">This vendor currently has no Marlin Sales Rep</p>
+                        
+                        <label>Add sales rep by searching by name</label>
+                        <div class="input-append">
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
+                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" />
+                        </div>
+                        
+                        <!-- <pre>{{allReps}}</pre> -->
+                        <ul class="unstyled salesReps">
+                            <li ng-repeat="item in allReps | filter:salesRepId">
+                                <p>
+                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    {{item.fullname}}
+                                    <button class="pull-right btn" ng-click="addSalesRep(item._id)">
+                                        <i class="icon-plus"></i>
+                                    </button>
+                                </p>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                
+                </div>
+            
+            
+            </div>
+                
+            <div class="row" ng-show="isActiveTab(2)">    
+
+                <div class="span5" ng-hide="!vendor._id">
+                    <h3>Vendor Lease Programs</h3>
+                    <form name="customNameForm">
+                        <ul id="vendorPrograms" class="unstyled">
+                            <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
+                                <hr />
+                                <label>Program name for this vendor. Changing this will not effect other vendors with the same program.</label>
+                                <input required type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
+                                <br />
+                                <button ng-click="removeProgram(item)" class="btn">Remove</button>
+                            </li>
+                        </ul>
+                    </form>
+                    
+                    <!-- <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>   -->
+                      
+                </div>
+                <div class="span5" ng-hide="!vendor._id">
+                    <h3>All Available Lease Programs</h3>
+                    <ul id="allPrograms" class="unstyled">
+                        <li ng-repeat="item in programs">
+                            <hr />
+                            <p>{{item.name}}</p>
+                            <button ng-click="addProgram(item)" class="btn">Add</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            
+            <form name="customizeForm" class="row" ng-show="isActiveTab(3)">
+                <div class="span10">
+                    <h3>Customize Vendor Application</h3>
+                    
+                    <label>Legal Terms which display on application</label>
+                    <textarea class='legalTerms' ng-model="vendor.legalTerms"></textarea>
+                </div>
+            
+                <div class="span10">    
+                            
+                    <hr />
+                    
+                    
+                    
+                </div>
+            </form><!-- row -->
+            
+            <form name="locationForm" class="row" ng-show="isActiveTab(4)">
+                
+                <div class="span10">
+                    
+                    <div class="row">
+                    
+                        <div class="span4">
+                            
+                            <p>Vendor location is automatically generated from location data below. Change this information and click button to update on map.</p>
+                            <button ng-click="findMyLocation()" class="btn" >Update Location</button>
+                            
+                            <label>Address 1</label>
+                            <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                            
+                            <label>Address 2</label>
+                            <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                            
+                            <label>City</label>
+                            <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
+                            <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+                            <label>State</label>
+                            <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                            
+                            <label>Zip</label>
+                            <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                        
+                        </div>
+                        
+                        <div class="span4">
+                            <p>Current Geo Location Shown to visitors.</p>
+                            <div class="google-map"
+                        		center="map.center"
+                        		zoom="map.zoom"
+                        		draggable="true"
+                        		refresh="activeTab"
+                        		dragging="map.dragging">
+                        		<!-- prefedined markers -->
+                        		<marker ng-repeat="m in vendorMarker" coords="m" icon="m.icon" >
+                    				<window show="m.showWindow" closeClick="m.closeClick()">
+                    					<img ng-src="{{m.logo}}" class="img-medium"/>
+                    					<p>{{m.name}}</p>
+                                        <p>{{m.businessPhone}}</p>
+                                        <p>{{m.businessAddress.address1}}<br/>
+                                        <p>{{m.businessAddress.address2}}</p>
+                                        <p>{{m.businessAddress.city}}, {{m.businessAddress.state}} {{m.businessAddress.zip}}</p>
+                    					<p ng-show="m.distance && hasLocation">{{m.distance| number:0}} miles away</p>
+                    					<p><a target="_blank" ng-href="{{m.destAddress}}">Directions</a></p>
+                    				</window>
+                    			</marker>
+                            
+                            </div>
+                        
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+            
+            </form><!-- row -->
+            
+        </div><!-- offset 2 -->
+ 
+</div>

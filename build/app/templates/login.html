@@ -1,0 +1,27 @@
+<div class="row-fluid">
+    <div class="span4 offset4">
+        
+        <div class="well" id="loginForm">
+        
+            <h4>Login to access MarlinQuoter</h4>
+            
+            <p class="alert alert-error" ng-show="message">{{message}}</p>
+            
+            <label>Username</label>
+            <input type="text" placeholder="Username" ng-model="username">
+            
+            <label>Email</label>
+            <input type="password" placeholder="password" ng-model="password">
+            
+            <br />
+            
+            <a class="btn btn-primary" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></a>
+            
+            <br /> <br />
+            
+            <p class="alert alert-info">Username is your Marlin email, before the @. Password is the same.</p>
+         
+        </div> 
+               
+    </div>
+</div>

@@ -21,11 +21,29 @@ app.get('/api/changelog', function(req, res) {
   res.send(fs.readFileSync(__dirname + '/../../../changelog.md'));
 });
 
+
+// Webshot config
+// @note that on Herkou the standard temporary file is called 'tmp' so 
+// we use that locally too :)
 var join = require('path').join
   , tmpdir = '/tmp'
-  , phantomPATH = join(__dirname, '/../../../', 'vendor/phantomjs/bin/phantomjs')
-  ;
+  , phantomPATH = null;
   
+// in production / testing etc modes (basically anything on heroku) 
+// we need to set a special path for phantomjs
+if ('development' !== app.get('env')) {
+    phantomPATH = join(__dirname, '/../../../', 'vendor/phantomjs/bin/phantomjs');
+}
+  
+/**
+* Our default webshot function, which has pre-set options
+* 
+* @param url {string} URL for phantomJS to take screenshot of
+* @param file {string} Name of file where we save screenshot
+* @param cb {function} Callback which will recieve error if any
+*
+*
+*/  
 var getWebshot = function(url, file, cb) {
   var options = {
     screenSize: {
@@ -36,7 +54,6 @@ var getWebshot = function(url, file, cb) {
       width: 'window',
       height: 480
     },
-    phantomPath: phantomPATH,
     // timeout after 25 seconds
     timeout: 25000,
     script: function() {
@@ -47,8 +64,16 @@ var getWebshot = function(url, file, cb) {
     },
     userAgent: 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_2 like Mac OS X; en-us)  AppleWebKit/531.21.20 (KHTML, like Gecko) Mobile/7B298g'
   };
+  
+  // on non-dev environments, ie: Heroku, set the phantomPath option
+  if(phantomPATH !== null) {
+     options.phantomPath = phantomPATH;
+  }
+  
   webshot(url, file, options, cb);
 };
+
+
 
 app.get('/webshot/:url(*)', function(req, res){
   var url = 'http://google.com'

@@ -244,6 +244,7 @@ angular
                console.log(response);
                
                if(response.status === 'OK') {
+                   console.log(response.file);
                    SaveToDisk(response.file, 'Quote');
                } else {
                    $scope.downloadMessage = "Something Went Wrong! Please Try Again Later"; 
@@ -270,10 +271,10 @@ angular
         
             // for IE
             else if ( !! window.ActiveXObject && document.execCommand)     {
-                var _window = window.open(fileURL, '_blank');
-                _window.document.close();
-                _window.document.execCommand('SaveAs', true, fileName || fileURL);
-                _window.close();
+                var _window = window.open(fileURL, '_self');
+                //_window.document.close();
+                //_window.document.execCommand('SaveAs', true, fileName || fileURL);
+                //_window.close();
             }
         }
     }

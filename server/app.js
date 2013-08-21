@@ -23,7 +23,7 @@ app.use(express.cookieSession());
 app.use(express.compress());
 app.use(api);
 app.use(express.static(path.join(__dirname, '../build')));
-app.use(express.static(path.join(__dirname, '../temp')));
+app.use("/downloads", express.static(path.join(__dirname, '../tmp')));
 app.use(app.router);
 
 if ('development' === app.get('env')) {

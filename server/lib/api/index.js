@@ -23,8 +23,9 @@ app.get('/api/changelog', function(req, res) {
 
 var join = require('path').join
   , tmpdir = '/tmp'
+  , phantomPATH = join(__dirname, '/../../../', 'vendor/phantomjs/bin/phantomjs')
   ;
-
+  
 var getWebshot = function(url, file, cb) {
   var options = {
     screenSize: {
@@ -35,6 +36,7 @@ var getWebshot = function(url, file, cb) {
       width: 'window',
       height: 480
     },
+    phantomPath: phantomPATH,
     // timeout after 25 seconds
     timeout: 25000,
     script: function() {

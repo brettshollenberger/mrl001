@@ -14,7 +14,7 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 
-var environment = 'development';
+var environment = 'production';
 
 /**
 * CONNECT to db, depending on environment

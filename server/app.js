@@ -9,7 +9,8 @@ var path      = require('path');
 var api       = require('./lib/api');
 
 
-app.set('base', 'http://localhost:3000/'); // base with trailing slash
+app.set('base', 'http://marlinquoter.herokuapp.com/'); // base with trailing slash
+//app.set('base', 'http://localhost:3000/'); // base with trailing slash
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -22,6 +23,7 @@ app.use(express.cookieSession());
 app.use(express.compress());
 app.use(api);
 app.use(express.static(path.join(__dirname, '../build')));
+app.use("/downloads", express.static(path.join(__dirname, '../tmp')));
 app.use(app.router);
 
 if ('development' === app.get('env')) {
@@ -31,4 +33,6 @@ if ('development' === app.get('env')) {
 app.get('*', function(req, res) {
   res.redirect('/#' + req.url);
 });
+
+
 

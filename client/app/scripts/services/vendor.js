@@ -128,8 +128,8 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 query: JSON.stringify(str)
             };
 
-            console.log('getManyWhere');
-            console.log(params);
+            //console.log('getManyWhere');
+            //console.log(params);
 
             return $http.get(url + 'vendor', {
                 params: params
@@ -146,8 +146,8 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 query: JSON.stringify(str)
             };
 
-            console.log('getManyWhereEmpty');
-            console.log(params);
+            //console.log('getManyWhereEmpty');
+            //console.log(params);
 
             return $http.get(url + 'vendor', {
                 params: params
@@ -173,7 +173,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 query: JSON.stringify(str)
             };
 
-            console.log(params);
+            //console.log(params);
 
             return $http.get(url + 'user', {
                 params: params
@@ -198,7 +198,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 query: JSON.stringify(str)
             };
 
-            console.log(params);
+            //console.log(params);
 
             return $http.get(url + 'vendor', {
                 params: params
@@ -222,9 +222,9 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 // ensure they are unique
                 vendorIds = _.uniq(vendorIds);
 
-                console.log(vendorIds);
+                //console.log(vendorIds);
 
-                console.log('There are ' + vendorIds.length + ' without sales reps');
+                //console.log('There are ' + vendorIds.length + ' without sales reps');
 
                 return exports.getManyWhereNotIn(vendorIds);
 

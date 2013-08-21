@@ -19,6 +19,24 @@ angular
             Auth.canUserDoAction('edit-vendor');
 
             $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Legal Terms'];
+            
+            
+            
+            /**
+             * Initiates function which checks for un saved changes when navigating away from the page
+             * @todo move all this login into a directive, module?
+             *
+             */
+            /*
+var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
+                // this will prompt users to save when the leave the page. 
+                var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm, $scope.customNameForm];
+                saveChangesPrompt.init(forms);
+                removeViewLoad();
+            });
+*/
+            
+            
 
             // empty vendor object
             $scope.vendor = {};
@@ -491,7 +509,7 @@ angular
                 // the button still be disabled, even though we are returning true here
                 if (existingObject === null) return true;
 
-                console.log('COMAPRE : CHECKING OBJECTS MATCH');
+                //console.log('COMAPRE : CHECKING OBJECTS MATCH');
                 var doesMatch = angular.equals(existingObject, $scope.vendor);
                 console.log(doesMatch);
 
@@ -499,17 +517,6 @@ angular
 
             };
 
-            /**
-             * Initiates function which checks for un saved changes when navigating away from the page
-             * @todo move all this login into a directive, module?
-             *
-             */
-            var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
-                // this will prompt users to save when the leave the page. 
-                var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm, $scope.customNameForm];
-                saveChangesPrompt.init(forms);
-                removeViewLoad();
-            });
 
 
 

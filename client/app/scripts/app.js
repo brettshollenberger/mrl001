@@ -1,5 +1,5 @@
 angular
-    .module('app', ['ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'saveChanges', 'google-maps',
+    .module('app', ['unsavedChanges', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
         function() {
 
         }
@@ -23,7 +23,7 @@ angular
             };
 
             var customRequest = function(d) {
-                console.log(d);
+                //console.log(d);
                 return d;
             };
 
@@ -262,7 +262,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
             // remove the first element, which is always ""
             pageSlug.shift();
 
-            console.log(pageSlug);
+            //console.log(pageSlug);
 
             if (pageSlug.length === 1 && pageSlug[0] === "") {
                 $rootScope.pageSlug = 'home';
@@ -366,7 +366,7 @@ angular.module('SharedServices', [])
     .run(function($rootScope) {
 
         console.log('Factor it!');
-        console.log($rootScope);
+        //console.log($rootScope);
 
         // this will be incrimented up/ down in our requests and responses
         // when its greater than 0, we know to show a loading indicator
@@ -386,7 +386,7 @@ angular.module('SharedServices', [])
         var queue = 0;
 
         queue++;
-        console.log('Queue is... ' + queue);
+        //console.log('Queue is... ' + queue);
 
         //console.log(data);
         //console.log('start spinner, headers are...');
@@ -414,7 +414,7 @@ angular.module('SharedServices', [])
             //console.log(response.data);
 
             queue--;
-            console.log('Queue is... ' + queue);
+            //console.log('Queue is... ' + queue);
 
             return response;
 
@@ -425,7 +425,7 @@ angular.module('SharedServices', [])
             //console.log(response);
 
             queue--;
-            console.log('Queue is... ' + queue);
+            //console.log('Queue is... ' + queue);
 
             return $q.reject(response);
         });
@@ -618,9 +618,12 @@ spinner.directive("spinner", function() {
  * @note the init() method must be called after view did load, so that forms are defined
  *
  */
-angular.module('saveChanges', [])
+angular.module('unsavedChanges', []);
+
+angular.module('unsavedChanges')
     .factory('saveChangesPrompt', ['$rootScope',
         function($rootScope) {
+            
             console.log('Saving changes');
 
             // empty return function
@@ -628,7 +631,6 @@ angular.module('saveChanges', [])
 
             return {
                 init: function(forms) {
-
 
                     // @todo optimse this, because this code is duplicated. 
                     function confirmExit() {
@@ -658,6 +660,13 @@ angular.module('saveChanges', [])
                         var isDirty = false;
 
                         angular.forEach(forms, function(item) {
+                            
+                            console.log(item);
+                            console.log(item.$dirty);
+                            
+                            
+                            //isDirty = true;
+                            
                             if (item.$dirty) isDirty = true;
                         });
 
@@ -686,3 +695,38 @@ angular.module('saveChanges', [])
             };
         }
     ]);
+    
+    
+angular.module('unsavedChanges')    
+.directive('unsavedChangesWarning', ['saveChangesPrompt', function(saveChangesPrompt) {
+    return {
+        require: 'form', // we must require form to get access to formController
+        link: function(scope, elem, attrs, formController) {
+            
+            console.log('FORM : Linker');
+            
+            // Here we pass in the formController
+            // Note its critical to pass the controller, and not the form elem itself
+            // this is because the form elem doesn't contain the logic of $dirty, $valid, etc. 
+            // this logic is handled by the controller. 
+            // When using the form in a controller, you can access $scope.formName.$dirty
+            // because you are accessing the formController by default
+            console.log(formController);
+            
+            saveChangesPrompt.init([formController]);
+            
+        }
+    };
+
+}]);
+
+
+
+
+
+
+
+
+
+
+

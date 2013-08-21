@@ -76,7 +76,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
                 query: JSON.stringify(str)
             };
 
-            console.log(params);
+            //console.log(params);
 
             return $http.get(url + 'program', {
                 params: params

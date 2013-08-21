@@ -1,5 +1,8 @@
 module.exports = (grunt)->
 
+  # beautify
+  grunt.registerTask('beautify', [ 'jsbeautifier:working' ])
+
   # Run `grunt server` for live-reloading development environment
   grunt.registerTask('server', [ 'build', 'express', 'watch' ])
   
@@ -42,6 +45,11 @@ module.exports = (grunt)->
     LESS_FILES:     '**/*.less'
 
 
+    # beautify
+    jsbeautifier:
+      working:
+        src:        [ '<%= CLIENT_DIR + JS_FILES %>' ]
+    
     # Wipe the `build` directory
     clean:
       build:        '<%= BUILD_DIR %>'
@@ -218,3 +226,5 @@ module.exports = (grunt)->
   # grunt.loadNpmTasks('grunt-regarde')
   # grunt.loadNpmTasks('grunt-parallel')
   grunt.loadNpmTasks('grunt-usemin')
+  grunt.loadNpmTasks('grunt-jsbeautifier')
+  

@@ -1,10 +1,10 @@
 angular
-  .module('app')
-  .controller('programController', [
-    '$rootScope',
-    '$scope',
-    function($rootScope, $scope) {
-     /*
+    .module('app')
+    .controller('programController', [
+        '$rootScope',
+        '$scope',
+        function($rootScope, $scope) {
+            /*
  api.server.then(function(response) {
         $rootScope.version = response.data.version;
       });
@@ -12,6 +12,5 @@ angular
       $scope.client = api.client;
       $scope.server = api.server;
 */
-    }
-  ])
-;
+        }
+    ]);

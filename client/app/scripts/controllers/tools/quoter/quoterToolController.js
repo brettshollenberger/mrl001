@@ -221,19 +221,35 @@ angular
         * Download as pdf
         *
         */
+        
+        // default message
+        $scope.downloadMessage = "Download as a PDF";
+        
+        // function called on ng-click
         $scope.download = function() {
                 
-            //$scope.downloading = true;
+            $scope.downloading = true;
+            $scope.downloadMessage = "Please wait while we generate your PDF";
             
-            window.open('api/v1/quote/'+quoteId+'/pdf');
+            // once the generation is complete, we'll put the download url 
+            // here. Users can click to download the file
+            $scope.downloadURL = null;
             
-            /*
-Quote.generatePDF(quoteId).then(function(response){
+            //window.open('api/v1/quote/'+quoteId+'/download');
+            
+            Quote.generatePDF(quoteId).then(function(response){
                $scope.downloading = false;
+               $scope.downloadMessage = "Download Complete";
+               
                console.log(response);
-               window.open(response.file, '_self');
+               
+               if(response.status === 'OK') {
+                   SaveToDisk(response.file, 'Quote');
+               } else {
+                   $scope.downloadMessage = "Something Went Wrong! Please Try Again Later"; 
+               }
+               
             });
-*/
             
         };
         

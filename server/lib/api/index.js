@@ -51,7 +51,7 @@ var getWebshot = function(url, file, cb) {
 app.get('/webshot/:url(*)', function(req, res){
   var url = 'http://google.com'
     , id = 12321312312312
-    , file = join(tmpdir, id + '.pdf');
+    , file = join(__dirname, '/../../../', tmpdir, id + '.pdf');
    
   console.log('WEBSHOT : FILE is ' + file); 
     
@@ -74,6 +74,7 @@ app.get('/webshot/:url(*)', function(req, res){
 
 app.get('/shot.png', function(req, res) {
   webshot(req.query.url, function(err, renderStream) {
+    console.log('OKKKKKK');
     renderStream.pipe(res);
   });
 });

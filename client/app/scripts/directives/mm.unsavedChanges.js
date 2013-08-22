@@ -18,7 +18,15 @@ angular.module('mm.unsavedChanges')
             // defined here because in some instances we call this
             // as a callback when it may not be defined, so defining here prevents the 
             // need for `typeof` checks later on
+            //
             var removeFunction = function() {};
+            
+            // check if form is dirty
+            var isFormDirty = function(form) {
+                var d = (form.$dirty) ? true : false;
+                console.log('ARE FORMS DIRTY? ' + d); 
+                return d;
+            }
 
             return {
                 init: function(form) {
@@ -27,15 +35,9 @@ angular.module('mm.unsavedChanges')
                     function confirmExit() {
                         
                         console.log('REFRESH / CLOSE detected');
-                        
-                        // private instance of isDirty
-                        // this allows multiple directives on the same page to work independently
-                        var isDirty = (form.$dirty) ? true : false;
-
-                        console.log('ARE FORMS DIRTY? ' + isDirty);
 
                         // @todo this could be written a lot cleaner! 
-                        if (isDirty) {
+                        if (isFormDirty(form)) {
                             return "You will loose unsaved changes if you leave this page";
                         } else {
                             removeFunction();
@@ -52,14 +54,8 @@ angular.module('mm.unsavedChanges')
 
                         console.log('ROUTE CHANGE detected');
                         
-                        // private instance of isDirty
-                        // this allows multiple directives on the same page to work independently
-                        var isDirty = (form.$dirty) ? true : false;
-
-                        console.log('ARE FORMS DIRTY? ' + isDirty);
-
                         // @todo this could be written a lot cleaner! 
-                        if (isDirty) {
+                        if (isFormDirty(form)) {
                             if (!confirm('You will loose unsaved changes if you click OK')) {
                                 event.preventDefault(); // user clicks cancel, wants to stay on page 
                             } else {
@@ -108,7 +104,7 @@ angular.module('mm.unsavedChanges')
             // Note its critical to pass the controller, and not the form elem itself
             //     this is because the form elem doesn't contain the logic of $dirty, $valid, etc. 
             //     this logic is handled by the controller. 
-            // When using the form in a controller, you can access $scope.formName.$dirty
+            //     When using the form in a controller, you can access $scope.formName.$dirty
             //     because you are accessing the formController by default
             //
             saveChangesPrompt.init(formController);

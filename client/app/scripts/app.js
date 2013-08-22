@@ -1,5 +1,5 @@
 angular
-    .module('app', ['unsavedChanges', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
+    .module('app', ['mm.unsavedChanges', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
         function() {
 
         }
@@ -608,117 +608,6 @@ spinner.directive("spinner", function() {
 
 
 
-/**
- * Module that will prompt user when they try to nagivate away from page with unsaved data
- * Will prompt user to discard changed, or stay on page
- *
- * Provides a method to call which will remove the listener, ie: on save button clicked
- *
- * @todo make it auto save when user clicks "Save"
- * @note the init() method must be called after view did load, so that forms are defined
- *
- */
-angular.module('unsavedChanges', []);
-
-angular.module('unsavedChanges')
-    .factory('saveChangesPrompt', ['$rootScope',
-        function($rootScope) {
-            
-            console.log('Saving changes');
-
-            // empty return function
-            var removeFunction = function() {};
-
-            return {
-                init: function(forms) {
-
-                    // @todo optimse this, because this code is duplicated. 
-                    function confirmExit() {
-                        console.log('Reload page START');
-                        var isDirty = false;
-
-                        angular.forEach(forms, function(item) {
-                            if (item.$dirty) isDirty = true;
-                        });
-
-                        console.log('ARE FORMS DIRTY? ' + isDirty);
-
-                        // @todo this could be written a lot cleaner! 
-                        if (isDirty) {
-                            return "You will loose unsaved changes if you leave this page";
-                        } else {
-                            removeFunction();
-                            window.onbeforeunload = null;
-                        }
-                    }
-
-                    window.onbeforeunload = confirmExit;
-
-                    removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
-
-                        console.log('ROUTE CHANGE START');
-                        var isDirty = false;
-
-                        angular.forEach(forms, function(item) {
-                            
-                            console.log(item);
-                            console.log(item.$dirty);
-                            
-                            
-                            //isDirty = true;
-                            
-                            if (item.$dirty) isDirty = true;
-                        });
-
-                        console.log('ARE FORMS DIRTY? ' + isDirty);
-
-                        // @todo this could be written a lot cleaner! 
-                        if (isDirty) {
-                            if (!confirm('You will loose unsaved changes if you click OK')) {
-                                event.preventDefault();
-                            } else {
-                                removeFunction();
-                                window.onbeforeunload = null;
-                            }
-                        } else {
-                            removeFunction();
-                            window.onbeforeunload = null;
-                        }
-
-                    });
-                },
-                removeListener: function() {
-                    console.log('CHOOSING TO REMOVE THIS FUNCTION');
-                    removeFunction();
-                    window.onbeforeunload = null;
-                }
-            };
-        }
-    ]);
-    
-    
-angular.module('unsavedChanges')    
-.directive('unsavedChangesWarning', ['saveChangesPrompt', function(saveChangesPrompt) {
-    return {
-        require: 'form', // we must require form to get access to formController
-        link: function(scope, elem, attrs, formController) {
-            
-            console.log('FORM : Linker');
-            
-            // Here we pass in the formController
-            // Note its critical to pass the controller, and not the form elem itself
-            // this is because the form elem doesn't contain the logic of $dirty, $valid, etc. 
-            // this logic is handled by the controller. 
-            // When using the form in a controller, you can access $scope.formName.$dirty
-            // because you are accessing the formController by default
-            console.log(formController);
-            
-            saveChangesPrompt.init([formController]);
-            
-        }
-    };
-
-}]);
 
 
 

@@ -14,6 +14,12 @@ angular.module('mm.unsavedChanges')
     .factory('saveChangesPrompt', ['$rootScope',
         function($rootScope) {
 
+            // messages. Change here is you need 
+            var messages = {
+                navigate: "You will loose unsaved changes if you leave this page",
+                reload: "You will loose unsaved changes if you reload this page"
+            };
+
             // empty return function
             // defined here because in some instances we call this
             // as a callback when it may not be defined, so defining here prevents the 
@@ -26,7 +32,7 @@ angular.module('mm.unsavedChanges')
                 var d = (form.$dirty) ? true : false;
                 console.log('ARE FORMS DIRTY? ' + d);
                 return d;
-            }
+            };
 
             return {
                 init: function(form) {
@@ -38,7 +44,7 @@ angular.module('mm.unsavedChanges')
 
                         // @todo this could be written a lot cleaner! 
                         if (isFormDirty(form)) {
-                            return "You will loose unsaved changes if you leave this page";
+                            return messages.reload;
                         } else {
                             removeFunction();
                             window.onbeforeunload = null;
@@ -56,7 +62,7 @@ angular.module('mm.unsavedChanges')
 
                         // @todo this could be written a lot cleaner! 
                         if (isFormDirty(form)) {
-                            if (!confirm('You will loose unsaved changes if you click OK')) {
+                            if (!confirm(messages.navigate)) {
                                 event.preventDefault(); // user clicks cancel, wants to stay on page 
                             } else {
                                 removeFunction(); // unbind our `locationChangeStart` listener

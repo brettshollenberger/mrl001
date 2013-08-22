@@ -604,18 +604,3 @@ spinner.directive("spinner", function() {
         controller: "spinner"
     };
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

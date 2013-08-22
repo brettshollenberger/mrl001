@@ -19,9 +19,9 @@ angular
             Auth.canUserDoAction('edit-vendor');
 
             $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Legal Terms'];
-            
-            
-            
+
+
+
             /**
              * Initiates function which checks for un saved changes when navigating away from the page
              * @todo move all this login into a directive, module?
@@ -35,8 +35,8 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 removeViewLoad();
             });
 */
-            
-            
+
+
 
             // empty vendor object
             $scope.vendor = {};

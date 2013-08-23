@@ -1,8 +1,9 @@
 angular
-  .module('app')
-  .factory('googleMapsService', ['$rootScope', '$q', function($rootScope, $q) {
+    .module('app')
+    .factory('googleMapsService', ['$rootScope', '$q',
+        function($rootScope, $q) {
 
-    /*
+            /*
 // Load the Google Maps scripts Asynchronously
    (function(d){
         var js, id = 'google-maps', ref = d.getElementsByTagName('script')[0];
@@ -13,40 +14,43 @@ angular
     }(document));
 */
 
-    var methods = {};
+            var methods = {};
 
-    methods.geo = function(address, type){
-    
-        //var deferred = $q.defer();
-        var geocoder = new google.maps.Geocoder();
-        
-        var geoData = {};
-    
-        var handleResult = function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-             console.log(results[0]);
-             
-             geoData.lat = results[0].geometry.location.mb; // mb
-             geoData.lng = results[0].geometry.location.nb; // nb
-             
-             
-             //geoData.lat = results[0].geometry.location.jb; // mb
-             //geoData.lng = results[0].geometry.location.kb; // nb
-             //console.log(geoData);
-             
-             $rootScope.$broadcast('event:geo-location-success', geoData, type);
-             
-          } else {
-             $rootScope.$broadcast('event:geo-location-failure', geoData, type);
-            //alert('Geocode was not successful for the following reason: ' + status);
-          }
-        };
-    
-        geocoder.geocode( { 'address': address}, handleResult);
-        
-        //return deferred.promise;
-      };
-     
-     return methods;
+            methods.geo = function(address, type) {
 
-  }]);
+                //var deferred = $q.defer();
+                var geocoder = new google.maps.Geocoder();
+
+                var geoData = {};
+
+                var handleResult = function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        console.log(results[0]);
+
+                        geoData.lat = results[0].geometry.location.mb; // mb
+                        geoData.lng = results[0].geometry.location.nb; // nb
+
+
+                        //geoData.lat = results[0].geometry.location.jb; // mb
+                        //geoData.lng = results[0].geometry.location.kb; // nb
+                        //console.log(geoData);
+
+                        $rootScope.$broadcast('event:geo-location-success', geoData, type);
+
+                    } else {
+                        $rootScope.$broadcast('event:geo-location-failure', geoData, type);
+                        //alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                };
+
+                geocoder.geocode({
+                    'address': address
+                }, handleResult);
+
+                //return deferred.promise;
+            };
+
+            return methods;
+
+        }
+    ]);

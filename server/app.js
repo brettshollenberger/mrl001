@@ -13,6 +13,7 @@ var api       = require('./lib/api');
 app.set('base', 'http://localhost:3000/'); // base with trailing slash
 
 app.set('port', process.env.PORT || 3000);
+app.set('host', '10.1.10.78');
 app.set('views', __dirname + '/views');
 
 app.use(express.logger('dev'));

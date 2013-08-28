@@ -449,11 +449,8 @@ angular.module('app').config([
     var interceptor = ['$location', '$q', function($location, $q) {
         
         function success(response) {
-            
-            
-            
+
             if(typeof response.data !== 'object') {
-                console.log('RESPONSE is template');
                 return response;
             }
             
@@ -463,8 +460,6 @@ angular.module('app').config([
                 // replace data with result so it can be digetsted by services
                 response.data = response.data.result; 
             }
-            
-            console.log(response);
             
             return response;
             

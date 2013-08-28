@@ -17,13 +17,12 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         // 2 = marlin sales rep
         allowedActionsByAuthLevel[2] = ['list-application', 'edit-application', 'list-quote', 'edit-quote', 'list-vendor', 'edit-vendor'];
 
-
         // create and expose service methods
         var exports = {};
 
-        exports.login = function(username, password) {
+        exports.login = function(email, password) {
 
-            return User.getOneBy('username', username).then(function(response) {
+            return User.login({email: email, password: password}).then(function(response) {
                 var attemptingUser = response;
 
                 console.log('LOGIN: Attempting user is: ');
@@ -31,16 +30,11 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
 
                 if (!attemptingUser) return false;
 
-                console.log(password);
-                console.log(attemptingUser.password);
-
-                if (attemptingUser.password !== password) return false;
-
                 // store user data
                 userData.currentUser = attemptingUser;
                 userData.userId = attemptingUser._id;
                 userData.isAuth = true;
-                userData.authLevel = attemptingUser.groups[0];
+                userData.authLevel = attemptingUser.role;
 
                 $cookieStore.put('userData', userData);
 

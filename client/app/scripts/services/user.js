@@ -6,7 +6,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
         // get itemList for old functions
         // TODO: Remove this when we rewrite the old functions
         var itemList = '';
-        $http.get(url + 'user').then(function(response) {
+        $http.get(url + 'users').then(function(response) {
             itemList = response.data;
         });
 
@@ -21,7 +21,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
             //opts.params =JSON.stringify(params);
             //console.log(opts);
 
-            return $http.get(url + 'user', {
+            return $http.get(url + 'users', {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -30,7 +30,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
 
         // get one item by id
         exports.getById = function(id) {
-            return $http.get(url + 'user/' + id).then(function(response) {
+            return $http.get(url + 'users/' + id).then(function(response) {
                 return response.data;
             });
         };
@@ -40,14 +40,14 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
         exports.update = function(newItem) {
             var id = newItem._id;
             newItem = _.omit(newItem, '_id');
-            return $http.put(url + 'user/' + id, newItem).then(function(response) {
+            return $http.put(url + 'users/' + id, newItem).then(function(response) {
                 return response.data;
             });
         };
 
         // add a new item
         exports.add = function(item) {
-            return $http.post(url + 'user', item).then(function(response) {
+            return $http.post(url + 'users', item).then(function(response) {
                 return response.data;
             });
         };
@@ -56,7 +56,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
         exports.remove = function(id) {
             return $http({
                 method: 'DELETE',
-                url: url + 'user/' + id
+                url: url + 'users/' + id
             }).then(function(response) {
                 return response.data;
             });
@@ -73,7 +73,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 limit: 1
             };
 
-            return $http.get(url + 'user', {
+            return $http.get(url + 'users', {
                 params: params
             }).then(function(response) {
                 return response.data[0];
@@ -97,7 +97,7 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 limit: 1
             };
 
-            return $http.get(url + 'user', {
+            return $http.get(url + 'users', {
                 params: params
             }).then(function(response) {
                 return response.data[0];

@@ -26,7 +26,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         // get all items
         exports.getAll = function() {
-            return $http.get(url + 'vendor').then(function(response) {
+            return $http.get(url + 'vendors').then(function(response) {
 
                 _.each(response.data, function(item) {
                     item = setLegalTerms(item);
@@ -38,7 +38,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         // get one item by id
         exports.getById = function(id) {
-            return $http.get(url + 'vendor/' + id).then(function(response) {
+            return $http.get(url + 'vendors/' + id).then(function(response) {
 
                 response.data = setLegalTerms(response.data);
 
@@ -51,14 +51,14 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         exports.update = function(newItem) {
             var id = newItem._id;
             newItem = _.omit(newItem, '_id');
-            return $http.put(url + 'vendor/' + id, newItem).then(function(response) {
+            return $http.put(url + 'vendors/' + id, newItem).then(function(response) {
                 return response.data;
             });
         };
 
         // add a new item
         exports.add = function(item) {
-            return $http.post(url + 'vendor', item).then(function(response) {
+            return $http.post(url + 'vendors', item).then(function(response) {
                 return response.data;
             });
         };
@@ -67,7 +67,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         exports.remove = function(id) {
             return $http({
                 method: 'DELETE',
-                url: url + 'vendor/' + id
+                url: url + 'vendors/' + id
             }).then(function(response) {
                 return response.data;
             });
@@ -131,7 +131,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             //console.log('getManyWhere');
             //console.log(params);
 
-            return $http.get(url + 'vendor', {
+            return $http.get(url + 'vendors', {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -149,7 +149,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             //console.log('getManyWhereEmpty');
             //console.log(params);
 
-            return $http.get(url + 'vendor', {
+            return $http.get(url + 'vendors', {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -175,7 +175,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
             //console.log(params);
 
-            return $http.get(url + 'user', {
+            return $http.get(url + 'vendors', {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -200,7 +200,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
             //console.log(params);
 
-            return $http.get(url + 'vendor', {
+            return $http.get(url + 'vendors', {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -210,7 +210,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         exports.getAllWithoutSalesReps = function() {
 
-            return $http.get(url + 'user').then(function(response) {
+            return $http.get(url + 'vendors').then(function(response) {
 
                 var vendorIds = [];
 

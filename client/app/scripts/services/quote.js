@@ -8,14 +8,14 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG',
 
         // get all items
         exports.getAll = function() {
-            return $http.get(url + 'quote').then(function(response) {
+            return $http.get(url + 'quotes').then(function(response) {
                 return response.data;
             });
         };
 
         // get one item by id
         exports.getById = function(id) {
-            return $http.get(url + 'quote/' + id).then(function(response) {
+            return $http.get(url + 'quotes/' + id).then(function(response) {
                 return response.data;
             });
         };
@@ -25,14 +25,14 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG',
         exports.update = function(newItem) {
             var id = newItem._id;
             newItem = _.omit(newItem, '_id');
-            return $http.put(url + 'quote/' + id, newItem).then(function(response) {
+            return $http.put(url + 'quotes/' + id, newItem).then(function(response) {
                 return response.data;
             });
         };
 
         // add a new item
         exports.add = function(item) {
-            return $http.post(url + 'quote', item).then(function(response) {
+            return $http.post(url + 'quotes', item).then(function(response) {
                 return response.data;
             });
         };
@@ -41,7 +41,7 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG',
         exports.remove = function(id) {
             return $http({
                 method: 'DELETE',
-                url: url + 'quote/' + id
+                url: url + 'quotes/' + id
             }).then(function(response) {
                 return response.data;
             });
@@ -51,7 +51,7 @@ angular.module('app').factory('quoteService', ['$http', 'MARLINAPI_CONFIG',
 
         // creates a PDF from a quote url  
         exports.generatePDF = function(id) {
-            return $http.get(url + 'quote/' + id + '/download').then(function(response) {
+            return $http.get(url + 'quotes/' + id + '/download').then(function(response) {
                 return response.data;
             });
         };

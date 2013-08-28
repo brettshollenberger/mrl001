@@ -432,32 +432,92 @@ angular.module('SharedServices', [])
     };
 });
 
+
+
 /*
 angular.module('app').config( function( $httpProvider ) {
   $httpProvider.responseInterceptors.push( interceptor );
 });
+*/
 
-var interceptor = function( $q ) {
-  return function( promise ) {
- 
-    // convert the returned data using values passed to $http.get()'s config param
-    var resolve = function( value ) {
-       console.log(value.data);
-    
-      //convertList( value.data, value.config.cls, value.config.initFn );
+angular.module('app').config([
+    '$routeProvider', 
+    '$locationProvider', 
+    '$httpProvider', 
+    function ($routeProvider, $locationProvider, $httpProvider) {
+
+    var interceptor = ['$location', '$q', function($location, $q) {
+        
+        function success(response) {
+            
+            
+            
+            if(typeof response.data !== 'object') {
+                console.log('RESPONSE is template');
+                return response;
+            }
+            
+            if(response.data.result) {
+                // store the old header for reference
+                // response.meta = response.data.meta; 
+                // replace data with result so it can be digetsted by services
+                response.data = response.data.result; 
+            }
+            
+            console.log(response);
+            
+            return response;
+            
+            
+        }
+
+        function error(response) {
+
+            if(response.status === 401) {
+                //$location.path('/login');
+                return $q.reject(response);
+            }
+            else {
+                return $q.reject(response);
+            }
+        }
+
+        return function(promise) {
+            return promise.then(success, error);
+        }
+    }];
+
+    $httpProvider.responseInterceptors.push(interceptor);
+}]);
+
+
+
+
+
+
+
+
+/*
+
+angular.module('app').config(function ($provide, $httpProvider) {
+  
+   var interceptor = function($rootScope, $q, httpBuffer) {
+      return {
+          'responseError': function(response) {
+            if (response.status === 401 && !response.config.ignoreAuthModule) {
+              var deferred = $q.defer();
+              httpBuffer.append(response.config, deferred);
+              $rootScope.$broadcast('event:auth-loginRequired');
+              return deferred.promise;
+            }
+            // otherwise, default behaviour
+            return $q.reject(response);
+          }
+      }
     };
+    $httpProvider.interceptors.push(interceptor);
  
-    var reject = function( reason ) {
-      console.log( "rejected because: ", reason );
-    };
- 
-    // attach our actions
-    promise.then( resolve, reject );
- 
-    // return the original promise
-    return promise;
-  };
-};
+});
 */
 
 

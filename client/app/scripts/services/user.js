@@ -75,6 +75,15 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 return response.data;
             });
         };
+        
+        // update one item by item 
+        // @note we figure out id from item
+        exports.updatePassword = function(newItem) {
+            var id = newItem._id;
+            return $http.put(url + 'users/' + id + '/password', newItem).then(function(response) {
+                return response.data;
+            });
+        };
 
         // --------
 

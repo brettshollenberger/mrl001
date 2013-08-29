@@ -1,5 +1,5 @@
 angular
-    .module('app', ['mm.unsavedChanges', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
+    .module('app', ['mm.unsavedChanges', 'ui.validate', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
         function() {
 
         }

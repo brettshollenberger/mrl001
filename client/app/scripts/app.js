@@ -471,6 +471,14 @@ angular.module('app').config([
         }
 
         function error(response) {
+            
+            if(response.data.meta) {
+                // store the old header for reference
+                // response.meta = response.data.meta; 
+                // replace data with result so it can be digetsted by services
+                response.data = response.data.meta; 
+            }
+
 
             if(response.status === 401) {
                 //$location.path('/login');

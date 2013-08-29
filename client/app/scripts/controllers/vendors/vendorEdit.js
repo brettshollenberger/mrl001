@@ -18,7 +18,7 @@ angular
 
             Auth.canUserDoAction('edit-vendor');
 
-            $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Legal Terms'];
+            $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Quoter Tool'];
 
 
 

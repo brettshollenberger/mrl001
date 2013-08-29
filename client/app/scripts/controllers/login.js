@@ -7,7 +7,7 @@ angular
         'authService',
         '$timeout',
         function($rootScope, $scope, $location, Auth, $timeout) {
-            
+
             $scope.isProcessing = false;
 
             if ($rootScope.credentials) {
@@ -23,7 +23,7 @@ angular
 
                 Auth.login($scope.email, $scope.password).then(function(response) {
                     var loginSuccess = response;
-                
+
                     if (!loginSuccess) {
                         $scope.message = 'Login failed, please try again';
                         $scope.isProcessing = true;
@@ -31,10 +31,10 @@ angular
                         $location.url('/dashboard');
                         $scope.isProcessing = false;
                     }
-                
+
                 }, function(err) {
                     $scope.isProcessing = false;
-                });                
+                });
 
             };
 

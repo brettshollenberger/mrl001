@@ -167,56 +167,55 @@ angular
 
                 $scope.activeTab = tab;
             };
-            
-            
-            
+
+
+
             /**
-            * Update password
-            * @todo move to seperate password Controller, following the MEAN.io controller approach
-            * 
-            * @note when converting to Anglar 1.2, we can user the form.$setPristine() method
-            *
-            */
-            
+             * Update password
+             * @todo move to seperate password Controller, following the MEAN.io controller approach
+             *
+             * @note when converting to Anglar 1.2, we can user the form.$setPristine() method
+             *
+             */
+
             $scope.changeMessage = null;
             $scope.changestatus = null;
-            
+
             $scope.originalForm = $scope.passwordForm;
-            
+
             $scope.resetVars = function() {
                 $scope.new_password = null;
                 $scope.current_password = null;
                 $scope.confirm_password = null;
-            }
-            
+            };
+
             $scope.resetVars();
 
             $scope.changePassword = function() {
-                
+
                 var data = {
                     _id: $scope.user._id,
                     new_password: $scope.new_password,
                     current_password: $scope.current_password
-                }
-                
+                };
+
                 User.updatePassword(data).then(function(response) {
-                    
+
                     console.log(response);
                     $scope.resetVars();
                     $scope.changestatus = true;
                     $scope.changeMessage = response;
-                    $scope.passwordForm = angular.copy( $scope.originalForm);
-                    
+                    $scope.passwordForm = angular.copy($scope.originalForm);
+
                 }, function(err) {
-                    
+
                     console.log(err);
                     $scope.changestatus = false;
                     $scope.changeMessage = err.data.message;
-                    
-                })
-                
-            }
 
+                });
+
+            };
 
         }
     ]);

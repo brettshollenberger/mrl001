@@ -349,7 +349,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
                     scope.currentUser = Auth.getCurrentUser;
 
                     scope.goToProfile = function() {
-                       $location.url('/dashboard/users/' + Auth.getCurrentUser()._id);
+                        $location.url('/dashboard/users/' + Auth.getCurrentUser()._id);
                     };
 
                     scope.logout = function() {
@@ -445,57 +445,59 @@ angular.module('app').config( function( $httpProvider ) {
 */
 
 angular.module('app').config([
-    '$routeProvider', 
-    '$locationProvider', 
-    '$httpProvider', 
-    function ($routeProvider, $locationProvider, $httpProvider) {
+    '$routeProvider',
+    '$locationProvider',
+    '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider) {
 
-    var interceptor = ['$location', '$q', function($location, $q) {
-        
-        function success(response) {
+        var interceptor = ['$location', '$q',
+            function($location, $q) {
 
-            if(typeof response.data !== 'object') {
-                return response;
+                function success(response) {
+
+                    if (typeof response.data !== 'object') {
+                        return response;
+                    }
+
+                    if (response.data.result) {
+                        // store the old header for reference
+                        // response.meta = response.data.meta; 
+                        // replace data with result so it can be digetsted by services
+                        response.data = response.data.result;
+                    }
+
+                    return response;
+
+
+                }
+
+                function error(response) {
+
+                    if (response.data.meta) {
+                        // store the old header for reference
+                        // response.meta = response.data.meta; 
+                        // replace data with result so it can be digetsted by services
+                        response.data = response.data.meta;
+                    }
+
+
+                    if (response.status === 401) {
+                        //$location.path('/login');
+                        return $q.reject(response);
+                    } else {
+                        return $q.reject(response);
+                    }
+                }
+
+                return function(promise) {
+                    return promise.then(success, error);
+                };
             }
-            
-            if(response.data.result) {
-                // store the old header for reference
-                // response.meta = response.data.meta; 
-                // replace data with result so it can be digetsted by services
-                response.data = response.data.result; 
-            }
-            
-            return response;
-            
-            
-        }
+        ];
 
-        function error(response) {
-            
-            if(response.data.meta) {
-                // store the old header for reference
-                // response.meta = response.data.meta; 
-                // replace data with result so it can be digetsted by services
-                response.data = response.data.meta; 
-            }
-
-
-            if(response.status === 401) {
-                //$location.path('/login');
-                return $q.reject(response);
-            }
-            else {
-                return $q.reject(response);
-            }
-        }
-
-        return function(promise) {
-            return promise.then(success, error);
-        }
-    }];
-
-    $httpProvider.responseInterceptors.push(interceptor);
-}]);
+        $httpProvider.responseInterceptors.push(interceptor);
+    }
+]);
 
 
 

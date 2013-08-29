@@ -61,21 +61,21 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 return response.data;
             });
         };
-        
+
         // add a new item
         exports.login = function(item) {
             return $http.post(url + 'auth/login', item).then(function(response) {
                 return response.data;
             });
         };
-        
+
         // get one item by id
         exports.logout = function(id) {
             return $http.get(url + 'auth/logout' + id).then(function(response) {
                 return response.data;
             });
         };
-        
+
         // update one item by item 
         // @note we figure out id from item
         exports.updatePassword = function(newItem) {

@@ -22,7 +22,10 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
 
         exports.login = function(email, password) {
 
-            return User.login({email: email, password: password}).then(function(response) {
+            return User.login({
+                email: email,
+                password: password
+            }).then(function(response) {
                 var attemptingUser = response;
 
                 console.log('LOGIN: Attempting user is: ');

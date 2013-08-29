@@ -20,7 +20,7 @@ angular
             $scope.canEdit = true;
 
             $scope.version = $rootScope.version;
-
+            
 
             // support getting a vendor ID from the URL, so user doesn't 
             $scope.vendor_id = $routeParams.vendor_id;
@@ -151,6 +151,11 @@ angular
             $scope.generateQuote = function() {
 
                 $scope.quote.totalCost = $scope.quoteCost;
+                
+                // save the custom Field with the quote 
+                if($scope.vendor && $scope.vendor.customField) {
+                    $scope.quote.customField.displayName = $scope.vendor.customField.displayName; 
+                }
 
                 if (!quoteId) {
 

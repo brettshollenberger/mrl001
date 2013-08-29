@@ -150,8 +150,22 @@
                 <div class="span10">
                     <h3>Customize Vendor Application</h3>
                     
-                    <label>Legal Terms which display on application</label>
+                    <label>Terms which display on application</label>
                     <textarea class='legalTerms' ng-model="vendor.legalTerms"></textarea>
+                    
+                    <h3>Custom Field</h3>
+                    <p>The following allows you to add a custom field to this vendors quoter tool</p>
+                    <label class="checkbox">Custom Field Enabled?
+                    <input type="checkbox" ng-model="vendor.customField.enabled"></label>
+                    
+                    <div ng-show="vendor.customField.enabled">
+                        <label class="checkbox">Required?
+                        <input type="checkbox" ng-model="vendor.customField.required"></label> 
+                        
+                        <label>Display Name</label>
+                        <input type="text" class="input-x-large" ng-model="vendor.customField.displayName"></label>
+                    </div>
+                    
                 </div>
             
                 <div class="span10">    

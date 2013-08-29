@@ -9,7 +9,7 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-primary" id="save" ng-show="basicForm.$dirty || passwordForm.$dirty" ng-click="save(true)">Save</a>
+                    <a class="btn btn-primary" id="save" ng-show="basicForm.$dirty" ng-click="save(true)">Save</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
                 </div>
             
@@ -113,8 +113,55 @@
             <div class="span4">
                 <h3>Change Password</h3>
                 
-                <label>Password</label>
-                <input type="password" placeholder="" ng-model="user.password">
+                <p class="alert" ng-class="{ 'alert-success': changestatus == true, 'alert-error': changestatus == false}" ng-show="changeMessage">{{changeMessage}}</p>
+                
+                <label>Current Password</label>
+                <input type="password" placeholder="" required name="current_password" ng-model="current_password">
+                
+                <p class="alert alert-error" ng-show="passwordForm.current_password.$dirty && !!passwordForm.current_password.$error.required">
+                Current password is required
+                </p>
+                
+                <label>New Password</label>
+                <input type="password" required placeholder="" name="new_password" ng-model="new_password">
+                
+                <p class="alert alert-error" ng-show="passwordForm.new_password.$dirty && !!passwordForm.new_password.$error.required">
+                New password is required
+                </p>
+                
+                
+                <label>Confirm New Password</label>
+                <input ng-model="confirm_password" type="password" 
+                    placeholder="" 
+                    ng-minlength="6"
+                    ng-maxlength="20"
+                    required
+                    name="confirm_password" 
+                    ui-validate="{ match: '$value==new_password' }"
+                    ui-validate-watch=" 'new_password' ">
+                
+                <br/>
+                <p class="alert alert-error" ng-show="passwordForm.confirm_password.$dirty && !!passwordForm.confirm_password.$error.required">
+                Confirm password is required
+                </p>
+                
+                <p class="alert alert-error" ng-show="passwordForm.confirm_password.$dirty && !!passwordForm.confirm_password.$error.match">
+                Passwords do not match!
+                </p>
+                
+                <p class="alert alert-error" ng-show="passwordForm.confirm_password.$dirty && !!passwordForm.confirm_password.$error.minlength">
+                Password must be at least 6 characters
+                </p>
+                
+                <p class="alert alert-error" ng-show="passwordForm.confirm_password.$dirty && !!passwordForm.confirm_password.$error.maxlength">
+                Password must be less than 20 characters
+                </p>
+                
+                <p class="alert alert-success" ng-show="passwordForm.confirm_password.$dirty && passwordForm.$valid">
+                Thumbs up!
+                </p>
+                
+                <button class="btn btn-primary" ng-disabled="passwordForm.$invalid" ng-click="changePassword()">Change Password</button>
                 
             </div>
         </form>

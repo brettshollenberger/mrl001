@@ -63,9 +63,10 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         /**
          * Gets all programss not currenly used by vendorId
          */
-        exports.getAllNotIn = function(values) {
+        exports.getAllNotIn = function(id) {
 
-            // get all programss, where programs _id is not in the values array
+            /*
+// get all programss, where programs _id is not in the values array
 
             var str = {};
             str._id = {
@@ -83,6 +84,13 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
             }).then(function(response) {
                 return response.data;
             });
+*/
+
+            return $http.get(url + 'vendors/' + id + '/available_programs').then(function(response) {
+                console.log(response.data);
+                return response.data;
+            });
+        
         };
 
         /**

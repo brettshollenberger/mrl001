@@ -253,7 +253,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 // get the programs this vendor is not using
 
                 if ($scope.vendor.programIds) {
-                    $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
+                    $scope.programs = Program.getAllNotIn($scope.vendor._id);
                 } else {
                     $scope.programs = Program.getAll();
                 }

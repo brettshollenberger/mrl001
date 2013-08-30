@@ -24,12 +24,11 @@
                             <th>Vendor</th>
                             <th>Contact Info</th>
                             <th class="text-center">Sales Rep</th>
-                            <th class="text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in vendors | filter: searchTerm">
-                            <td>
+                        <tr ng-repeat="item in vendors | filter: searchTerm" ng-click="editItem(item._id)">
+                            <td class="text-center">
                                 <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
                                 <div class="img-rounded placeholder" ng-show="!item.logo.original"/>
                             </td>
@@ -45,11 +44,13 @@
                             <td ng-show="!item.salesRep" class="text-center">
                                 No sales rep
                             </td>
-                            <td class="text-right">
+                            <!--
+<td class="text-right">
                                 <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
                                 <a class="viewCalculator" ng-click="viewCalculator(item._id)">New Quote</a> | 
                                 <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
                             </td>
+-->
                         </tr>
                     </tbody>
                 </table>

@@ -6,6 +6,9 @@ angular
     ])
     .config(['$httpProvider',
         function($httpProvider, promiseTracker) {
+        
+            $httpProvider.defaults.useXDomain = true;
+            delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
             var toJsonReplacer = function(key, value) {
                 var val = value;
@@ -69,7 +72,8 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 .constant('MARLINAPI_CONFIG', {
     //base_url: 'http://marlinquoter.herokuapp.com/api/v1/'
     //base_url: 'http://localhost:3000/api/v1/'
-    base_url: 'http://0.0.0.0:3000/api/v1/'
+    //base_url: 'http://0.0.0.0:3000/api/v1/'
+    base_url: 'http://10.1.10.100:3000/api/v1/'
 })
     .config(['$routeProvider',
         function($router) {

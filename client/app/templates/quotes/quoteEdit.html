@@ -7,7 +7,7 @@
     <form name="quoteForm" class="span10 offset2">
         <div class="row title-bar">
             <div class="span10">
-                <h2>New Quote</h2>
+                <h2><i class="icon icon-comments-alt"></i> New Quote</h2>
                 <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !quote._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>

@@ -29,7 +29,6 @@ angular
             $scope.user = {};
             var user = {};
 
-
             // filepicker settings
             // @todo move to global config
             filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');

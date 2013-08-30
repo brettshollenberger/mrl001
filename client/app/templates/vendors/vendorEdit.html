@@ -4,14 +4,14 @@
             
             <div class="row title-bar">
                 <div class="span10">
-                    <h2>New Vendor</h2>
+                    <h2><i class="icon icon-briefcase"></i> {{vendor.name || 'New Vendor'}}</h2>
                     <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
                     
                     <div class="actions">
-                        <button type="submit" class="btn btn-primary" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || customNameForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid || customNameForm.$invalid" ng-click="save(true)">Save</button>
-                        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
+                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || customNameForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid || customNameForm.$invalid" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
+                        <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                     </div>
                 
                 </div>

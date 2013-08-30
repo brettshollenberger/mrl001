@@ -60,6 +60,16 @@ body.dashboard {
 
 ul.unstyled li{min-height: 50px;}
 
+
+@pink: #e83f82;
+
+.text-pink {
+    color: @pink;
+    &:hover {
+        color: darken(@pink, 10%);
+    }
+}
+
 // ---------------------------------------------------
 // 
 // BOOTstrap utility classes
@@ -179,6 +189,9 @@ label {
         border-bottom: 1px solid @gray;
     }
 }
+
+
+
 
 
 // ---------------------------------------------------------
@@ -498,6 +511,11 @@ thead {
 
 .table th.text-right, .table td.text-right {
     text-align: right;
+}
+
+
+.manage-sales-rep {
+    margin: 40px 0 0 40px;
 }
 
 

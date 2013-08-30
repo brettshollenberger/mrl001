@@ -79,18 +79,23 @@
             </form>
             
             <div class="row" ng-show="isActiveTab(1)">
-                <div class="span5">
+                <div class="span10">
                     <h3>Marlin Sales Rep</h3>
-                    
+                
                     <div ng-show="vendor.salesRep">
-                        <img class="img-large img-circle" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
-                        <h5 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h5>
-                        <p>{{vendor.salesRep.email}}</p>
-                        <p>{{vendor.salesRep.phone}}</p>
+                        <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
                         
-                        <button class="btn btn-primary" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</button>
-                        
+                        <span class="pull-left manage-sales-rep">
+                            <h4 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h4>
+                            <p>{{vendor.salesRep.email}}</p>
+                            <p>{{vendor.salesRep.phone}}</p>
+                            
+                            <a class="text-pink" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</a>
+                        </span>  
                     </div>
+                    
+                </div>
+                <div class="span4">
                     
                     <div ng-show="!vendor.salesRep">
                         <p class="alert">This vendor currently has no Marlin Sales Rep</p>

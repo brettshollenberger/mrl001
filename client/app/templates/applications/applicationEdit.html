@@ -4,9 +4,6 @@
         <div class="row title-bar">
             <div class="span10">
                 <h2><i class="icon icon-file-text-alt"></i> Application</h2>
-                <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
-                </ul>
                 
                 <div class="actions">
                     <a class="btn btn-success" id="save" ng-show="applicationForm.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>

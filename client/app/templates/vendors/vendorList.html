@@ -29,7 +29,9 @@
                     <tbody>
                         <tr ng-click="editItem(item._id)" ng-repeat="item in vendors | filter: searchTerm">
                             <td class="text-center border-right">
-                                <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                <div class="img-wrapper">
+                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                </div>
                                 <div class="placeholder" ng-show="!item.logo.original"/>
                             </td>
                             <td class="salesRep"><span class="company-name">{{item.name}}</span><br/>

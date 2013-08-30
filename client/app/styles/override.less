@@ -2,6 +2,8 @@
 @import "bootstrap/mixins.less";
 @import "sidebar.less"; 
 
+@blueLight : #E1F1FF;
+
 /**
  * Angular
  */
@@ -88,6 +90,11 @@ h2 {
 .img-medium {
     max-width: 100px;
     width: 100px;
+}
+
+.img-mediumBigger {
+    max-width: 120px;
+    width: 120px;
 }
 
 .img-large {
@@ -539,41 +546,19 @@ thead {
     margin: 40px 0 0 40px;
 }
 
+// hover effect on list tables
 tr[ng-click] {
     
-    display: block;
-    
-    &:first-child {
-        border: 2px solid red;
-    }
-    
-    
-/*
-   
-    border-top: 3px solid @tableBorder;
-    border-bottom: 3px solid @tableBorder;
-    border-left: 3px solid @tableBorder;
-    border-right: 3px solid @tableBorder;
-    .box-sizing(border-box);
-    
-    .transition(all 200ms ease);
-    
-    td {
-        //border-top: 2px solid @niceTan;
-        //border-bottom: 2px solid @niceTan;
-        border-top: none;
-    }
-        
-    display: table-row;
-    
+    .transition(all 120ms ease);
     
     &:hover {
-        border-top: 3px solid @niceTan;
-        border-bottom: 3px solid @niceTan;
-        border-left: 3px solid @niceTan;
-        border-right: 3px solid @niceTan;
+        background: @blueLight;
     }
-*/
+    
+    td {
+        vertical-align: middle;
+    }
+
 }
 
 

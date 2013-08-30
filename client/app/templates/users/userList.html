@@ -17,10 +17,12 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="">Avatar</th>
-                    <th>Name</th>
-                    <th>Group</th>
+                    <th class="">User</th>
+                    <th></th>
+                    <!--
+<th>Group</th>
                     <th>Vendor Count</th>
+-->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,12 +31,15 @@
                     <td>
                         <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>
-                    <td>{{item.name.first}} {{item.name.last}}
-                        <br />
-                        {{item.phoneNumber}}
+                    <td class="userList"><span class="company-name">{{item.name.first}} {{item.name.last}}</span><br/>
+                        <i class="icon icon-envelope"></i> {{item.email}}<br/>
+                        <i class="icon icon-phone"></i>  {{item.phoneNumber}}
                     </td>
-                    <td>{{ item.groups[0]}}</td>
+                    
+                    <!--
+<td>{{ item.groups[0]}}</td>
                     <td>{{item.vendors.length || 0 | number}}</td>
+-->
                     <td>
                         <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
                         <a class="view" ng-click="editItem(item._id)">View</a> | 

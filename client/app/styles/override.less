@@ -429,7 +429,8 @@ textarea.legalTerms {
 }
 
 
-.salesRep {
+// @todo refine this is hacky
+.salesRep, .userList {
     
     .company-name, .contact-name {
         font-size: 16px;
@@ -477,6 +478,10 @@ td[colspan*="0"] {
     
     .td-pad {
         width: 100%;
+    }
+    
+    .table, .table td, .table thead {
+        background: @bodyBackground;
     }
     
 }

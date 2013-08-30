@@ -1,21 +1,24 @@
 <div class="row-fluid">
-    <div class="span4 offset4">
+
+     <div class="span4 offset2">
+        <img class="logo" src="img/logo_large_login.png" title="Marlin Quoter" />
+     </div>
+
+    <div class="span4">
         
         <div class="well" id="loginForm">
         
-            <h4>Login to access MarlinQuoter</h4>
-            
             <p class="alert alert-error" ng-show="message">{{message}}</p>
             
             <label>Email</label>
-            <input type="text" placeholder="Email" ng-model="email">
+            <input type="text" class="input-block" placeholder="Email" ng-model="email">
             
             <label>Password</label>
-            <input type="password" placeholder="password" ng-model="password">
+            <input type="password" class="input-block" placeholder="password" ng-model="password">
             
             <br />
             
-            <a class="btn btn-primary" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></a>
+            <a class="btn btn-primary btn-block" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></a>
             
             <br /> <br />
             

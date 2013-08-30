@@ -48,7 +48,119 @@ body.quoter .container, body.application .container {
 }
 
 
+
+// ---------------------------------------------------
+// 
+// BOOTstrap utility classes
+//
+// ---------------------------------------------------
+
+.img-tiny {
+    max-width: 50px; // IE8 needs the max width to be set or the image will be distorted.
+    width: 50px;
+}
+
+.img-medium {
+    max-width: 100px;
+    width: 100px;
+}
+
+.img-large {
+    max-width: 200px;
+    width: 200px;
+}
+
+
+
+// ---------------------------------------------------------
+//
+// LOGIN page
+//
+// ---------------------------------------------------------
+
+body.login, body.home {
+   background: url('../../img/bg_large_login.jpg') top left no-repeat; 
+   
+   hr {
+       display: none;
+   }
+   
+   .logo {
+       margin-top: 130px;
+   }
+   
+}
+
+
+// ---------------------------------------------------------
+//
+// WELL
+//
+// ---------------------------------------------------------
+
+.well {
+    padding: 39px;
+    border: 10px solid rgba(255,255,255,0.4);
+    .background-clip(border);
+    .background-clip(padding);
+    //.background-clip(content);
+}
+
+
+// ---------------------------------------------------------
+//
+// BUTTONS
+//
+// ---------------------------------------------------------
+.btn-primary {
+   text-transform: uppercase;
+   font-size: 11px; 
+}
+
+.btn-block.btn-primary {
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.btn-mega {
+  padding: 25px 80px;
+  font-size: @fontSizeLarge;
+  .border-radius(10px);
+}
+.btn-mega [class^="icon-"],
+.btn-mega [class*=" icon-"] {
+  margin-top: 4px;
+}
+
+
+// ---------------------------------------------------------
+//
+// FORM ELEMENTS
+//
+// ---------------------------------------------------------
+
+label {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 11px;
+}
+
 .form-inline label{margin-right: 3px;}
+
+.input-block {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+    height: auto !important;
+}
+
+
+// ---------------------------------------------------------
+//
+// QUOTER Tool
+//
+// ---------------------------------------------------------
 
 .quoter {
     
@@ -111,64 +223,27 @@ body.quoter .container, body.application .container {
 }
 
 
-// Large
-.btn-mega {
-  padding: 25px 80px;
-  font-size: @fontSizeLarge;
-  .border-radius(10px);
-}
-.btn-mega [class^="icon-"],
-.btn-mega [class*=" icon-"] {
-  margin-top: 4px;
-}
 
 ul.unstyled li{min-height: 50px;}
 
-/*
-
-.sidebar{position: fixed; top: 0; left: 0; height: 100%; width: 198px; background: @navbarBackground; color: #fff; border-right: 3px solid #e6e6de;}
-
-.sidebar ul{list-style-type: none; margin-left: 0;}
-.sidebar ul.nav li a{font-size: 10px; text-transform: uppercase;}
-.sidebar ul.nav li.span1{margin-left: 0; width: 99px; padding: 20px 0;}
-.sidebar ul.nav li.active a{color: #fff;}
-.sidebar ul.nav li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);}
-.sidebar ul.nav .dark{background: #005194;}
-.sidebar ul.nav .light{background: #01569d;}
-.sidebar ul.nav i{font-size: 26px;}
-
-.sidebar a{color: @navbarLinkColor;}
-.sidebar a:hover{color: @navbarLinkColorHover;}
-.sidebar a.active{color: @navbarLinkColorActive;}
-.sidebar a.brand{display: block; text-align: center; padding: 25px 0;}
-*/
-
-/*
-ul.user-tray{display: block; background: #08487e; margin: 0; padding: 20px 0;}
-ul.user-tray img{width: 140px;}
-*/
-
-.nerds {
-    width: 200px;
-}
 
 
-footer p.hello {
-    margin-bottom: 0;
-    margin-top: 20px;
+// ---------------------------------------------------------
+//
+// HOME Page
+//
+// ---------------------------------------------------------
+
+body.home {
+        
+    h1, h3 {
+        color: white;
+        font-weight: bold;
+    }
     
-}
-
-footer em {
-    font-size: 20px;
-}
-
-// overrides bootstrap form-line behavior so the labels appear on top of the form element,
-// but the form elements all display inline. @see http://localhost:3000/#/dashboard/quotes search bar for example
-.form-inline  {
-
-    label input {
-        display: block;
+    .well {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
 
@@ -178,12 +253,13 @@ footer em {
     margin-bottom: 100px;
     
     i {
-        font-size: 120px;
+        font-size: 60px;
         text-shadow: 1px 1px 1px white;
     }
     
     p {
-        font-size: 20px;
+        font-size: 15px;
+        line-height: 17px;
         margin-top: 20px;
     }
     
@@ -199,27 +275,6 @@ footer em {
     }
     
 } 
-
-
-html, body {
-	height: 100%;
-}
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -200px; /* the bottom margin is the negative value of the footer's height */
-}
-.footer, .push {
-	height: 200px; /* .push must be the same height as .footer */
-}
-
-/*
-
-Sticky Footer by Ryan Fait
-http://ryanfait.com/
-
-*/
 
 
 // apply top outtermost row when page contains title-bar. 
@@ -277,59 +332,11 @@ textarea.legalTerms {
 
 
 
-.img-tiny {
-    max-width: 50px; // IE8 needs the max width to be set or the image will be distorted.
-    width: 50px;
-}
-
-.img-medium {
-    max-width: 100px;
-    width: 100px;
-}
-
-.img-large {
-    max-width: 200px;
-    width: 200px;
-}
-
-
-
-
-.locator .angular-google-map-container {
-	width: 100%;
-	height: 600px;
-}
-
-.vendors .angular-google-map-container {
-	width: 100%;
-	height: 400px;
-	display: block;
-}
-
-.angular-google-map {
-    display: block;
-    width: 100%;
-    height: 100%;
-    float: none;
-}
-
-/* fix for Twitter Bootstrap handling of responsive images */
-.angular-google-map img {
-	max-width: inherit;
-}
-
-
-
-form[name*="formBuyoutOptions"] .ng-invalid {
-  border-color: #e9322d;
-  -webkit-box-shadow: 0 0 6px #f8b9b7;
-  -moz-box-shadow: 0 0 6px #f8b9b7;
-  box-shadow: 0 0 6px #f8b9b7;
-}
-
-
-
-
+// ---------------------------------------------------
+// 
+// LOADING spinner
+//
+// ---------------------------------------------------
 
 .spinner-overlay {
     z-index: 1200;
@@ -405,6 +412,22 @@ td[colspan*="1"] button {
 }
 
 
+
+form[name*="formBuyoutOptions"] .ng-invalid {
+  border-color: #e9322d;
+  -webkit-box-shadow: 0 0 6px #f8b9b7;
+  -moz-box-shadow: 0 0 6px #f8b9b7;
+  box-shadow: 0 0 6px #f8b9b7;
+}
+
+
+
+// ---------------------------------------------------------
+//
+// Dealer Locator
+//
+// ---------------------------------------------------------
+
 .map {
     display: block;
     height: 500px;
@@ -414,4 +437,80 @@ td[colspan*="1"] button {
     }   
 }
 
+.locator .angular-google-map-container {
+	width: 100%;
+	height: 600px;
+}
 
+.vendors .angular-google-map-container {
+	width: 100%;
+	height: 400px;
+	display: block;
+}
+
+.angular-google-map {
+    display: block;
+    width: 100%;
+    height: 100%;
+    float: none;
+}
+
+/* fix for Twitter Bootstrap handling of responsive images */
+.angular-google-map img {
+	max-width: inherit;
+}
+
+
+
+// ---------------------------------------------------------
+//
+// FOOTER fancy fixed
+// 
+// @see Sticky Footer by Ryan Fait
+// @see http://ryanfait.com/
+//
+// ---------------------------------------------------------
+
+html, body {
+	height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -200px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+	height: 200px; /* .push must be the same height as .footer */
+}
+
+
+
+// ---------------------------------------------------------
+//
+// NERDS at the footer
+//
+// ---------------------------------------------------------
+.nerds {
+    width: 200px;
+}
+
+
+footer p.hello {
+    margin-bottom: 0;
+    margin-top: 20px;
+    
+}
+
+footer em {
+    font-size: 20px;
+}
+
+// overrides bootstrap form-line behavior so the labels appear on top of the form element,
+// but the form elements all display inline. @see http://localhost:3000/#/dashboard/quotes search bar for example
+.form-inline  {
+
+    label input {
+        display: block;
+    }
+}

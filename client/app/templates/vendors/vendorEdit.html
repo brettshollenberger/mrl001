@@ -18,32 +18,40 @@
             </div>
             
             <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-changes-warning>
-                <div class="span3">
-                    <h3>Vendor</h3>
+               
+               <div class="span10 clearfix"> 
+                    <h3>Basic Info</h3>
+               </div>
+               
+                <div class="span4">
                     
-                    <label>Vendor Name</label>
-                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-large">
-                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
-                    
-                    <label>Website</label>
-                    <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
-                    
-                    <label>Business Phone</label>
-                    <input type="text" class="medium" placeholder="Business Phone" ng-model="vendor.businessPhone">
-                    
-                    <label>Logo</label>
+                    <label>Vendor Logo</label>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
                     <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+                    
+                    <br /><br />
+                    
+                    
+                    <label>Vendor Name</label>
+                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-block">
+                    <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
+                    
+                    <label>Website Url</label>
+                    <input type="text" class="large" placeholder="Website" class="input-block"ng-model="vendor.website">
+                    
+                    <label>Business Phone Number</label>
+                    <input type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone">
+                    
+                    
  
                 </div>
                 
-                <div class="span3">            
-                    <h3>Location</h3>
+                <div class="span5">            
                     <label>Address 1</label>
-                    <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                    <input type="text" class="input-block" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
                     
                     <label>Address 2</label>
-                    <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                    <input type="text" class="input-block" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
                     
                     <label>City</label>
                     <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
@@ -56,7 +64,7 @@
                     
                 </div>
                 
-                <div class="span3">  
+                <div class="span10 clearfix">  
                    
                     <h3>Primary Contact</h3>
                     <label>Name</label>

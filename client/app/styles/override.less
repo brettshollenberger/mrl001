@@ -47,7 +47,7 @@ body.quoter .container, body.application .container {
     margin-top: 20px;
 }
 
-
+ul.unstyled li{min-height: 50px;}
 
 // ---------------------------------------------------
 // 
@@ -114,7 +114,14 @@ body.login, body.home {
 // ---------------------------------------------------------
 .btn-primary {
    text-transform: uppercase;
-   font-size: 11px; 
+   font-size: 11px;
+   
+   .icon-plus-sign {
+       font-size: 1.4em;
+       margin-right: 10px;
+       line-height: .6em;
+   }
+    
 }
 
 .btn-block.btn-primary {
@@ -210,6 +217,14 @@ label {
     
 }
 
+
+
+// ---------------------------------------------------------
+//
+// PRINT style for quotes
+//
+// ---------------------------------------------------------
+
 .print {
     
     a, button, .push, .hello, .nerds {
@@ -221,10 +236,6 @@ label {
     }
     
 }
-
-
-
-ul.unstyled li{min-height: 50px;}
 
 
 
@@ -284,10 +295,11 @@ body.home {
 }
 
 .has-no-tabs .title-bar [class*="span"] {
-    border-bottom: 1px solid #ddd;
+    //border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
-    padding-top: 20px;
+    padding-top: 10px;
     display: block;
+    position: relative;
     
 }
 
@@ -295,8 +307,9 @@ body.home {
     
     position: fixed;
     top: 0;
-    background: @bodyBackground;
+    background: @white;
     z-index: @zindexFixedNavbar;
+    width: 100%;
     
     .actions {
         position: fixed;
@@ -326,8 +339,6 @@ textarea.legalTerms {
     width: 500px;
     height: 200px;
 }
-
-
 
 
 
@@ -371,6 +382,26 @@ textarea.legalTerms {
     margin-top: 30px;
 }
 
+
+.salesRep {
+    
+    .company-name, .contact-name {
+        font-size: 16px;
+    }
+    
+    .company-name {
+        color: #505050;
+    }
+    
+    .contact-name {
+        
+    }
+    
+    .icon {
+        color: @linkColor;
+    }
+    
+}
 
 
 
@@ -420,6 +451,29 @@ form[name*="formBuyoutOptions"] .ng-invalid {
   box-shadow: 0 0 6px #f8b9b7;
 }
 
+
+// ---------------------------------------------------------
+//
+// Table
+//
+// ---------------------------------------------------------
+
+thead {
+    background: #e6e6de;    
+}
+
+.table th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.table .text-center {
+    text-align: center;
+}
+
+.table th.text-right, .table td.text-right {
+    text-align: right;
+}
 
 
 // ---------------------------------------------------------

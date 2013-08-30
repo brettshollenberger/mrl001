@@ -13,7 +13,7 @@
 }
 
 body {
-    padding-top: 10px;
+    //padding-top: 10px;
 }
 
 a[ng-click], button[ng-click], tr[ng-click] {
@@ -57,12 +57,10 @@ body.dashboard {
         background-color: @bodyBackground;
         border-right: 1px solid @niceTan;
         
-        // @note this is realllllyyy fragile! 
-        // will break if grid size is changed
-        // may effect other elements in un forseen ways. use caution! 
-        .span10 {
-            width: 905px;
-            margin-left: 120px;
+        width: @gridRowWidth + 40px;
+        
+        .span10.offset2 {
+            margin-left: (@gridColumnWidth * 2) + (@gridGutterWidth * 3) + 10px;
         }
         
     }
@@ -354,6 +352,7 @@ body.home {
     display: block;
     position: relative;
     
+    
 }
 
 .title-bar {
@@ -362,22 +361,24 @@ body.home {
     top: 0;
     background: @white;
     z-index: @zindexFixedNavbar;
-    width: 100%;
+    width: 980px; // how is this calculdated?
+    margin-left: -(@gridGutterWidth+10px);
     
     h2 {
         margin-top: 18px;
+        margin-left: 10px;
     }
     
     .actions {
         position: fixed;
-        right: @gridGutterWidth;
         top: 20px;
+        right: 30px;
         
         @newWidth: (@gridRowWidth + @gridGutterWidth);
         
         @media all and (min-width: @newWidth) {
             position: absolute;
-            right: 0; 
+            right: 30px; 
         }
         
     }
@@ -391,6 +392,7 @@ body.home {
     
     .span10 {
         position: relative;
+        width: 960px;
     }
 }
 

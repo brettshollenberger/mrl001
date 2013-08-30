@@ -3,6 +3,7 @@
 @import "sidebar.less"; 
 
 @blueLight : #E1F1FF;
+@niceTan : #e6e6de;
 
 /**
  * Angular
@@ -49,7 +50,6 @@ body.quoter .container, body.application .container {
     margin-top: 20px;
 }
 
-/*
 body.dashboard {
     background: white;
     
@@ -68,7 +68,6 @@ body.dashboard {
     }
     
 }
-*/
 
 ul.unstyled li{min-height: 50px;}
 
@@ -532,10 +531,9 @@ form[name*="formBuyoutOptions"] .ng-invalid {
 //
 // ---------------------------------------------------------
 
-@niceTan : #e6e6de;
 
 thead {
-    background: #e6e6de;    
+    background: @niceTan;    
 }
 
 .table th {

@@ -22,17 +22,11 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in programs | filter: searchTerm">
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in programs | filter: searchTerm">
                             <td>{{item.name}}</td>
-                            <td>
-                                <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
-                                <a class="view" ng-click="editItem(item._id)">View</a> | 
-                                <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

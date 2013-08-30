@@ -27,10 +27,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in vendors | filter: searchTerm" ng-click="editItem(item._id)">
-                            <td class="text-center">
-                                <img class="img-rounded img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                                <div class="img-rounded placeholder" ng-show="!item.logo.original"/>
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in vendors | filter: searchTerm">
+                            <td class="text-center border-right">
+                                <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                <div class="placeholder" ng-show="!item.logo.original"/>
                             </td>
                             <td class="salesRep"><span class="company-name">{{item.name}}</span><br/>
                                 <span class="contact-name">{{item.contactPerson.name}}</span><br/>
@@ -40,9 +40,11 @@
                             <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />
                                 <p>{{item.salesRep.name.first}} {{item.salesRep.name.last}}</p>
+                                <i class="icon icon-reveal icon-pencil"></i>
                             </td>
                             <td ng-show="!item.salesRep" class="text-center">
                                 No sales rep
+                                <i class="icon icon-reveal icon-pencil"></i>
                             </td>
                             <!--
 <td class="text-right">

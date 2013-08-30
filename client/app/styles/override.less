@@ -549,16 +549,41 @@ thead {
 // hover effect on list tables
 tr[ng-click] {
     
-    .transition(all 120ms ease);
+    .transition(all 220ms ease);
+
+    .icon-reveal {
+        display: none;
+        .transition(all 220ms ease);
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
     
     &:hover {
         background: @blueLight;
+        
+        .icon-reveal {
+            display: block;
+        }
+        
     }
     
     td {
         vertical-align: middle;
+        position: relative;
     }
+    
+    td.border-right {
+        border-right: 1px solid @tableBorder;
+        background: @white;
+    }
+    
+    
 
+}
+
+td.salesRep {
+    padding-left: 20px;
 }
 
 

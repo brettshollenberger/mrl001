@@ -213,7 +213,7 @@ input[type="checkbox"]:focus {
 // Placeholder text gets special styles because when browsers invalidate entire lines if it doesn't understand a selector
 input,
 textarea {
-  .placeholder();
+  .placeholder(lighten(@grayLight, 22%)); // note this might not work in ie? 
 }
 
 

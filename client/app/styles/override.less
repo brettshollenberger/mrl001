@@ -53,8 +53,18 @@ body.quoter .container, body.application .container {
 body.dashboard {
     background: white;
     
-    .container {
+    > .container {
         background-color: @bodyBackground;
+        border-right: 1px solid @niceTan;
+        
+        // @note this is realllllyyy fragile! 
+        // will break if grid size is changed
+        // may effect other elements in un forseen ways. use caution! 
+        .span10 {
+            width: 905px;
+            margin-left: 120px;
+        }
+        
     }
     
 }

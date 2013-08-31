@@ -10,6 +10,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, Application, saveChangesPrompt) {
 
+            $scope.modelObject = Application;
+
             Auth.canUserDoAction('edit-application');
 
             /**

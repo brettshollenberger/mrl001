@@ -11,6 +11,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, saveChangesPrompt) {
 
+            $scope.modelObject = User;
+
             Auth.canUserDoAction('edit-user');
 
             /**

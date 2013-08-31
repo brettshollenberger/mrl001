@@ -14,6 +14,8 @@ angular
             },
             link: function(scope, element, attrs, ctrl) {
                 
+                console.log(scope);
+                
                 // check for required attrs
                 if(!scope.id) throw('You need to provide an id for deleteThis directive');
                 if(!scope.model) throw('You need to provide a model name for deleteThis directive');

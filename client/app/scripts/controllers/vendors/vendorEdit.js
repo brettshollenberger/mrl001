@@ -16,6 +16,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, saveChangesPrompt) {
 
+            $scope.modelObject = Vendor;
+            
             Auth.canUserDoAction('edit-vendor');
 
             $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Quoter Tool'];

@@ -8,9 +8,11 @@
         <div class="row title-bar">
             <div class="span10">
                 <h2><i class="icon icon-comments-alt"></i> New Quote</h2>
-                <ul class="nav nav-tabs">
+               <!--
+ <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !quote._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
+-->
                 
                 <div class="actions">
                     <a class="btn btn-success" id="save"ng-show="quoteForm.$dirty" ng-click="save()"><i class="icon icon-ok-sign"></i>Save</a>

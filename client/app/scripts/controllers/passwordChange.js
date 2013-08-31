@@ -37,7 +37,7 @@ angular
             // @note when converting to Anglar 1.2, we can user the form.$setPristine() method
             var resetForm = function() {
                 $scope.passwordForm = angular.copy($scope.originalForm);
-            }
+            };
             
             // sets message and removes after timeout
             var setMessage = function(message) {
@@ -48,7 +48,7 @@ angular
                    $scope.changeMessage = null;
                }, 2000);
                
-            }
+            };
 
             // call once to set initially
             resetVars();

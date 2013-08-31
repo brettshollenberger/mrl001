@@ -4,30 +4,37 @@
 COMPLETED
 -------
 
-- Removed "action" buttons from table rows. (actions will be moved to the detail view)
-- Added hover style for table rows (blue), made image centered and larger, added right border
-- Added pencil icon to tables rows that are clickable
+- [FEATURE] Removed "action" buttons from table rows. (actions will be moved to the detail view)
+- [FEATURE] Move all delete links to edit pages (since we removed them from the table listings)
+- [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
 
-- Styled buttons globally
-- Fixed buttons on edit pages with missing icons (quote page, application)
-- Removed application "cancel" button and added consistent top bar
 
-- Styled tabs (on edit pages)
-- Generate new quote button opens in new window (test in IE!)
+- [STYLE] Added hover style for table rows (blue), made image centered and larger, added right border
+- [STYLE] Added pencil icon to tables rows that are clickable
+- [STYLE] Applied new '1/2' button style to all buttons globally
+- [STYLE] Fixed buttons on edit pages that were missing icons (quote page, application page)
+- [STYLE] Styled tabs (on edit pages)
+- [STYLE] Make hints / placeholders much lighter in color 
+- [STYLE] General styling of messages and alerts. 
+- [STYLE] On remove sales rep link, make this smaller and underline. Make the above the default "delete" link style
 
-- Make hints / placeholders much lighter! 
 
-- Apply style tile colors to bootstrap variables
+- [CHORE] Removed application "cancel" button and added top bar to make consistant with other edit pages
+- [CHORE] Enhanced password reset controller. Messages and validation now clear on error and success. Moved into modular file to follow new contoller dev pattern.
+
+
+
+
 
 
 TODO
 -------
 
-- [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
-- On remove sales rep link, make this smaller and underline. 
--- Make the above the default "delete" link style
+- FIX seeding file. Seems to work but doesn't insert all data. 
 
-- Move all delete links to edit pages (since we removed them from the listings)
+- [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
+
+
 - Make sure all money / costs have dollar signs and commas! 
 - On "add sales rep to vendor page" add the sales rep name
 - Change language of "lease programs" to rate sheets
@@ -54,8 +61,7 @@ Locator tool tab
 
 
 Login Form
-
-
+-------
 - Make a required Symbol and add where appropiate. 
 
 - Add a button to quote (on top) that allows sales rep to create app from the quote.

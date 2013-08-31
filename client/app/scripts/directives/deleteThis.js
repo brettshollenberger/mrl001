@@ -20,8 +20,8 @@ angular
                 
                 // message and redirect are optional, so check for them
                 // and set defaults if missing    
-                var message = scope.message ? scope.message : 'Are you sure you want to delete this item?';
-                var redirect = scope.redirect ? scope.redirect : '/dashboard';
+                var message = attrs.message ? attrs.message : 'Are you sure you want to delete this item?';
+                var redirect = attrs.redirect ? attrs.redirect : '/dashboard';
                 
                 scope.deleteItem = function() {
                     

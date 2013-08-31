@@ -24,6 +24,14 @@ angular
                 saveChangesPrompt.init(forms);
                 removeViewLoad();
             });
+            
+            // deletes an item and then gets the list again to reflect the deleted item.
+            $scope.deleteItem = function(id) {
+                if(confirm('Are you sure you want to delete this item?')) {
+                    Quote.remove(id);
+                    $location.url('/dashboard/quotes');
+                }
+            };
 
             // empty quote object
             $scope.quote = {};

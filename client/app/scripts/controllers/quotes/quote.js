@@ -40,24 +40,5 @@ angular
                 $location.url('dashboard/quotes/' + itemId);
             };
 
-            // deletes an item and then gets the list again to reflect the deleted item.
-            $scope.deleteItem = function(id) {
-
-                Quote.remove(id);
-
-                // @note we are manually removing the item from quotes here...
-                // this ensures our test passes, which does a count of the items
-                // we could also do another API call
-                $scope.quotes = _.filter($scope.quotes, function(item) {
-                    return item._id !== id;
-                });
-
-                /*
-            Quote.getAll().then(function(response) {
-                $scope.quotes = response;
-            });
-            */
-            };
-
         }
     ]);

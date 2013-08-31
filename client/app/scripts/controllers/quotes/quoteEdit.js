@@ -11,6 +11,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, Quote, States, saveChangesPrompt) {
 
+            $scope.modelObject = Quote;
+
             Auth.canUserDoAction('edit-quote');
 
             /**
@@ -27,10 +29,7 @@ angular
             
             // deletes an item and then gets the list again to reflect the deleted item.
             $scope.deleteItem = function(id) {
-                if(confirm('Are you sure you want to delete this item?')) {
-                    Quote.remove(id);
-                    $location.url('/dashboard/quotes');
-                }
+                
             };
 
             // empty quote object

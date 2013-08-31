@@ -11,9 +11,10 @@ angular
         '$scope',
         '$location',
         '$routeParams',
+        '$timeout',
         'authService',
         'userService',
-        function($rootScope, $scope, $location, $routeParams, Auth, User) {
+        function($rootScope, $scope, $location, $routeParams, $timeout, Auth, User) {
 
             // message for the user, will show validation errors
             $scope.changeMessage = null;
@@ -32,8 +33,21 @@ angular
                 $scope.confirm_password = null;
             };
             
+            // call to reset the form
+            // @note when converting to Anglar 1.2, we can user the form.$setPristine() method
             var resetForm = function() {
                 $scope.passwordForm = angular.copy($scope.originalForm);
+            }
+            
+            // sets message and removes after timeout
+            var setMessage = function(message) {
+               $scope.changeMessage = message; 
+               
+               // set timeout to clear our message after 2 seconds
+               $timeout(function() {
+                   $scope.changeMessage = null;
+               }, 2000);
+               
             }
 
             // call once to set initially
@@ -55,10 +69,7 @@ angular
                     resetForm();
                     
                     $scope.changestatus = true;
-                    $scope.changeMessage = response;
-                    
-                    
-                    
+                    setMessage(response);
 
                 }, function(err) {
 
@@ -66,7 +77,7 @@ angular
                     resetVars();
                     
                     $scope.changestatus = false;
-                    $scope.changeMessage = err.data.message;
+                    setMessage(err.data.message);
 
                 });
 

@@ -36,8 +36,8 @@
                             </td>
                             <td class="salesRep"><span class="company-name">{{item.name}}</span><br/>
                                 <span class="contact-name">{{item.contactPerson.name}}</span><br/>
-                                <i class="icon icon-envelope"></i> {{item.contactPerson.email}}<br/>
-                                <i class="icon icon-phone"></i>  {{item.contactPerson.phone}}
+                                <a stop-event="click" ng-href="mailto:{{item.contactPerson.email}}" target="_blank"><i class="icon icon-envelope"></i> {{item.contactPerson.email}}</a><br/>
+                                <a stop-event="click" ng-href="callto:{{item.contactPerson.phone}}"><i class="icon icon-phone"></i>  {{item.contactPerson.phone}}</a>
                             </td>
                             <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />

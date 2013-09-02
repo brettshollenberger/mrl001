@@ -27,8 +27,8 @@
                         <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>
                     <td class="userList"><span class="company-name">{{item.name.first}} {{item.name.last}}</span><br/>
-                        <a stop-event="click" ng-href="mailto:{{item.email}}" target="_blank"><i class="icon icon-envelope"></i> {{item.email}}</a><br/>
-                        <a stop-event="click" ng-href="callto:{{item.phoneNumber}}"><i class="icon icon-phone"></i> {{item.phoneNumber}}</a>
+                        <a mail-to="{{item.email}}"></a><br/>
+                        <a call-to="{{item.phoneNumber}}"></a>
                     </td>
                     
                     <!--

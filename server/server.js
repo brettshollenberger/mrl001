@@ -41,10 +41,11 @@ require('./config/roles')(app, config, passport, user);
 require('./config/express')(app, config, passport, user);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user);
+require('./config/routes')(app, passport, auth, user, config);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;
+config.port = port; // store for later because we cant get port fro req. object :(
 var ip = '127.0.0.1';
 //ip = '10.1.10.100';
 app.listen(port, ip);

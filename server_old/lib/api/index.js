@@ -80,54 +80,7 @@ var getWebshot = function(url, file, cb) {
 
 
 
-app.get('/api/v1/quote/:id/download', function(req, res){
-  
-    // debug
-    console.log('generating pdf for quote id: ' + req.params.id);
-  
-    // get quote id
-    // @todo we need to check when user visits this page for a valid quote
-    var id = req.params.id;
-    
-    // this url will use css to format for printing
-    // phantomjs will visit this url
-    // we use the base url, so be sure its set properly
-    var url = app.get('base') + '#/tools/quoter/' + id + '/print';
-    
-    // timestamp appended to the quite id, so each is unique
-    var time = new Date().getTime().toString();
-    
-    // create a filename from quote id, timestamp, and pdf file extension
-    var fileName = id + '_' + time + '.pdf';
-    
-    // create path to file
-    var file = join(__dirname, '/../../../', tmpdir, fileName);
-    console.log('WEBSHOT : FILE is ' + file); 
-    
-    getWebshot(url, file, function(err){
-        console.log('WEBSHOT : Complete'); 
-        if (err) {
-            console.log('WEBSHOT : ERROR');
-            
-            res.json({
-               status: 'FAIL',
-               error: err
-            }, 400);
-            //return console.log(err);
-        }
-        console.log('WEBSHOT : OK');
-        
-        //res.download(file);
-        
-        // create relative path for downloading
-        var dl = join('downloads', fileName);
-        
-        res.json({
-           status: 'OK',
-           file: dl
-        });
-    });
-});
+
 
 
 resource.setup(app);

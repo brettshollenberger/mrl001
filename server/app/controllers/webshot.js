@@ -54,7 +54,7 @@ var getWebshot = function(url, file, cb) {
 };
 
 
-module.exports = function(app) {
+module.exports = function(app, config) {
     
     // in production / testing etc modes (basically anything on heroku) 
     // we need to set a special path for phantomjs
@@ -76,8 +76,10 @@ module.exports = function(app) {
             // phantomjs will visit this url
             // we use the base url, so be sure its set properly   
             // we create the base url from the incoming request
-            // @note we need so support subdomains later on      
-            var fullHost = req.protocol + '://' + (req.domain ? req.domain : req.ip) + ':' + req.app.settings.port;
+            // @note we need so support subdomains later on     
+            
+             
+            var fullHost = req.protocol + '://' + (req.domain ? req.domain : req.ip) + ':' + config.port;
             var url = fullHost + '/#/tools/quoter/' + id + '/print';
             
             console.log(url);

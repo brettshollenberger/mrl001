@@ -1,6 +1,6 @@
 var async = require('async');
 
-module.exports = function(app, passport, auth, user) {
+module.exports = function(app, passport, auth, user, config) {
    /*
  //User Routes
     var users = require('../app/controllers/users');
@@ -123,7 +123,7 @@ module.exports = function(app, passport, auth, user) {
     app.put('/api/v1/quotes/:quoteId', quotes.update);
     app.del('/api/v1/quotes/:quoteId', user.is('admin'), quotes.destroy);
 
-    var webshot = require('../app/controllers/webshot')(app);
+    var webshot = require('../app/controllers/webshot')(app, config);
     
     app.get('/api/v1/quotes/:id/download', webshot.getWebshotFromUrl);
 
@@ -176,14 +176,23 @@ module.exports = function(app, passport, auth, user) {
     });
     
     app.post('/api/v1/vendors', user.is('admin'), vendors.create);
-    app.get('/api/v1/vendors/:vendorId', user.is('admin'), vendors.show);
+    
+    // @todo this technically works for now, but needs to be locked down with different show functions per role
+    app.get('/api/v1/vendors/:vendorId', function(req, res, next) {
+            
+        if(!req.user.role)                      vendors.show(req, res, next);
+        else if(req.user.role === 'admin')      vendors.show(req, res, next);
+        else if(req.user.role === 'salesRep')   vendors.show(req, res, next);
+        else                                    res.send('Not found', 404);
+        
+    });
     app.put('/api/v1/vendors/:vendorId', user.is('admin'), vendors.update);
     app.del('/api/v1/vendors/:vendorId', user.is('admin'), vendors.destroy);
     
     // get programs for a vendor
     // @todo replace when we get a proper children setup
     
-    app.get('/api/v1/vendors/:vendorId/programs', user.is('admin'), vendors.getCurrentVendorPrograms);
+    app.get('/api/v1/vendors/:vendorId/programs', vendors.getCurrentVendorPrograms);
     app.get('/api/v1/vendors/:vendorId/available_programs', user.is('admin'), vendors.getAvailableVendorPrograms);
 
     app.param('vendorId', vendors.vendor);

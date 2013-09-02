@@ -130,7 +130,7 @@
             <div class="row" ng-show="isActiveTab(2)">    
 
                 <div class="span5" ng-hide="!vendor._id">
-                    <h3>Vendor Lease Programs</h3>
+                    <h3>Vendor Rate Sheets</h3>
                     <form name="customNameForm" novalidate>
                         <ul id="vendorPrograms" class="unstyled">
                             <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
@@ -147,7 +147,7 @@
                       
                 </div>
                 <div class="span5" ng-hide="!vendor._id">
-                    <h3>All Available Lease Programs</h3>
+                    <h3>All Available Rate Sheets</h3>
                     <ul id="allPrograms" class="unstyled">
                         <li ng-repeat="item in programs">
                             <hr />
@@ -161,7 +161,7 @@
             
             <form name="customizeForm" class="row" ng-show="isActiveTab(3)">
                 <div class="span10">
-                    <h3>Customize Vendor Application</h3>
+                    <h3>Custom Terms</h3>
                     
                     <label>Terms which display on application</label>
                     <textarea class='legalTerms' ng-model="vendor.legalTerms"></textarea>

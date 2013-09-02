@@ -123,7 +123,12 @@ module.exports = function(app, passport, auth, user) {
     app.put('/api/v1/quotes/:quoteId', quotes.update);
     app.del('/api/v1/quotes/:quoteId', user.is('admin'), quotes.destroy);
 
+    var webshot = require('../app/controllers/webshot')(app);
+    
+    app.get('/api/v1/quotes/:id/download', webshot.getWebshotFromUrl);
+
     app.param('quoteId', quotes.quote);
+    
     
     
     /**

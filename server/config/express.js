@@ -12,7 +12,7 @@ var fs = require('fs');
 
 module.exports = function(app, config, passport, user) {
     app.set('showStackError', true);
-
+    
     //Should be placed before express.static
     app.use(express.compress({
         filter: function(req, res) {

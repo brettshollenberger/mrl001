@@ -152,6 +152,11 @@ angular
 
                 $scope.quote.totalCost = $scope.quoteCost;
 
+                // save the custom Field with the quote 
+                if ($scope.vendor && $scope.vendor.customField) {
+                    $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
+                }
+
                 if (!quoteId) {
 
                     $rootScope.previewQuote = true;

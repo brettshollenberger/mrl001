@@ -11,6 +11,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, Quote, States, saveChangesPrompt) {
 
+            $scope.modelObject = Quote;
+
             Auth.canUserDoAction('edit-quote');
 
             /**
@@ -24,6 +26,11 @@ angular
                 saveChangesPrompt.init(forms);
                 removeViewLoad();
             });
+            
+            // deletes an item and then gets the list again to reflect the deleted item.
+            $scope.deleteItem = function(id) {
+                
+            };
 
             // empty quote object
             $scope.quote = {};

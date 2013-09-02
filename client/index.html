@@ -16,8 +16,15 @@
     <link rel="stylesheet" href="app/styles/override.css">
     <!-- endbuild -->
     
-    <!--[if gte IE 9]>
+    
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    
+    <!--[if gte IE 9]>
+    <style>
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: Arial, Helvetica, Sans-serif !important;
+        }
+    </style>
     <![endif]-->
     
     <script>
@@ -61,22 +68,15 @@
       
      </div>
      
-      <footer class="muted text-center footer container">
+  <!--
+    <footer class="muted text-center footer container">
           <div class="row">
               <div class="span12">
-                &copy; 2013 Marlin Leasing<br />
-                version {{ version }} <a href="#/changelog">View Changelog</a>
-              
-                <p class="hello"><em>Hello from the nerds at Faculty!</em>
-                    <br/>We're here to guide you: 
-                    <a href="#/login"><i class="icon icon-dashboard"></i> Dashboard</a>
-                    <a href="#/tools/quoter"><i class="icon icon-paste"></i> Quote Tool</a>
-                    <a href="#/tools/locator"><i class="icon icon-paste"></i> Locator Tool</a>
-                </p>
-                <img class="nerds" src="img/nerds.png" />
+                
               </div>
           </div>
       </footer>
+-->
    
     
     <!--[if lte IE 8]>
@@ -96,20 +96,20 @@
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/angular-ui-utils/modules/ie-shiv/ie-shiv.js"></script>
     <script src="bower_components/angular-ui-utils/modules/if/if.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/validate/validate.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/showdown/compressed/showdown.js"></script>
     <script src="bower_components/showdown/compressed/extensions/github.js"></script>
     <script src="bower_components/angular-markdown/angular.markdown.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/angular-truncate/dist/angular-truncate.js"></script>
+    
+    
     
     <script src="bower_components/angulartics/src/angulartics.js"></script>
-    <script src="bower_components/angulartics/src/angulartics-ga.js"></script>
+    <script src="bower_components/angulartics/src/angulartics-google-analytics.js"></script>    
     
-    <script src="app/vendor/promise-tracker.js"></script>
-    <script src="app/scripts/directives/mm.unsavedChanges.js"></script>
-
-
     <script src="app/scripts/app.js"></script>
     <script src="app/scripts/app.templates.js"></script>
     <script src="app/scripts/controllers/login.js"></script>
@@ -129,6 +129,13 @@
     <script src="app/scripts/controllers/tools/locator/locatorToolController.js"></script>
     <script src="app/scripts/controllers/home.js"></script>
     <script src="app/scripts/controllers/changelog.js"></script>
+    <script src="app/scripts/controllers/passwordChange.js"></script>
+    
+    <script src="app/vendor/promise-tracker.js"></script>
+    <script src="app/scripts/directives/mm.unsavedChanges.js"></script>
+    <script src="app/scripts/directives/required.js"></script>
+    <script src="app/scripts/directives/deleteThis.js"></script>
+    
     
     <script src="app/scripts/services/location.js"></script>
     <script src="app/scripts/services/vendor.js"></script>

@@ -5,8 +5,8 @@
         
         <div class="row title-bar">
             <div class="span10">
-                <h2>Quotes</h2>
-                <a id="addQuote" class="btn btn-primary actions" href="#/tools/quoter">Launch Quote Tool</a>
+                <h2><i class="icon icon-comments-alt"></i> Quotes</h2>
+                <a id="addQuote" class="btn btn-primary actions" target="_blank" href="#/tools/quoter"><i class="icon icon-plus-sign"></i>Launch Quote Tool</a>
             </div>
         </div>
         
@@ -38,20 +38,14 @@
                             <th>Description</th>
                             <th>Vendor</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
                             <td>${{item.totalCost | number}}</td>
                             <td>{{item.description}}</td>
                             <td>{{item.vendor.name}}</td>
                             <td>{{item.status}}</td>
-                            <td>
-                                <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
-                                <a class="view" ng-click="editItem(item._id)">View</a> | 
-                                <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

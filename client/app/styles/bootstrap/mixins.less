@@ -407,11 +407,13 @@
 // Gradient Bar Colors for buttons and alerts
 .gradientBar(@primaryColor, @secondaryColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
   color: @textColor;
-  text-shadow: @textShadow;
+  //text-shadow: @textShadow;
   #gradient > .vertical(@primaryColor, @secondaryColor);
   border-color: @secondaryColor @secondaryColor darken(@secondaryColor, 15%);
   border-color: rgba(0,0,0,.1) rgba(0,0,0,.1) fadein(rgba(0,0,0,.1), 15%);
 }
+
+
 
 // Gradients
 #gradient {
@@ -425,16 +427,30 @@
     background-repeat: repeat-x;
     filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@startColor),argb(@endColor))); // IE9 and down
   }
-  .vertical(@startColor: #555, @endColor: #333) {
-    background-color: mix(@startColor, @endColor, 60%);
+  /*
+.vertical(@startColor: #555, @endColor: #333) {
+    background-color: mix(@startColor, @endColor, 10%);
     background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
+    background-image: -webkit-gradient(linear, 0 50%, 0 50%, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
     background-image: -webkit-linear-gradient(top, @startColor, @endColor); // Safari 5.1+, Chrome 10+
     background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
     background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
     background-repeat: repeat-x;
     filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down
   }
+*/
+.vertical(@startColor: #555, @endColor: #333) {
+    
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(top, @startColor 50%, @endColor 50%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,@startColor), color-stop(50%,@endColor)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, @startColor 50%,@endColor 50%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, @startColor 50%,@endColor 50%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, @startColor 50%,@endColor 50%); /* IE10+ */
+    background: linear-gradient(to bottom, @startColor 50%,@endColor 50%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@startColor', endColorstr='@endColor',GradientType=0 ); /* IE6-9 */
+  }
+
   .directional(@startColor: #555, @endColor: #333, @deg: 45deg) {
     background-color: @endColor;
     background-repeat: repeat-x;

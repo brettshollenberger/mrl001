@@ -4,8 +4,8 @@
         
         <div class="row title-bar">
             <div class="span10">
-                <h2>Vendors</h2>
-                <a id="addVendor" class="btn btn-primary actions" href="#/dashboard/vendors/new">Add New Vendor</a>
+                <h2><i class="icon icon-briefcase"></i> Vendors</h2>
+                <a id="addVendor" class="btn btn-primary actions" href="#/dashboard/vendors/new"><i class="icon icon-plus-sign"></i>Add New Vendor</a>
             </div>
         </div>
         
@@ -21,36 +21,41 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Logo</th>
-                            <th>Name</th>
-                            <th>Vendor Contact</th>
-                            <th>Marlin Sales Rep</th>
-                            <th>Actions</th>
+                            <th class="span3">Vendor</th>
+                            <th>Contact Info</th>
+                            <th class="text-center">Sales Rep</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in vendors | filter: searchTerm">
-                            <td>
-                                <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                                <div class="img-rounded placeholder" ng-show="!item.logo.original"/>
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in vendors | filter: searchTerm">
+                            <td class="text-center border-right">
+                                <div class="img-wrapper">
+                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                </div>
+                                <div class="placeholder" ng-show="!item.logo.original"/>
                             </td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.contactPerson.name}}<br/>
-                                {{item.contactPerson.email}}<br/>
-                                {{item.contactPerson.phone}}
+                            <td class="salesRep"><span class="company-name">{{item.name}}</span><br/>
+                                <span class="contact-name">{{item.contactPerson.name}}</span><br/>
+                                <a mail-to="{{item.contactPerson.email}}"></a> <br/>
+                                <a call-to="{{item.contactPerson.phone}}"></a>
                             </td>
-                            <td ng-show="item.salesRep">
+                            <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />
-                                <p>{{item.salesRep.name.first}} {{item.salesRep.name.last}}</p>
+                                <br />
+                                <a user-profile="item.salesRep"></a>
+                                <i class="icon icon-reveal icon-pencil"></i>
                             </td>
-                            <td ng-show="!item.salesRep">
+                            <td ng-show="!item.salesRep" class="text-center">
                                 No sales rep
+                                <i class="icon icon-reveal icon-pencil"></i>
                             </td>
-                            <td>
+                            <!--
+<td class="text-right">
                                 <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
                                 <a class="viewCalculator" ng-click="viewCalculator(item._id)">New Quote</a> | 
                                 <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
                             </td>
+-->
                         </tr>
                     </tbody>
                 </table>

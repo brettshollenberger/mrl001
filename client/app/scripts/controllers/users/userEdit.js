@@ -11,6 +11,8 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, saveChangesPrompt) {
 
+            $scope.modelObject = User;
+
             Auth.canUserDoAction('edit-user');
 
             /**
@@ -28,7 +30,6 @@ angular
             // empty user object
             $scope.user = {};
             var user = {};
-
 
             // filepicker settings
             // @todo move to global config
@@ -168,6 +169,9 @@ angular
                 $scope.activeTab = tab;
             };
 
+
+
+            
 
         }
     ]);

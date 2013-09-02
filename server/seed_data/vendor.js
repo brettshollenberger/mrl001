@@ -1,6 +1,3 @@
-var mongo = require('mongodb');
-var BSON = mongo.BSONPure;
-    
 exports.seed = function() {
     return data;
 };
@@ -8,14 +5,14 @@ exports.seed = function() {
 var data = [
   {
     // "id": 1,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000023'),
+    "_id": '51e71518ed32080ffc000023',
     "name": "BearCom Operating LLC",
     "contactPerson": {
       "name": "Jenn Delong",
       "email": "jdelong@marlinfinance.com",
       "phone": "888-479-9111 Ext. 5015"
     },
-    "salesRepId" : new BSON.ObjectID('51e71518ed32080ffc000016'),
+    "salesRep" : '51e71518ed32080ffc000016',
     "logo": {
       "original": "https://www.filepicker.io/api/file/2v44yfa8TqKt2RAAkpZB"
     },
@@ -34,28 +31,22 @@ var data = [
       "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
-    "programIds": [
-      new BSON.ObjectID('51e71518ed32080ffc000006'),
-      new BSON.ObjectID('51e71518ed32080ffc000007'),
-      new BSON.ObjectID('51e71518ed32080ffc000050')
-    ],
     "programs": [
-      {
-        "_id": '51e71518ed32080ffc000006',
-        "displayName": "A Custom Display Name for Program 1"
-      }
+      '51e71518ed32080ffc000006',
+      '51e71518ed32080ffc000007',
+      '51e71518ed32080ffc000050'
     ]
   },
   {
     // "id": 2,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000024'),
+    "_id": '51e71518ed32080ffc000024',
     "name": "Protection One - West",
     "contactPerson": {
       "name": "Jennifer DeLong-Giefer",
       "email": "jdelong@marlinfinance.com",
       "phone": "866-687-3778"
     },
-    "salesRepId" : new BSON.ObjectID('51e71518ed32080ffc000016'),
+    "salesRep" : '51e71518ed32080ffc000016',
     "logo": {
       "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
     },
@@ -70,15 +61,9 @@ var data = [
       "zip": ""
     },
     "locatorEnabled": true,
-    "programIds": [
-      new BSON.ObjectID('51e71518ed32080ffc000006'),
-      new BSON.ObjectID('51e71518ed32080ffc000007')
-    ],
     "programs": [
-      {
-        "_id": '51e71518ed32080ffc000006',
-        "displayName": "A Custom Display Name for Program 1"
-      }
+      '51e71518ed32080ffc000006',
+      '51e71518ed32080ffc000007'
     ],
     "geo": {
       "latitude": 34.06269899999999,
@@ -87,14 +72,14 @@ var data = [
   },
   {
     // "id": 3,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000025'),
+    "_id": '51e71518ed32080ffc000025',
     "name": "Gametime",
     "contactPerson": {
       "name": "Warren Myers",
       "email": "wmyers@playcore.com",
       "phone": ""
     },
-    "salesRepId" : new BSON.ObjectID('51e71518ed32080ffc000010'),
+    "salesRep" : '51e71518ed32080ffc000010',
     "logo": {
       "original": "https://www.filepicker.io/api/file/EcryKofERBynAuL2txez"
     },
@@ -113,27 +98,21 @@ var data = [
       "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
-    "programIds": [
-      new BSON.ObjectID('51e71518ed32080ffc000006'),
-      new BSON.ObjectID('51e71518ed32080ffc000007')
-    ],
     "programs": [
-      {
-        "_id": '51e71518ed32080ffc000006',
-        "displayName": "A Custom Display Name for Program 1"
-      }
+      '51e71518ed32080ffc000006',
+      '51e71518ed32080ffc000007'
     ]
   },
   {
     // "id": 4,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000026'),
+    "_id": '51e71518ed32080ffc000026',
     "name": "Union Bank",
     "contactPerson": {
       "name": "Union Bank Financing Consultant",
       "email": "ubapps@marlinfinance.com",
       "phone": "877-307-6756"
     },
-    "salesRepId" : new BSON.ObjectID('51e71518ed32080ffc000015'),
+    "salesRep" : '51e71518ed32080ffc000015',
     "logo": {
       "original": "https://www.filepicker.io/api/file/yjlOg28UROmPXyK8uadA"
     },
@@ -152,27 +131,21 @@ var data = [
       "longitude": -118.41526299999998
     },
     "locatorEnabled": true,
-    "programIds": [
-      new BSON.ObjectID('51e71518ed32080ffc000006'),
-      new BSON.ObjectID('51e71518ed32080ffc000007')
-    ],
     "programs": [
-      {
-        "_id": '51e71518ed32080ffc000006',
-        "displayName": "A Custom Display Name for Program 1"
-      }
+      '51e71518ed32080ffc000006',
+      '51e71518ed32080ffc000007'
     ]
   },
   {
     // "id": 5,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000027'),
+    "_id": '51e71518ed32080ffc000027',
     "name": "Southeastern Equipment & Supply, Inc.",
     "contactPerson": {
       "name": "Grady Martin",
       "email": "leasing@southeasternequipment.net",
       "phone": "803-454-3656"
     },
-    "salesRepId": new BSON.ObjectID('51e71518ed32080ffc000009'),
+    "salesRep": '51e71518ed32080ffc000009',
     "logo": {
       "original": "https://www.filepicker.io/api/file/nvC3zhiTQoSl01P7K3Br"
     },
@@ -186,17 +159,11 @@ var data = [
       "state": "SC",
       "zip": "29045"
     },
-    "programIds": [
-      new BSON.ObjectID('51e71518ed32080ffc000006'),
-      new BSON.ObjectID('51e71518ed32080ffc000007')
+    "programs": [
+      '51e71518ed32080ffc000006',
+      '51e71518ed32080ffc000007'
     ],
     "locatorEnabled": true,
-    "programs": [
-      {
-        "_id": '51e71518ed32080ffc000006',
-        "displayName": "A Custom Display Name for Program 1"
-      }
-    ],
     "geo": {
       "latitude": 33.9379091,
       "longitude": -81.0891279
@@ -204,12 +171,12 @@ var data = [
   },
   {
     // "id": 6,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000028'),
+    "_id": '51e71518ed32080ffc000028',
     "logo": {
       "original": "https://www.filepicker.io/api/file/AtnUNRiRSQCBrV1eDES8"
     },
     "state": false,
-    "salesRepId" : '',
+    "salesRep" : '',
     "name": "Arizona Business Systems Inc",
     "businessAddress": {
       "address1": "16844 E Avenue of the Fountains",
@@ -231,11 +198,11 @@ var data = [
   },
   {
     // "id": 7,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000029'),
+    "_id": '51e71518ed32080ffc000029',
     "logo": {
       "original": "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Praxair Inc",
     "businessAddress": {
@@ -256,11 +223,11 @@ var data = [
   },
   {
     // "id": 8,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000030'),
+    "_id": '51e71518ed32080ffc000030',
     "logo": {
       "original": "https://www.filepicker.io/api/file/ga99yLAOSnqjeoJVAie7"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "EZ 2000 , Inc.",
     "businessAddress": {
@@ -282,11 +249,11 @@ var data = [
   },
   {
     // "id": 9,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000031'),
+    "_id": '51e71518ed32080ffc000031',
     "logo": {
       "original": "https://www.filepicker.io/api/file/YVnYF7JITLyjN3dWWOaQ"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Meeting One",
     "businessAddress": {
@@ -307,11 +274,11 @@ var data = [
   },
   {
     // "id": 10,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000032'),
+    "_id": '51e71518ed32080ffc000032',
     "logo": {
       "original": "https://www.filepicker.io/api/file/m6PTCIGdRsSVyMYimcI2"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "capitol office products",
     "businessAddress": {
@@ -332,11 +299,11 @@ var data = [
   },
   {
     // "id": 11,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000033'),
+    "_id": '51e71518ed32080ffc000033',
     "logo": {
       "original": "https://www.filepicker.io/api/file/9gaCD06IQ9u9ZaE7YDnS"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Edge Business Systems LLC",
     "businessAddress": {
@@ -356,11 +323,11 @@ var data = [
   },
   {
     // "id": 12,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000034'),
+    "_id": '51e71518ed32080ffc000034',
     "logo": {
       "original": "https://www.filepicker.io/api/file/bokWgO5uTl6gYIpFvkye"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Epay Systems",
     "businessAddress": {
@@ -381,11 +348,11 @@ var data = [
   },
   {
     // "id": 13,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000035'),
+    "_id": '51e71518ed32080ffc000035',
     "logo": {
       "original": "https://www.filepicker.io/api/file/ehj73VN8RleUCWatx25K"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Central Restaurant Products",
     "businessAddress": {
@@ -406,11 +373,11 @@ var data = [
   },
   {
     // "id": 14,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000036'),
+    "_id": '51e71518ed32080ffc000036',
     "logo": {
       "original": "https://www.filepicker.io/api/file/B057fvRamXKKOTr9xmMw"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Clark Security Products-Washington DC.",
     "businessAddress": {
@@ -431,11 +398,11 @@ var data = [
   },
   {
     // "id": 15,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000037'),
+    "_id": '51e71518ed32080ffc000037',
     "logo": {
       "original": "https://www.filepicker.io/api/file/nkZx82FWQHWObEAvCCkR"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Hendrix Business Systems Inc",
     "businessAddress": {
@@ -457,11 +424,11 @@ var data = [
   },
   {
     // "id": 16,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000038'),
+    "_id": '51e71518ed32080ffc000038',
     "logo": {
       "original": "https://www.filepicker.io/api/file/27BUlutGTwmUJ124XGLS"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "1st Run Computer Services, Inc.",
     "businessAddress": {
@@ -482,11 +449,11 @@ var data = [
   },
   {
     // "id": 17,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000039'),
+    "_id": '51e71518ed32080ffc000039',
     "logo": {
       "original": "https://www.filepicker.io/api/file/SOgR7MisTbuisebKHdxg"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Autozone, Inc - CORP",
     "businessAddress": {
@@ -504,11 +471,11 @@ var data = [
   },
   {
     // "id": 18,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000040'),
+    "_id": '51e71518ed32080ffc000040',
     "logo": {
       "original": "https://www.filepicker.io/api/file/2MeQ92VoTZSNA3JwLQf0"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "American Typewriter & Office Equipment",
     "businessAddress": {
@@ -528,10 +495,10 @@ var data = [
   },
   {
     // "id": 19,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000041'),
+    "_id": '51e71518ed32080ffc000041',
     "logo": {},
     "state": false,
-    "salesRepId" : '',
+    "salesRep" : '',
     "name": "Cuda Washington Inc.",
     "businessAddress": {
       "address1": "914 164th St SE Ste 1698",
@@ -545,11 +512,11 @@ var data = [
   },
   {
     // "id": 20,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000042'),
+    "_id": '51e71518ed32080ffc000042',
     "logo": {
       "original": "https://www.filepicker.io/api/file/aiXfeFchQxu6ua1YueUs"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Advanced Mailing & Shipping Tech Inc",
     "businessAddress": {
@@ -566,11 +533,11 @@ var data = [
   },
   {
     // "id": 21,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000043'),
+    "_id": '51e71518ed32080ffc000043',
     "logo": {
       "original": "https://www.filepicker.io/api/file/I9KHZslQoKC2teGmUoSM"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Warren Southwest Refrigeration",
     "businessAddress": {
@@ -592,11 +559,11 @@ var data = [
   },
   {
     // "id": 22,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000044'),
+    "_id": '51e71518ed32080ffc000044',
     "logo": {
       "original": "https://www.filepicker.io/api/file/SjFpjBZZRU6Tcfz4qrNa"
     },
-    "salesRepId" : '',
+    "salesRep" : '',
     "state": false,
     "name": "Air-Care",
     "businessAddress": {
@@ -617,10 +584,10 @@ var data = [
   },
   {
     // "id": 23,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000045'),
+    "_id": '51e71518ed32080ffc000045',
     "logo": {},
     "state": false,
-    "salesRepId" : '',
+    "salesRep" : '',
     "name": "B&G Restaurant Supply Inc.",
     "businessAddress": {
       "address1": "48 Eagle St",
@@ -640,12 +607,12 @@ var data = [
   },
   {
     // "id": 24,
-    "_id": new BSON.ObjectID('51e71518ed32080ffc000046'),
+    "_id": '51e71518ed32080ffc000046',
     "logo": {
       "original": "https://www.filepicker.io/api/file/JnaftzTAQuST64VnRHXg"
     },
     "state": false,
-    "salesRepId" : '',
+    "salesRep" : '',
     "name": "American Dish Service",
     "businessAddress": {
       "address1": "900 Blake St",

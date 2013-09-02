@@ -21,6 +21,7 @@
     "angular-google-maps" : "https://github.com/facultymatt/angular-google-maps/archive/r1-dev.zip",
     "angulartics" : ">=0.3.7",
     "event-shim.js" : "latest",
-    "es5-shim" : "latest"
+    "es5-shim" : "latest",
+    "angular-truncate": "latest"
    }
 }

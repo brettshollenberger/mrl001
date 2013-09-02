@@ -6,14 +6,16 @@
     <form name="basicForm" class="span10 offset2">
         <div class="row title-bar">
             <div class="span10">
-                <h2>New Rate Sheet</h2>
-                <ul class="nav nav-tabs">
+                <h2><i class="icon icon-bar-chart"></i> {{program.name || 'New Rate Sheet'}}</h2>
+               <!--
+ <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
                 </ul>
+-->
                 
                 <div class="actions">
-                     <a class="btn btn-primary" id="save" ng-show="basicForm.$dirty || formBuyoutOptions.$dirty" ng-disabled="formBuyoutOptions.$invalid" ng-click="save()">Save</a>
-                     <a class="btn btn-primary" id="cancel" ng-click="cancel()">Close</a>
+                     <a class="btn btn-success" id="save" ng-show="basicForm.$dirty || formBuyoutOptions.$dirty" ng-disabled="formBuyoutOptions.$invalid" ng-click="save()"><i class="icon icon-ok-sign"></i>Save</a>
+                     <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                 </div>
             
             </div>
@@ -158,6 +160,8 @@
                     <button class="btn btn-large" ng-click="makeNewOption()" ng-disabled="newOptionForm.$invalid"><i class="icon-plus"></i></button> 
                     
                 </form>
+         
+                <button delete-this id="program._id" redirect="/dashboard/programs" model="modelObject"></button>
          
             </div>
 

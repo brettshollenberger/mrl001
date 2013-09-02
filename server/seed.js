@@ -1,100 +1,117 @@
-console.log('SERVER : INIT : Seeder');
-
-var environment = 'production';
-
-// our master resources object
-var resources = {};
-
-resources.vendor        = require('./seed_data/vendor').seed();
-resources.program       = require('./seed_data/program').seed();
-resources.application   = require('./seed_data/application').seed();
-resources.quote         = require('./seed_data/quote').seed();
-resources.user          = require('./seed_data/user').seed();
-
-var insertResource = function(resource) {
-    
-    // get the collection
-    db.collection(resource, function(err, collection) {
-        // drop the collection
-        collection.drop(function(err, reply) {
-           console.log('SEED : STATUS : Drop ' + resource + ' Collection');
-        });
-        // insert the collection
-        collection.insert(resources[resource], {w:1}, function(err, result) {
-           console.log('SEED : STATUS : Create ' + resource + ' Collection');
-           console.log('SEED : STATUS : finished seeding ' + resource);
-           console.log('------------------------------------------------------------');
-           //process.exit(0);
-        }); 
-    });
-};
-
-var mongo = require('mongodb');
- 
- 
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
-
 /**
-* CONNECT to db, depending on environment
+* Module to seed a database.
+* 
+* @todo re-write to use async to reduce the nested function, and quit on completion
+* @todo make model loading more effecient
 *
 */
-if('development' === environment) {
- 
-    console.log('=============');
-    console.log('CONNECTING TO DEVELOPMENT DB'); 
-    console.log('=============');
+
+/**
+ * Module dependencies.
+ */
+var mongoose = require('mongoose'),
+    async = require('async'),
+    _ = require('underscore'),
+    fs = require('fs');
+
+
+/**
+* Bootstrap our models
+* @note this is the same code as found in server.js
+* 
+* @todo we can combine the models require and definintion (below) into one function. 
+*
+*/
+var models_path = __dirname + '/app/models';
+fs.readdirSync(models_path).forEach(function(file) {
+    require(models_path + '/' + file);
+});
+
+
+// Saving in array allows us to call below in doSeed function.
+var models = {};
+models.Quote = mongoose.model('Quote');
+models.Application = mongoose.model('Application');
+models.User = mongoose.model('User');
+models.Vendor = mongoose.model('Vendor');
+models.Program = mongoose.model('Program');
+
+
+/**
+* Get our seed data
+* @note again this is not the most elegant, we should be doing something
+* more automated based on model files... ie: check if seed data exists then add it to our array
+*
+* @note we sould include some type of functionality to automatically pluralize / depluralize names
+*
+*/
+var resources = {};
+resources.Vendor        = require('./seed_data/vendor').seed();
+resources.Program       = require('./seed_data/program').seed();
+resources.Application   = require('./seed_data/application').seed();
+resources.Quote         = require('./seed_data/quote').seed();
+resources.User          = require('./seed_data/user').seed();
+
+
+/**
+ * Main application entry file.
+ * Please note that the order of loading is important.
+ */
+var env = process.env.NODE_ENV || 'development',
+    config = require('./config/config')[env],
+    mongoose = require('mongoose');
     
-    var server = new Server('localhost', 27017, {auto_reconnect: true});
-    db = new Db('marlindb', server);
- 
-    db.open(function(err, db) {
-        if(!err) {
-            console.log("Connected to 'marlindb' database");
-            populateDB();
-        } else {
-            console.log(err);
-        }
-    });  
-       
-} else {
+// create database connection
+var db = mongoose.connect(config.db, function() {
+    console.log('Connected to database!');
     
-    console.log('=============');
-    console.log('WARNING: CONNECTING TO LIVE DB, be careful!'); 
-    console.log('=============');
-    
-    var server = new Server('ds037768.mongolab.com', 37768, {auto_reconnect: true});
-    db = new Db('marlin_dev', server);
-   
-    db.open(function(err, client) {
-        client.authenticate('facultymatt', 'scrapple1', function(err, success) {
-            if(!err) {
-                console.log("Connected to 'marlindb' database");
+    // drop the existing database
+    db.connection.db.dropDatabase(function() {
+        console.log('Database dropped');
+        
+        // close our connnection
+        db.connection.close(function(){
+            console.log('Database connection closed, re-opening now...');
+            
+            // reconnect
+            db = mongoose.connect(config.db, function() {
+                console.log('Re-connected, beginning seed');
+                doSeed();
                 
-                console.log('=============');
-                console.log('WARNING: YOU ARE SEEDING THE LIVE DB'); 
-                console.log('=============');
-                
-                populateDB();
-                
-            } else {
-                console.log(err);
-            }
+            });
+            
         });
+   
     });
-}
-
-
-var populateDB = function() {
-
-    console.log(resources);
-    console.log('SEED : STATUS : beginning the seed process... cross your fingers!');
     
-    // iterate over all of the resources to add to database
-    for (var resource in resources) {
-        console.log('SEED : STATUS : starting with ' + resource);
-        insertResource(resource);
-    }
-    process.exit(0);
+});
+
+
+/**
+* Function to do the actual seed. Will be called once database is dropped, 
+* and the connection is closed and re-opened.
+*
+*/
+var doSeed = function() {
+    
+    // loop through resources
+    _.each(resources, function(value, key) {
+        
+        console.log('Seeding ' + key + ' collection');
+        
+        // loop through our resource items
+        _.each(value, function(contents) {
+            
+            // carete new Mongoose object
+            var item = new models[key](contents);
+            
+            // save object
+            item.save(function() {
+                console.log(key + ' ' + item._id + ' created.');
+            }); 
+            
+        });
+
+    });
+    
 };

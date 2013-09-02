@@ -16,9 +16,11 @@ angular
         'saveChangesPrompt',
         function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, saveChangesPrompt) {
 
+            $scope.modelObject = Vendor;
+            
             Auth.canUserDoAction('edit-vendor');
 
-            $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Legal Terms'];
+            $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Quoter Tool'];
 
 
 
@@ -253,7 +255,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 // get the programs this vendor is not using
 
                 if ($scope.vendor.programIds) {
-                    $scope.programs = Program.getAllNotIn($scope.vendor.programIds);
+                    $scope.programs = Program.getAllNotIn($scope.vendor._id);
                 } else {
                     $scope.programs = Program.getAll();
                 }

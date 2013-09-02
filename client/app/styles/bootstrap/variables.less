@@ -6,6 +6,9 @@
 // Global values
 // --------------------------------------------------
 
+@blueLight : lighten(#E1F1FF, 4%);
+@niceTan : #e6e6de;
+
 
 // Grays
 // -------------------------
@@ -20,25 +23,25 @@
 
 // Accent colors
 // -------------------------
-@blue:                  #049cdb;
-@blueDark:              #0064cd;
-@green:                 #46a546;
-@red:                   #9d261d;
-@yellow:                #ffc40d;
+@blue:                  #005dab; //
+@blueDark:              #003d88; // 
+@green:                 #8dc45c; //
+@red:                   #e83f82; //
+@yellow:                #ffc40d;  
 @orange:                #f89406;
-@pink:                  #c3325f;
-@purple:                #7a43b6;
+@pink:                  #f6dde7; // 
+@purple:                #7a43b6; 
 
 
 // Scaffolding
 // -------------------------
 @bodyBackground:        #f9f9f9;
-@textColor:             @gray;
+@textColor:             #706e68;
 
 
 // Links
 // -------------------------
-@linkColor:             #005dab;
+@linkColor:             @blue;
 @linkColorHover:        darken(@linkColor, 15%);
 
 
@@ -79,29 +82,29 @@
 // -------------------------
 @tableBackground:                   white; // overall background-color
 @tableBackgroundAccent:             #f9f9f9; // for striping
-@tableBackgroundHover:              #f5f5f5; // for hover
+@tableBackgroundHover:              #f5f5f5; // for hover // @note not used? 
 @tableBorder:                       @bodyBackground; // table and cell border
 
 // Buttons
 // -------------------------
-@btnBackground:                     @white;
+@btnBackground:                     darken(@white, 8%);
 @btnBackgroundHighlight:            darken(@white, 10%);
 @btnBorder:                         #ccc;
 
-@btnPrimaryBackground:              #0158a2;
-@btnPrimaryBackgroundHighlight:     #014893;
+@btnPrimaryBackground:              @blue; // make this blue consistant across!
+@btnPrimaryBackgroundHighlight:     #02589f;
 
 @btnInfoBackground:                 #5bc0de;
 @btnInfoBackgroundHighlight:        #2f96b4;
 
-@btnSuccessBackground:              #62c462;
-@btnSuccessBackgroundHighlight:     #51a351;
+@btnSuccessBackground:              #9fd16a; 
+@btnSuccessBackgroundHighlight:     #9bcd67; // darker!
 
 @btnWarningBackground:              lighten(@orange, 15%);
 @btnWarningBackgroundHighlight:     @orange;
 
-@btnDangerBackground:               #ee5f5b;
-@btnDangerBackgroundHighlight:      #bd362f;
+@btnDangerBackground:               @pink;
+@btnDangerBackgroundHighlight:      @red;
 
 @btnInverseBackground:              #444;
 @btnInverseBackgroundHighlight:     @grayDarker;
@@ -110,7 +113,7 @@
 // Forms
 // -------------------------
 @inputBackground:               @white;
-@inputFocusColor:                   #9fd16a;
+@inputFocusColor:               red;
 @inputBorder:                   @grayLighter;
 @inputBorderRadius:             0;
 @inputDisabledBackground:       @grayLighter;
@@ -231,20 +234,20 @@
 
 // Form states and alerts
 // -------------------------
-@warningText:             #c09853;
-@warningBackground:       #fcf8e3;
+@warningText:             @pink;
+@warningBackground:       @red;
 @warningBorder:           darken(spin(@warningBackground, -10), 3%);
 
-@errorText:               #b94a48;
-@errorBackground:         #f2dede;
+@errorText:               @pink;
+@errorBackground:         @red;
 @errorBorder:             darken(spin(@errorBackground, -10), 3%);
 
-@successText:             #468847;
-@successBackground:       #dff0d8;
+@successText:             #628f3b; // @note this is not a var? 
+@successBackground:       @green;
 @successBorder:           darken(spin(@successBackground, -10), 5%);
 
-@infoText:                #3a87ad;
-@infoBackground:          #d9edf7;
+@infoText:                @blue;
+@infoBackground:          @blueLight;
 @infoBorder:              darken(spin(@infoBackground, -10), 7%);
 
 
@@ -273,7 +276,7 @@
 // Default 940px grid
 // -------------------------
 @gridColumns:             12;
-@gridColumnWidth:         76px;
+@gridColumnWidth:         74px;
 @gridGutterWidth:         20px;
 @gridRowWidth:            (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
 

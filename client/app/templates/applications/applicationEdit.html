@@ -1,15 +1,20 @@
+<div class="row has-title-bar">
+    <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
+    <div class="span10 offset2">
+        <div class="row title-bar">
+            <div class="span10">
+                <h2><i class="icon icon-file-text-alt"></i> Application</h2>
+                
+                <div class="actions">
+                    <a class="btn btn-success" id="save" ng-show="applicationForm.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
+                </div>
+            
+            </div>
+        </div>
 
 
-<div class="row">
-     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
-     <div class="span10 offset2">
-        <h2>New Application</h2>
-    </div>
-
-
-    <form name="applicationForm" class="span10 offset2">
-        
-        <div class="row">
+        <form name="applicationForm" class="row">
 
             <div class="span5">
                 <legend>Company Information</legend>
@@ -51,14 +56,8 @@
                     {{application.leasee.contactPerson.contactMethod}}
                 </p>
                 
-                
             </div>
-            
-        </div>
-        
-        <div class="row">
-        <!-- <div class="row" ng-show="needsMoreInfo() && !finished">   --> 
-            
+
             <div class="span5">
         
                 <legend>Personal Guarantor</legend>
@@ -95,32 +94,13 @@
                 
                 <label>Zip</label>
                 <input type="text" placeholder="" ng-model="application.guarantorInfo.homeAddress.zip">
-                
-                
-               
+                           
         
             </div>
-        
-        </div>
-        
-        <!--
-        <pre>
-            {{application | json}}
-        </pre>
-        -->
 
-    </form>
+        </form>
+        
+        <button delete-this id="application._id" redirect="/dashboard/applications" model="modelObject"></button>
 
-
-        
-    <div class="span10 offset2">
-        
-        <hr />
-        
-        <a class="btn btn-primary" id="save" ng-show="applicationForm.$dirty" ng-click="save()">Save</a>
-        <a class="btn btn-primary" id="cancel" ng-click="cancel()">Cancel</a>
-        
-    
     </div>
-
 </div>

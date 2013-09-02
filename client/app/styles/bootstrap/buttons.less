@@ -23,20 +23,22 @@
   border-bottom-color: darken(@btnBorder, 10%);
   .border-radius(@baseBorderRadius);
   .ie7-restore-left-whitespace(); // Give IE7 some love
-  /* .box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)"); */
+  
 
   border: none;
   // Hover/focus state
   &:hover,
   &:focus {
-    color: @grayDark;
     text-decoration: none;
-    background-position: 0 -15px;
+/*     background-position: 0 -15px; */
 
     // transition is only when going to hover/focus, otherwise the background
     // behind the gradient (there for IE<=9 fallback) gets mismatched
-    .transition(background-position .1s linear);
+    .transition(all .1s linear);
+    
   }
+  
+  
 
   // Focus state for keyboard and accessibility
   &:focus {
@@ -48,7 +50,7 @@
   &:active {
     background-image: none;
     outline: 0;
-    /* .box-shadow(~"inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)"); */
+    .box-shadow(~"inset 0px 2px 0px rgba(0,0,0,.3)");
   }
 
   // Disabled state
@@ -145,26 +147,44 @@ input[type="button"] {
 // -------------------------
 .btn-primary {
   .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnPrimaryBackground, 3%), darken(@btnPrimaryBackgroundHighlight, 3%));
+  }
 }
 // Warning appears are orange
 .btn-warning {
   .buttonBackground(@btnWarningBackground, @btnWarningBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnWarningBackground, 3%), darken(@btnWarningBackgroundHighlight, 3%));
+  }
 }
 // Danger and error appear as red
 .btn-danger {
   .buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnDangerBackground, 3%), darken(@btnDangerBackgroundHighlight, 3%));
+  }
 }
 // Success appears as green
 .btn-success {
   .buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnSuccessBackground, 3%), darken(@btnSuccessBackgroundHighlight, 3%));
+  }
 }
 // Info appears as a neutral blue
 .btn-info {
   .buttonBackground(@btnInfoBackground, @btnInfoBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnInfoBackground, 3%), darken(@btnInfoBackgroundHighlight, 3%));
+  }
 }
 // Inverse appears as dark gray
 .btn-inverse {
   .buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+  &:hover, &:focus {
+      .buttonBackground(darken(@btnInverseBackground, 3%), darken(@btnInverseBackgroundHighlight, 3%));
+  }
 }
 
 
@@ -220,7 +240,9 @@ input[type="submit"].btn {
 .btn-link:focus {
   color: @linkColorHover;
   text-decoration: underline;
-  background-color: transparent;
+  // not the most elegant solution, but needed since we
+  // changed how the bg-colors work (color, not bg-position) 
+  background-color: transparent !important;
 }
 .btn-link[disabled]:hover,
 .btn-link[disabled]:focus {

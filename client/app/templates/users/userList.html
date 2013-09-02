@@ -4,8 +4,8 @@
         
         <div class="row title-bar">
             <div class="span10">
-                <h2>Users</h2>
-                <a id="addUser" class="btn btn-primary actions" href="#/dashboard/users/new">Add New User</a>
+                <h2><i class="icon icon-user"></i> Users</h2>
+                <a id="addUser" class="btn btn-primary actions" href="#/dashboard/users/new"><i class="icon icon-plus-sign"></i>Add New User</a>
             </div>
         </div>
         
@@ -17,29 +17,31 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th class="">Avatar</th>
-                    <th>Name</th>
-                    <th>Group</th>
-                    <th>Vendor Count</th>
-                    <th>Actions</th>
+                    <th class="">User</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in users | filter: searchTerm">
+                <tr ng-repeat="item in users | filter: searchTerm" ng-click="editItem(item._id)">
                     <td>
                         <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>
-                    <td>{{item.name.first}} {{item.name.last}}
-                        <br />
-                        {{item.phoneNumber}}
+                    <td class="userList"><span class="company-name">{{item.name.first}} {{item.name.last}}</span><br/>
+                        <a mail-to="{{item.email}}"></a><br/>
+                        <a call-to="{{item.phoneNumber}}"></a>
                     </td>
-                    <td>{{ item.groups[0]}}</td>
+                    
+                    <!--
+<td>{{ item.groups[0]}}</td>
                     <td>{{item.vendors.length || 0 | number}}</td>
-                    <td>
+-->
+                    <!--
+<td>
                         <a class="edit" ng-click="editItem(item._id)">Edit</a> | 
                         <a class="view" ng-click="editItem(item._id)">View</a> | 
                         <a class="delete" ng-click="deleteItem(item._id)">Delete</a>
                     </td>
+-->
                 </tr>
             </tbody>
         </table>

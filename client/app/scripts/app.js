@@ -1,11 +1,14 @@
 angular
-    .module('app', ['mm.unsavedChanges', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.ga', 'google-maps',
+    .module('app', ['mm.unsavedChanges', 'ui.validate', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.google.analytics', 'google-maps', 'truncate',
         function() {
 
         }
     ])
     .config(['$httpProvider',
         function($httpProvider, promiseTracker) {
+        
+            $httpProvider.defaults.useXDomain = true;
+            delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
             var toJsonReplacer = function(key, value) {
                 var val = value;
@@ -69,7 +72,8 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 .constant('MARLINAPI_CONFIG', {
     //base_url: 'http://marlinquoter.herokuapp.com/api/v1/'
     //base_url: 'http://localhost:3000/api/v1/'
-    base_url: 'http://10.1.10.78:3000/api/v1/'
+    //base_url: 'http://0.0.0.0:3000/api/v1/'
+    base_url: 'http://10.1.10.100:3000/api/v1/'
 })
     .config(['$routeProvider',
         function($router) {
@@ -278,7 +282,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 
         // we use this to set credentials for demo on initial page screen
         $rootScope.credentials = {
-            userName: 'bwalsh',
+            email: 'bwalsh@marlinfinance.com',
             password: 'bwalsh'
         };
 
@@ -342,11 +346,15 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         function(Auth, $location) {
 
             return {
-                template: '<img class="img-circle" ng-show="currentUser().avatar.original" ng-src="{{currentUser().avatar.original}}"/><br/><br/><span ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
+                template: '<img class="img-circle" ng-show="currentUser().avatar.original" ng-src="{{currentUser().avatar.original}}"/><br/><br/><span ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="goToProfile()">My Profile</a><br /><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
                 link: function(scope, element, attrs) {
                     scope.isLoggedIn = Auth.isAuthenticated;
 
                     scope.currentUser = Auth.getCurrentUser;
+
+                    scope.goToProfile = function() {
+                        $location.url('/dashboard/users/' + Auth.getCurrentUser()._id);
+                    };
 
                     scope.logout = function() {
                         Auth.logout();
@@ -432,32 +440,97 @@ angular.module('SharedServices', [])
     };
 });
 
+
+
 /*
 angular.module('app').config( function( $httpProvider ) {
   $httpProvider.responseInterceptors.push( interceptor );
 });
+*/
 
-var interceptor = function( $q ) {
-  return function( promise ) {
- 
-    // convert the returned data using values passed to $http.get()'s config param
-    var resolve = function( value ) {
-       console.log(value.data);
-    
-      //convertList( value.data, value.config.cls, value.config.initFn );
+angular.module('app').config([
+    '$routeProvider',
+    '$locationProvider',
+    '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider) {
+
+        var interceptor = ['$location', '$q',
+            function($location, $q) {
+
+                function success(response) {
+
+                    if (typeof response.data !== 'object') {
+                        return response;
+                    }
+
+                    if (response.data.result) {
+                        // store the old header for reference
+                        // response.meta = response.data.meta; 
+                        // replace data with result so it can be digetsted by services
+                        response.data = response.data.result;
+                    }
+
+                    return response;
+
+
+                }
+
+                function error(response) {
+
+                    if (response.data.meta) {
+                        // store the old header for reference
+                        // response.meta = response.data.meta; 
+                        // replace data with result so it can be digetsted by services
+                        response.data = response.data.meta;
+                    }
+
+
+                    if (response.status === 401) {
+                        //$location.path('/login');
+                        return $q.reject(response);
+                    } else {
+                        return $q.reject(response);
+                    }
+                }
+
+                return function(promise) {
+                    return promise.then(success, error);
+                };
+            }
+        ];
+
+        $httpProvider.responseInterceptors.push(interceptor);
+    }
+]);
+
+
+
+
+
+
+
+
+/*
+
+angular.module('app').config(function ($provide, $httpProvider) {
+  
+   var interceptor = function($rootScope, $q, httpBuffer) {
+      return {
+          'responseError': function(response) {
+            if (response.status === 401 && !response.config.ignoreAuthModule) {
+              var deferred = $q.defer();
+              httpBuffer.append(response.config, deferred);
+              $rootScope.$broadcast('event:auth-loginRequired');
+              return deferred.promise;
+            }
+            // otherwise, default behaviour
+            return $q.reject(response);
+          }
+      }
     };
+    $httpProvider.interceptors.push(interceptor);
  
-    var reject = function( reason ) {
-      console.log( "rejected because: ", reason );
-    };
- 
-    // attach our actions
-    promise.then( resolve, reject );
- 
-    // return the original promise
-    return promise;
-  };
-};
+});
 */
 
 
@@ -604,3 +677,82 @@ spinner.directive("spinner", function() {
         controller: "spinner"
     };
 });
+
+
+
+angular.module('app').config(function($compileProvider){
+  $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|callto):/);
+});
+
+
+
+angular.module('app') // attach to your app or create a new with ('filters', [])
+.filter('isodate', function(){
+   return function(datetime){
+       var n = datetime.split(' ');
+       if(n.length == 1) return datetime;
+       else return n.join('T')+'Z';
+   };
+});
+
+
+angular.module('app')
+.directive('stopEvent', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind(attr.stopEvent, function (e) {
+                e.stopPropagation();
+            });
+        }
+    };
+});
+
+
+
+
+
+angular
+.module('app')
+.directive("mailTo", function() {
+    return {
+        replace: true,
+        template: '<a ng-show="email" stop-event="click" ng-href="mailto:{{email}}" target="_blank"><i class="icon icon-envelope"></i> {{email}}</a>',
+        link: function(scope, element, attrs) {
+            
+            attrs.$observe('mailTo', function(item) {
+                scope.email = item;
+            });
+                        
+        }
+    };
+})
+.directive("callTo", function() {
+    return {
+        replace: true,
+        template: '<a ng-show="phone" stop-event="click" ng-href="callto:{{phone}}"><i class="icon icon-phone"></i> {{phone}}</a>',
+        link: function(scope, element, attrs) {
+            
+            attrs.$observe('callTo', function(item) {
+                scope.phone = item;
+            });
+                        
+        }
+    };
+})
+.directive("userProfile", function() {
+    
+    return {
+        replace: true,
+        template: '<a stop-event="click" ng-href="#/dashboard/users/{{userProfile()._id}}"><i class="icon icon-user"></i> {{userProfile().fullname}}</a>',
+        scope: {
+            userProfile: '&'
+        }
+    };
+})
+
+;
+
+
+
+

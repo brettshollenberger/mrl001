@@ -1,27 +1,30 @@
 <div class="row-fluid">
-    <div class="span4 offset4">
+
+     <div class="span4 offset2">
+        <img class="logo" src="img/logo_large_login.png" title="Marlin Quoter" />
+     </div>
+
+    <div class="span4">
         
-        <div class="well" id="loginForm">
+        <form class="well" id="loginForm" name="loginForm">
         
-            <h4>Login to access MarlinQuoter</h4>
-            
             <p class="alert alert-error" ng-show="message">{{message}}</p>
             
-            <label>Username</label>
-            <input type="text" placeholder="Username" ng-model="username">
+            <label for="email">Email</label>
+            <input type="text" class="input-block" required placeholder="jsmith@marlinfinance.com" ng-model="email" name="email">
             
-            <label>Email</label>
-            <input type="password" placeholder="password" ng-model="password">
+            <label for="password">Password</label>
+            <input type="password" class="input-block" required placeholder="password" ng-model="password" name="password">
             
             <br />
             
-            <a class="btn btn-primary" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></a>
+            <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-primary btn-block" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></button>
             
             <br /> <br />
             
-            <p class="alert alert-info">Username is your Marlin email, before the @. Password is the same.</p>
+            <!-- <p class="alert alert-info">Username is your Marlin email, before the @. Password is the same.</p> -->
          
-        </div> 
+        </form> 
                
     </div>
 </div>

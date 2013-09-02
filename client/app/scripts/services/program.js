@@ -8,14 +8,14 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
 
         // get all items
         exports.getAll = function() {
-            return $http.get(url + 'program').then(function(response) {
+            return $http.get(url + 'programs').then(function(response) {
                 return response.data;
             });
         };
 
         // get one item by id
         exports.getById = function(id) {
-            return $http.get(url + 'program/' + id).then(function(response) {
+            return $http.get(url + 'programs/' + id).then(function(response) {
                 return response.data;
             });
         };
@@ -25,14 +25,14 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         exports.update = function(newItem) {
             var id = newItem._id;
             newItem = _.omit(newItem, '_id');
-            return $http.put(url + 'program/' + id, newItem).then(function(response) {
+            return $http.put(url + 'programs/' + id, newItem).then(function(response) {
                 return response.data;
             });
         };
 
         // add a new item
         exports.add = function(item) {
-            return $http.post(url + 'program', item).then(function(response) {
+            return $http.post(url + 'programs', item).then(function(response) {
                 return response.data;
             });
         };
@@ -41,7 +41,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         exports.remove = function(id) {
             return $http({
                 method: 'DELETE',
-                url: url + 'program/' + id
+                url: url + 'programs/' + id
             }).then(function(response) {
                 return response.data;
             });
@@ -50,22 +50,23 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         // --------
 
         /**
-         * Gets all programs for a given vendorId
+         * Gets all programss for a given vendorId
          */
         exports.getAllForVendorId = function(id) {
 
-            return $http.get(url + 'vendor/' + id + '/program').then(function(response) {
+            return $http.get(url + 'vendors/' + id + '/programs').then(function(response) {
                 return response.data;
             });
 
         };
 
         /**
-         * Gets all programs not currenly used by vendorId
+         * Gets all programss not currenly used by vendorId
          */
-        exports.getAllNotIn = function(values) {
+        exports.getAllNotIn = function(id) {
 
-            // get all programs, where program _id is not in the values array
+            /*
+// get all programss, where programs _id is not in the values array
 
             var str = {};
             str._id = {
@@ -78,22 +79,29 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
 
             //console.log(params);
 
-            return $http.get(url + 'program', {
+            return $http.get(url + 'programs', {
                 params: params
             }).then(function(response) {
                 return response.data;
             });
+*/
+
+            return $http.get(url + 'vendors/' + id + '/available_programs').then(function(response) {
+                console.log(response.data);
+                return response.data;
+            });
+        
         };
 
         /**
-         * Add a vendor to a program using the id of each
+         * Add a vendor to a programs using the id of each
          * @param int vendorId ID of the vendor
-         * @param int programId ID of the program
-         * @return array Updated array of programs for the vendor
+         * @param int programsId ID of the programs
+         * @return array Updated array of programss for the vendor
          */
-        exports.addVendorToProgram = function(vendorId, programId) {
+        exports.addVendorToProgram = function(vendorId, programsId) {
             var theId = _.findIndex(itemList, function(item) {
-                return item._id == programId;
+                return item._id == programsId;
             });
 
             // just in case this vendor has no ids array yet! 
@@ -105,15 +113,15 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         };
 
         /**
-         * Removes vendor from program the id of each
+         * Removes vendor from programs the id of each
          *
          * @param int vendorId ID of the vendor
-         * @param int programId ID of the program
-         * @return array Updated array of programs for the vendor
+         * @param int programsId ID of the programs
+         * @return array Updated array of programss for the vendor
          */
-        exports.removeVendorFromProgram = function(vendorId, programId) {
+        exports.removeVendorFromProgram = function(vendorId, programsId) {
             var theId = _.findIndex(itemList, function(item) {
-                return item._id == programId;
+                return item._id == programsId;
             });
 
             itemList[theId].vendorIds = _.reject(itemList[theId].vendorIds, function(item) {
@@ -124,20 +132,20 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
         };
 
         /**
-         * Gets all programs that match an array of IDs
+         * Gets all programss that match an array of IDs
          *
-         * @param array idArray Array of program ids
-         * @return array programs that match the idArray
+         * @param array idArray Array of programs ids
+         * @return array programss that match the idArray
          */
         exports.getManyByIds = function(idArray) {
-            var programs = [];
+            var programss = [];
             _.each(idArray, function(id) {
                 var match = _.find(itemList, function(subItem) {
                     return subItem._id == id;
                 });
-                if (match) programs.push(match);
+                if (match) programss.push(match);
             });
-            return _.clone(programs, true);
+            return _.clone(programss, true);
         };
 
 

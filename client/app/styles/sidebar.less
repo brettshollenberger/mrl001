@@ -11,15 +11,24 @@
     z-index: @zindexFixedNavbar + 1;
     
     .brand {
-        margin: 20px auto;
+        margin: 20px auto 10px auto;
         display: block;
+        
+        a, a:hover {
+            color: white;
+        }
+        
+    }
+    
+    .legal {
+        line-height: 16px;
     }
     
     // note this is not correct for all widths
     // but it demonstrates how we should be using less to do calculations
     // rather than just setting width: 140px; etc. 
     .user-tray {
-        background: #08487e;
+        background: @blue;
         padding: 20px 0;
     
         img {

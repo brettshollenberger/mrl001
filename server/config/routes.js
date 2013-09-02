@@ -57,8 +57,7 @@ module.exports = function(app, passport, auth, user) {
 */
     
     
-
-    
+   
     
     /**
 	* USERS / AUTH routes

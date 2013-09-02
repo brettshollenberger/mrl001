@@ -7,12 +7,16 @@ Release 0.3.1 (current)
 -------
 This release fixes a number of bugs introduced by the 0.3.0 release. It also includes a ton of style enhancements.
 
+**Features**
+
 - [FEATURE] Removed "action" buttons from listing pages.
 - [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
 - [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
 - [FEATURE] Make all email and phone links clickable
 - [FEATURE] Add required indicator to required form elements
 - [FEATURE] Make instances of user names link to their profiles.
+
+**Styles**
 
 - [STYLE] Added hover style for table rows (blue), made image centered and larger, added border
 - [STYLE] Added pencil icon to tables rows that are clickable
@@ -24,6 +28,8 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [STYLE] On remove sales rep link, make this smaller and underline. Make the above the default "delete" link style
 - [STYLE] Add "launch quoter tool for this vendor" to vendor page. 
 
+**Chores**
+
 - [CHORE] Removed application page "cancel" button and added top bar to make consistant with other edit pages
 - [CHORE] Enhanced password reset controller. Messages and validation now clear on error and success. Moved into modular file to follow new contoller dev pattern.
 - [CHORE] Quotes now sort with status "open" first.
@@ -33,6 +39,8 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [CHORE] Change language on "custom application terms" to just read "custom terms"
 - [CHORE] Remove the footer, move version number to side nav
 - [CHORE] Move button to launch quoter to the vendor edit page.
+
+**Bugs**
 
 - [BUG] On user edit page, title bar needs to read the full user name 
 - [BUG] Quote edit (open | archived) select doesn't prompt save or autosave

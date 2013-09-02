@@ -6,6 +6,9 @@ var express = require('express'),
     flash = require('connect-flash'),
     path = require('path'),
     helpers = require('view-helpers');
+    
+var fs = require('fs');
+
 
 module.exports = function(app, config, passport, user) {
     app.set('showStackError', true);
@@ -147,6 +150,16 @@ module.exports = function(app, config, passport, user) {
         app.all('/api', function(req, res, next) {
             res.ok('Hello world!');
         });
+        
+        
+        /**
+        * Gets changelog! 
+        */
+        app.get('/api/changelog', function(req, res) {
+          var clog = path.join(config.root, '../changelog.md');
+          res.send(fs.readFileSync(clog));
+        });
+
 
         // Assume "not found" in the error msgs is a 404. 
         // this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.

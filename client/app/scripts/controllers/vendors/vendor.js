@@ -32,9 +32,6 @@ angular
                 });
             };
 
-            $scope.viewCalculator = function(itemId) {
-                $location.url('tools/quoter?vendor_id=' + itemId);
-            };
 
         }
     ]);

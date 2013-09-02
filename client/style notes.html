@@ -1,91 +1,56 @@
 
-
-
 COMPLETED
 -------
 
-- [FEATURE] Removed "action" buttons from listing pages.
-- [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
-- [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
-- [FEATURE] Make all email and phone links clickable
 
 
-- [STYLE] Added hover style for table rows (blue), made image centered and larger, added border
-- [STYLE] Added pencil icon to tables rows that are clickable
-- [STYLE] Applied new '1/2' button style to all buttons globally
-- [STYLE] Fixed buttons on edit pages that were missing icons (quote page, application page)
-- [STYLE] Styled tabs (on edit pages)
-- [STYLE] Make hints / placeholders much lighter in color 
-- [STYLE] General styling of messages and alerts. 
-- [STYLE] On remove sales rep link, make this smaller and underline. Make the above the default "delete" link style
 
 
-- [CHORE] Removed application page "cancel" button and added top bar to make consistant with other edit pages
-- [CHORE] Enhanced password reset controller. Messages and validation now clear on error and success. Moved into modular file to follow new contoller dev pattern.
-- [CHORE] Quotes now sort with status "open" first.
-- [CHORE] Removed tabs from pages with no tabeed content
-- [CHORE] On "add sales rep to vendor page" add the sales rep name
 
-- [BUG] On user edit page, title bar needs to read the full user name 
+ON HOLD
+-------
 
 - [FEATURE / BUG] Clicking "save" on edit pages should not redirect to index pages. @NOTE this will require angular 1.2 to do elegantly.... else we need the workaround as seen in the passwordChange controller. 
 
 
 
 
-TODO
+DELEGATE
 -------
 
-- [CHORE] Change language of "lease programs" to rate sheets
-- [CHORE] Change language on "custom application terms" to just read "custom terms"
 - [CHORE] On quote and application edit page, show text in title bar as per design comps. 
+- [CHORE] Make sure all money / costs have dollar signs and commas!
+- [STYLE] On dashboard pages, most all inputs and textareas should be 100% width
+- [STYLE] Prevent textareas from being widened. Make them scroll instead and set a max-height
+- [STYLE] Application page needs to match comps
+- [STYLE] Buyout program page needs to match comps
+- [STYLE] Add placeholder image for vendor logo
+- [STYLE] Standardize hrs/ h3 underlines. 
+- [STYLE] Match double columns on bottom of vendor edit form
+
+
+
+TODO
+--------
+
+- [FAETURE] Add a "tools" tab that lets admin toggle on/ off tools
+- [FEATURE] Refactor how vendor rate sheet selection and custom name setting works (see graphic)
+- [FEATURE] Admin can set user role from dashboard
+- [FEATURE] On Locator tool tab, have a default view for vendors that don't yet have geo location data.
+
+- [BUG] On Locator tool tab, zooming out breaks view 
+- [BUG] On Locator tool tab, check for invalid / no address returned. Don't try to add a marker or shit will break! This needs to be checked on quoter tool too.
+- [BUG] Changelog is broken because of API change
+
+- [CHORE] On Locator tool tab, Remove language! 
+- [CHORE | API ] FIX seeding file. Seems to work but doesn't insert all data.
 
 
 
 
 
-- FIX seeding file. Seems to work but doesn't insert all data. 
 
-- [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
-
-
-- Make sure all money / costs have dollar signs and commas! 
-
-
-
-
-- all textareas should be 100% width (as with other inputs)
--- also prevent textareas from being widened.
--- Make them scroll instead of adjust in height
-
-- Edit user, the avatar save button is broken
-
-- Application page needs to match comps
-- Buyout program page needs to match comps
-
-- Add a "tools" tab that lets admin toggle on/ off tools
-
-Locator tool tab
-- Default to marlin headquarters
-- zooming out breaks? 
-- check for invalid / no address returned. Don't try to add a marker or shit will break! This needs to be checked on quoter tool too.
-- Remove language! 
-
-
-Login Form
--------
-- Make a required Symbol and add where appropiate. 
-
-- Add a button to quote (on top) that allows sales rep to create app from the quote.
-- Add "launch quoter tool for this vendor" to vendor page. 
-- Add placeholder image for vendor logo
-- Standardize hrs/ h3 underlines. 
-
-- Remove the footer, move version number to side nav
-- Match double columns on bottom of vendor edit form!!!!
-
-- SAVE should always stay on the page (curretly goes back to index)
-- SAVE doesn't work on vendor edit form / quote edit
+---------
 
 
 Vendor Rate Sheet tab
@@ -101,7 +66,6 @@ Sales Rep
 =======
 
 - Not pulling proper data on vendor edit page
-
 
 
 Brian

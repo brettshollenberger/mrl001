@@ -3,7 +3,62 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.2.1 (current)
+Release 0.3.1 (current)
+-------
+This release fixes a number of bugs introduced by the 0.3.0 release. It also includes a ton of style enhancements.
+
+- [FEATURE] Removed "action" buttons from listing pages.
+- [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
+- [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
+- [FEATURE] Make all email and phone links clickable
+- [FEATURE] Add required indicator to required form elements
+- [FEATURE] Make instances of user names link to their profiles.
+
+- [STYLE] Added hover style for table rows (blue), made image centered and larger, added border
+- [STYLE] Added pencil icon to tables rows that are clickable
+- [STYLE] Applied new '1/2' button style to all buttons globally
+- [STYLE] Fixed buttons on edit pages that were missing icons (quote page, application page)
+- [STYLE] Styled tabs (on edit pages)
+- [STYLE] Make hints / placeholders much lighter in color 
+- [STYLE] General styling of messages and alerts. 
+- [STYLE] On remove sales rep link, make this smaller and underline. Make the above the default "delete" link style
+- [STYLE] Add "launch quoter tool for this vendor" to vendor page. 
+
+- [CHORE] Removed application page "cancel" button and added top bar to make consistant with other edit pages
+- [CHORE] Enhanced password reset controller. Messages and validation now clear on error and success. Moved into modular file to follow new contoller dev pattern.
+- [CHORE] Quotes now sort with status "open" first.
+- [CHORE] Removed tabs from pages with no tabeed content
+- [CHORE] On "add sales rep to vendor page" add the sales rep name
+- [CHORE] Change language of "lease programs" to rate sheets
+- [CHORE] Change language on "custom application terms" to just read "custom terms"
+- [CHORE] Remove the footer, move version number to side nav
+- [CHORE] Move button to launch quoter to the vendor edit page.
+
+- [BUG] On user edit page, title bar needs to read the full user name 
+- [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
+- [BUG] SAVE doesn't work on vendor edit form / quote edit
+- [BUG] Edit user, the avatar save button is broken
+
+
+Release 0.3.0
+-------
+This release invloved refactoring the App to use a more robust API based on Mongoose and MongoDB. 
+
+- [FEATURE] Refactor database
+- [FEATURE] Add an "extra" field to quoter tool, that can be toggled on and off per vendor.
+- [FEATURE] Added password change functionality
+- [FEATURE] Limit viewing of content (quotes, applications, vendors, and users) based on user role. For example, this means that sales reps will now see quotes ONLY from their vendors.
+
+
+Release 0.2.2
+--------
+This release adds PDF downloads and usability enhancements to edit pages.
+
+- [FEATURE] Added PDF download functionality for quotes.
+- [FEATURE] Added "unsaved changes" warnings to the edit pages.
+
+
+Release 0.2.1
 --------
 This release centered around an overhauled rate sheet editing experience. In addition, we fixed a number of vendor editing bugs. We also added a global loading indicator to compensate for the delay caused by API calls. 
 
@@ -26,7 +81,6 @@ This release centered around an overhauled rate sheet editing experience. In add
 **Site Wide**
 
 - [FEATURE] Added loading indicator to dashboard, quoter, and locator tools
-
 
 
 Release 0.2 

@@ -4,12 +4,13 @@
 COMPLETED
 -------
 
-- [FEATURE] Removed "action" buttons from table rows. (actions will be moved to the detail view)
-- [FEATURE] Move all delete links to edit pages (since we removed them from the table listings)
+- [FEATURE] Removed "action" buttons from listing pages.
+- [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
 - [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
+- [FEATURE] Make all email and phone links clickable
 
 
-- [STYLE] Added hover style for table rows (blue), made image centered and larger, added right border
+- [STYLE] Added hover style for table rows (blue), made image centered and larger, added border
 - [STYLE] Added pencil icon to tables rows that are clickable
 - [STYLE] Applied new '1/2' button style to all buttons globally
 - [STYLE] Fixed buttons on edit pages that were missing icons (quote page, application page)
@@ -19,14 +20,15 @@ COMPLETED
 - [STYLE] On remove sales rep link, make this smaller and underline. Make the above the default "delete" link style
 
 
-- [CHORE] Removed application "cancel" button and added top bar to make consistant with other edit pages
+- [CHORE] Removed application page "cancel" button and added top bar to make consistant with other edit pages
 - [CHORE] Enhanced password reset controller. Messages and validation now clear on error and success. Moved into modular file to follow new contoller dev pattern.
-- [CHORE] Quotes should sort with status "open" first.
-- [CHORE] Rate sheet editing page, remove the tabs from top (and other pages with tabs but no tabbed content)
+- [CHORE] Quotes now sort with status "open" first.
+- [CHORE] Removed tabs from pages with no tabeed content
 - [CHORE] On "add sales rep to vendor page" add the sales rep name
 
 - [BUG] On user edit page, title bar needs to read the full user name 
 
+- [FEATURE / BUG] Clicking "save" on edit pages should not redirect to index pages. @NOTE this will require angular 1.2 to do elegantly.... else we need the workaround as seen in the passwordChange controller. 
 
 
 
@@ -39,7 +41,6 @@ TODO
 - [CHORE] On quote and application edit page, show text in title bar as per design comps. 
 
 
-- [FEATURE] Make all email and phone links clickable
 
 
 

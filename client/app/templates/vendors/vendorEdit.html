@@ -86,9 +86,9 @@
                         <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
                         
                         <span class="pull-left manage-sales-rep">
-                            <h4 class="salesRepName">{{vendor.salesRep.name.first}} {{vendor.salesRep.name.last}}</h4>
-                            <p>{{vendor.salesRep.email}}</p>
-                            <p>{{vendor.salesRep.phone}}</p>
+                            <a user-profile="vendor.salesRep"></a><br />
+                            <a mail-to="{{vendor.salesRep.email}}"></a> <br/>
+                            <a call-to="{{vendor.salesRep.phone}}"></a>
                             
                             <a class="btn btn-link link-danger" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</a>
                         </span>  
@@ -112,7 +112,7 @@
                             <li ng-repeat="item in allReps | filter:salesRepId">
                                 <p>
                                     <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
-                                    {{item.fullname}}
+                                    <a user-profile="item"></a>
                                     <button class="pull-right btn" ng-click="addSalesRep(item._id)">
                                         <i class="icon-plus"></i>
                                     </button>

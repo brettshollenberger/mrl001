@@ -35,8 +35,8 @@
                 
                 <label>Status</label>
                 <div class="btn-group">
-                    <button ng-click="quote.status='Open'" class="btn" ng-class="{active: quote.status=='Open'}">Open</button>
-                    <button ng-click="quote.status='Archived'" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
+                    <button ng-click="quote.status='Open';quoteForm.$setDirty();" class="btn" ng-class="{active: quote.status=='Open'}">Open</button>
+                    <button ng-click="quote.status='Archived';quoteForm.$setDirty();" class="btn" ng-class="{active: quote.status=='Archived'}">Archived</button>
                 </div>
                 
             </div>

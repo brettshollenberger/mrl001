@@ -677,6 +677,13 @@ spinner.directive("spinner", function() {
         controller: "spinner"
     };
 });
+
+
+
+angular.module('app').config(function($compileProvider){
+  $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|callto):/);
+});
+
 angular.module('app')
 .directive('stopEvent', function () {
     return {

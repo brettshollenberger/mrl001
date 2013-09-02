@@ -263,27 +263,21 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
             }
 
-
-
             /**
              * Add sales rep to a vendor
              *
              */
             $scope.addSalesRep = function(id) {
 
-                // first we get the user to display
-                User.getById(id).then(function(response) {
-                    $scope.vendor.salesRep = response;
+                var obj = {
+                    _id : $scope.vendor._id,
+                    salesRep : id
+                };
 
-                    $scope.vendor.salesRepId = id;
-
-                    Vendor.update($scope.vendor).then(function(response) {
-                        console.log('Vendor is now updated.');
-                        console.log(response);
-                    });
-
+                Vendor.update(obj).then(function(response) {
+                    console.log('Vendor is now updated.');
+                    $scope.vendor.salesRep = response.salesRep;
                 });
-
             };
 
             /**
@@ -292,10 +286,13 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
              */
             $scope.removeSalesRep = function(id) {
 
-                $scope.vendor.salesRepId = null;
-                Vendor.update($scope.vendor).then(function(response) {
+                var obj = {
+                    _id : $scope.vendor._id,
+                    salesRep : null
+                };
+
+                Vendor.update(obj).then(function(response) {
                     console.log('Vendor is now updated.');
-                    console.log(response);
                     $scope.vendor.salesRep = null;
                 });
             };

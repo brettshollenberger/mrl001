@@ -41,7 +41,10 @@ exports.update = function(req, res) {
     vendor = _.extend(vendor, req.body);
 
     vendor.save(function(err) {
-        res.ok(vendor);
+        Vendor.load(vendor._id, function(err, updatedVendor) {
+            if (err) return next(err);
+            res.ok(updatedVendor);
+        });
     });
 };
 

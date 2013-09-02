@@ -28,7 +28,7 @@
                     
                     <label>Vendor Logo</label>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
-                    <button ng-click="pickImage()" class="btn btn-primary">Pick Logo</button>
+                    <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
                     
                     <br /><br />
                     

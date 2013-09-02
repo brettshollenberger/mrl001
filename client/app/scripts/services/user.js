@@ -3,13 +3,6 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
 
         var url = MARLINAPI_CONFIG.base_url;
 
-        // get itemList for old functions
-        // TODO: Remove this when we rewrite the old functions
-        var itemList = '';
-        $http.get(url + 'users').then(function(response) {
-            itemList = response.data;
-        });
-
         // create and expose service methods
         var exports = {};
 

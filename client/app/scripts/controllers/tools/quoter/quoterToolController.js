@@ -10,7 +10,7 @@ angular
         'vendorService',
         'stateService',
         'applicationService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States) {
 
             // empty quote object
             $scope.quote = {};
@@ -122,6 +122,8 @@ angular
                     _.each($scope.filteredPrograms, function(program, $programIdx) {
 
                         console.log('Program...');
+
+                        if(!program.rateSheet) program.rateSheet = {};
 
                         _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx) {
 

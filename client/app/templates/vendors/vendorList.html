@@ -36,12 +36,13 @@
                             </td>
                             <td class="salesRep"><span class="company-name">{{item.name}}</span><br/>
                                 <span class="contact-name">{{item.contactPerson.name}}</span><br/>
-                                <a stop-event="click" ng-href="mailto:{{item.contactPerson.email}}" target="_blank"><i class="icon icon-envelope"></i> {{item.contactPerson.email}}</a><br/>
-                                <a stop-event="click" ng-href="callto:{{item.contactPerson.phone}}"><i class="icon icon-phone"></i>  {{item.contactPerson.phone}}</a>
+                                <a mail-to="{{item.contactPerson.email}}"></a> <br/>
+                                <a call-to="{{item.contactPerson.phone}}"></a>
                             </td>
                             <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />
-                                <p>{{item.salesRep.name.first}} {{item.salesRep.name.last}}</p>
+                                <br />
+                                <a user-profile="item.salesRep"></a>
                                 <i class="icon icon-reveal icon-pencil"></i>
                             </td>
                             <td ng-show="!item.salesRep" class="text-center">

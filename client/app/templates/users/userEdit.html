@@ -1,4 +1,4 @@
-<div class="row has-title-bar">
+<div class="row has-title-bar" unsaved-warning-group>
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     <div class="span10 offset2">
         <div class="row title-bar">
@@ -10,14 +10,14 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-success" id="save" ng-show="basicForm.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                 </div>
             
             </div>
         </div>
 
-        <form name="basicForm" class="row" ng-show="isActiveTab(0)">
+        <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-warning-form>
 
             <div class="span3">
                 
@@ -110,7 +110,7 @@
  
         </div>
         
-        <form name="passwordForm" class="row" ng-show="isActiveTab(2)" ng-controller="passwordChangeController">
+        <form name="passwordForm" class="row" ng-show="isActiveTab(2)" ng-controller="passwordChangeController" >
             <div class="span4">
                 <h3>Change Password</h3>
                 

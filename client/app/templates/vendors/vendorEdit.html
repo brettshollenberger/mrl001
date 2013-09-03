@@ -1,4 +1,4 @@
-<div class="row has-title-bar">
+<div class="row has-title-bar" unsaved-warning-group>
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
         <div class="span10 offset2">
             
@@ -8,17 +8,17 @@
                     <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a></li>
                 </ul>
-                    
+                    Dirty? {{basicForm.$dirty}}
                     <div class="actions">
-                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
+                        <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                         <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
                     </div>
                 
                 </div>
             </div>
-            
-            <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-changes-warning>
+ 
+            <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-warning-form>
                
                <div class="span10 clearfix"> 
                     <h3>Basic Info</h3>
@@ -130,7 +130,7 @@
                 
             <div class="row" ng-show="isActiveTab(2)">    
 
-                <form class="span10" name="rateForm" unsaved-changes-warning>
+                <form class="span10" name="rateForm" unsaved-warning-form>
                     <h3>Manage Vendor Rate Sheets</h3>
                     <table class="table table-rate-sheets">
                         <thead>
@@ -162,7 +162,7 @@
             
             <div class="row" ng-show="isActiveTab(3)">    
 
-                <form class="span10" name="toolForm" unsaved-changes-warning>
+                <form class="span10" name="toolForm" unsaved-warning-form>
                     <h3>Manage Vendor Tools</h3>
                     
                     <ul class="unstyled">
@@ -180,7 +180,7 @@
             </div>
 
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-changes-warning>
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form>
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     
@@ -211,7 +211,7 @@
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" class="row" unsaved-changes-warning>
+            <form name="locationForm" class="row" unsaved-warning-form>
                 
                 <div class="span10" ui-if="isActiveTab(4)">
                     

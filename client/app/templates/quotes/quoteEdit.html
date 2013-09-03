@@ -1,10 +1,8 @@
-
-
-<div class="row has-title-bar">
+<div class="row has-title-bar" unsaved-warning-group>
     
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     
-    <form name="quoteForm" class="span10 offset2">
+    <form name="quoteForm" class="span10 offset2" unsaved-warning-form>
         <div class="row title-bar">
             <div class="span10">
                 <h2><i class="icon icon-comments-alt"></i>{{!quote._id && 'New' || 'Edit'}} Quote</h2>
@@ -15,7 +13,7 @@
 -->
                 
                 <div class="actions">
-                    <a class="btn btn-success" id="save"ng-show="quoteForm.$dirty" ng-click="save()"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save"ng-show="quoteForm.$dirty" ng-click="save()"><i class="icon icon-ok-sign"></i>Save</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                 </div>
             

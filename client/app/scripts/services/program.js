@@ -87,7 +87,6 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
 */
 
             return $http.get(url + 'vendors/' + id + '/available_programs').then(function(response) {
-                console.log(response.data);
                 return response.data;
             });
         

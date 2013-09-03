@@ -13,8 +13,7 @@ angular
         'googleMapsService',
         '$timeout',
         '$window',
-        'saveChangesPrompt',
-        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, saveChangesPrompt) {
+        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
 
             $scope.modelObject = Vendor;
             
@@ -27,19 +26,6 @@ angular
                 {name: 'Tools', active: true}
             ];
 
-            /**
-             * Initiates function which checks for un saved changes when navigating away from the page
-             * @todo move all this login into a directive, module?
-             *
-             */
-            /*
-var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
-                // this will prompt users to save when the leave the page. 
-                var forms = [$scope.basicForm, $scope.customizeForm, $scope.locationForm, $scope.customNameForm];
-                saveChangesPrompt.init(forms);
-                removeViewLoad();
-            });
-*/
 
             // empty vendor object
             $scope.vendor = {};
@@ -132,8 +118,6 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                     _.each($scope.vendor.tools, function(tool) {
                         $scope.tabs.push(tool);
                     });
-                    
-                    console.log($scope.tabs);
 
                     updatePrograms();
                 });
@@ -168,7 +152,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                         //console.log(response);
                         $scope.vendor = response;
                         vendorId = $scope.vendor._id;
-                        saveChangesPrompt.removeListener();
+                        //saveChangesPrompt.removeListener();
 
                         if (doRedirect) {
                             $location.url('/dashboard/vendors');
@@ -180,8 +164,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
                     // this ensures that on the next save, vendorId is set and the previous if() doesnt run
 
-                    console.log('Updating vendor # ' + vendorId);
-                    saveChangesPrompt.removeListener();
+                    //saveChangesPrompt.removeListener();
 
                     // update existing item
                     Vendor.update($scope.vendor);
@@ -331,8 +314,6 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
             };
 
             $scope.$watch('activeTab', function(newValue, oldValue) {
-
-                console.log(newValue);
 
                 // only make map if user is switching to tab 4, and there is no map made
                 if (newValue === 4) {

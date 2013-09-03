@@ -128,12 +128,12 @@ exports.getAllNames = function(req, res) {
 var Program = mongoose.model('Program');
 
 exports.getCurrentVendorPrograms = function(req, res) {
-     res.ok(req.vendor.programIds);
+     res.ok(req.vendor.programs);
 };
 
 
 exports.getAvailableVendorPrograms = function(req, res) {
-     var theIds = _.pluck(req.vendor.programIds, '_id');
+     var theIds = _.pluck(req.vendor.programs, '_id');
      console.log(theIds);
      Program.find().where('_id').nin(theIds).sort('-created').exec(function(err, programs) {
         if (err) {

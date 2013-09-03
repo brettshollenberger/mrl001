@@ -30,7 +30,7 @@ var costsSchema = new Schema({
 var ProgramSchema = new Schema({
     "created": { type: Date, default: Date.now },
     name: {type: String, default: ''},
-    displayName: {type: String, default: '', trim: true},
+    displayName: String,
     rateSheet: {
         termPeriod: {type: String, default: ''},
         buyoutOptions: [buyoutOptionsSchema]
@@ -47,6 +47,14 @@ ProgramSchema.statics = {
         }).exec(cb);
     }
 };
+
+ProgramSchema.pre('init', function(next, data) {
+  
+  //console.log('DATA IS...');
+  //console.log(data);
+    
+  next();
+});
 
 mongoose.model('Program', ProgramSchema);
 

@@ -10,7 +10,7 @@
                 </ul>
                     
                     <div class="actions">
-                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || customNameForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
+                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                         <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="span4">
                     
                     <div ng-show="!vendor.salesRep">
-                        <p class="alert">This vendor currently has no Marlin Sales Rep</p>
+                        <p class="alert">This vendor has no Marlin Sales Reps</p>
                         
                         <label>Add sales rep by searching by name</label>
                         <div class="input-append">
@@ -130,33 +130,34 @@
                 
             <div class="row" ng-show="isActiveTab(2)">    
 
-                <div class="span5" ng-hide="!vendor._id">
-                    <h3>Vendor Rate Sheets</h3>
-                    <form name="customNameForm" novalidate>
-                        <ul id="vendorPrograms" class="unstyled">
-                            <li ng-repeat="item in vendorPrograms" ng-show="item.rateSheet">
-                                <hr />
-                                <label>Program name for this vendor. Changing this will not effect other vendors with the same program.</label>
-                                <input required type="text" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Display Name" />
-                                <br />
-                                <button ng-click="removeProgram(item)" class="btn">Remove</button>
-                            </li>
-                        </ul>
-                    </form>
-                    
-                    <!-- <p ng-show="!vendor.programs.length" class="alert">No programs are associated with the vendor yet</p>   -->
-                      
-                </div>
-                <div class="span5" ng-hide="!vendor._id">
-                    <h3>All Available Rate Sheets</h3>
-                    <ul id="allPrograms" class="unstyled">
-                        <li ng-repeat="item in programs">
-                            <hr />
-                            <p>{{item.name}}</p>
-                            <button ng-click="addProgram(item)" class="btn">Add</button>
-                        </li>
-                    </ul>
-                </div>
+                <form class="span10" name="rateForm" unsaved-changes-warning>
+                    <h3>Manage Vendor Rate Sheets</h3>
+                    <table class="table table-rate-sheets">
+                        <thead>
+                            <th></th>
+                            <th>Rate Sheet</th>
+                            <th>Custom Display Name</th>
+                        </thead>
+                        
+                        <tbody>
+                            <tr ng-repeat="item in programs | orderBy:'active':true">
+                                <td>
+                                    <button ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
+                                        <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <p>{{item.name}}</p>
+                                </td>
+                                <td>    
+                                    <input ng-disabled="!item.active" type="text" class="input-block" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Custom Display Name" />
+                                </td>
+                            </tr>
+                        </tbody>
+                            
+                    </table>
+                </form>
+                
             </div>
             
             

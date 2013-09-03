@@ -5,14 +5,15 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema;
+    
+var _ = require('lodash');
 
 
-/*
-var subProgramSchema = new Schema({
+
+var customNameSchema = new Schema({
     type: Schema.ObjectId,
-    ref: 'Program'
+    displayName: String
 });
-*/
 
 /**
  * Vendor Schema
@@ -49,15 +50,19 @@ var VendorSchema = new Schema({
     "locatorEnabled": Boolean,
     "programs": [{
         type: Schema.ObjectId,
-        ref: 'Program',
-        displayName: String
+        ref: 'Program'
     }],
+    "programCustomNames" : [customNameSchema],
     "customField": {
         required: {type: Boolean, default: false},
         enabled: {type: Boolean, default: false},
         displayName: {type: String, default: '', trim: true}
     }
 });
+
+var troop = require('mongoose-troop');
+VendorSchema.plugin(troop.merge);
+
 
 /**
  * Statics
@@ -74,8 +79,24 @@ VendorSchema.statics = {
     }
 };
 
+/**
+* Runs similar to "after get" callback
+*
+*/
+VendorSchema.pre('init', function(next, data) {  
+  
+  // iterate through each program and replace its name with custom name if set
+  // @todo not the most effecient
+  // attempts to just "merge" the 2 datasets failed, and replaced all the props
+  // of programs with custom name
+  _.each(data.programs, function(item) {
+      var customName = _.where(data.programCustomNames, { _id : item._id });
+      item.displayName = customName.length ? customName[0].displayName : null;
+  });
+    
+  next();
+});
+
 mongoose.model('Vendor', VendorSchema);
-
-
 
 

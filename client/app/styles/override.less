@@ -145,13 +145,6 @@ body.login, body.home {
 .btn-primary, .btn-success {
    text-transform: uppercase;
    font-size: 11px;
-   
-   .icon {
-       font-size: 1.4em;
-       margin-right: 10px;
-       line-height: .6em;
-   }
-    
 }
 
 .btn-block.btn-primary {
@@ -212,7 +205,6 @@ sup.required {
 label sup {
     margin-left: 5px;
 }
-
 
 
 
@@ -292,6 +284,8 @@ label sup {
 
 
 
+
+
 // ---------------------------------------------------------
 //
 // HOME Page
@@ -357,6 +351,7 @@ body.home {
     
 }
 
+
 .title-bar {
     
     position: fixed;
@@ -369,6 +364,12 @@ body.home {
     h2 {
         margin-top: 18px;
         margin-left: 10px;
+    }
+    
+    .icon {
+       font-size: 1.4em;
+       margin-right: 10px;
+       line-height: .6em;
     }
     
     .actions {
@@ -477,6 +478,35 @@ textarea.legalTerms {
 }
 
 
+// ---------------------------------------------------
+// 
+// Vendor Edit rate sheet table
+//
+// ---------------------------------------------------
+
+.table-rate-sheets {
+    
+    td, tr {
+        padding: 0px;
+        vertical-align: middle;
+        
+        p {
+            margin: 0;
+        }
+        
+        button {
+            margin: 0 0 0 20px;
+        }
+                
+    }
+    
+    td:last-child {
+        padding: 5px 20px 0 0;
+    }
+    
+}
+
+
 
 // ---------------------------------------------------
 // 
@@ -523,6 +553,8 @@ form[name*="formBuyoutOptions"] .ng-invalid {
   border-color: @red;
   .box-shadow(0 0 6px #f8b9b7);
 }
+
+
 
 
 // ---------------------------------------------------------

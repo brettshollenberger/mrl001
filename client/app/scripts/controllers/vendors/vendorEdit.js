@@ -140,36 +140,22 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
-
-                var needsUpdate = [];
-
-                _.each($scope.vendorPrograms, function(item) {
-
-                    if (item.displayName !== undefined && item.displayName !== '') {
-                        delete item.name;
-                        needsUpdate.push(item);
-                    }
-
+                
+                // clear our variables
+                $scope.vendor.programs = []; // clear the program array
+                $scope.vendor.programCustomNames = []; // where we store custom displayName data
+                
+                // process each program, checking if its active for the vendor
+                _.each($scope.programs, function(item, key) {
+                   
+                   // API saves an array of _ids
+                   if(item.active) $scope.vendor.programs.push(item._id);
+                   
+                   // if user has set a custom display name
+                   // we push the whole object, but API will only save the id and displayName
+                   if(item.active && item.displayName) $scope.vendor.programCustomNames.push(item); 
+                    
                 });
-
-                _.merge($scope.vendor.programs, needsUpdate);
-
-                var newPrograms = [];
-
-                _.each($scope.vendor.programs, function(item) {
-                    delete item.rateSheet;
-
-                    console.log(item._id);
-                    console.log($scope.vendor.programIds);
-
-                    if (_.contains($scope.vendor.programIds, item._id) === true) {
-                        newPrograms.push(item);
-                    }
-
-                });
-
-                $scope.vendor.programs = newPrograms;
-                //$scope.vendorPrograms = $scope.vendor.programs;
 
                 if (!vendorId) {
 
@@ -197,7 +183,6 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                     // update existing item
                     Vendor.update($scope.vendor);
 
-
                     if (doRedirect) {
                         $location.url('/dashboard/vendors');
                     }
@@ -206,60 +191,76 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
             };
 
+            $scope.toggleActive = function(item) {
+                item.active = item.active ? false : true;
+            };
+
             $scope.addProgram = function(program) {
 
-                if (!$scope.vendor.programIds) $scope.vendor.programIds = [];
+                var programs = $scope.vendor.programs || [];
+                programs.push(program._id);
+                $scope.vendor.programs = programs;
+/*
 
-                $scope.vendor.programIds.push(program._id);
+                var obj = {
+                    _id : $scope.vendor._id,
+                    programs : programs
+                };
 
-                Vendor.update($scope.vendor).then(function() {
+                Vendor.update(obj).then(function() {
                     // update programs
                     updatePrograms();
                 });
+*/
 
             };
 
 
             $scope.removeProgram = function(program) {
 
-                // clear out any diplayName that wasnt saved
-                delete program.displayName;
+                var programs = $scope.vendor.programs || [];
+                programs.splice(programs.indexOf(program._id), 1);
+                $scope.vendor.programs = programs;
+                
+/*
 
+                var obj = {
+                    _id : $scope.vendor._id,
+                    programs : programs
+                };
 
-                $scope.vendor.programIds.splice($scope.vendor.programIds.indexOf(program._id), 1);
-
-                Vendor.update($scope.vendor).then(function() {
+                Vendor.update(obj).then(function() {
                     // update programs
                     updatePrograms();
                 });
+*/
 
             };
+            
+            
+            /**
+            * Gets all the programs, making two calls and merging the results
+            * In our view we sort and filter so the active programs appear first
+            *
+            */
+            $scope.programs = [];
 
             function updatePrograms() {
-
+            
                 // get the vendors programs
                 Program.getAllForVendorId($scope.vendor._id).then(function(response) {
-                    $scope.vendorPrograms = response;
-
-                    // merge into the vendors.programs data, which may contain custom displayNames
-                    _.merge($scope.vendorPrograms, $scope.vendor.programs);
-
-                    _.each($scope.vendorPrograms, function(item) {
-                        item.displayName = item.displayName ? item.displayName : item.name;
+                    _.each(response, function(item) {
+                        item.active = true; // set to active for this vendor
                     });
-
-                    //$scope.vendor.programs = $scope.vendorPrograms;
-
+                    $scope.programs = $scope.programs.concat(response);
                 });
-
-                // get the programs this vendor is not using
-
-                if ($scope.vendor.programIds) {
-                    $scope.programs = Program.getAllNotIn($scope.vendor._id);
-                } else {
-                    $scope.programs = Program.getAll();
-                }
-
+                
+                Program.getAllNotIn($scope.vendor._id).then(function(response) {
+                    _.each(response, function(item) {
+                        item.active = false; // set to active for this vendor
+                    });
+                    $scope.programs = $scope.programs.concat(response);
+                });
 
             }
 

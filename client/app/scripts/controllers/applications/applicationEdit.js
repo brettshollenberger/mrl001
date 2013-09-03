@@ -63,7 +63,7 @@ angular
 
                     // create new item
                     Application.add($scope.application).then(function(response) {
-                        saveChangesPrompt.removeListener();
+                        //saveChangesPrompt.removeListener();
                         $location.url('/dashboard/applications');
                     });
 

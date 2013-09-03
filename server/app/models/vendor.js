@@ -17,7 +17,8 @@ var customNameSchema = new Schema({
 
 var toolEnabledSchema = new Schema({
     "name" : String,
-    "active" : Boolean
+    "active" : Boolean,
+    "slug" : String
 });
 
 /**
@@ -100,6 +101,27 @@ VendorSchema.pre('init', function(next, data) {
   });
     
   next();
+});
+
+function convertToSlug(Text)
+{
+    return Text
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w\-]+/g,'')
+        ;
+}
+
+
+VendorSchema.pre('save', function(next) {
+    
+    _.each(this.tools, function(item) {
+        item.slug = convertToSlug(item.name);
+    });
+    
+    console.log(this.tools);
+    
+    next();
 });
 
 

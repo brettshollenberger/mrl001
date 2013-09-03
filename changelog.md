@@ -9,12 +9,16 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 
 **Features**
 
+- [FEATURE] Add a "tools" tab that lets admin toggle on/ off tools per vendor.
+- [FEATURE] Complete redesign of rate sheet tab on vendor edit page. 
+- [FEATURE] Locator tool map now centers on Marlin finance for vendors without location data. 
 - [FEATURE] Removed "action" buttons from listing pages.
 - [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
 - [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
 - [FEATURE] Make all email and phone links clickable
 - [FEATURE] Add required indicator to required form elements
 - [FEATURE] Make instances of user names link to their profiles.
+
 
 **Styles**
 
@@ -39,6 +43,8 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [CHORE] Change language on "custom application terms" to just read "custom terms"
 - [CHORE] Remove the footer, move version number to side nav
 - [CHORE] Move button to launch quoter to the vendor edit page.
+- [CHORE] On Locator tool tab, clarify language. 
+- [CHORE] Changed how vendor / programs are saved to database
 
 **Bugs**
 
@@ -46,6 +52,11 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
 - [BUG] SAVE doesn't work on vendor edit form / quote edit
 - [BUG] Edit user, the avatar save button is broken
+- [BUG] On Locator tool tab, fixed instance where no address would break google maps. Added messaging to user if no address was found.
+- [BUG] On Locator tool tab, fixed issue were zooming out breaks map 
+- [BUG] Fixed issue that prevented changelog from displaying. 
+
+
 
 
 Release 0.3.0

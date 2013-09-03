@@ -11,13 +11,13 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 
 - [FEATURE] Add a "tools" tab that lets admin toggle on/ off tools per vendor.
 - [FEATURE] Complete redesign of rate sheet tab on vendor edit page. 
-- [FEATURE] Locator tool map now centers on Marlin finance for vendors without location data. 
-- [FEATURE] Removed "action" buttons from listing pages.
-- [FEATURE] Move all delete links to detail page (since we removed them from the table listings)
+- [FEATURE] On vendor listing page, indicators now show enabled tools for each vendor.
+- [FEATURE] On vendor edit page, the locator tool map centers on to marlin headquoters if no vendor geo data is available. 
+- [FEATURE] Removed "action" buttons from listing pages. Moved all delete links to detail page. 
 - [FEATURE] Generate new quote button opens in new window (@todo test in IE!)
-- [FEATURE] Make all email and phone links clickable
+- [FEATURE] On vendor listing page, make email and phone links clickable
 - [FEATURE] Add required indicator to required form elements
-- [FEATURE] Make instances of user names link to their profiles.
+- [FEATURE] Make instances of user names link to user profiles.
 
 **Styles**
 
@@ -47,7 +47,7 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 
 **Bugs**
 
-- [BUG] On user edit page, title bar needs to read the full user name 
+- [BUG] On user edit page, title bar should read the full user name 
 - [BUG] Quote edit (open | archived) select doesn't prompt save or autosave
 - [BUG] SAVE doesn't work on vendor edit form / quote edit
 - [BUG] Edit user, the avatar save button is broken
@@ -61,10 +61,10 @@ Release 0.3.0
 -------
 This release invloved refactoring the App to use a more robust API based on Mongoose and MongoDB. 
 
-- [FEATURE] Refactor database
 - [FEATURE] Add an "extra" field to quoter tool, that can be toggled on and off per vendor.
-- [FEATURE] Added password change functionality
+- [FEATURE] Added password change functionality on user edit page.
 - [FEATURE] Limit viewing of content (quotes, applications, vendors, and users) based on user role. For example, this means that sales reps will now see quotes ONLY from their vendors.
+- [CHORE] Refactor database to be more robust
 
 
 Release 0.2.2

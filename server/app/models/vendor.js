@@ -15,6 +15,11 @@ var customNameSchema = new Schema({
     displayName: String
 });
 
+var toolEnabledSchema = new Schema({
+    "name" : String,
+    "active" : Boolean
+});
+
 /**
  * Vendor Schema
  */
@@ -47,7 +52,7 @@ var VendorSchema = new Schema({
       "latitude": {type: Number, default: null},
       "longitude": {type: Number, default: null}
     },
-    "locatorEnabled": Boolean,
+    "tools": [toolEnabledSchema],
     "programs": [{
         type: Schema.ObjectId,
         ref: 'Program'

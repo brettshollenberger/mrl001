@@ -20,9 +20,12 @@ angular
             
             Auth.canUserDoAction('edit-vendor');
 
-            $scope.tabs = ['Basic information', 'Marlin Sales Rep', 'Rate Sheets', 'Quoter Tool'];
-
-
+            $scope.tabs = [
+                {name: 'Basic information', active: true}, 
+                {name: 'Marlin Sales Rep', active: true},  
+                {name: 'Rate Sheets', active: true},  
+                {name: 'Tools', active: true}
+            ];
 
             /**
              * Initiates function which checks for un saved changes when navigating away from the page
@@ -37,8 +40,6 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 removeViewLoad();
             });
 */
-
-
 
             // empty vendor object
             $scope.vendor = {};
@@ -128,9 +129,11 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                         $scope.vendor.salesRep = User.getById($scope.vendor.salesRepId);
                     }
 
-                    if ($scope.vendor.locatorEnabled) {
-                        $scope.tabs.push('Locator Tool');
-                    }
+                    _.each($scope.vendor.tools, function(tool) {
+                        $scope.tabs.push(tool);
+                    });
+                    
+                    console.log($scope.tabs);
 
                     updatePrograms();
                 });
@@ -156,7 +159,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                    if(item.active && item.displayName) $scope.vendor.programCustomNames.push(item); 
                     
                 });
-
+                
                 if (!vendorId) {
 
                     // create new item
@@ -305,11 +308,13 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
              * @todo make observe / boardcast so we can watch for changes in this scope
              *
              */
+
             $scope.activeTab = 0;
+            $scope.tabs[$scope.activeTab].selected = true;
 
             // used for active class
             $scope.isActiveTab = function(id) {
-                return $scope.activeTab == id ? true : false;
+                return $scope.tabs[id] && $scope.tabs[id].selected ? true : false;
             };
 
             // used to set active tab
@@ -317,11 +322,17 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
                 // @todo, this will need to be more generic if we make into a directive. 
                 if (!$scope.vendor._id) return false;
+                $scope.tabs[$scope.activeTab].selected = false;
 
                 $scope.activeTab = tab;
+                
+                $scope.tabs[$scope.activeTab].selected = true;
+                
             };
 
             $scope.$watch('activeTab', function(newValue, oldValue) {
+
+                console.log(newValue);
 
                 // only make map if user is switching to tab 4, and there is no map made
                 if (newValue === 4) {

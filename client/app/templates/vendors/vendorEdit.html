@@ -6,11 +6,11 @@
                 <div class="span10">
                     <h2><i class="icon icon-briefcase"></i> {{vendor.name || 'New Vendor'}}</h2>
                     <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a></li>
                 </ul>
                     
                     <div class="actions">
-                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty" ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
+                        <button type="submit" class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                         <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
                     </div>
@@ -160,8 +160,27 @@
                 
             </div>
             
+            <div class="row" ng-show="isActiveTab(3)">    
+
+                <form class="span10" name="toolForm" unsaved-changes-warning>
+                    <h3>Manage Vendor Tools</h3>
+                    
+                    <ul class="unstyled">
+                        <li ng-repeat="item in vendor.tools">
+                            
+                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
+                                <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
+                            </button>
+                            {{item.name}}
+                        </li>
+                    </ul>
+                    
+                </form>
+                
+            </div>
+
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(3)">
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)">
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     

@@ -30,7 +30,16 @@ var data = [
       "latitude": 34.06269899999999,
       "longitude": -118.41526299999998
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "programs": [
       '51e71518ed32080ffc000006',
       '51e71518ed32080ffc000007',
@@ -60,7 +69,16 @@ var data = [
       "state": "",
       "zip": ""
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : false
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : false
+        }
+    ],
     "programs": [
       '51e71518ed32080ffc000006',
       '51e71518ed32080ffc000007'
@@ -97,7 +115,16 @@ var data = [
       "latitude": 34.06269899999999,
       "longitude": -118.41526299999998
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : false
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : false
+        }
+    ],
     "programs": [
       '51e71518ed32080ffc000006',
       '51e71518ed32080ffc000007'
@@ -130,7 +157,16 @@ var data = [
       "latitude": 34.06269899999999,
       "longitude": -118.41526299999998
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "programs": [
       '51e71518ed32080ffc000006',
       '51e71518ed32080ffc000007'
@@ -163,7 +199,16 @@ var data = [
       '51e71518ed32080ffc000006',
       '51e71518ed32080ffc000007'
     ],
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 33.9379091,
       "longitude": -81.0891279
@@ -184,7 +229,16 @@ var data = [
       "state": "AZ",
       "zip": "85268-4202"
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "contactPerson": {
       "phone": "(480)816-1222"
     },
@@ -208,7 +262,16 @@ var data = [
       "city": "Bakersfield",
       "zip": "93308-4919"
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : false
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "contactPerson": {
       "phone": "(661)327-5336",
       "email": "tony_flores@praxair.com"
@@ -233,7 +296,16 @@ var data = [
       "city": "Los Angeles",
       "zip": "90067-1501"
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : false
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "contactPerson": {
       "phone": "(800)273-5033",
       "email": "vpsales@ez2000software.com"
@@ -262,7 +334,16 @@ var data = [
       "email": "wkim@meetingone.com"
     },
     "website": "www.meetingone.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : false
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 39.6999073,
       "longitude": -104.9330448
@@ -286,7 +367,16 @@ var data = [
       "email": "Jshearer@capofficeproducts.com"
     },
     "website": "www.capofficeproducts.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 29.22700799999999,
       "longitude": -81.00835589999997
@@ -309,7 +399,16 @@ var data = [
     "contactPerson": {
       "phone": "(404)228-4951"
     },
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 34.0645391,
       "longitude": -84.32442960000003
@@ -333,7 +432,16 @@ var data = [
       "email": "desquivel@epaysystems.com"
     },
     "website": "http://www.epaysystems.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 41.993029,
       "longitude": -87.81075609999999
@@ -357,7 +465,16 @@ var data = [
       "email": "jeffn@centralrestaurant.com"
     },
     "website": "http://www.centralrestaurant.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 39.8998074,
       "longitude": -86.23617439999998
@@ -381,7 +498,16 @@ var data = [
       "email": "tom.hightman@clarksecurity.com"
     },
     "website": "www.clarksecurity.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 39.0533891,
       "longitude": -76.97582740000001
@@ -406,7 +532,16 @@ var data = [
       "email": "rhendrix@hendrixbusiness.com"
     },
     "website": "www.hendrixbusiness.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 35.1105564,
       "longitude": -80.71035319999999
@@ -430,7 +565,16 @@ var data = [
       "email": "SHawkins@1strun.com"
     },
     "website": "http://www.1strun.net",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 40.75368539999999,
       "longitude": -73.9991637
@@ -455,10 +599,18 @@ var data = [
       "email": "tim.mcauliff@autozone.com"
     },
     "website": "www.autozone.com",
-    "locatorEnabled": true
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ]
   },
   {
-    
     "_id": '51e71518ed32080ffc000040',
     "logo": {
       "original": "https://www.filepicker.io/api/file/2MeQ92VoTZSNA3JwLQf0"
@@ -474,7 +626,16 @@ var data = [
       "phone": "(210)349-9026"
     },
     "website": "http://www.americantypewritertx.com/",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 29.5516834,
       "longitude": -98.49522280000002
@@ -494,8 +655,17 @@ var data = [
     "contactPerson": {
       "phone": "(866)344-8144"
     },
-    "locatorEnabled": true
-  },
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ]
+    },
   {
     
     "_id": '51e71518ed32080ffc000042',
@@ -514,8 +684,17 @@ var data = [
       "email": "rthoburn@amasti.com"
     },
     "website": "http://www.amasti.com/index.html",
-    "locatorEnabled": true
-  },
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ]
+    },
   {
     
     "_id": '51e71518ed32080ffc000043',
@@ -535,7 +714,16 @@ var data = [
       "email": "steve@warrenswrefrigeration.com"
     },
     "website": "http://www.warrensouthwestrefrigera",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 29.86738769999999,
       "longitude": -95.59323899999998
@@ -559,7 +747,16 @@ var data = [
       "email": "jared@air-care.com"
     },
     "website": "http://www.air-care.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 36.0833352,
       "longitude": -115.09997529999998
@@ -581,7 +778,16 @@ var data = [
       "email": "bob@bgrestsupply.com"
     },
     "website": "www.bgrestsupply.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 42.46345030000001,
       "longitude": -73.3001233
@@ -605,7 +811,16 @@ var data = [
       "email": "djohnson@pfgc.com"
     },
     "website": "www.americandish.com",
-    "locatorEnabled": true,
+    "tools" : [
+        {
+            "name" : "Locator Tool",
+            "active" : true
+        },
+        {
+            "name" : "Quoter Tool",
+            "active" : true
+        }
+    ],
     "geo": {
       "latitude": 39.0870168,
       "longitude": -94.8002333

@@ -79,10 +79,13 @@ module.exports = function(app, config) {
             // @note we need so support subdomains later o
             // @note for dev its fine to get the port... but for heroku the ip is always changing
             // so we need to user the actual url     
+            
+            var fullHost = null;
+            
             if ('development' === app.get('env')) {
-                var fullHost = req.protocol + '://' + (req.domain ? req.domain : req.ip) + ':' + config.port;
+                fullHost = req.protocol + '://' + (req.domain ? req.domain : req.ip) + ':' + config.port;
             } else {
-                var fullHost = config.siteUrl;
+                fullHost = config.siteUrl;
             }
             var url = fullHost + '/#/tools/quoter/' + id + '/print';
             

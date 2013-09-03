@@ -102,6 +102,8 @@ VendorSchema.pre('init', function(next, data) {
   next();
 });
 
+
+
 mongoose.model('Vendor', VendorSchema);
 
 

@@ -8,7 +8,6 @@
                     <ul class="nav nav-tabs">
                   <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a></li>
                 </ul>
-                    Dirty? {{basicForm.$dirty}}
                     <div class="actions">
                         <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>

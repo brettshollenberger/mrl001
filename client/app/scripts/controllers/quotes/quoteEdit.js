@@ -8,24 +8,11 @@ angular
         'authService',
         'quoteService',
         'stateService',
-        'saveChangesPrompt',
-        function($rootScope, $scope, $location, $routeParams, Auth, Quote, States, saveChangesPrompt) {
+        function($rootScope, $scope, $location, $routeParams, Auth, Quote, States) {
 
             $scope.modelObject = Quote;
 
             Auth.canUserDoAction('edit-quote');
-
-            /**
-             * Initiates function which checks for un saved changes when navigating away from the page
-             * @todo move all this login into a directive, module?
-             *
-             */
-            var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
-                // this will prompt users to save when the leave the page. 
-                var forms = [$scope.quoteForm];
-                saveChangesPrompt.init(forms);
-                removeViewLoad();
-            });
             
             // deletes an item and then gets the list again to reflect the deleted item.
             $scope.deleteItem = function(id) {
@@ -70,14 +57,14 @@ angular
 
                     // create new item
                     Quote.add($scope.quote).then(function(response) {
-                        saveChangesPrompt.removeListener();
+                        //saveChangesPrompt.removeListener();
                         $location.url('/dashboard/quotes');
                     });
 
                 } else {
                     // update existing item
                     Quote.update($scope.quote);
-                    saveChangesPrompt.removeListener();
+                    //saveChangesPrompt.removeListener();
                     $location.url('/dashboard/quotes');
                 }
 

@@ -30,12 +30,18 @@ angular
                         geoData.lat = results[0].geometry.location.mb; // mb
                         geoData.lng = results[0].geometry.location.nb; // nb
 
-
-                        //geoData.lat = results[0].geometry.location.jb; // mb
-                        //geoData.lng = results[0].geometry.location.kb; // nb
-                        //console.log(geoData);
-
-                        $rootScope.$broadcast('event:geo-location-success', geoData, type);
+                        // @todo why is this the new format? 
+                        // did things change on the Google API side?
+                        if(!geoData.lat || !geoData.lng) {
+                            geoData.lat = results[0].geometry.location.ob; // mb
+                            geoData.lng = results[0].geometry.location.pb; // nb
+                        }
+                        
+                        if(!geoData.lat || !geoData.lng) {
+                            $rootScope.$broadcast('event:geo-location-failure');
+                        } else {
+                            $rootScope.$broadcast('event:geo-location-success', geoData, type);
+                        }
 
                     } else {
                         $rootScope.$broadcast('event:geo-location-failure', geoData, type);

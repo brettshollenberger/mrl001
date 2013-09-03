@@ -352,10 +352,10 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
             $scope.map.zoom = 4;
 
             // default center point
-            // @todo find better center point! 
+            // centers on Marlin Finance HQ!
             $scope.map.center = {
-                latitude: 45,
-                longitude: -73
+                latitude: 39.947017,
+                longitude: -74.950102
             };
 
 
@@ -373,12 +373,14 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 // if vendor has geo set, lets make map center from this
                 if ($scope.vendor.geo) {
 
+                    console.log('VENDOR HAS EXISTING GEO DATA, centering the map now on their lcoation');
+
                     $scope.map.center = {
                         latitude: $scope.vendor.geo.latitude,
                         longitude: $scope.vendor.geo.longitude
                     };
-
-                    console.log('Updated the center');
+                    
+                    console.log($scope.map.center);
 
                     makeMarkerFromVendor();
                 }
@@ -406,7 +408,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 // update center based on search 
                 if (type && type === 'locationSearch') {
 
-                    console.log('Saving geo return data: ');
+                    console.log('RETURN GEO DATA IS: ');
                     console.log(data);
 
                     $scope.map.center = {
@@ -414,26 +416,39 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                         longitude: data.lng
                     };
 
-                    console.log('vendor id is: ' + $scope.vendor._id);
-
                     $scope.vendor.geo = {
                         latitude: data.lat,
                         longitude: data.lng
                     };
 
-                    console.log($scope.map.center);
-
                     // make a marker from our vendor
                     makeMarkerFromVendor();
+                    
+                    // force our form to be dirty, showing the save button
+                    $scope.locationForm.$setDirty();
 
                     $scope.$apply();
 
                 }
             });
+            
+            $scope.message = {};
+            
+            var listener2 = $rootScope.$on('event:geo-location-failure', function(event, data) {
+                $scope.message.map = 'Failed to lookup address. Try again later';
+                $timeout(function() {
+                   $scope.message.map = null; 
+                }, 2200);
+            });
 
+            /**
+            * Called to remove the google callback that is called 
+            * when the address lookup finishes
+            *
+            */
             $rootScope.$on('$routeChangeSuccess', function() {
-                console.log('removing google callback ');
                 listener();
+                listener2();
             });
 
             function genereateSingleLineAddress(businessAddress) {
@@ -460,9 +475,6 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
 
             function makeMarkerFromVendor() {
 
-                console.log('VENDOR GEO data is...');
-                console.log($scope.vendor.geo);
-
                 // build marker object from vendor info
                 // @note this is duplicate code from locator tool, move to service? 
                 // we need to create the marker from the vendor
@@ -473,24 +485,28 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                     distance: $scope.vendor.geo.distance, // gets miles
                     logo: $scope.vendor.logo.original,
                     businessAddress: $scope.vendor.businessAddress,
+                    showWindow: true,
+                    closeClick: function() {},
                     infoWindow: '<img class="img-medium" src="' + $scope.vendor.logo.original + '" />',
                     name: $scope.vendor.name,
                     destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress($scope.vendor.businessAddress)
                 };
-
-                console.log('VENDOR NEW MARKER is...');
-                console.log(newMarker);
-
-
-                $scope.vendorMarker = [newMarker];
-
-                // @note we need to find an auto way to fit here!
+                
                 $scope.map.zoom = 16;
 
-                var win = angular.element(window);
-                console.log('window');
-                win.triggerHandler('resize');
+                $scope.vendorMarker = [newMarker];
+                
+                console.log('VENDOR MARKER is...');
+                console.log($scope.vendorMarker);
 
+                // doesnt seem to be needed
+                // was an attempt to get the map to re render
+                //
+                //var win = angular.element(window);
+                //$timeout(function() {
+                //    win.triggerHandler('Resize');
+                //});
+                                
             }
 
 
@@ -500,6 +516,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
              *
              *
              */
+/*
             var existingObject = null;
 
             $scope.$watch('vendor', function(newValue, oldValue) {
@@ -527,6 +544,7 @@ var removeViewLoad = $rootScope.$on('$viewContentLoaded', function() {
                 return !doesMatch;
 
             };
+*/
 
 
 

@@ -180,7 +180,7 @@
             </div>
 
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(5)">
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-changes-warning>
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     
@@ -211,13 +211,15 @@
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" class="row" ng-show="isActiveTab(4)">
+            <form name="locationForm" class="row"  unsaved-changes-warning>
                 
                 <div class="span10">
                     
                     <div class="row">
                     
                         <div class="span4">
+                        
+                            <p class="alert alert-error" ng-show="message.map">{{message.map}}</p>
                             
                             <button ng-click="findMyLocation()" class="btn" >Update Location</button>
                             
@@ -238,30 +240,34 @@
                         
                         </div>
                         
-                        <div class="span4">
+                        <div class="span6">
+                        
                             <div class="google-map"
-                        		center="map.center"
-                        		zoom="map.zoom"
-                        		draggable="true"
-                        		refresh="activeTab"
-                        		dragging="map.dragging">
-                        		<!-- prefedined markers -->
-                        		<marker ng-repeat="m in vendorMarker" coords="m" icon="m.icon" >
-                    				<window show="m.showWindow" closeClick="m.closeClick()">
-                    					<img ng-src="{{m.logo}}" class="img-medium"/>
-                    					<p>{{m.name}}</p>
-                                        <p>{{m.businessPhone}}</p>
-                                        <p>{{m.businessAddress.address1}}<br/>
-                                        <p>{{m.businessAddress.address2}}</p>
-                                        <p>{{m.businessAddress.city}}, {{m.businessAddress.state}} {{m.businessAddress.zip}}</p>
-                    					<p ng-show="m.distance && hasLocation">{{m.distance| number:0}} miles away</p>
-                    					<p><a target="_blank" ng-href="{{m.destAddress}}">Directions</a></p>
-                    				</window>
-                    			</marker>
-                            
+                				center="map.center"
+                				zoom="map.zoom"
+                				draggable="true"
+                                dragging="map.dragging">
+                        		
+                        		<markers models="vendorMarker" coords="'self'" icon="'icon'" click="'onClicked'" >
+                					<windows show="'showWindow'" closeClick="'closeClick'">
+                                        <div ng-non-bindable>
+                                            <p>{{name}}</p>
+                                    		<p ng-show="website != ''"><a target="_blank" ng-href="{{website}}">Visit Website</a></p>
+                                            <p>{{businessPhone}}</p>
+                                            <p>{{businessAddress.address1}}<br/>
+                                            <p>{{businessAddress.address2}}</p>
+                                            <p>{{businessAddress.city}}, {{businessAddress.state}} {{businessAddress.zip}}</p>
+                                    		<p><a target="_blank" ng-href="{{destAddress}}">Open in Google Maps</a></p>
+                                        </div>
+                					</windows>
+                				</markers>
+                        		
                             </div>
                         
                         </div>
+                        
+                        
+  
                     
                     </div>
                     

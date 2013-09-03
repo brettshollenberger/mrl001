@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
  * Sub-Schemas 
  */
 var noteSchema = new Schema({
-    "created": { type: Date, default: Date.now },
+    "created": { type: Date, "default": Date.now },
     note: String
 });
 
@@ -20,9 +20,9 @@ var noteSchema = new Schema({
  * Application Schema
  */
 var ApplicationSchema = new Schema({
-    "created": { type: Date, default: Date.now },
-    name: { type: String, default: '', trim: true },
-    status: { type: String, default: 'Open', trim: true },
+    "created": { type: Date, "default": Date.now },
+    name: { type: String, "default": '', trim: true },
+    status: { type: String, "default": 'Open', trim: true },
     quoteId: {
         type: Schema.ObjectId,
         ref: 'Quote'
@@ -34,33 +34,33 @@ var ApplicationSchema = new Schema({
     vendor: {},
     quote: {},
     leasee: {
-        fullLegalBusineessName: {type: String, default: '', trim: true},
+        fullLegalBusineessName: {type: String, "default": '', trim: true},
         contactPerson: {
-            name: {type: String, default: '', trim: true},
-            email: {type: String, default: '', trim: true},
-            phone: {type: String, default: '', trim: true},
-            contactMethod:{type: String, default: '', trim: true}
+            name: {type: String, "default": '', trim: true},
+            email: {type: String, "default": '', trim: true},
+            phone: {type: String, "default": '', trim: true},
+            contactMethod:{type: String, "default": '', trim: true}
         },
         businessAddress: {
-          "address1": {type: String, default: '', trim: true},
-          "address2": {type: String, default: '', trim: true},
-          "city": {type: String, default: '', trim: true},
-          "state": {type: String, default: '', trim: true},
+          "address1": {type: String, "default": '', trim: true},
+          "address2": {type: String, "default": '', trim: true},
+          "city": {type: String, "default": '', trim: true},
+          "state": {type: String, "default": '', trim: true},
           "zip": {type: Number}
         },
-        yearsInBusiness: {type: Number, default: 0},
-        soleProp: {type: Boolean, default: false}
+        yearsInBusiness: {type: Number, "default": 0},
+        soleProp: {type: Boolean, "default": false}
     },
     guarantorInfo: {
-        name: {type: String, default: '', trim: true},
-        email: {type: String, default: '', trim: true},
-        phone: {type: String, default: '', trim: true},
-        socialSecurityNumber: {type: String, default: '', trim: true},
+        name: {type: String, "default": '', trim: true},
+        email: {type: String, "default": '', trim: true},
+        phone: {type: String, "default": '', trim: true},
+        socialSecurityNumber: {type: String, "default": '', trim: true},
         homeAddress: {
-          "address1": {type: String, default: '', trim: true},
-          "address2": {type: String, default: '', trim: true},
-          "city": {type: String, default: '', trim: true},
-          "state": {type: String, default: '', trim: true},
+          "address1": {type: String, "default": '', trim: true},
+          "address2": {type: String, "default": '', trim: true},
+          "city": {type: String, "default": '', trim: true},
+          "state": {type: String, "default": '', trim: true},
           "zip": {type: Number}
         }
     },

@@ -10,15 +10,15 @@ var mongoose = require('mongoose'),
 
 // Buyout Options Schema
 var buyoutOptionsSchema = new Schema({
-	name: {type: String, default: ''}, 
+	name: {type: String, "default": ''}, 
 	terms: [{}],
 	costs: [costsSchema]
 });
 
 // Costs Schema
 var costsSchema = new Schema({
-	min: { type: Number, default: ''},
-	max: { type: Number, default: ''}, 
+	min: { type: Number, "default": ''},
+	max: { type: Number, "default": ''}, 
 	rates: [{}]
 });
 
@@ -28,11 +28,11 @@ var costsSchema = new Schema({
  * Program Schema
  */
 var ProgramSchema = new Schema({
-    "created": { type: Date, default: Date.now },
-    name: {type: String, default: ''},
+    "created": { type: Date, "default": Date.now },
+    name: {type: String, "default": ''},
     displayName: String,
     rateSheet: {
-        termPeriod: {type: String, default: ''},
+        termPeriod: {type: String, "default": ''},
         buyoutOptions: [buyoutOptionsSchema]
     }
 });

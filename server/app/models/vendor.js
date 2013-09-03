@@ -25,33 +25,33 @@ var toolEnabledSchema = new Schema({
  * Vendor Schema
  */
 var VendorSchema = new Schema({
-    "created": { type: Date, default: Date.now },
-    "name": {type: String, default: '', trim: true},
+    "created": { type: Date, "default": Date.now },
+    "name": {type: String, "default": '', trim: true},
     "contactPerson": {
-      "name": {type: String, default: '', trim: true},
-      "email": {type: String, default: '', trim: true},
-      "phone": {type: String, default: '', trim: true}
+      "name": {type: String, "default": '', trim: true},
+      "email": {type: String, "default": '', trim: true},
+      "phone": {type: String, "default": '', trim: true}
     },
     "salesRep" : {
         type: Schema.ObjectId,
         ref: 'User'
     },
     "logo": {
-      "original": {type: String, default: '', trim: true}
+      "original": {type: String, "default": '', trim: true}
     },
-    "website": {type: String, default: '', trim: true},
-    "legalTerms": {type: String, default: '', trim: true},
-    "businessPhone": {type: String, default: '', trim: true},
+    "website": {type: String, "default": '', trim: true},
+    "legalTerms": {type: String, "default": '', trim: true},
+    "businessPhone": {type: String, "default": '', trim: true},
     "businessAddress": {
-      "address1": {type: String, default: '', trim: true},
-      "address2": {type: String, default: '', trim: true},
-      "city": {type: String, default: '', trim: true},
-      "state": {type: String, default: '', trim: true},
-      "zip": {type: String, default: '', trim: true}
+      "address1": {type: String, "default": '', trim: true},
+      "address2": {type: String, "default": '', trim: true},
+      "city": {type: String, "default": '', trim: true},
+      "state": {type: String, "default": '', trim: true},
+      "zip": {type: String, "default": '', trim: true}
     },
     "geo": {
-      "latitude": {type: Number, default: null},
-      "longitude": {type: Number, default: null}
+      "latitude": {type: Number, "default": null},
+      "longitude": {type: Number, "default": null}
     },
     "tools": [toolEnabledSchema],
     "programs": [{
@@ -60,9 +60,9 @@ var VendorSchema = new Schema({
     }],
     "programCustomNames" : [customNameSchema],
     "customField": {
-        required: {type: Boolean, default: false},
-        enabled: {type: Boolean, default: false},
-        displayName: {type: String, default: '', trim: true}
+        required: {type: Boolean, "default": false},
+        enabled: {type: Boolean, "default": false},
+        displayName: {type: String, "default": '', trim: true}
     }
 });
 

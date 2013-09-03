@@ -13,16 +13,16 @@ var mongoose = require('mongoose'),
 var ArticleSchema = new Schema({
     created: {
         type: Date,
-        default: Date.now
+        "default": Date.now
     },
     title: {
         type: String,
-        default: '',
+        "default": '',
         trim: true
     },
     content: {
         type: String,
-        default: '',
+        "default": '',
         trim: true
     },
     user: {

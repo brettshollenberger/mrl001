@@ -13,8 +13,8 @@ var mongoose = require('mongoose'),
  */
 var UserSchema = new Schema({
     name: {
-        first: {type: String, default: '', trim: true},
-        last: {type: String, default: '', trim: true}
+        first: {type: String, "default": '', trim: true},
+        last: {type: String, "default": '', trim: true}
     },
     fullname: String,
     email: String,
@@ -26,12 +26,12 @@ var UserSchema = new Schema({
     twitter: {},
     github: {},
     google: {},
-    role: {type: String, default: 'salesRep', trim: true},
+    role: {type: String, "default": 'salesRep', trim: true},
     phoneNumber: String,
     avatar: {
-        original: {type: String, default: '', trim: true}
+        original: {type: String, "default": '', trim: true}
     },
-    status: {type: String, default: 'Active', trim: true}
+    status: {type: String, "default": 'Active', trim: true}
 });
 
 

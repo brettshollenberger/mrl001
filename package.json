@@ -47,10 +47,35 @@
     "grunt-strip": "0.2.1",
     "passport": "latest",
     "mongodb": "latest",
-    "webshot": ">=0.5.1"
+    "webshot": ">=0.5.1",
+    "jade": "latest",
+    "mongoose": "latest",
+    "connect-mongo": "latest",
+    "connect-flash": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "passport-facebook": "latest",
+    "passport-twitter": "latest",
+    "passport-github": "latest",
+    "passport-google-oauth": "latest",
+    "underscore": "latest",
+    "async": "latest",
+    "view-helpers": "latest",
+    "mean-logger": "latest",
+    "connect-roles" : "latest",
+    "lodash" : "latest",
+    "mongoose-troop": "latest",
+    "passport-http" : "latest"
   },
   "devDependencies": {
+    "supertest": "latest",
+    "should": "latest",
     "grunt-karma": "~0.4.5",
-    "grunt-jsbeautifier": "~0.2.2"
+    "grunt-jsbeautifier": "~0.2.2",
+    "grunt-contrib-compass": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-nodemon": "0.0.8",
+    "grunt-concurrent": "~0.3.0"
   }
 }

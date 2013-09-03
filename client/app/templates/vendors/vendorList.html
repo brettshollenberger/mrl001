@@ -23,6 +23,7 @@
                         <tr>
                             <th class="span3">Vendor</th>
                             <th>Contact Info</th>
+                            <th>Tools</th>
                             <th class="text-center">Sales Rep</th>
                         </tr>
                     </thead>
@@ -38,6 +39,14 @@
                                 <span class="contact-name">{{item.contactPerson.name}}</span><br/>
                                 <a mail-to="{{item.contactPerson.email}}"></a> <br/>
                                 <a call-to="{{item.contactPerson.phone}}"></a>
+                            </td>
+                            <td class="tool-icons">
+                                <i  ng-repeat="tool in item.tools" 
+                                    class="icon " 
+                                    ng-class="{ 
+                                        'icon-success' : tool.active, 
+                                        'icon-comments-alt' : tool.slug == 'quoter-tool', 
+                                        'icon-map-marker' : tool.clug = 'location-tool'}"></i>
                             </td>
                             <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />

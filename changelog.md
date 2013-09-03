@@ -58,7 +58,6 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 
 
 
-
 Release 0.3.0
 -------
 This release invloved refactoring the App to use a more robust API based on Mongoose and MongoDB. 

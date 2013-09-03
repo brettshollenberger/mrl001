@@ -19,7 +19,6 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [FEATURE] Add required indicator to required form elements
 - [FEATURE] Make instances of user names link to their profiles.
 
-
 **Styles**
 
 - [STYLE] Added hover style for table rows (blue), made image centered and larger, added border
@@ -55,7 +54,7 @@ This release fixes a number of bugs introduced by the 0.3.0 release. It also inc
 - [BUG] On Locator tool tab, fixed instance where no address would break google maps. Added messaging to user if no address was found.
 - [BUG] On Locator tool tab, fixed issue were zooming out breaks map 
 - [BUG] Fixed issue that prevented changelog from displaying. 
-
+- [BUG] Save changes plugin thorws multiple messages when leaving the page, and appears on listing pages.
 
 
 Release 0.3.0

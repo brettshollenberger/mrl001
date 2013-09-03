@@ -63,9 +63,11 @@ var env = process.env.NODE_ENV || 'development',
     
 // create database connection
 var db = mongoose.connect(config.db, function() {
-    console.log('Connected to database!');
+    console.log('Connected to ' + env + ' database!');
     
     // drop the existing database
+    // @todo when using mongolab these drops the users!!! so then we can't connect back
+    // @refactor to drop all collections except users? Or connect with a master user
     db.connection.db.dropDatabase(function() {
         console.log('Database dropped');
         

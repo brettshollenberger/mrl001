@@ -5,6 +5,7 @@ module.exports = {
     development: {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
+        siteUrl: null,
         app: {
             name: 'MEAN - A Modern Stack - Development'
         },
@@ -59,6 +60,7 @@ module.exports = {
     production: {
         db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
+        siteUrl: 'http://marlinquoter.herokuapp.com',
         app: {
             name: 'MEAN - A Modern Stack - Production'
         },

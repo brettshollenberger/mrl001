@@ -106,7 +106,8 @@ var doSeed = function() {
             var item = new models[key](contents);
             
             // save object
-            item.save(function() {
+            item.save(function(err, data) {
+                if(err) throw(err);
                 console.log(key + ' ' + item._id + ' created.');
             }); 
             

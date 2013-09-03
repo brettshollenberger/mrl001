@@ -4,7 +4,7 @@ exports.seed = function() {
 
 var data = [
   {
-    // "id": 1,
+    
     "_id": '51e71518ed32080ffc000023',
     "name": "BearCom Operating LLC",
     "contactPerson": {
@@ -38,7 +38,7 @@ var data = [
     ]
   },
   {
-    // "id": 2,
+    
     "_id": '51e71518ed32080ffc000024',
     "name": "Protection One - West",
     "contactPerson": {
@@ -71,7 +71,7 @@ var data = [
     }
   },
   {
-    // "id": 3,
+    
     "_id": '51e71518ed32080ffc000025',
     "name": "Gametime",
     "contactPerson": {
@@ -104,7 +104,7 @@ var data = [
     ]
   },
   {
-    // "id": 4,
+    
     "_id": '51e71518ed32080ffc000026',
     "name": "Union Bank",
     "contactPerson": {
@@ -137,7 +137,7 @@ var data = [
     ]
   },
   {
-    // "id": 5,
+    
     "_id": '51e71518ed32080ffc000027',
     "name": "Southeastern Equipment & Supply, Inc.",
     "contactPerson": {
@@ -170,13 +170,12 @@ var data = [
     }
   },
   {
-    // "id": 6,
+    
     "_id": '51e71518ed32080ffc000028',
     "logo": {
       "original": "https://www.filepicker.io/api/file/AtnUNRiRSQCBrV1eDES8"
     },
     "state": false,
-    "salesRep" : '',
     "name": "Arizona Business Systems Inc",
     "businessAddress": {
       "address1": "16844 E Avenue of the Fountains",
@@ -197,12 +196,11 @@ var data = [
     }
   },
   {
-    // "id": 7,
+    
     "_id": '51e71518ed32080ffc000029',
     "logo": {
       "original": "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Praxair Inc",
     "businessAddress": {
@@ -222,12 +220,11 @@ var data = [
     }
   },
   {
-    // "id": 8,
+    
     "_id": '51e71518ed32080ffc000030',
     "logo": {
       "original": "https://www.filepicker.io/api/file/ga99yLAOSnqjeoJVAie7"
     },
-    "salesRep" : '',
     "state": false,
     "name": "EZ 2000 , Inc.",
     "businessAddress": {
@@ -248,12 +245,11 @@ var data = [
     }
   },
   {
-    // "id": 9,
+    
     "_id": '51e71518ed32080ffc000031',
     "logo": {
       "original": "https://www.filepicker.io/api/file/YVnYF7JITLyjN3dWWOaQ"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Meeting One",
     "businessAddress": {
@@ -273,12 +269,11 @@ var data = [
     }
   },
   {
-    // "id": 10,
+    
     "_id": '51e71518ed32080ffc000032',
     "logo": {
       "original": "https://www.filepicker.io/api/file/m6PTCIGdRsSVyMYimcI2"
     },
-    "salesRep" : '',
     "state": false,
     "name": "capitol office products",
     "businessAddress": {
@@ -298,12 +293,11 @@ var data = [
     }
   },
   {
-    // "id": 11,
+    
     "_id": '51e71518ed32080ffc000033',
     "logo": {
       "original": "https://www.filepicker.io/api/file/9gaCD06IQ9u9ZaE7YDnS"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Edge Business Systems LLC",
     "businessAddress": {
@@ -322,12 +316,11 @@ var data = [
     }
   },
   {
-    // "id": 12,
+    
     "_id": '51e71518ed32080ffc000034',
     "logo": {
       "original": "https://www.filepicker.io/api/file/bokWgO5uTl6gYIpFvkye"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Epay Systems",
     "businessAddress": {
@@ -347,12 +340,11 @@ var data = [
     }
   },
   {
-    // "id": 13,
+    
     "_id": '51e71518ed32080ffc000035',
     "logo": {
       "original": "https://www.filepicker.io/api/file/ehj73VN8RleUCWatx25K"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Central Restaurant Products",
     "businessAddress": {
@@ -372,12 +364,11 @@ var data = [
     }
   },
   {
-    // "id": 14,
+    
     "_id": '51e71518ed32080ffc000036',
     "logo": {
       "original": "https://www.filepicker.io/api/file/B057fvRamXKKOTr9xmMw"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Clark Security Products-Washington DC.",
     "businessAddress": {
@@ -397,12 +388,11 @@ var data = [
     }
   },
   {
-    // "id": 15,
+    
     "_id": '51e71518ed32080ffc000037',
     "logo": {
       "original": "https://www.filepicker.io/api/file/nkZx82FWQHWObEAvCCkR"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Hendrix Business Systems Inc",
     "businessAddress": {
@@ -423,12 +413,11 @@ var data = [
     }
   },
   {
-    // "id": 16,
+    
     "_id": '51e71518ed32080ffc000038',
     "logo": {
       "original": "https://www.filepicker.io/api/file/27BUlutGTwmUJ124XGLS"
     },
-    "salesRep" : '',
     "state": false,
     "name": "1st Run Computer Services, Inc.",
     "businessAddress": {
@@ -448,12 +437,11 @@ var data = [
     }
   },
   {
-    // "id": 17,
+    
     "_id": '51e71518ed32080ffc000039',
     "logo": {
       "original": "https://www.filepicker.io/api/file/SOgR7MisTbuisebKHdxg"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Autozone, Inc - CORP",
     "businessAddress": {
@@ -470,12 +458,11 @@ var data = [
     "locatorEnabled": true
   },
   {
-    // "id": 18,
+    
     "_id": '51e71518ed32080ffc000040',
     "logo": {
       "original": "https://www.filepicker.io/api/file/2MeQ92VoTZSNA3JwLQf0"
     },
-    "salesRep" : '',
     "state": false,
     "name": "American Typewriter & Office Equipment",
     "businessAddress": {
@@ -494,11 +481,10 @@ var data = [
     }
   },
   {
-    // "id": 19,
+    
     "_id": '51e71518ed32080ffc000041',
     "logo": {},
     "state": false,
-    "salesRep" : '',
     "name": "Cuda Washington Inc.",
     "businessAddress": {
       "address1": "914 164th St SE Ste 1698",
@@ -511,12 +497,11 @@ var data = [
     "locatorEnabled": true
   },
   {
-    // "id": 20,
+    
     "_id": '51e71518ed32080ffc000042',
     "logo": {
       "original": "https://www.filepicker.io/api/file/aiXfeFchQxu6ua1YueUs"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Advanced Mailing & Shipping Tech Inc",
     "businessAddress": {
@@ -532,12 +517,11 @@ var data = [
     "locatorEnabled": true
   },
   {
-    // "id": 21,
+    
     "_id": '51e71518ed32080ffc000043',
     "logo": {
       "original": "https://www.filepicker.io/api/file/I9KHZslQoKC2teGmUoSM"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Warren Southwest Refrigeration",
     "businessAddress": {
@@ -558,12 +542,11 @@ var data = [
     }
   },
   {
-    // "id": 22,
+    
     "_id": '51e71518ed32080ffc000044',
     "logo": {
       "original": "https://www.filepicker.io/api/file/SjFpjBZZRU6Tcfz4qrNa"
     },
-    "salesRep" : '',
     "state": false,
     "name": "Air-Care",
     "businessAddress": {
@@ -583,11 +566,10 @@ var data = [
     }
   },
   {
-    // "id": 23,
+    
     "_id": '51e71518ed32080ffc000045',
     "logo": {},
     "state": false,
-    "salesRep" : '',
     "name": "B&G Restaurant Supply Inc.",
     "businessAddress": {
       "address1": "48 Eagle St",
@@ -606,13 +588,12 @@ var data = [
     }
   },
   {
-    // "id": 24,
+    
     "_id": '51e71518ed32080ffc000046',
     "logo": {
       "original": "https://www.filepicker.io/api/file/JnaftzTAQuST64VnRHXg"
     },
     "state": false,
-    "salesRep" : '',
     "name": "American Dish Service",
     "businessAddress": {
       "address1": "900 Blake St",

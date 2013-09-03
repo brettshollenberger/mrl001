@@ -1,5 +1,5 @@
 angular
-    .module('app', ['mm.unsavedChanges', 'ui.validate', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.google.analytics', 'google-maps', 'truncate',
+    .module('app', ['unsavedNew', 'ui.validate', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.google.analytics', 'google-maps', 'truncate',
         function() {
 
         }

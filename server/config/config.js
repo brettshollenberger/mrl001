@@ -57,7 +57,7 @@ module.exports = {
         }
     },
     production: {
-        db: 'mongodb://localhost/mean',
+        db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
         app: {
             name: 'MEAN - A Modern Stack - Production'

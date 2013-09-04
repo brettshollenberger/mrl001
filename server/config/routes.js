@@ -1,6 +1,6 @@
 var async = require('async');
 
-module.exports = function(app, passport, auth, user, config) {
+module.exports = function(app, passport, auth, user, config, acl) {
    /*
  //User Routes
     var users = require('../app/controllers/users');
@@ -56,7 +56,10 @@ module.exports = function(app, passport, auth, user, config) {
     app.param('userId', users.user);
 */
     
-    
+    app.all('/api/v1*', function(res, req, next) {
+       console.log(req.session);
+       next();
+    });
    
     
     /**
@@ -166,12 +169,29 @@ module.exports = function(app, passport, auth, user, config) {
 	var vendors = require('../app/controllers/vendors');
     //app.get('/vendors', user.is('admin'), vendors.all);
     // show all vendors, or just users vendors based on role
-    app.get('/api/v1/vendors', function(req, res, next) {
+    app.get('/api/v1/vendors',  function(req, res, next) {
+         
+        //console.log(req.isAuthenticated()); 
+        console.log(req.user);
+         
+        // Query the ACL
+        acl.query("salesRep", "blog", "comment", function(err, allowed) {
+          if (allowed) {
+             vendors.all(req, res, next); 
+          } else {
+             res.failure('Not authorized!');
+          }
+        }); 
+         
+          
+        
             
-        if(!req.user.role)                      vendors.getAllNames(req, res, next);
+        /*
+if(!req.user.role)                      vendors.getAllNames(req, res, next);
         else if(req.user.role === 'admin')      vendors.all(req, res, next);
         else if(req.user.role === 'salesRep')   vendors.allForSalesRep(req, res, next);
         else                                    res.send('Not found', 404);
+*/
         
     });
     
@@ -179,12 +199,16 @@ module.exports = function(app, passport, auth, user, config) {
     
     // @todo this technically works for now, but needs to be locked down with different show functions per role
     app.get('/api/v1/vendors/:vendorId', function(req, res, next) {
+                
+        vendors.show(req, res, next);        
             
-        if(!req.user.role)                      vendors.show(req, res, next);
+        /*
+if(!req.user.role)                      vendors.show(req, res, next);
         else if(req.user.role === 'admin')      vendors.show(req, res, next);
         else if(req.user.role === 'salesRep')   vendors.show(req, res, next);
         else                                    res.send('Not found', 404);
         
+*/
     });
     app.put('/api/v1/vendors/:vendorId', user.is('admin'), vendors.update);
     app.del('/api/v1/vendors/:vendorId', user.is('admin'), vendors.destroy);

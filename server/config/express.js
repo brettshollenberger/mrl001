@@ -8,7 +8,7 @@ var express = require('express'),
     helpers = require('view-helpers');
     
 var fs = require('fs');
-
+var acl = require('acl');
 
 module.exports = function(app, config, passport, user) {
     app.set('showStackError', true);
@@ -33,6 +33,7 @@ module.exports = function(app, config, passport, user) {
     
     app.use(allowCrossDomain);
     
+
 
 
     /**
@@ -139,7 +140,7 @@ module.exports = function(app, config, passport, user) {
         // -----
         // mode to after router when issue https://github.com/ForbesLindesay/connect-roles/issues/21
         // is fixed
-        app.use(user);
+        //app.use(user);
         
 
         // routes should be at the last

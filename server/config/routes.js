@@ -133,6 +133,53 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     app.param('quoteId', quotes.quote);
     
     
+    /**
+    * Secure all API endpoints with ACL
+    * Here we do our checks to assign roles etc. based on user.id and resource.id
+    *
+    */
+    app.all('/api*', function(req, res, next) {
+        
+        // if there is no user set, grant guest access
+        if(!req.user || !req.user.userId) {
+            console.log('Adding guest access');
+            req.user = {
+                userId: 'guest'
+            };
+            acl2.addUserRoles(req.user.userId, 'admin', function(err) {}); 
+            acl2.whatResources(req.user.userId, function(err, roles) {
+                console.log(roles);
+            });
+            return next();
+        }
+        
+        
+        console.log('req.user is:');
+        console.log(req.user);
+        
+        if(req.user.roles.indexOf('admin')) {
+            console.log('We have an admin!!!');
+        }
+        
+        /*
+acl2.addUserRoles(req.user.userId, req.user.roles, function(err) {
+            if(err) throw (err);
+        });
+*/
+        
+                
+        if(req.user.userId) {
+            acl2.addUserRoles(req.user.userId, 'author', function(err) {
+                if(err) throw (err);
+            });  
+        }
+        
+        
+        
+        next();
+        
+    });
+    
     
     /**
 	* APPLCIATIONS routes
@@ -141,23 +188,22 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
 	var applications = require('../app/controllers/applications');
     //app.get('/applications', user.is('admin'), user.is('salesRep'), user.is('vendor'), applications.all);
     
-    app.get('/api/v1/applications', function(req, res, next) {
+    app.get('/api/v1/applications', acl2.middleware(3, 'guest', 'list'), function(req, res, next) {
         
-        console.log('req.user is:');
-        console.log(req.user);
-        
-        acl2.addUserRoles(req.user.userId, req.user.roles, function(err) {
-            if(err) throw (err);
-        });
+        applications.all(req, res, next);
         
         
-        acl2.whatResources("member", function(err, roles) {
+        
+        
+        
+        /*
+acl2.whatResources("member", function(err, roles) {
             console.log(err);
             console.log(roles);
         });
         
         
-        acl2.isAllowed(req.user.userId, 'blogs', 'view', function(err, res2){
+        acl2.isAllowed(req.user.userId, 'blogs', 'customCheck', function(err, res2){
             if(res2){
                 console.log("Authroized!");
             } else {
@@ -165,6 +211,7 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
             }
         });
           
+*/
             
         /*
 if(req.user.role === 'admin') {
@@ -181,7 +228,7 @@ if(req.user.role === 'admin') {
     app.post('/api/v1/applications', applications.create);
     app.get('/api/v1/applications/:applicationId', applications.show);
     app.put('/api/v1/applications/:applicationId', applications.update);
-    app.del('/api/v1/applications/:applicationId', user.is('admin'), applications.destroy);
+    app.del('/api/v1/applications/:applicationId', acl2.middleware(3, 'admin', 'delete'), applications.destroy);
 
     app.param('applicationId', applications.application);
 

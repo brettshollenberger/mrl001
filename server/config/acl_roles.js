@@ -4,9 +4,40 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     /**
     * https://github.com/OptimalBits/node_acl
     */
-    acl2.allow('member', 'blogs', ['edit','view', 'delete'], function(err) {
-        if(err) throw(err);
-    });
+    
+    var customCheck = function() {
+        console.log('custom check???');
+    };
+    
+    
+    
+
+    acl2.allow([
+        {
+            roles:['self'], 
+            allows:[
+                {resources:'users', permissions:['view', 'update', 'changePassword']}
+            ]
+        },
+        {
+            roles:['rep'], 
+            allows:[
+                {resources:'vendors', permissions:['list', 'view', 'update']},
+                {resources:['applications','quotes'], permissions:['list', 'view', 'create', 'update']}
+            ]
+        },
+        {
+            roles:['guest'], 
+            allows:[
+                {resources:'vendors', permissions:['view']},
+                {resources:['quotes'], permissions:['list', 'view', 'create', 'update']},
+                {resources:['applications'], permissions:['list', 'view', 'create']}
+                
+            ]
+        }
+    ], function(err) {});
+    
+    acl2.allow('admin', '*', '*', function() {});
 
 
 

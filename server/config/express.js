@@ -167,9 +167,16 @@ module.exports = function(app, config, passport, user) {
         app.use(function(err, req, res, next) {
             
             //Log it
+            console.error(err);
             console.error(err.stack);
             
-            if(err.message.indexOf('CastError')) {
+            if(err && err.msg ) {
+                // respond with 'bad request' ie: this will never work
+                // dont try this request again!                 
+                return res.failure(err.msg, 401); 
+            }
+            
+            if(err && err.message && err.message.indexOf('CastError')) {
                 // respond with 'bad request' ie: this will never work
                 // dont try this request again!                 
                 return res.failure('Invalid object id.', 400); 

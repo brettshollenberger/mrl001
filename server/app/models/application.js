@@ -31,6 +31,10 @@ var ApplicationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Vendor'
     },
+    "salesRep" : {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     vendor: {},
     quote: {},
     leasee: {

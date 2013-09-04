@@ -18,6 +18,10 @@ var QuoteSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Vendor'
     },
+    "salesRep" : {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     description: {type: String, "default": '', trim: true},
     company: {
        "name": {type: String, "default": '', trim: true},

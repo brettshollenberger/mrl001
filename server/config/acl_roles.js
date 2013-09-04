@@ -10,7 +10,7 @@ module.exports = function(app, config, passport, user, acl) {
     
     // Set up access rules (LIFO)
     acl.deny();                               // deny all by default
-    acl.allow("admin");                       // allow admin access to everything
+    acl.allow("admin", "vendors", ["create", "edit", "view", "update"]);                       // allow admin access to everything
     acl.allow("member", "blog", "comment");   // allow members to comment on blogs
     acl.allow(null, "blog", "view");          // allow everyone to view the blogs
     acl.allow("guest", "blog", ["list", "search"]); // supports arrays of actions

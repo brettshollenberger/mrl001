@@ -20,7 +20,7 @@ module.exports = function(passport, config) {
         User.findOne({
             _id: id
         }, function(err, user) {
-            console.log('deseralize user???');
+            if(user._id) user.userId = user._id;
             done(err, user);
         });
     });

@@ -19,6 +19,7 @@ var UserSchema = new Schema({
     fullname: String,
     email: String,
     username: String,
+    userId: String,
     provider: String,
     hashed_password: String,
     salt: String,

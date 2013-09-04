@@ -172,10 +172,11 @@ module.exports = function(app, passport, auth, user, config, acl) {
     app.get('/api/v1/vendors',  function(req, res, next) {
          
         //console.log(req.isAuthenticated()); 
+        console.log('req.user is:');
         console.log(req.user);
          
         // Query the ACL
-        acl.query("salesRep", "blog", "comment", function(err, allowed) {
+        acl.query(req.user.role, "blog", "view", function(err, allowed) {
           if (allowed) {
              vendors.all(req, res, next); 
           } else {

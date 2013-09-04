@@ -37,6 +37,33 @@ var QuoteSchema = new Schema({
     }
 });
 
+/*
+// the below 4 validations only apply if you are signing up traditionally
+QuoteSchema.path('vendorId').validate(function(vendorId) {
+    console.log('Validate vendorId');
+    return vendorId ? true : false;
+}, 'Vendor id must be provided with a new quote.');
+*/
+
+
+QuoteSchema.pre('save', function(next, something) {  
+    
+    var self = this;
+    
+    console.log(next);
+    console.log(something);
+    
+    // attempt to get the sales rep, which we save with the quote
+    // for easy geting from the database 
+    mongoose.models.Vendor.getCurrentSalesRepId(self.vendorId, function(err, result) {
+        if(err) { 
+            next(new Error('Not a valid vendor'));
+        } else { 
+            self.salesRep = result;
+            next();
+        }
+    });
+});
 /**
  * Statics
  */

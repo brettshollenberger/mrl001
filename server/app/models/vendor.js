@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema;
+
     
 var _ = require('lodash');
 
@@ -123,6 +124,27 @@ VendorSchema.pre('save', function(next) {
     
     next();
 });
+
+
+VendorSchema.statics = {
+    
+    getCurrentSalesRepId: function(vendorId, cb) {
+        
+        // attempt to get the sales rep, which we save with the quote
+        // for easy geting from the database 
+        return this.findOne({_id : vendorId}, function(err, result) {
+            if(err) return cb(err);
+            if(result && result.salesRep) {
+                return cb(null, result.salesRep);
+            } else {
+                return cb(new Error('No sales rep')); 
+            }
+        });
+        
+    }
+
+};
+
 
 
 

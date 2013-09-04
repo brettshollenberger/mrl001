@@ -32,7 +32,8 @@ module.exports = function(app, config, passport, user) {
     };
     
     app.use(allowCrossDomain);
-    
+
+
 
 
 

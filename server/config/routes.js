@@ -1,4 +1,5 @@
 var async = require('async');
+var util = require('util');
 
 module.exports = function(app, passport, auth, user, config, acl, acl2) {
    /*
@@ -138,6 +139,7 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     * Here we do our checks to assign roles etc. based on user.id and resource.id
     *
     */
+/*
     app.all('/api*', function(req, res, next) {
         
         // if there is no user set, grant guest access
@@ -160,13 +162,7 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
         if(req.user.roles.indexOf('admin')) {
             console.log('We have an admin!!!');
         }
-        
-        /*
-acl2.addUserRoles(req.user.userId, req.user.roles, function(err) {
-            if(err) throw (err);
-        });
-*/
-        
+     
                 
         if(req.user.userId) {
             acl2.addUserRoles(req.user.userId, 'author', function(err) {
@@ -179,6 +175,7 @@ acl2.addUserRoles(req.user.userId, req.user.roles, function(err) {
         next();
         
     });
+*/
     
     
     /**
@@ -233,6 +230,45 @@ if(req.user.role === 'admin') {
     app.param('applicationId', applications.application);
 
 
+    /**
+    * Middleware authentication using vergin-acl
+    * 
+    * Function accepts action and resource params. Uses req.user.role to perform a check
+    * assigns quest role if no other roles exist
+    * 
+    * @see config/acl_roles.js for roles
+    *
+    * @note vergin-acl doesn't support middleware out of the box, so we wrap its check in our own middleware
+    *
+    */
+    function isUserAllowed(action, resource) {
+      return function(req, res, next) {
+                
+        // add quest role for non-logged in users. 
+        if(!req.user || !req.user.role) {
+            req.user = {
+                role: 'guest'
+            };
+        }
+        
+        console.log(util.format('Can user role %s %s %s?', req.user.role, action, resource));
+        
+        // perform acl query on resource + action
+        // responds with 401 and message if user doesn't have permissions
+        acl.query(req.user.role, resource, action, function(err, allowed) {
+          if(err) throw(err);
+          if (allowed) {
+             next(); 
+          } else {
+             return res.failure( util.format('You are not authorized to %s %s', action, resource), 401);
+          }
+        }); 
+      };
+    }
+        
+   
+
+
 	/**
 	* VENDORS routes
 	* -------------------------
@@ -241,38 +277,8 @@ if(req.user.role === 'admin') {
 	var vendors = require('../app/controllers/vendors');
     //app.get('/vendors', user.is('admin'), vendors.all);
     // show all vendors, or just users vendors based on role
-    app.get('/api/v1/vendors',  function(req, res, next) {
-         
-        // verifyUserCan("blog", "view"), 
-         
-        //console.log(req.isAuthenticated()); 
-        console.log('req.user is:');
-        console.log(req.user);
-         
-        // Query the ACL
-        acl.query(req.user.role, "blog", "view", function(err, allowed) {
-          if (allowed) {
-             vendors.all(req, res, next); 
-          } else {
-             res.failure('Not authorized!');
-          }
-        }); 
-        
-        
-         
-          
-        
-            
-        /*
-if(!req.user.role)                      vendors.getAllNames(req, res, next);
-        else if(req.user.role === 'admin')      vendors.all(req, res, next);
-        else if(req.user.role === 'salesRep')   vendors.allForSalesRep(req, res, next);
-        else                                    res.send('Not found', 404);
-*/
-        
-    });
-    
-    app.post('/api/v1/vendors', user.is('admin'), vendors.create);
+    app.get('/api/v1/vendors', isUserAllowed('list', 'vendors'), vendors.all);
+    app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
     
     // @todo this technically works for now, but needs to be locked down with different show functions per role
     app.get('/api/v1/vendors/:vendorId', function(req, res, next) {

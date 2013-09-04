@@ -54,6 +54,8 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     
     // Set up resources
     acl.addResource("blog");                  // blog resource, inherits no resources
+    acl.addResource("vendors");
+    
     
     // Set up access rules (LIFO)
     acl.deny();                               // deny all by default

@@ -25,10 +25,18 @@ exports.quote = function(req, res, next, id) {
  * Create a quote
  */
 exports.create = function(req, res) {
+    
     var quote = new Quote(req.body);
 
-    quote.save();
-    res.ok(quote);
+    quote.save(function(err) {
+        console.log(err);
+       if(err) {
+        return res.failure(err);
+        } else {
+            res.ok(quote); 
+        }
+    });
+    
 };
 
 
@@ -73,14 +81,81 @@ exports.show = function(req, res) {
 /**
  * List of Quotes
  */
+/*
 exports.all = function(req, res) {
-    Quote.find().sort('-status -created').exec(function(err, quotes) {
+    Quote
+        //.find({vendorId: { '$ne' : null }})
+        .find()
+        //.populate('vendor vendorId', null, { salesRep: { $in: [req.user._id] }})
+        //.populate('vendor vendorId')
+        .populate({
+            path: 'vendorId'
+          , select: 'salesRep'
+          , match: { salesRep: req.user._id }
+          , options: { sort: { created: -1 }}
+        })
+        //.equals(req.user._id)
+        .sort('-status -created')
+        .exec(function(err, quotes) {
         if (err) {
             res.failure(err);
         } else {
             res.ok(quotes);
         }
     });
+};
+*/
+
+
+exports.all = function(req, res) {
+    
+    
+    /*
+// populates an array of objects
+    Quote.find(function (err, users) {
+      var opts = [{path: 'vendorId', match: { salesRep: req.user._id }}];
+    
+      users.populate(opts).exec(function (err, quotes) {
+        console.log(quotes);
+        res.ok(quotes);
+      });
+    });
+*/
+/*
+    var opts = {
+        path: 'vendorId'        // either single path or multiple space delimited paths
+      //, select: 'name age'            // optional
+      //, model: 'ModelName'            // optional
+      , match: { salesRep: req.user._id }   // optional
+      //, options: { limit: 1} // optional
+    };
+    
+    Quote.find(function (err, quotes) {
+        Quote.populate(quotes, opts, function(err, quotes) {
+            res.ok(quotes);
+        });
+    });
+*/
+
+        var where = {};
+        
+        where = {salesRep : req.user._id};
+        //where = {salesRep : req.user.vendorId};
+ 
+        Quote
+        .find(where)
+        .sort('-status -created')
+        //.populate('vendorId salesRep')
+        .exec(function(err, quotes) {
+            if (err) {
+                 res.failure(err);
+            } else {
+               res.ok(quotes, 'Getting quotes for salesRep ' + req.user.fullName);
+            }
+        });   
+    
+    
+    
 };
 
 

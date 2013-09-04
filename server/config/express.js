@@ -168,8 +168,15 @@ module.exports = function(app, config, passport, user) {
         app.use(function(err, req, res, next) {
             
             //Log it
+            console.log('ERROR');
             console.error(err);
             console.error(err.stack);
+            
+            if(err && err.msg ) {
+                // respond with 'bad request' ie: this will never work
+                // dont try this request again!                 
+                return res.failure(err.msg, 401); 
+            }
             
             if(err && err.msg ) {
                 // respond with 'bad request' ie: this will never work

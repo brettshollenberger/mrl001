@@ -55,15 +55,19 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     // Set up resources
     acl.addResource("blog");                  // blog resource, inherits no resources
     acl.addResource("vendors");
+    acl.addResource("quotes");
+    
     
     
     // Set up access rules (LIFO)
-    acl.deny();                               // deny all by default
+    acl.deny(); 
+    acl.allow("admin");                            
     acl.allow("admin", "vendors", ["create", "edit", "view", "update"]);                       // allow admin access to everything
     acl.allow("member", "blog", "comment");   // allow members to comment on blogs
     acl.allow(null, "blog", "view");          // allow everyone to view the blogs
     acl.allow("guest", "blog", ["list", "search"]); // supports arrays of actions
     
+    acl.allow("salesRep", "quotes", ["list"]);
 
 
 

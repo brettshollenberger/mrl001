@@ -56,12 +56,45 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     //Finish with setting up the userId param
     app.param('userId', users.user);
 */
-    
-    app.all('/api/v1*', function(res, req, next) {
-       console.log(req.session);
-       next();
-    });
-   
+
+
+    /**
+    * Middleware authentication using vergin-acl
+    * -------------------------
+    * 
+    * Function accepts action and resource params. Uses req.user.role to perform a check
+    * assigns quest role if no other roles exist
+    * 
+    * @see config/acl_roles.js for roles
+    *
+    * @note vergin-acl doesn't support middleware out of the box, so we wrap its check in our own middleware
+    *
+    */
+    function isUserAllowed(action, resource) {
+      return function(req, res, next) {
+                
+        // add quest role for non-logged in users. 
+        if(!req.user || !req.user.role) {
+            req.user = {
+                role: 'guest'
+            };
+        }
+        
+        console.log(util.format('Can user role %s %s %s?', req.user.role, action, resource));
+        
+        // perform acl query on resource + action
+        // responds with 401 and message if user doesn't have permissions
+        acl.query(req.user.role, resource, action, function(err, allowed) {
+          if(err) throw(err);
+          if (allowed) {
+             next(); 
+          } else {
+             return res.failure( util.format('You are not authorized to %s %s', action, resource), 401);
+          }
+        }); 
+      };
+    }
+
     
     /**
 	* USERS / AUTH routes
@@ -83,19 +116,19 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
 	* -------------------------
 	*/
 	//var users = require('../app/controllers/users');
-    app.get('/api/v1/users', user.is('admin'), users.all);
-    app.post('/api/v1/users', user.is('admin'), users.create);
+    app.get('/api/v1/users', isUserAllowed('list', 'users'), users.all);
+    app.post('/api/v1/users', isUserAllowed('create', 'users'), users.create);
     // @todo check for vendor, is this their approved sales rep?
-    app.get('/api/v1/users/:userId', user.can('view user'), users.show);  
+    app.get('/api/v1/users/:userId', isUserAllowed('view', 'users'), users.show);  
     // sales rep and vendor = edit their own info
-    app.put('/api/v1/users/:userId', user.can('edit user'), users.update); 
-    app.del('/api/v1/users/:userId', user.can('delete user'), users.destroy);
+    app.put('/api/v1/users/:userId', isUserAllowed('update', 'users'), users.update); 
+    app.del('/api/v1/users/:userId', isUserAllowed('delete', 'users'), users.destroy);
 
     // update user role
-    app.put('/api/v1/users/:userId/role', user.is('admin'), users.updateRole);
+    app.put('/api/v1/users/:userId/role', isUserAllowed('update', 'role'), users.updateRole);
     
     // update user password
-    app.put('/api/v1/users/:userId/password', user.can('edit user'), users.updatePassword);
+    app.put('/api/v1/users/:userId/password', isUserAllowed('update', 'password'), users.updatePassword);
 
     app.param('userId', users.user);
     
@@ -108,7 +141,8 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
 	var quotes = require('../app/controllers/quotes');
     //app.get('/quotes', user.is('logged in'), quotes.all);
     
-    app.get('/api/v1/quotes', user.is('logged in'), function(req, res, next) {
+    /*
+app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, next) {
             
         if(req.user.role === 'admin') {
             quotes.all(req, res, next);
@@ -121,6 +155,9 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
         }
         
     });
+*/
+    
+    app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
     
     app.post('/api/v1/quotes', quotes.create);
     app.get('/api/v1/quotes/:quoteId', quotes.show);
@@ -230,41 +267,7 @@ if(req.user.role === 'admin') {
     app.param('applicationId', applications.application);
 
 
-    /**
-    * Middleware authentication using vergin-acl
-    * 
-    * Function accepts action and resource params. Uses req.user.role to perform a check
-    * assigns quest role if no other roles exist
-    * 
-    * @see config/acl_roles.js for roles
-    *
-    * @note vergin-acl doesn't support middleware out of the box, so we wrap its check in our own middleware
-    *
-    */
-    function isUserAllowed(action, resource) {
-      return function(req, res, next) {
-                
-        // add quest role for non-logged in users. 
-        if(!req.user || !req.user.role) {
-            req.user = {
-                role: 'guest'
-            };
-        }
-        
-        console.log(util.format('Can user role %s %s %s?', req.user.role, action, resource));
-        
-        // perform acl query on resource + action
-        // responds with 401 and message if user doesn't have permissions
-        acl.query(req.user.role, resource, action, function(err, allowed) {
-          if(err) throw(err);
-          if (allowed) {
-             next(); 
-          } else {
-             return res.failure( util.format('You are not authorized to %s %s', action, resource), 401);
-          }
-        }); 
-      };
-    }
+    
         
    
 

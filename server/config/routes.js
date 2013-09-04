@@ -1,6 +1,6 @@
 var async = require('async');
 
-module.exports = function(app, passport, auth, user, config, acl) {
+module.exports = function(app, passport, auth, user, config, acl, acl2) {
    /*
  //User Routes
     var users = require('../app/controllers/users');
@@ -141,15 +141,40 @@ module.exports = function(app, passport, auth, user, config, acl) {
 	var applications = require('../app/controllers/applications');
     //app.get('/applications', user.is('admin'), user.is('salesRep'), user.is('vendor'), applications.all);
     
-    app.get('/api/v1/applications', user.is('logged in'), function(req, res, next) {
+    app.get('/api/v1/applications', function(req, res, next) {
+        
+        console.log('req.user is:');
+        console.log(req.user);
+        
+        acl2.addUserRoles(req.user.userId, req.user.roles, function(err) {
+            if(err) throw (err);
+        });
+        
+        
+        acl2.whatResources("member", function(err, roles) {
+            console.log(err);
+            console.log(roles);
+        });
+        
+        
+        acl2.isAllowed(req.user.userId, 'blogs', 'view', function(err, res2){
+            if(res2){
+                console.log("Authroized!");
+            } else {
+                res.send('not authorized');
+            }
+        });
+          
             
-        if(req.user.role === 'admin') {
+        /*
+if(req.user.role === 'admin') {
             applications.all(req, res, next);
         } else if(req.user.role === 'salesRep') {
             applications.getAllForSalesRep(req, res, next);
         } else {
             res.send('Not found', 404);
         }
+*/
         
     });
     
@@ -171,6 +196,8 @@ module.exports = function(app, passport, auth, user, config, acl) {
     // show all vendors, or just users vendors based on role
     app.get('/api/v1/vendors',  function(req, res, next) {
          
+        // verifyUserCan("blog", "view"), 
+         
         //console.log(req.isAuthenticated()); 
         console.log('req.user is:');
         console.log(req.user);
@@ -183,6 +210,8 @@ module.exports = function(app, passport, auth, user, config, acl) {
              res.failure('Not authorized!');
           }
         }); 
+        
+        
          
           
         

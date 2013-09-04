@@ -1,4 +1,20 @@
-module.exports = function(app, config, passport, user, acl) {
+module.exports = function(app, config, passport, user, acl, acl2) {
+
+
+    /**
+    * https://github.com/OptimalBits/node_acl
+    */
+    acl2.allow('member', 'blogs', ['edit','view', 'delete'], function(err) {
+        if(err) throw(err);
+    });
+
+
+
+    /**
+    * ------------
+    * https://github.com/djvirgen/virgen-acl 
+    * ------------
+    */
 
     // Set up roles
     acl.addRole("guest");                     // guest user, inherits from no one

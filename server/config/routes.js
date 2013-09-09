@@ -125,10 +125,10 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     app.del('/api/v1/users/:userId', isUserAllowed('delete', 'users'), users.destroy);
 
     // update user role
-    app.put('/api/v1/users/:userId/role', isUserAllowed('update', 'role'), users.updateRole);
+    app.put('/api/v1/users/:userId/role', isUserAllowed('updateRole', 'users'), users.updateRole);
     
     // update user password
-    app.put('/api/v1/users/:userId/password', isUserAllowed('update', 'password'), users.updatePassword);
+    app.put('/api/v1/users/:userId/password', isUserAllowed('updatePassword', 'users'), users.updatePassword);
 
     app.param('userId', users.user);
     
@@ -159,10 +159,10 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     
     app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
     
-    app.post('/api/v1/quotes', quotes.create);
-    app.get('/api/v1/quotes/:quoteId', quotes.show);
-    app.put('/api/v1/quotes/:quoteId', quotes.update);
-    app.del('/api/v1/quotes/:quoteId', user.is('admin'), quotes.destroy);
+    app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), quotes.create);
+    app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
+    app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
+    app.del('/api/v1/quotes/:quoteId', isUserAllowed('delete', 'quotes'), quotes.destroy);
 
     var webshot = require('../app/controllers/webshot')(app, config);
     
@@ -222,54 +222,14 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
 	var applications = require('../app/controllers/applications');
     //app.get('/applications', user.is('admin'), user.is('salesRep'), user.is('vendor'), applications.all);
     
-    app.get('/api/v1/applications', acl2.middleware(3, 'guest', 'list'), function(req, res, next) {
-        
-        applications.all(req, res, next);
-        
-        
-        
-        
-        
-        /*
-acl2.whatResources("member", function(err, roles) {
-            console.log(err);
-            console.log(roles);
-        });
-        
-        
-        acl2.isAllowed(req.user.userId, 'blogs', 'customCheck', function(err, res2){
-            if(res2){
-                console.log("Authroized!");
-            } else {
-                res.send('not authorized');
-            }
-        });
-          
-*/
-            
-        /*
-if(req.user.role === 'admin') {
-            applications.all(req, res, next);
-        } else if(req.user.role === 'salesRep') {
-            applications.getAllForSalesRep(req, res, next);
-        } else {
-            res.send('Not found', 404);
-        }
-*/
-        
-    });
-    
-    app.post('/api/v1/applications', applications.create);
-    app.get('/api/v1/applications/:applicationId', applications.show);
-    app.put('/api/v1/applications/:applicationId', applications.update);
-    app.del('/api/v1/applications/:applicationId', acl2.middleware(3, 'admin', 'delete'), applications.destroy);
+    app.get('/api/v1/applications', isUserAllowed('list', 'applications'), applications.all);
+    app.post('/api/v1/applications', isUserAllowed('create', 'applications'), applications.create);
+    app.get('/api/v1/applications/:applicationId', isUserAllowed('view', 'applications'), applications.show);
+    app.put('/api/v1/applications/:applicationId', isUserAllowed('update', 'applications'), applications.update);
+    app.del('/api/v1/applications/:applicationId', isUserAllowed('delete', 'applications'), applications.destroy);
 
     app.param('applicationId', applications.application);
 
-
-    
-        
-   
 
 
 	/**
@@ -284,26 +244,15 @@ if(req.user.role === 'admin') {
     app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
     
     // @todo this technically works for now, but needs to be locked down with different show functions per role
-    app.get('/api/v1/vendors/:vendorId', function(req, res, next) {
-                
-        vendors.show(req, res, next);        
-            
-        /*
-if(!req.user.role)                      vendors.show(req, res, next);
-        else if(req.user.role === 'admin')      vendors.show(req, res, next);
-        else if(req.user.role === 'salesRep')   vendors.show(req, res, next);
-        else                                    res.send('Not found', 404);
-        
-*/
-    });
-    app.put('/api/v1/vendors/:vendorId', user.is('admin'), vendors.update);
-    app.del('/api/v1/vendors/:vendorId', user.is('admin'), vendors.destroy);
+    app.get('/api/v1/vendors/:vendorId', isUserAllowed('view', 'vendors'), vendors.show);
+    app.put('/api/v1/vendors/:vendorId', isUserAllowed('update', 'vendors'), vendors.update);
+    app.del('/api/v1/vendors/:vendorId', isUserAllowed('delete', 'vendors'), vendors.destroy);
     
     // get programs for a vendor
     // @todo replace when we get a proper children setup
     
-    app.get('/api/v1/vendors/:vendorId/programs', vendors.getCurrentVendorPrograms);
-    app.get('/api/v1/vendors/:vendorId/available_programs', user.is('admin'), vendors.getAvailableVendorPrograms);
+    app.get('/api/v1/vendors/:vendorId/programs', isUserAllowed('updatePrograms', 'vendors'), vendors.getCurrentVendorPrograms);
+    app.get('/api/v1/vendors/:vendorId/available_programs', isUserAllowed('updatePrograms', 'vendors'), vendors.getAvailableVendorPrograms);
 
     app.param('vendorId', vendors.vendor);
     
@@ -320,11 +269,11 @@ if(!req.user.role)                      vendors.show(req, res, next);
 	* 
 	*/
 	var programs = require('../app/controllers/programs');
-    app.get('/api/v1/programs', user.is('logged in'), programs.all);
-    app.post('/api/v1/programs', user.is('admin'), programs.create);
-    app.get('/api/v1/programs/:programId', programs.show);
-    app.put('/api/v1/programs/:programId', user.is('admin'), programs.update);
-    app.del('/api/v1/programs/:programId', user.is('admin'), programs.destroy);
+    app.get('/api/v1/programs', isUserAllowed('list', 'programs'), programs.all);
+    app.post('/api/v1/programs', isUserAllowed('create', 'programs'), programs.create);
+    app.get('/api/v1/programs/:programId', isUserAllowed('view', 'programs'), programs.show);
+    app.put('/api/v1/programs/:programId', isUserAllowed('update', 'programs'), programs.update);
+    app.del('/api/v1/programs/:programId', isUserAllowed('delete', 'programs'), programs.destroy);
 
     app.param('programId', programs.program);
     

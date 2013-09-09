@@ -91,7 +91,7 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     acl.allow("rep", "vendors",         ["update"]);
     acl.allow("rep", "quotes",          ["list"]);
     acl.allow("rep", "applications",    ["list"]);                            
-    acl.allow("rep", "users",           ["view", "update"]);
+    acl.allow("rep", "users",           ["view", "update", "updatePassword"]);
     
     
     /**

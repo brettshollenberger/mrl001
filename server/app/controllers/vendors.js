@@ -145,8 +145,11 @@ exports.getCurrentVendorPrograms = function(req, res) {
 
 
 exports.getAvailableVendorPrograms = function(req, res) {
+     //console.log(req.vendor.programs);
+     //var theIds = req.vendor.programs;
+     
      var theIds = _.pluck(req.vendor.programs, '_id');
-     console.log(theIds);
+     if(!theIds) theIds = [];
      Program.find().where('_id').nin(theIds).sort('-created').exec(function(err, programs) {
         if (err) {
             res.failure(err);

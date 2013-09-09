@@ -145,7 +145,7 @@ VendorSchema.statics = {
     load: function(id, cb) {
         this.findOne({
             _id: id
-        }).exec(cb);
+        }).populate('programs salesRep vendorRep').exec(cb);
     }
 
 };

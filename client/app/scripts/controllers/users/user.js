@@ -11,6 +11,9 @@ angular
 
             Auth.canUserDoAction('list-users');
 
+            $scope.roleFilter = '';
+            $scope.searchTerm = '';
+
             // Options you can set user roles
             $scope.roles = [
                 {value: 'salesRep', label: 'Sales Rep'},

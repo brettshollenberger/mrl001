@@ -12,6 +12,14 @@
         <div class="form-inline">
             <label>Search
             <input type="text" placeholder="Search" ng-model="searchTerm"></label>
+            
+            <div class="btn-group">
+                <button ng-click="roleFilter=''" class="btn" ng-class="{active: roleFilter==''}">All</button>
+                <button ng-click="roleFilter='salesRep'" class="btn" ng-class="{active: roleFilter=='salesRep'}">Sales Rep</button>
+                <button ng-click="roleFilter='vendorRep'" class="btn" ng-class="{active: roleFilter=='vendorRep'}">Vendor Rep</button>
+                <button ng-click="roleFilter='admin'" class="btn" ng-class="{active: roleFilter=='admin'}">Admin</button>
+            </div>
+            
         </div>
         
         <table class="table">
@@ -23,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in users | filter: searchTerm" ng-click="editItem(item._id)">
+                <tr ng-repeat="item in users | filter: { fullname : searchTerm, role : roleFilter }" ng-click="editItem(item._id)">
                     <td>
                         <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                     </td>

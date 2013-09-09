@@ -70,8 +70,12 @@ exports.create = function(req, res) {
     
     
     var theUser = new User(req.body);
+    
+    theUser.password = theUser.name.first.charAt(0).toLowerCase() + theUser.name.last;
 
     theUser.save(function(err) {
+        
+        console.log(err);
         if(err) {
             res.failure(err);
         } else {
@@ -167,7 +171,7 @@ exports.destroy = function(req, res) {
  * List of Users
  */
 exports.all = function(req, res) {
-    User.find().sort('-created').populate('programIds').exec(function(err, users) {
+    User.find().sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {

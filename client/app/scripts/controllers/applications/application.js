@@ -9,7 +9,7 @@ angular
         'vendorService',
         function($rootScope, $scope, $location, Auth, Application, Vendor) {
 
-            Auth.canUserDoAction('list-application');
+            Auth.canUserDoAction('list-applications');
 
             $scope.searchBusiness = '';
             $scope.searchVendor = '';

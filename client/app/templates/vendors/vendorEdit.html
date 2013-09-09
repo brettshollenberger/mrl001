@@ -6,7 +6,11 @@
                 <div class="span10">
                     <h2><i class="icon icon-briefcase"></i> {{vendor.name || 'New Vendor'}}</h2>
                     <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"><a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a></li>
+                  <li ng-repeat="tab in tabs" 
+                      ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"
+                      can-do-action="{{tab.permission}}">
+                      <a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a>
+                  </li>
                 </ul>
                     <div class="actions">
                         <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
@@ -78,7 +82,7 @@
                 </div>
             </form>
             
-            <div class="row" ng-show="isActiveTab(1)">
+            <div class="row" ng-show="isActiveTab(1)" can-do-action="changeSalesRep-vendors">
                 <div class="span10">
                     <h3>Marlin Sales Rep</h3>
                 
@@ -129,7 +133,7 @@
                 
             <div class="row" ng-show="isActiveTab(2)">    
 
-                <form class="span10" name="rateForm" unsaved-warning-form>
+                <form class="span10" name="rateForm" unsaved-warning-form can-do-action="changeRateSheets-vendors">
                     <h3>Manage Vendor Rate Sheets</h3>
                     <table class="table table-rate-sheets">
                         <thead>
@@ -179,7 +183,7 @@
             </div>
 
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form>
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     
@@ -210,7 +214,7 @@
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" class="row" unsaved-warning-form>
+            <form name="locationForm" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 
                 <div class="span10" ui-if="isActiveTab(4)">
                     
@@ -274,7 +278,7 @@
             
             </form><!-- row -->
             
-            <button delete-this id="vendor._id" redirect="/dashboard/vendors" model="modelObject"></button>
+            <button can-do-action="delete-vendors" delete-this id="vendor._id" redirect="/dashboard/vendors" model="modelObject"></button>
             
         </div><!-- offset 2 -->
         

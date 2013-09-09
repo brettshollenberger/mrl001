@@ -17,13 +17,13 @@ angular
 
             $scope.modelObject = Vendor;
             
-            Auth.canUserDoAction('edit-vendor');
+            Auth.canUserDoAction('edit-vendors');
 
             $scope.tabs = [
-                {name: 'Basic information', active: true}, 
-                {name: 'Marlin Sales Rep', active: true},  
-                {name: 'Rate Sheets', active: true},  
-                {name: 'Tools', active: true}
+                {name: 'Basic information', active: true, permission: 'none'}, 
+                {name: 'Marlin Sales Rep', active: true, permission: 'changeSalesRep-vendors'},  
+                {name: 'Rate Sheets', active: true, permission: 'changeRateSheets-vendors'},  
+                {name: 'Tools', active: true, permission: 'changeToolOptions-vendors'}
             ];
 
 
@@ -117,6 +117,12 @@ angular
 
                     _.each($scope.vendor.tools, function(tool) {
                         $scope.tabs.push(tool);
+                        
+                        $scope.tabs[3].permission = 'changeLocationOptions-vendor';
+                        $scope.tabs[4].permission = 'changeQuoterOptions-vendor';
+                        
+                        console.log($scope.tabs);
+                        
                     });
 
                     updatePrograms();

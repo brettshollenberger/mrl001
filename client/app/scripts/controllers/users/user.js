@@ -9,7 +9,7 @@ angular
         'vendorService',
         function($rootScope, $scope, $location, Auth, User, Vendor) {
 
-            Auth.canUserDoAction('list-user');
+            Auth.canUserDoAction('list-users');
 
             // gets all the users, with their vendors
 

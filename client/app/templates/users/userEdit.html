@@ -6,7 +6,11 @@
                 <h2 ng-show="!user.name.first && !user.name.last"><i class="icon icon-user"></i> New User</h2>
                 <h2 ng-show="user.name.first || user.name.last"><i class="icon icon-user"></i> {{user.name.first + ' ' + user.name.last}}</h2>
                 <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active: isActiveTab($index), disabled: !user._id && $index != 0}"><a ng-click="changeTab($index)">{{tab}}</a></li>
+                  <li ng-repeat="tab in tabs" 
+                      ng-class="{active: isActiveTab($index)}"
+                      can-do-action="{{tab.permission}}">
+                      <a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a>
+                  </li>
                 </ul>
                 
                 <div class="actions">

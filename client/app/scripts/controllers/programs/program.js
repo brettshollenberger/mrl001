@@ -8,7 +8,7 @@ angular
         'programService',
         function($rootScope, $scope, $location, Auth, Program) {
 
-            Auth.canUserDoAction('list-program');
+            Auth.canUserDoAction('list-programs');
 
             // Gets all the vendors
             Program.getAll().then(function(response) {

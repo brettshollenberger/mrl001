@@ -9,7 +9,7 @@ angular
         'vendorService',
         function($rootScope, $scope, $location, Auth, Quote, Vendor) {
 
-            Auth.canUserDoAction('list-quote');
+            Auth.canUserDoAction('list-quotes');
 
             // Gets all the vendors
             Quote.getAll().then(function(response) {

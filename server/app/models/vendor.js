@@ -86,7 +86,7 @@ VendorSchema.statics = {
     load: function(id, cb) {
         this.findOne({
             _id: id
-        }).populate('programIds programs salesRep').exec(cb);
+        }).populate('programs salesRep vendorRep').exec(cb);
     }
 };
 
@@ -138,7 +138,7 @@ VendorSchema.statics = {
         // for easy geting from the database 
         return this.findOne({_id : vendorId}, function(err, result) {
             if(err) return cb(err);
-            if(result._id) {
+            if(result && result._id) {
                 console.log(result);
                 return cb(null, result);
             } else {

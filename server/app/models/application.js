@@ -94,7 +94,7 @@ ApplicationSchema.pre('save', function(next, something) {
     // for easy geting from the database 
     mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
         if(err) { 
-            next(new Error('Not a valid vendor'));
+            next();
         } else { 
             self.salesRep = result.salesRep._id ? result.salesRep._id : null;
             self.vendorRep = result.vendorRep._id ? result.vendorRep._id : null;

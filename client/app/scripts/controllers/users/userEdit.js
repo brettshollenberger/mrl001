@@ -12,7 +12,7 @@ angular
 
             $scope.modelObject = User;
 
-            Auth.canUserDoAction('edit-user');
+            Auth.canUserDoAction('edit-users');
 
             // empty user object
             $scope.user = {};
@@ -133,32 +133,40 @@ angular
 
 
             $scope.tabs = ['Basic information', 'Vendors', 'Password'];
+            
+            $scope.tabs = [
+                {name: 'Basic information', active: true, permission: 'none'}, 
+                {name: 'Vendors', active: true, permission: 'changeVendors-users'},  
+                {name: 'Password', active: true, permission: 'changePassword-users'}  
+            ];
 
             /**
              * Tab functions.
-             * @todo make into a direct
+             * @todo make into a directive
+             * @todo make observe / boardcast so we can watch for changes in this scope
              *
              */
+
             $scope.activeTab = 0;
+            $scope.tabs[$scope.activeTab].selected = true;
 
             // used for active class
             $scope.isActiveTab = function(id) {
-                return $scope.activeTab == id ? true : false;
+                return $scope.tabs[id] && $scope.tabs[id].selected ? true : false;
             };
 
             // used to set active tab
             $scope.changeTab = function(tab) {
 
-                console.log(tab);
-
-                if (!$scope.user._id) return false;
+                // @todo, this will need to be more generic if we make into a directive. 
+                $scope.tabs[$scope.activeTab].selected = false;
 
                 $scope.activeTab = tab;
+                
+                $scope.tabs[$scope.activeTab].selected = true;
+                
             };
 
-
-
-            
 
         }
     ]);

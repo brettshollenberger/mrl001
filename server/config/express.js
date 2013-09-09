@@ -8,7 +8,7 @@ var express = require('express'),
     helpers = require('view-helpers');
     
 var fs = require('fs');
-
+var acl = require('acl');
 
 module.exports = function(app, config, passport, user) {
     app.set('showStackError', true);
@@ -32,7 +32,9 @@ module.exports = function(app, config, passport, user) {
     };
     
     app.use(allowCrossDomain);
-    
+
+
+
 
 
     /**
@@ -139,7 +141,7 @@ module.exports = function(app, config, passport, user) {
         // -----
         // mode to after router when issue https://github.com/ForbesLindesay/connect-roles/issues/21
         // is fixed
-        app.use(user);
+        //app.use(user);
         
 
         // routes should be at the last
@@ -166,9 +168,23 @@ module.exports = function(app, config, passport, user) {
         app.use(function(err, req, res, next) {
             
             //Log it
+            console.log('ERROR');
+            console.error(err);
             console.error(err.stack);
             
-            if(err.message.indexOf('CastError')) {
+            if(err && err.msg ) {
+                // respond with 'bad request' ie: this will never work
+                // dont try this request again!                 
+                return res.failure(err.msg, 401); 
+            }
+            
+            if(err && err.msg ) {
+                // respond with 'bad request' ie: this will never work
+                // dont try this request again!                 
+                return res.failure(err.msg, 401); 
+            }
+            
+            if(err && err.message && err.message.indexOf('CastError')) {
                 // respond with 'bad request' ie: this will never work
                 // dont try this request again!                 
                 return res.failure('Invalid object id.', 400); 

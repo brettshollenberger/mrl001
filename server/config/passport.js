@@ -12,6 +12,7 @@ var BasicStrategy = require('passport-http').BasicStrategy;
 module.exports = function(passport, config) {
     //Serialize sessions
     passport.serializeUser(function(user, done) {
+        console.log('serialize user???');
         done(null, user.id);
     });
 
@@ -19,6 +20,7 @@ module.exports = function(passport, config) {
         User.findOne({
             _id: id
         }, function(err, user) {
+            if(user._id) user.userId = user._id;
             done(err, user);
         });
     });
@@ -57,6 +59,7 @@ module.exports = function(passport, config) {
                         message: 'Invalid password'
                     });
                 }
+                console.log('Founds user!');
                 return done(null, user);
             });
         }

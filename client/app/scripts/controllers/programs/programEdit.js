@@ -11,7 +11,7 @@ angular
 
             $scope.modelObject = Program;
 
-            Auth.canUserDoAction('edit-program');            
+            Auth.canUserDoAction('edit-programs');            
 
             $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
 

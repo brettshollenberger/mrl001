@@ -11,7 +11,7 @@ angular
 
             $scope.modelObject = Application;
 
-            Auth.canUserDoAction('edit-application');
+            Auth.canUserDoAction('edit-applications');
 
 
             // empty application object

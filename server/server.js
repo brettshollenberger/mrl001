@@ -23,6 +23,17 @@ var user = require('connect-roles');
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
 
+
+    
+
+// accesss control!
+// Load library
+var Acl = require("virgen-acl").Acl
+  , acl = new Acl();
+ 
+var acl2 = require('acl');  
+acl2 = new acl2(new acl2.memoryBackend());
+
 //Bootstrap models
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {
@@ -35,13 +46,16 @@ require('./config/passport')(passport, config);
 var app = express();
 
 //express settings
-require('./config/roles')(app, config, passport, user);
+//require('./config/roles')(app, config, passport, user);
+
+//express settings
+require('./config/acl_roles')(app, config, passport, user, acl, acl2);
 
 //express settings
 require('./config/express')(app, config, passport, user);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user, config);
+require('./config/routes')(app, passport, auth, user, config, acl, acl2);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

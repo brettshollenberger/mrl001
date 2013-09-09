@@ -19,6 +19,7 @@ var UserSchema = new Schema({
     fullname: String,
     email: String,
     username: String,
+    userId: String,
     provider: String,
     hashed_password: String,
     salt: String,
@@ -26,6 +27,7 @@ var UserSchema = new Schema({
     twitter: {},
     github: {},
     google: {},
+    roles: Array,
     role: {type: String, "default": 'salesRep', trim: true},
     phoneNumber: String,
     avatar: {

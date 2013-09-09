@@ -20,11 +20,11 @@
     <li class="dark">
         <a href="#/dashboard/"><i class="icon icon-home"></i><br/>Dashboard</a>
     </li>
-    <li class="light" ng-class="getClass('/dashboard/vendors')" ng-show="showIfUserCanDoAction('list-vendor')">
+    <li class="light" ng-class="getClass('/dashboard/vendors')" can-do-action="list-vendors">
         <a href="#/dashboard/vendors"><i class="icon icon-briefcase"></i><br/>Vendors</a>
     </li>
     
-    <li class="light" ng-class="getClass('/dashboard/programs')" ng-show="showIfUserCanDoAction('list-program')">
+    <li class="light" ng-class="getClass('/dashboard/programs')" can-do-action="list-programs">
         <a href="#/dashboard/programs"><i class="icon icon-bar-chart"></i><br/>Rate Sheets</a>
     </li>
     
@@ -36,7 +36,7 @@
         <a href="#/dashboard/applications"><i class="icon icon-file-text-alt"></i><br/>Applications</a>
     </li>
     
-    <li class="light" ng-class="getClass('/dashboard/users')" ng-show="showIfUserCanDoAction('list-user')">
+    <li class="light" ng-class="getClass('/dashboard/users')" can-do-action="list-users">
         <a href="#/dashboard/users"><i class="icon icon-user"></i><br/>Users</a>
     </li>
     

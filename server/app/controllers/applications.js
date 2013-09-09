@@ -70,7 +70,17 @@ exports.show = function(req, res) {
  * List of Applications
  */
 exports.all = function(req, res) {
-    Application.find().sort('-status -created').exec(function(err, applications) {
+    
+    var where = {};
+        
+    // limit quotes to sales rep only. 
+    if(req.user && req.user.role === 'salesRep') {
+       where = {salesRep : req.user._id};  
+    } else if (req.user.role === 'vendorRep') {
+       where = {vendorRep : req.user._id};  
+    }
+    
+    Application.find(where).sort('-status -created').exec(function(err, applications) {
         if (err) {
             res.failure(err);
         } else {

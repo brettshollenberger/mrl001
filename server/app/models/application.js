@@ -82,6 +82,23 @@ ApplicationSchema.statics = {
     }
 };
 
+ApplicationSchema.pre('save', function(next, something) {  
+    
+    var self = this;    
+    // attempt to get the sales rep, which we save with the quote
+    // for easy geting from the database 
+    mongoose.models.Vendor.getCurrentSalesRepId(self.vendorId, function(err, result) {
+        if(err) { 
+            next(new Error('Not a valid vendor' + err));
+        } else { 
+            self.salesRep = result;
+            self.vendorId = self.vendorId;
+            next();
+        }
+    });
+});
+
+
 mongoose.model('Application', ApplicationSchema);
 
 

@@ -108,7 +108,17 @@ exports.allForSalesRep = function(req, res) {
  * List of Vendors
  */
 exports.all = function(req, res) {
-    Vendor.find().sort('-created').populate('programIds programs salesRep').exec(function(err, vendors) {
+    
+    var where = {};
+        
+    // limit quotes to sales rep only. 
+    if(req.user && req.user.role === 'salesRep') {
+       where = {salesRep : req.user._id};  
+    } else if (req.user.role === 'vendorRep') {
+       where = {vendorRep : req.user._id};  
+    }
+    
+    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {

@@ -49,26 +49,86 @@ module.exports = function(app, config, passport, user, acl, acl2) {
 
     // Set up roles
     acl.addRole("guest");                     // guest user, inherits from no one
-    acl.addRole("member", "guest");           // member inherits permissions from guest
+    acl.addRole("rep", "guest");
+    acl.addRole("salesRep", "rep");
+    acl.addRole("vendorRep", "rep");
     acl.addRole("admin");                     // Admin inherits from no one
     
+    
     // Set up resources
-    acl.addResource("blog");                  // blog resource, inherits no resources
     acl.addResource("vendors");
     acl.addResource("quotes");
-    
+    acl.addResource("applications");
+    acl.addResource("users");
+    acl.addResource("programs");
     
     
     // Set up access rules (LIFO)
-    acl.deny(); 
-    acl.allow("admin");                            
-    acl.allow("admin", "vendors", ["create", "edit", "view", "update"]);                       // allow admin access to everything
-    acl.allow("member", "blog", "comment");   // allow members to comment on blogs
-    acl.allow(null, "blog", "view");          // allow everyone to view the blogs
-    acl.allow("guest", "blog", ["list", "search"]); // supports arrays of actions
+    // first deny all. This will protect all routes that call the middleware
+    //acl.deny();
     
-    acl.allow("salesRep", "quotes", ["list"]);
+    
+    // admin can do all!  
+    acl.allow("admin");  
+    
+    
+    /**
+    * Guests
+    * ----------
+    */
+    acl.allow("guest", "vendors",       ["view"]);
+    // needed for the quoter tool to work
+    acl.allow("guest", "quotes",        ["view", "create", "update"]);
+    acl.allow("guest", "applications",  ["view", "create", "update"]);
+    // @todo restrict this when quote calculation is done on the API site
+    acl.allow("guest", "programs",      ["view"]);
+    
+    
+    /*
+    * Reps (which vendorRep and salesRep will extend)
+    * ----------
+    */
+    acl.allow("rep", "vendors",         ["update"]);
+    acl.allow("rep", "quotes",          ["list"]);
+    acl.allow("rep", "applications",    ["list"]);                            
+    acl.allow("rep", "users",           ["view", "update"]);
+    
+    
+    /**
+    * vendorRep (vendors sales reps)
+    * ----------
+    */
+    acl.allow("salesRep", "vendors",   ["list"]);
+    acl.allow("salesRep", "programs",  ["list"]);
+    //acl.allow("salesRep", "quotes");
 
+
+    /**
+    * DEV - testing and such
+    * ----------
+    */
+/*
+    acl.allow("guest", "quotes", "view", function(var1, role, resource, action, result, next) {
+      // Use next() if unable to determine permission based on provided arguments
+      //if (!(role instanceof User) || !(resource instanceof Blog))
+      // return next(); 
+    
+      console.log(role);
+      console.log(resource);
+      console.log(action);
+      console.log(result);
+      console.log(next);
+    
+      if (!resource) {
+        // resource belongs to this role, allow editing
+        result(null, true);
+      } else {
+        // resource does not belong to this role, do not allow editing
+        result(null, false);
+      }
+
+    });
+*/
 
 
 };

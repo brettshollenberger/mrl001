@@ -185,7 +185,12 @@ exports.update = function(req, res) {
     // we don't want anyone updating roles from here... 
     // this is because users can update them selves
     // note we should also remove other things here, like password, etc. 
-    delete req.body.role;
+    
+    if(req.user.role && req.user.role !== 'admin') {
+        delete req.body.role;
+    }
+    
+    console.log(req.body);
     
     if(req.body.password) {
         console.log('deleting password');

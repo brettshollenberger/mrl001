@@ -19,6 +19,7 @@
                 <tr>
                     <th class="">User</th>
                     <th></th>
+                    <th>Role</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,9 @@
                     <td class="userList"><span class="company-name">{{item.name.first}} {{item.name.last}}</span><br/>
                         <a mail-to="{{item.email}}"></a><br/>
                         <a call-to="{{item.phoneNumber}}"></a>
+                    </td>
+                    <td>
+                        {{getRoleFormatted(item.role)}}
                     </td>
                     
                     <!--

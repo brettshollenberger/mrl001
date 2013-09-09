@@ -35,6 +35,10 @@ var ApplicationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    "vendorRep" : {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     vendor: {},
     quote: {},
     leasee: {
@@ -84,14 +88,16 @@ ApplicationSchema.statics = {
 
 ApplicationSchema.pre('save', function(next, something) {  
     
-    var self = this;    
+    var self = this;
+    
     // attempt to get the sales rep, which we save with the quote
     // for easy geting from the database 
-    mongoose.models.Vendor.getCurrentSalesRepId(self.vendorId, function(err, result) {
+    mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
         if(err) { 
-            next(new Error('Not a valid vendor' + err));
+            next(new Error('Not a valid vendor'));
         } else { 
-            self.salesRep = result;
+            self.salesRep = result.salesRep._id ? result.salesRep._id : null;
+            self.vendorRep = result.vendorRep._id ? result.vendorRep._id : null;
             self.vendorId = self.vendorId;
             next();
         }

@@ -22,6 +22,10 @@ var QuoteSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    "vendorRep" : {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     description: {type: String, "default": '', trim: true},
     company: {
        "name": {type: String, "default": '', trim: true},
@@ -50,16 +54,15 @@ QuoteSchema.pre('save', function(next, something) {
     
     var self = this;
     
-    console.log(next);
-    console.log(something);
-    
     // attempt to get the sales rep, which we save with the quote
     // for easy geting from the database 
-    mongoose.models.Vendor.getCurrentSalesRepId(self.vendorId, function(err, result) {
+    mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
         if(err) { 
             next(new Error('Not a valid vendor'));
         } else { 
-            self.salesRep = result;
+            self.salesRep = result.salesRep;
+            self.vendorRep = result.vendorRep;
+            self.vendorId = self.vendorId;
             next();
         }
     });

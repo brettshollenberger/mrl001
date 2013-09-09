@@ -139,9 +139,11 @@ exports.all = function(req, res) {
 
         var where = {};
         
-        where = {salesRep : req.user._id};
-        //where = {salesRep : req.user.vendorId};
- 
+        // limit quotes to sales rep only. 
+        if(req.user && req.user.role !== 'admin') {
+           where = {salesRep : req.user._id};  
+        }
+
         Quote
         .find(where)
         .sort('-status -created')
@@ -150,7 +152,7 @@ exports.all = function(req, res) {
             if (err) {
                  res.failure(err);
             } else {
-               res.ok(quotes, 'Getting quotes for salesRep ' + req.user.fullName);
+               res.ok(quotes);
             }
         });   
     

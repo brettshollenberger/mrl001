@@ -2,9 +2,7 @@ exports.seed = function() {
     return data;
 };
 
-var data = [
-  {
-    
+var data = [{
     "_id": '51e71518ed32080ffc000023',
     "name": "BearCom Operating LLC",
     "contactPerson": {
@@ -41,11 +39,7 @@ var data = [
             "active" : true
         }
     ],
-    "programs": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007',
-      '51e71518ed32080ffc000050'
-    ]
+    "programs": [ '522f4634cc2aadba4d000005' ]
   },
   {
     
@@ -80,10 +74,7 @@ var data = [
             "active" : false
         }
     ],
-    "programs": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
-    ],
+    "programs": [ '522f4634cc2aadba4d000005' ],
     "geo": {
       "latitude": 34.06269899999999,
       "longitude": -118.41526299999998
@@ -126,10 +117,7 @@ var data = [
             "active" : false
         }
     ],
-    "programs": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
-    ]
+    "programs": [ '522f4634cc2aadba4d000005' ]
   },
   {
     
@@ -168,10 +156,7 @@ var data = [
             "active" : true
         }
     ],
-    "programs": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
-    ]
+    "programs": [ '522f4634cc2aadba4d000005' ]
   },
   {
     
@@ -196,10 +181,7 @@ var data = [
       "state": "SC",
       "zip": "29045"
     },
-    "programs": [
-      '51e71518ed32080ffc000006',
-      '51e71518ed32080ffc000007'
-    ],
+    "programs": [ '522f4634cc2aadba4d000005' ],
     "tools" : [
         {
             "name" : "Locator Tool",

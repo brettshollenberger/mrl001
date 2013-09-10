@@ -13,6 +13,7 @@ var data = [
       "phone": "888-479-9111 Ext. 5015"
     },
     "salesRep" : '51e71518ed32080ffc000016',
+    "vendorRep" : '51e71518ed32080ffc000030',
     "logo": {
       "original": "https://www.filepicker.io/api/file/2v44yfa8TqKt2RAAkpZB"
     },

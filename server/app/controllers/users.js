@@ -70,8 +70,12 @@ exports.create = function(req, res) {
     
     
     var theUser = new User(req.body);
+    
+    theUser.password = theUser.name.first.charAt(0).toLowerCase() + theUser.name.last;
 
     theUser.save(function(err) {
+        
+        console.log(err);
         if(err) {
             res.failure(err);
         } else {
@@ -167,7 +171,7 @@ exports.destroy = function(req, res) {
  * List of Users
  */
 exports.all = function(req, res) {
-    User.find().sort('-created').populate('programIds').exec(function(err, users) {
+    User.find().sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {
@@ -185,7 +189,12 @@ exports.update = function(req, res) {
     // we don't want anyone updating roles from here... 
     // this is because users can update them selves
     // note we should also remove other things here, like password, etc. 
-    delete req.body.role;
+    
+    if(req.user.role && req.user.role !== 'admin') {
+        delete req.body.role;
+    }
+    
+    console.log(req.body);
     
     if(req.body.password) {
         console.log('deleting password');

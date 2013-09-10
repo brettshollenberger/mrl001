@@ -3,7 +3,19 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.1 (current)
+Release 0.3.2 (current)
+-------
+
+- [FEATURE] Admin can set user role from dashboard
+- [FEAUTRE] Admin can add a vendorRep to a vendor
+- [FEATURE] Show or hide buttons, tabs, etc. based on current user role. 
+
+- [CHORE] When adding users to a vendor, filter by role. This means only vendorReps appear on add vendor rep tab, and only salesReps appear on add sales rep tab. 
+
+- [BUG] Fix bug with quoter tool that could cause it to fail in some instances when user clicked "add quote"
+
+
+Release 0.3.1
 -------
 This release fixes a number of bugs introduced by the 0.3.0 release. It also includes a ton of style enhancements.
 

@@ -57,6 +57,16 @@
                 <input type="text" placeholder="" ng-model="user.phoneNumber">
                 
             </div>
+            
+            <div class="span10" can-do-action="changeRoles-users" ng-hide="!user._id">
+                <h3>User Role</h3>
+                <span ng-show="!canChangeRole() && user.role == 'admin'">
+                    <p class="alert alert-error pull-left">You can't remove the admin role from yourself.</p>
+                    <br/><br/><br/>
+                </span>
+                <select ng-disabled="!canChangeRole()" ng-model="user.role" ng-options="role.value as role.label for role in roles"></select>
+            </div>
+            
         </form>
         
         <div class="row" ng-show="isActiveTab(1)"> 

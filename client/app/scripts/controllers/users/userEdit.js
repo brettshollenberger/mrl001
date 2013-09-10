@@ -13,6 +13,22 @@ angular
             $scope.modelObject = User;
 
             Auth.canUserDoAction('edit-users');
+            
+            // Options you can set user roles
+            $scope.roles = [
+                {value: 'salesRep', label: 'Sales Rep'},
+                {value: 'vendorRep', label: 'Vendor Rep'},
+                {value: 'admin', label: 'Admin'}
+            ];
+            
+            $scope.canChangeRole = function() {
+                if($scope.user._id === Auth.getCurrentUser()._id && $scope.user.role === 'admin') {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+            
 
             // empty user object
             $scope.user = {};
@@ -83,6 +99,8 @@ angular
                     // update existing item
                     User.update($scope.user);
 
+                    console.log($scope.user.role);
+                    
                     //saveChangesPrompt.removeListener();
 
                     if (doRedirect) {

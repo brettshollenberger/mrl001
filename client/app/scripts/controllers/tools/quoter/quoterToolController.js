@@ -10,7 +10,7 @@ angular
         'vendorService',
         'stateService',
         'applicationService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States) {
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
 
             // empty quote object
             $scope.quote = {};
@@ -109,8 +109,6 @@ angular
 
             function filterQuotesByTotalCost() {
 
-                console.log($scope.vendor.programIds);
-
                 Program.getAllForVendorId($scope.vendor._id).then(function(response) {
                     $scope.quote.programs = response;
 
@@ -197,7 +195,7 @@ angular
                 var application = {
                     status: 'Open',
                     quoteId: $scope.quote._id,
-                    vendorId: $scope.quote.vendorId,
+                    vendorId: $scope.vendor._id,
                     quote: {
                         totalCost: $scope.quote.totalCost,
                         description: $scope.quote.description,
@@ -208,7 +206,8 @@ angular
                     },
                     leasee: $scope.quote.company
                 };
-
+                
+                console.log(application);
 
                 $rootScope.fromQuote = true;
 

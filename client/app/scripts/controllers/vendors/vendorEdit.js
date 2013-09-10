@@ -21,11 +21,15 @@ angular
 
             $scope.tabs = [
                 {name: 'Basic information', active: true, permission: 'none'}, 
-                {name: 'Marlin Sales Rep', active: true, permission: 'changeSalesRep-vendors'},  
+                {name: 'Marlin Sales Rep', active: true, permission: 'changeSalesRep-vendors'},
+                {name: 'Vendor Sales Rep', active: true, permission: 'changeVendorRep-vendors'},  
                 {name: 'Rate Sheets', active: true, permission: 'changeRateSheets-vendors'},  
                 {name: 'Tools', active: true, permission: 'changeToolOptions-vendors'}
             ];
 
+
+            $scope.salesName = '';
+            $scope.vendorName = '';
 
             // empty vendor object
             $scope.vendor = {};
@@ -118,8 +122,8 @@ angular
                     _.each($scope.vendor.tools, function(tool) {
                         $scope.tabs.push(tool);
                         
-                        $scope.tabs[3].permission = 'changeLocationOptions-vendor';
-                        $scope.tabs[4].permission = 'changeQuoterOptions-vendor';
+                        $scope.tabs[4].permission = 'changeLocationOptions-vendor';
+                        $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
                         
                         console.log($scope.tabs);
                         
@@ -289,6 +293,41 @@ angular
                     $scope.vendor.salesRep = null;
                 });
             };
+            
+            /**
+             * Add sales rep to a vendor
+             *
+             */
+            $scope.addVendorRep = function(id) {
+
+                
+                var obj = {
+                    _id : $scope.vendor._id,
+                    vendorRep : id
+                };
+
+                Vendor.update(obj).then(function(response) {
+                    console.log('Vendor is now updated.');
+                    $scope.vendor.vendorRep = response.vendorRep;
+                });
+            };
+
+            /**
+             * Removes sales rep from a vendor
+             *
+             */
+            $scope.removeVendorRep = function() {
+
+                var obj = {
+                    _id : $scope.vendor._id,
+                    vendorRep : null
+                };
+
+                Vendor.update(obj).then(function(response) {
+                    console.log('Vendor is now updated.');
+                    $scope.vendor.vendorRep = null;
+                });
+            };
 
 
             /**
@@ -322,7 +361,7 @@ angular
             $scope.$watch('activeTab', function(newValue, oldValue) {
 
                 // only make map if user is switching to tab 4, and there is no map made
-                if (newValue === 4) {
+                if (newValue === 5) {
                     if (!$scope.isMapMade) makeMap();
                 }
             });

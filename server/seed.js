@@ -13,6 +13,8 @@ var mongoose = require('mongoose'),
     async = require('async'),
     _ = require('underscore'),
     fs = require('fs');
+    
+var async = require('async');
 
 
 /**
@@ -29,6 +31,7 @@ fs.readdirSync(models_path).forEach(function(file) {
 
 
 // Saving in array allows us to call below in doSeed function.
+// @todo make dynamic to load models automatically.
 var models = {};
 models.Quote = mongoose.model('Quote');
 models.Application = mongoose.model('Application');
@@ -43,14 +46,15 @@ models.Program = mongoose.model('Program');
 * more automated based on model files... ie: check if seed data exists then add it to our array
 *
 * @note we sould include some type of functionality to automatically pluralize / depluralize names
+* Keep in mind we might need to call in a specific order
 *
 */
 var resources = {};
+resources.User          = require('./seed_data/user').seed();
 resources.Vendor        = require('./seed_data/vendor').seed();
 resources.Program       = require('./seed_data/program').seed();
 resources.Application   = require('./seed_data/application').seed();
 resources.Quote         = require('./seed_data/quote').seed();
-resources.User          = require('./seed_data/user').seed();
 
 
 /**
@@ -75,9 +79,11 @@ var db = mongoose.connect(config.db, function() {
         db.connection.close(function(){
             console.log('Database connection closed, re-opening now...');
             
-            // reconnect
+            // reconnect to database
             db = mongoose.connect(config.db, function() {
                 console.log('Re-connected, beginning seed');
+                
+                // call seeding function
                 doSeed();
                 
             });
@@ -96,25 +102,48 @@ var db = mongoose.connect(config.db, function() {
 */
 var doSeed = function() {
     
+    var needsSeed = [];
+    
     // loop through resources
     _.each(resources, function(value, key) {
         
-        console.log('Seeding ' + key + ' collection');
+        console.log('Registering ' + key + ' collection for seeding');
         
         // loop through our resource items
         _.each(value, function(contents) {
             
             // carete new Mongoose object
             var item = new models[key](contents);
+        
+            // define our seed function, with references to item 
+            var doThis = function(callback) {
+                
+                // save mongo object
+                item.save(function(err, data) {
+                    if(err) throw(err);
+                    console.log(key + ' ' + item._id + ' created.');
+                    // async serices will pass param whcih is callbacl
+                    // first param is error, second is result
+                    callback(null, item);
+                }); 
+                
+            };
             
-            // save object
-            item.save(function(err, data) {
-                if(err) throw(err);
-                console.log(key + ' ' + item._id + ' created.');
-            }); 
-            
+            // Push to our seeding function array
+            needsSeed.push(doThis);
+  
         });
 
+    });
+    
+    /**
+    * Perform the seed, then exit on success
+    * async.series() will run an array of functions. 
+    * Each should have a callback, which will be the first param
+    *
+    */
+    async.series(needsSeed, function() {
+        process.exit();
     });
     
 };

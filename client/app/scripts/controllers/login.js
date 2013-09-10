@@ -6,27 +6,47 @@ angular
         '$location',
         'authService',
         '$timeout',
-        function($rootScope, $scope, $location, Auth, $timeout) {
+        '$routeParams',
+        function($rootScope, $scope, $location, Auth, $timeout, $routeParams) {
+            
+            // we use this to set credentials for demo on initial page screen
+            $rootScope.demoCredentials = {
+                admin: {
+                    email: 'bwalsh@marlinfinance.com',
+                    password: 'bwalsh'
+                },
+                salesRep: {
+                    email: 'jdelong@marlinfinance.com',
+                    password: 'jdelong'
+                },
+                vendorRep: {
+                    email: 'vrep@gmail.com',
+                    password: 'vrep'
+                }
+            };
+            
+            
+            /**
+            * This allows us to pass credentials into the controller to prefill the login form fields
+            * This is useful for demos and dev. 
+            *
+            */
+            if ($routeParams.demo) {
+                $scope.email = $rootScope.demoCredentials[$routeParams.demo].email;
+                $scope.password = $rootScope.demoCredentials[$routeParams.demo].password;
+            }
 
             /**
             * Runs on success, useful for redirecting etc.
             *
             */
             function loginSuccessCallback() {
+                // clear any demo params as needed
+                $location.search('demo', null);
+                // go to daahboard
                 $location.url('/dashboard');
             }
 
-            /**
-            * This allows us to pass credentials into the controller to prefill the login form fields
-            * This is useful for demos and dev. 
-            *
-            */
-            if ($rootScope.credentials) {
-
-                $scope.email = $rootScope.credentials.email;
-                $scope.password = $rootScope.credentials.password;
-
-            }
             
             // used to provide a button specific activity spinner 
             // @todo eliminate this in favor of the namespaced "activity" spinners

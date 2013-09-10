@@ -23,6 +23,23 @@ var data = [
     role: 'admin'
 },
 {
+    // 1
+    _id: '51e71518ed32080ffc000030',
+    name: {
+        first: 'Vendor',
+        last: 'Rep'
+    },
+    email: 'vrep@gmail.com',
+    username: 'vrep',
+    password: 'vrep',
+    phoneNumber: '111-111-1111',
+    avatar: {
+        original: null
+    },
+    status: 'Active',
+    role: 'vendorRep'
+},
+{
     // 2
     _id: '51e71518ed32080ffc000009',
     name: {
@@ -38,7 +55,7 @@ var data = [
         original: 'https://www.filepicker.io/api/file/5Ur9llgFTkSpz1PlV4g9'
     },
     status: 'Active',
-    role: 'salesRep'
+    role: 'vendorRep'
 },
 {
     // 3

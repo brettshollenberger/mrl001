@@ -108,12 +108,12 @@
                         <div class="input-append">
                             <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                             <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" />
+                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
                         </div>
                         
                         <!-- <pre>{{allReps}}</pre> -->
                         <ul class="unstyled salesReps">
-                            <li ng-repeat="item in allReps | filter:salesRepId">
+                            <li ng-repeat="item in allReps | filter: { role : 'salesRep', fullname: vendorName }">
                                 <p>
                                     <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
                                     <a user-profile="item"></a>
@@ -128,10 +128,57 @@
                 
                 </div>
             
+            </div>
             
+            <div class="row" ng-show="isActiveTab(2)">    
+                <div class="span10">
+                    <h3>Vendor Sales Rep</h3>
+                
+                    <div ng-show="vendor.vendorRep">
+                        <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original"/>
+                        
+                        <span class="pull-left manage-vendor-rep">
+                            <a user-profile="vendor.vendorRep"></a><br />
+                            <a mail-to="{{vendor.vendorRep.email}}"></a> <br/>
+                            <a call-to="{{vendor.vendorRep.phone}}"></a>
+                            
+                            <a class="btn btn-link link-danger" id="removeVendorRep" ng-click="removeVendorRep()">Remove Vendor Rep</a>
+                        </span>  
+                    </div>
+                    
+                </div>
+                <div class="span4">
+                    
+                    <div ng-show="!vendor.vendorRep">
+                        <p class="alert">This vendor has no Vendor Reps</p>
+                        
+                        <label>Add vendor rep by searching by name</label>
+                        <div class="input-append">
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
+                            <input type="text" class="input-large" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
+                        </div>
+                        
+                        <!-- <pre>{{allReps}}</pre> -->
+                        <ul class="unstyled vendorReps">
+                            <li ng-repeat="item in allReps | filter: { role : 'vendorRep', fullname : salesName }">
+                                <p>
+                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    <a user-profile="item"></a>
+                                    <button class="pull-right btn" ng-click="addVendorRep(item._id)">
+                                        <i class="icon-plus"></i>
+                                    </button>
+                                </p>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                
+                </div>
+                
             </div>
                 
-            <div class="row" ng-show="isActiveTab(2)">    
+            <div class="row" ng-show="isActiveTab(3)">    
 
                 <form class="span10" name="rateForm" unsaved-warning-form can-do-action="changeRateSheets-vendors">
                     <h3>Manage Vendor Rate Sheets</h3>
@@ -163,7 +210,7 @@
                 
             </div>
             
-            <div class="row" ng-show="isActiveTab(3)">    
+            <div class="row" ng-show="isActiveTab(4)">    
 
                 <form class="span10" name="toolForm" unsaved-warning-form>
                     <h3>Manage Vendor Tools</h3>
@@ -183,7 +230,7 @@
             </div>
 
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+            <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     
@@ -216,7 +263,7 @@
             
             <form name="locationForm" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 
-                <div class="span10" ui-if="isActiveTab(4)">
+                <div class="span10" ui-if="isActiveTab(5)">
                     
                     <div class="row">
                     

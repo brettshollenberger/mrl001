@@ -11,6 +11,24 @@ angular
 
             Auth.canUserDoAction('list-users');
 
+            $scope.roleFilter = '';
+            $scope.searchTerm = '';
+
+            // Options you can set user roles
+            $scope.roles = [
+                {value: 'salesRep', label: 'Sales Rep'},
+                {value: 'vendorRep', label: 'Vendor Rep'},
+                {value: 'admin', label: 'Admin'}
+            ];
+            
+            $scope.getRoleFormatted = function(role) {
+                role = _.where($scope.roles, function(item) {
+                    return item.value === role;
+                });
+                
+                return role ? role[0].label : '';
+            };
+
             // gets all the users, with their vendors
 
             function getAllUsersWithVendors() {

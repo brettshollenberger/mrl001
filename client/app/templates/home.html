@@ -1,7 +1,8 @@
 <div class="row-fluid">
     <div class="span4 offset4 center">
         
-        <h1>MarlinQuoter v{{version}}</h1> 
+        <h1>MarlinQuoter</h1> 
+        <a ng-click="goTo('changelog')">v{{version}}</a>
 <!--
         
         <h5>Important Notes</h5>
@@ -18,7 +19,7 @@
 
 <div class="row-fluid area-start center">    
     
-    <div class="span2 offset2 start-button" ng-click="loginAs('admin')">
+    <div class="span2 offset1 start-button" ng-click="loginAs('admin')">
         <div class="well">
             <i class="icon icon-dashboard"></i>
             <p>SuperAdmin Dashboard</p>
@@ -29,6 +30,13 @@
         <div class="well">
             <i class="icon icon-user"></i>
             <p>Sales Rep Dashboard</p>
+        </div>
+    </div>
+    
+    <div class="span2 start-button" ng-click="loginAs('vendorRep')">
+        <div class="well">
+            <i class="icon icon-briefcase"></i>
+            <p>Vendor Rep Dashboard</p>
         </div>
     </div>
     

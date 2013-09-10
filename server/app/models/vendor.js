@@ -37,6 +37,10 @@ var VendorSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
+    "vendorRep" : {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
     "logo": {
       "original": {type: String, "default": '', trim: true}
     },
@@ -82,7 +86,7 @@ VendorSchema.statics = {
     load: function(id, cb) {
         this.findOne({
             _id: id
-        }).populate('programIds programs salesRep').exec(cb);
+        }).populate('programs salesRep vendorRep').exec(cb);
     }
 };
 
@@ -120,24 +124,23 @@ VendorSchema.pre('save', function(next) {
         item.slug = convertToSlug(item.name);
     });
     
-    console.log(this.tools);
-    
     next();
 });
 
 
 VendorSchema.statics = {
     
-    getCurrentSalesRepId: function(vendorId, cb) {
+    getCurrentReps: function(vendorId, cb) {
         
         // attempt to get the sales rep, which we save with the quote
         // for easy geting from the database 
         return this.findOne({_id : vendorId}, function(err, result) {
             if(err) return cb(err);
-            if(result && result.salesRep) {
-                return cb(null, result.salesRep);
+            if(result && result._id) {
+                console.log(result);
+                return cb(null, result);
             } else {
-                return cb(new Error('No sales rep')); 
+                return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
         

@@ -140,7 +140,7 @@
                 <tbody>
                     <tr>
                         <td>${{quote.totalCost | number:2}}</td>
-                        <td ng-repeat="rate in buyOutOption.costs[0].rates">
+                        <td ng-repeat="rate in buyOutOption.costs[0].rates" ng-show="rate.rate != '-'">
                            
                             ${{rate.rate *  quote.totalCost | number:2}}<br/>
                             <a ng-click="chooseRate(option.name, program.rateSheet.termLength[$index].length, program.rateSheet.termPeriod, rate.periodPayment)"  class="btn btn-primary btn-select-term">Select</a>

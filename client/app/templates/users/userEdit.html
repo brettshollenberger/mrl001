@@ -14,7 +14,7 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty || usersVendors.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                 </div>
             
@@ -69,60 +69,43 @@
             
         </form>
         
-        <div class="row" ng-show="isActiveTab(1)"> 
-            
-            <div class="span5">
-                <h3>User's Vendor List</h3>
-            
-                <ul ng-show="user.vendors.length" class="unstyled currentVendors">
-                    <li ng-repeat="item in user.vendors">
-                        <p>
-                        <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                        {{item.name}}
-                        <button class="pull-right btn" ng-click="removeVendor(item)">
-                            <i class="icon icon-trash" ></i>
-                        </button>
-                        </p>
-                    </li>
-                </ul>
-                
-                <p ng-show="!user.vendors.length" class="alert">No vendors are associated with this user yet</p>
-
-                <label>Add vendor by searching by name</label>
-                
-                <div class="input-append">
-                    <!-- <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId" typeahead="vendor._id as vendor.name for vendor in allVendors | filter:$viewValue"/> -->
-                    <input type="text" class="input-large" placeholder="Vendor Name" ng-model="vendorId"/>
-                    <!-- <button class="btn" ng-disabled="!vendorId" ng-click="addVendor()">Add Vendor</button> -->
-                    
-                </div>
-                
-                
-                <ul class="unstyled addVendors">
-                    <li ng-repeat="item in allVendors | filter: vendorId">
-                        <p>
-                            <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                            {{item.name}}
-                            <button class="pull-right btn" ng-click="addVendor(item)">
-                                <i class="icon-plus"></i>
-                            </button>
-                        </p>
-                    </li>
-                </ul>
-                               
-                
-               
-                <!--
         
-                <label>Add a vendor for {{user.username}}</label>
-                <input type="text" ng-model="newVendor"/>
-                <br />
-                <button ng-click="addVendorToUser()" class="btn btn-primary" placeholde="Type Vendor Name">Add Vendor</button>
+        
+        <form class="row" name="usersVendors" ng-show="isActiveTab(1)" unsaved-warning-form can-do-action="changeVendors-users"> 
             
-                -->
-            </div>
- 
-        </div>
+            <h3>Manage Vendors for this user</h3>
+            <table class="table table-rate-sheets">
+                <thead>
+                    <th></th>
+                    <th>Vendor</th>
+                    <th></th>
+                    <th>Role</th>
+                </thead>
+                
+                <tbody>
+                    <tr ng-repeat="item in vendors | orderBy:'active':false">
+                        <td>
+                            <button ng-click="toggleActive(item); usersVendors.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
+                                <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                           
+                        </td>
+                        <td>
+                            <p>{{item.name}}</p>
+                        </td>
+                        <td>
+                            <p ng-show="item.active">{{user.role}}</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </form>
+        
+        
         
         <form name="passwordForm" class="row" ng-show="isActiveTab(2)" ng-controller="passwordChangeController" >
             <div class="span4">

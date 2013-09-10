@@ -2,6 +2,9 @@ var async = require('async');
 var util = require('util');
 
 module.exports = function(app, passport, auth, user, config, acl, acl2) {
+ 
+    var vendors = require('../app/controllers/vendors');
+ 
    /*
  //User Routes
     var users = require('../app/controllers/users');
@@ -130,6 +133,10 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     // update user password
     app.put('/api/v1/users/:userId/password', isUserAllowed('updatePassword', 'users'), users.updatePassword);
 
+    // get users vendors
+    app.get('/api/v1/users/:userId/vendors', isUserAllowed('list', 'vendors'), vendors.listForUser); 
+    app.get('/api/v1/users/:userId/non_vendors', isUserAllowed('list', 'vendors'), vendors.listNotForUser);  
+
     app.param('userId', users.user);
     
     
@@ -237,7 +244,7 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
 	* -------------------------
 	*
 	*/
-	var vendors = require('../app/controllers/vendors');
+	
     //app.get('/vendors', user.is('admin'), vendors.all);
     // show all vendors, or just users vendors based on role
     app.get('/api/v1/vendors', isUserAllowed('list', 'vendors'), vendors.all);

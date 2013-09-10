@@ -120,42 +120,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             return itemList[theId].programIds;
         };
 
-        exports.getManyWhere = function(key, value) {
-            var str = {};
-            str[key] = value;
-
-            var params = {
-                query: JSON.stringify(str)
-            };
-
-            //console.log('getManyWhere');
-            //console.log(params);
-
-            return $http.get(url + 'vendors', {
-                params: params
-            }).then(function(response) {
-                return response.data;
-            });
-        };
-
-        exports.getManyWhereEmpty = function(key) {
-            var str = {};
-            str[key] = '';
-
-            var params = {
-                query: JSON.stringify(str)
-            };
-
-            //console.log('getManyWhereEmpty');
-            //console.log(params);
-
-            return $http.get(url + 'vendors', {
-                params: params
-            }).then(function(response) {
-                return response.data;
-            });
-        };
-
 
         /**
          * Reduces the itemList to those where ID is in values array

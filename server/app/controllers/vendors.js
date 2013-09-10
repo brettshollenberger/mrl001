@@ -127,6 +127,52 @@ exports.all = function(req, res) {
     });
 };
 
+/**
+ * List of Vendors
+ */
+exports.listForUser = function(req, res) {
+    
+    var where = {};
+    
+    var id = req.params.userId;
+    
+    if(id) {
+        where  = {$or : [{salesRep : id}, {vendorRep : id}] };
+    }
+    
+    
+    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
+        if (err) {
+            res.failure(err);
+        } else {
+            res.ok(vendors);
+        }
+    });
+};
+
+/**
+ * List of Vendors
+ */
+exports.listNotForUser = function(req, res) {
+    
+    var where = {};
+    
+    var id = req.params.userId;
+    
+    if(id) {
+        where  = {$nor : [{salesRep : id}, {vendorRep : id}] };
+    }
+    
+    
+    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
+        if (err) {
+            res.failure(err);
+        } else {
+            res.ok(vendors);
+        }
+    });
+};
+
 
 
 /**

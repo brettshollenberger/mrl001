@@ -96,8 +96,8 @@ ApplicationSchema.pre('save', function(next, something) {
         if(err) { 
             next();
         } else { 
-            self.salesRep = result.salesRep._id ? result.salesRep._id : null;
-            self.vendorRep = result.vendorRep._id ? result.vendorRep._id : null;
+            self.salesRep = result.salesRep;
+            self.vendorRep = result.vendorRep;
             self.vendorId = self.vendorId;
             next();
         }

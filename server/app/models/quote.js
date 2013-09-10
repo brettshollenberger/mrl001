@@ -58,7 +58,9 @@ QuoteSchema.pre('save', function(next, something) {
     // for easy geting from the database 
     mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
         if(err) { 
-            next(new Error('Not a valid vendor'));
+            next();
+            
+            //next(new Error(self.vendorId + ' Not a valid vendor'));
         } else { 
             self.salesRep = result.salesRep;
             self.vendorRep = result.vendorRep;

@@ -124,8 +124,6 @@ VendorSchema.pre('save', function(next) {
         item.slug = convertToSlug(item.name);
     });
     
-    console.log(this.tools);
-    
     next();
 });
 
@@ -142,7 +140,7 @@ VendorSchema.statics = {
                 console.log(result);
                 return cb(null, result);
             } else {
-                return cb(new Error('Not a valid vendor id')); 
+                return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
         

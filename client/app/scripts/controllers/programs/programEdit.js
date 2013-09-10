@@ -17,6 +17,7 @@ angular
 
             // empty program object
             $scope.program = {};
+            $scope.newOption = {};
             var program = {};
             // empty logo object, or filepicker gets mad :)
             $scope.program.logo = {};
@@ -168,6 +169,8 @@ angular
                 //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
                 //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
 
+                console.log($scope.newOption);
+
                 $scope.newOption.columns = 3;
 
                 var newBuyOut = {
@@ -219,7 +222,7 @@ angular
 
                 // force the form to be dirty, which triggers our unsavedChanges module
                 // this will cause a check if the user navigates away from this page             
-                $scope.formBuyoutOptions.$dirty = true;
+                //$scope.formBuyoutOptions.$setDirty();
 
             };
 

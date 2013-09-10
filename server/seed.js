@@ -69,29 +69,51 @@ var env = process.env.NODE_ENV || 'development',
 var db = mongoose.connect(config.db, function() {
     console.log('Connected to ' + env + ' database!');
     
-    // drop the existing database
-    // @todo when using mongolab these drops the users!!! so then we can't connect back
-    // @refactor to drop all collections except users? Or connect with a master user
-    db.connection.db.dropDatabase(function() {
-        console.log('Database dropped');
+    // Drop all our defined collections using async.
+    // this prevents from dropping the whole db, which prevents us from logging back in
+    // because it drops the high level users collection that mongo uses to register access
+    var doDrops = [];
+    
+    // loop through resources
+    _.each(resources, function(value, key) {
         
+        console.log('Registering ' + key + ' collection for dropping');
+        
+        var dropFunction = function(callback) {
+          
+            // drop this collection
+            db.connection.db.dropCollection(key, function() { 
+                console.log('Collection ' + key + ' dropped');
+                callback();
+            });  
+            
+        };
+        
+        doDrops.push(dropFunction);
+        
+    });
+    
+    
+    var closeAndReconnect = function(callback) {
         // close our connnection
         db.connection.close(function(){
             console.log('Database connection closed, re-opening now...');
             
             // reconnect to database
             db = mongoose.connect(config.db, function() {
-                console.log('Re-connected, beginning seed');
-                
-                // call seeding function
-                doSeed();
-                
+                console.log('Re-connected');
+                callback();
             });
-            
         });
-   
-    });
+    };
     
+    doDrops.push(closeAndReconnect);
+    
+    async.series(doDrops, function() {
+        // call seeding function
+        doSeed();
+    });
+
 });
 
 

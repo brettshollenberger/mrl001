@@ -15,18 +15,45 @@ angular
             // empty quote object
             $scope.quote = {};
             var quote = {};
+            
+            // misc variablles
             $scope.didQuote = false;
             $scope.buttonText = 'Get Quote';
             $scope.canEdit = true;
+            $scope.haveVendor = false; // do we have a vendor_id param?
+            $scope.selectedVendor = null; // vendor selected in dropdown
 
+            // local version instance
+            // @todo this should be replaced with "version directive"
             $scope.version = $rootScope.version;
+            
+            // get route params
+            var quoteId = $routeParams.id;
+            var vendorId = $routeParams.vendor_id;
 
+            // if we don't already have a quote, we need to figure out the vendor
+            // lets do some logic to figure this out 
+            if(!quoteId && vendorId) {
+            
+                // we have a vendor, so hide the dropdown
+                // if its not valid, we'll handle that later
+                $scope.haveVendor = true;
+                $scope.selectedVendor = vendorId;
+                
+                // get the vendor from API
+                getInitialVendor(vendorId);
+            
+            } else if(!quoteId) {
+                
+                // gets all the vendors so our user can select one!
+                getAllVendors();
+                
+            }
 
-            // support getting a vendor ID from the URL, so user doesn't 
-            $scope.vendor_id = $routeParams.vendor_id;
-
-            if ($scope.vendor_id) {
-                Vendor.getById($scope.vendor_id).then(function(response) {
+            // get a single vendor at set as global vendor
+            function getInitialVendor(getId) {
+                Vendor.getById(getId).then(function(response) {
+                   
                     $scope.vendor = response;
                     // not a valid vendor id
                     if (!$scope.vendor) {
@@ -35,49 +62,39 @@ angular
                     }
                 });
             }
-
-            // assign to the quote
-            $scope.quote.vendorId = $scope.vendor_id;
-
-            //List states in dropdown menu
-            // get states list and set default
-            $scope.quote.company = {};
-            $scope.quote.company.businessAddress = {};
-            $scope.states = States.states();
-            $scope.quote.company.businessAddress.state = $scope.states[0].abbreviation;
-
-
+            
+            // gets all vendors
+            // sets 
+            function getAllVendors() {
+                // get the vendors
+                Vendor.getAll().then(function(response) {
+                    $scope.vendors = response;
+                    $scope.quote.vendorId = $scope.vendors[0]._id;
+                });
+            }
+            
+            
             // utility function to go back to the quote list
             // @todo this function is used in many places, find a way to streamline it
             $scope.cancel = function() {
                 $location.url('/tools/quoter');
             };
 
-            // get quote ID for edit pages
-            var quoteId = $routeParams.id;
 
             // get and store the quote 
             if (quoteId) {
                 // get the quote
                 Quote.getById(quoteId).then(function(response) {
 
-                    console.log('wehave a quote id... its: ' + quoteId);
-
                     $scope.quote = response;
-
-                    console.log($scope.quote);
-
                     $scope.quoteCost = $scope.quote.totalCost;
 
                     // get the vendor
                     Vendor.getById($scope.quote.vendorId).then(function(response) {
                         $scope.vendor = response;
-                        console.log($scope.vendor);
-
                         filterQuotesByTotalCost();
-
-
                     });
+                    
                 }, function(error) {
                     $location.path('/tools/quoter');
                 });
@@ -92,17 +109,15 @@ angular
 
                 // get programs from VendorID    
 
-
-
-                //console.log($scope.vendor);
-
             } else {
                 $scope.quote.status = 'Open';
-                // get the vendors
-                Vendor.getAll().then(function(response) {
-                    $scope.vendors = response;
-                    $scope.quote.vendorId = $scope.vendors[0]._id;
-                });
+                
+                //List states in dropdown menu
+                // get states list and set default
+                $scope.quote.company = {};
+                $scope.quote.company.businessAddress = {};
+                $scope.states = States.states();
+                $scope.quote.company.businessAddress.state = $scope.states[0].abbreviation;
 
                 if ($rootScope.previewQuote === true) $rootScope.previewQuote = false;
             }
@@ -119,8 +134,6 @@ angular
 
                     _.each($scope.filteredPrograms, function(program, $programIdx) {
 
-                        console.log('Program...');
-
                         if (!program.rateSheet) program.rateSheet = {};
 
                         _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx) {
@@ -128,7 +141,6 @@ angular
                             _.each(buyOutOption.costs, function(cost, $costIdx) {
 
                                 if (cost && $scope.quoteCost <= cost.min || cost && $scope.quoteCost >= cost.max) {
-                                    //console.log($costIdx);
                                     $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.splice($costIdx, 1);
 
 
@@ -153,18 +165,18 @@ angular
                 $scope.quote.totalCost = $scope.quoteCost;
 
                 // save the custom Field with the quote 
-                if ($scope.vendor && $scope.vendor.customField) {
+                if ($scope.vendor && $scope.vendor.customField.enabled) {
                     $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
                 }
 
                 if (!quoteId) {
 
                     $rootScope.previewQuote = true;
+                    $scope.quote.vendorId = $scope.selectedVendor;
 
                     // create new item
                     Quote.add($scope.quote).then(function(response) {
                         var newQuote = response;
-                        console.log(newQuote);
                         $location.url('/tools/quoter/' + newQuote._id);
                     });
 
@@ -186,10 +198,6 @@ angular
 
 
             $scope.chooseRate = function(termOption, termLength, termPeriod, periodPayment) {
-                console.log('termOption: ' + termOption);
-                console.log('termLength: ' + termLength);
-                console.log('termPeriod: ' + termPeriod);
-                console.log('periodPayment: ' + periodPayment);
 
                 // build the application for us to save
                 var application = {
@@ -206,8 +214,6 @@ angular
                     },
                     leasee: $scope.quote.company
                 };
-
-                console.log(application);
 
                 $rootScope.fromQuote = true;
 
@@ -246,11 +252,8 @@ angular
                 Quote.generatePDF(quoteId).then(function(response) {
                     $scope.downloading = false;
                     $scope.downloadMessage = "Download Complete";
-
-                    console.log(response);
-
+                    
                     if (response.status === 'OK') {
-                        console.log(response.file);
                         SaveToDisk(response.file, 'Quote');
                     } else {
                         $scope.downloadMessage = "Something Went Wrong! Please Try Again Later";

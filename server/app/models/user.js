@@ -101,6 +101,9 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
  * Pre-save hook
  */
 UserSchema.pre('save', function(next) {
+    
+    this.fullname = this.name.first + ' ' + this.name.last; 
+    
     if (!this.isNew) return next();
 
     if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)

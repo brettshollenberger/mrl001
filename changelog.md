@@ -9,10 +9,21 @@ Release 0.3.2 (current)
 - [FEATURE] Admin can set user role from dashboard
 - [FEAUTRE] Admin can add a vendorRep to a vendor
 - [FEATURE] Show or hide buttons, tabs, etc. based on current user role. 
+- [FEATURE] Show user role on user listing page. 
+- [FEATURE] Allow sorting by user role on user listing page. 
+- [FEATURE] Enhance style and function of the users edit -> manage vendors tab. 
+- [FEATURE] Chaning a users role removes their current vendor relationships, prompts user with warning. 
 
 - [CHORE] When adding users to a vendor, filter by role. This means only vendorReps appear on add vendor rep tab, and only salesReps appear on add sales rep tab. 
+- [CHORE] Add 10 rate sheet and remove testing rate sheets.
+
 
 - [BUG] Fix bug with quoter tool that could cause it to fail in some instances when user clicked "add quote"
+- [BUG] Fix bug causing vendor to sales rep realting to break
+- [BUG] Fix bug where quoter tool was incorrectly setting the vendorId
+
+- [STYLE] Change side nav legal to 2013 Marlin Business Services Corp (registered)
+
 
 
 Release 0.3.1

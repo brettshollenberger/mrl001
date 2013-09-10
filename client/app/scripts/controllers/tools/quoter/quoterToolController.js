@@ -69,7 +69,7 @@ angular
                 // get the vendors
                 Vendor.getAll().then(function(response) {
                     $scope.vendors = response;
-                    $scope.quote.vendorId = $scope.vendors[0]._id;
+                    $scope.selectedVendor = $scope.vendors[0]._id;
                 });
             }
             

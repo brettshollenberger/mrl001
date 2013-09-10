@@ -56,7 +56,7 @@ var ApplicationSchema = new Schema({
           "state": {type: String, "default": '', trim: true},
           "zip": {type: Number}
         },
-        yearsInBusiness: {type: Number, "default": 0},
+        yearsInBusiness: {type: Number},
         soleProp: {type: Boolean, "default": false}
     },
     guarantorInfo: {

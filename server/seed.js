@@ -13,6 +13,8 @@ var mongoose = require('mongoose'),
     async = require('async'),
     _ = require('underscore'),
     fs = require('fs');
+    
+var async = require('async');
 
 
 /**
@@ -46,11 +48,11 @@ models.Program = mongoose.model('Program');
 *
 */
 var resources = {};
+resources.User          = require('./seed_data/user').seed();
 resources.Vendor        = require('./seed_data/vendor').seed();
 resources.Program       = require('./seed_data/program').seed();
 resources.Application   = require('./seed_data/application').seed();
 resources.Quote         = require('./seed_data/quote').seed();
-resources.User          = require('./seed_data/user').seed();
 
 
 /**
@@ -96,6 +98,8 @@ var db = mongoose.connect(config.db, function() {
 */
 var doSeed = function() {
     
+    var needsSeed = [];
+    
     // loop through resources
     _.each(resources, function(value, key) {
         
@@ -106,15 +110,22 @@ var doSeed = function() {
             
             // carete new Mongoose object
             var item = new models[key](contents);
+        
+            var doThis = function(callback) {
+                // save object
+                item.save(function(err, data) {
+                    if(err) throw(err);
+                    console.log(key + ' ' + item._id + ' created.');
+                    callback(null, item);
+                }); 
+            };
             
-            // save object
-            item.save(function(err, data) {
-                if(err) throw(err);
-                console.log(key + ' ' + item._id + ' created.');
-            }); 
-            
+            needsSeed.push(doThis);
+  
         });
 
     });
+    
+    async.series(needsSeed);
     
 };

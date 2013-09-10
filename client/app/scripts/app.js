@@ -280,13 +280,6 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 
         });
 
-        // we use this to set credentials for demo on initial page screen
-        $rootScope.credentials = {
-            email: 'bwalsh@marlinfinance.com',
-            password: 'bwalsh'
-        };
-
-
     }
 ])
     .directive('decimalPlaces', function() {

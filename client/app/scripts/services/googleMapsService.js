@@ -32,12 +32,12 @@ angular
 
                         // @todo why is this the new format? 
                         // did things change on the Google API side?
-                        if(!geoData.lat || !geoData.lng) {
+                        if (!geoData.lat || !geoData.lng) {
                             geoData.lat = results[0].geometry.location.ob; // mb
                             geoData.lng = results[0].geometry.location.pb; // nb
                         }
-                        
-                        if(!geoData.lat || !geoData.lng) {
+
+                        if (!geoData.lat || !geoData.lng) {
                             $rootScope.$broadcast('event:geo-location-failure');
                         } else {
                             $rootScope.$broadcast('event:geo-location-success', geoData, type);

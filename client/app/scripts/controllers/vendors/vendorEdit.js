@@ -16,16 +16,30 @@ angular
         function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
 
             $scope.modelObject = Vendor;
-            
+
             Auth.canUserDoAction('edit-vendors');
 
-            $scope.tabs = [
-                {name: 'Basic information', active: true, permission: 'none'}, 
-                {name: 'Marlin Sales Rep', active: true, permission: 'changeSalesRep-vendors'},
-                {name: 'Vendor Sales Rep', active: true, permission: 'changeVendorRep-vendors'},  
-                {name: 'Rate Sheets', active: true, permission: 'changeRateSheets-vendors'},  
-                {name: 'Tools', active: true, permission: 'changeToolOptions-vendors'}
-            ];
+            $scope.tabs = [{
+                name: 'Basic information',
+                active: true,
+                permission: 'none'
+            }, {
+                name: 'Marlin Sales Rep',
+                active: true,
+                permission: 'changeSalesRep-vendors'
+            }, {
+                name: 'Vendor Sales Rep',
+                active: true,
+                permission: 'changeVendorRep-vendors'
+            }, {
+                name: 'Rate Sheets',
+                active: true,
+                permission: 'changeRateSheets-vendors'
+            }, {
+                name: 'Tools',
+                active: true,
+                permission: 'changeToolOptions-vendors'
+            }];
 
 
             $scope.salesName = '';
@@ -121,12 +135,12 @@ angular
 
                     _.each($scope.vendor.tools, function(tool) {
                         $scope.tabs.push(tool);
-                        
+
                         $scope.tabs[4].permission = 'changeLocationOptions-vendor';
                         $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
-                        
+
                         console.log($scope.tabs);
-                        
+
                     });
 
                     updatePrograms();
@@ -137,23 +151,23 @@ angular
 
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
-                
+
                 // clear our variables
                 $scope.vendor.programs = []; // clear the program array
                 $scope.vendor.programCustomNames = []; // where we store custom displayName data
-                
+
                 // process each program, checking if its active for the vendor
                 _.each($scope.programs, function(item, key) {
-                   
-                   // API saves an array of _ids
-                   if(item.active) $scope.vendor.programs.push(item._id);
-                   
-                   // if user has set a custom display name
-                   // we push the whole object, but API will only save the id and displayName
-                   if(item.active && item.displayName) $scope.vendor.programCustomNames.push(item); 
-                    
+
+                    // API saves an array of _ids
+                    if (item.active) $scope.vendor.programs.push(item._id);
+
+                    // if user has set a custom display name
+                    // we push the whole object, but API will only save the id and displayName
+                    if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
+
                 });
-                
+
                 if (!vendorId) {
 
                     // create new item
@@ -196,7 +210,7 @@ angular
                 var programs = $scope.vendor.programs || [];
                 programs.push(program._id);
                 $scope.vendor.programs = programs;
-/*
+                /*
 
                 var obj = {
                     _id : $scope.vendor._id,
@@ -217,8 +231,8 @@ angular
                 var programs = $scope.vendor.programs || [];
                 programs.splice(programs.indexOf(program._id), 1);
                 $scope.vendor.programs = programs;
-                
-/*
+
+                /*
 
                 var obj = {
                     _id : $scope.vendor._id,
@@ -232,17 +246,17 @@ angular
 */
 
             };
-            
-            
+
+
             /**
-            * Gets all the programs, making two calls and merging the results
-            * In our view we sort and filter so the active programs appear first
-            *
-            */
+             * Gets all the programs, making two calls and merging the results
+             * In our view we sort and filter so the active programs appear first
+             *
+             */
             $scope.programs = [];
 
             function updatePrograms() {
-            
+
                 // get the vendors programs
                 Program.getAllForVendorId($scope.vendor._id).then(function(response) {
                     _.each(response, function(item) {
@@ -250,7 +264,7 @@ angular
                     });
                     $scope.programs = $scope.programs.concat(response);
                 });
-                
+
                 Program.getAllNotIn($scope.vendor._id).then(function(response) {
                     _.each(response, function(item) {
                         item.active = false; // set to active for this vendor
@@ -267,8 +281,8 @@ angular
             $scope.addSalesRep = function(id) {
 
                 var obj = {
-                    _id : $scope.vendor._id,
-                    salesRep : id
+                    _id: $scope.vendor._id,
+                    salesRep: id
                 };
 
                 Vendor.update(obj).then(function(response) {
@@ -284,8 +298,8 @@ angular
             $scope.removeSalesRep = function(id) {
 
                 var obj = {
-                    _id : $scope.vendor._id,
-                    salesRep : null
+                    _id: $scope.vendor._id,
+                    salesRep: null
                 };
 
                 Vendor.update(obj).then(function(response) {
@@ -293,17 +307,17 @@ angular
                     $scope.vendor.salesRep = null;
                 });
             };
-            
+
             /**
              * Add sales rep to a vendor
              *
              */
             $scope.addVendorRep = function(id) {
 
-                
+
                 var obj = {
-                    _id : $scope.vendor._id,
-                    vendorRep : id
+                    _id: $scope.vendor._id,
+                    vendorRep: id
                 };
 
                 Vendor.update(obj).then(function(response) {
@@ -319,8 +333,8 @@ angular
             $scope.removeVendorRep = function() {
 
                 var obj = {
-                    _id : $scope.vendor._id,
-                    vendorRep : null
+                    _id: $scope.vendor._id,
+                    vendorRep: null
                 };
 
                 Vendor.update(obj).then(function(response) {
@@ -353,9 +367,9 @@ angular
                 $scope.tabs[$scope.activeTab].selected = false;
 
                 $scope.activeTab = tab;
-                
+
                 $scope.tabs[$scope.activeTab].selected = true;
-                
+
             };
 
             $scope.$watch('activeTab', function(newValue, oldValue) {
@@ -405,7 +419,7 @@ angular
                         latitude: $scope.vendor.geo.latitude,
                         longitude: $scope.vendor.geo.longitude
                     };
-                    
+
                     console.log($scope.map.center);
 
                     makeMarkerFromVendor();
@@ -449,7 +463,7 @@ angular
 
                     // make a marker from our vendor
                     makeMarkerFromVendor();
-                    
+
                     // force our form to be dirty, showing the save button
                     $scope.locationForm.$setDirty();
 
@@ -457,21 +471,21 @@ angular
 
                 }
             });
-            
+
             $scope.message = {};
-            
+
             var listener2 = $rootScope.$on('event:geo-location-failure', function(event, data) {
                 $scope.message.map = 'Failed to lookup address. Try again later';
                 $timeout(function() {
-                   $scope.message.map = null; 
+                    $scope.message.map = null;
                 }, 2200);
             });
 
             /**
-            * Called to remove the google callback that is called 
-            * when the address lookup finishes
-            *
-            */
+             * Called to remove the google callback that is called
+             * when the address lookup finishes
+             *
+             */
             $rootScope.$on('$routeChangeSuccess', function() {
                 listener();
                 listener2();
@@ -517,11 +531,11 @@ angular
                     name: $scope.vendor.name,
                     destAddress: 'http://maps.google.com/maps?daddr=' + genereateSingleLineAddress($scope.vendor.businessAddress)
                 };
-                
+
                 $scope.map.zoom = 16;
 
                 $scope.vendorMarker = [newMarker];
-                
+
                 console.log('VENDOR MARKER is...');
                 console.log($scope.vendorMarker);
 
@@ -532,7 +546,7 @@ angular
                 //$timeout(function() {
                 //    win.triggerHandler('Resize');
                 //});
-                                
+
             }
 
 
@@ -542,7 +556,7 @@ angular
              *
              *
              */
-/*
+            /*
             var existingObject = null;
 
             $scope.$watch('vendor', function(newValue, oldValue) {

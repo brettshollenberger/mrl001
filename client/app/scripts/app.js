@@ -6,7 +6,7 @@ angular
     ])
     .config(['$httpProvider',
         function($httpProvider, promiseTracker) {
-        
+
             $httpProvider.defaults.useXDomain = true;
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
@@ -673,79 +673,75 @@ spinner.directive("spinner", function() {
 
 
 
-angular.module('app').config(function($compileProvider){
-  $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|callto):/);
+angular.module('app').config(function($compileProvider) {
+    $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|callto):/);
 });
 
 
 
 angular.module('app') // attach to your app or create a new with ('filters', [])
-.filter('isodate', function(){
-   return function(datetime){
-       var n = datetime.split(' ');
-       if(n.length == 1) return datetime;
-       else return n.join('T')+'Z';
-   };
+.filter('isodate', function() {
+    return function(datetime) {
+        var n = datetime.split(' ');
+        if (n.length == 1) return datetime;
+        else return n.join('T') + 'Z';
+    };
 });
 
 
 angular.module('app')
-.directive('stopEvent', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            element.bind(attr.stopEvent, function (e) {
-                e.stopPropagation();
-            });
-        }
-    };
-});
+    .directive('stopEvent', function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                element.bind(attr.stopEvent, function(e) {
+                    e.stopPropagation();
+                });
+            }
+        };
+    });
 
 
 
 
 
 angular
-.module('app')
-.directive("mailTo", function() {
-    return {
-        replace: true,
-        template: '<a ng-show="email" stop-event="click" ng-href="mailto:{{email}}" target="_blank"><i class="icon icon-envelope"></i> {{email}}</a>',
-        link: function(scope, element, attrs) {
-            
-            attrs.$observe('mailTo', function(item) {
-                scope.email = item;
-            });
-                        
-        }
-    };
-})
-.directive("callTo", function() {
-    return {
-        replace: true,
-        template: '<a ng-show="phone" stop-event="click" ng-href="callto:{{phone}}"><i class="icon icon-phone"></i> {{phone}}</a>',
-        link: function(scope, element, attrs) {
-            
-            attrs.$observe('callTo', function(item) {
-                scope.phone = item;
-            });
-                        
-        }
-    };
-})
-.directive("userProfile", function() {
-    
-    return {
-        replace: true,
-        template: '<a stop-event="click" ng-href="#/dashboard/users/{{userProfile()._id}}"><i class="icon icon-user"></i> {{userProfile().fullname}}</a>',
-        scope: {
-            userProfile: '&'
-        }
-    };
-})
+    .module('app')
+    .directive("mailTo", function() {
+        return {
+            replace: true,
+            template: '<a ng-show="email" stop-event="click" ng-href="mailto:{{email}}" target="_blank"><i class="icon icon-envelope"></i> {{email}}</a>',
+            link: function(scope, element, attrs) {
+
+                attrs.$observe('mailTo', function(item) {
+                    scope.email = item;
+                });
+
+            }
+        };
+    })
+    .directive("callTo", function() {
+        return {
+            replace: true,
+            template: '<a ng-show="phone" stop-event="click" ng-href="callto:{{phone}}"><i class="icon icon-phone"></i> {{phone}}</a>',
+            link: function(scope, element, attrs) {
+
+                attrs.$observe('callTo', function(item) {
+                    scope.phone = item;
+                });
+
+            }
+        };
+    })
+    .directive("userProfile", function() {
+
+        return {
+            replace: true,
+            template: '<a stop-event="click" ng-href="#/dashboard/users/{{userProfile()._id}}"><i class="icon icon-user"></i> {{userProfile().fullname}}</a>',
+            scope: {
+                userProfile: '&'
+            }
+        };
+    })
 
 ;
-
-
-
-

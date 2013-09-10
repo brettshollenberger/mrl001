@@ -16,7 +16,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         //allowedActionsByAuthLevel[1] = [];
         // 2 = marlin sales rep
         allowedActionsByAuthLevel.salesRep = ['list-applications', 'edit-applications', 'list-quotes', 'edit-quotes', 'list-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
-        
+
         allowedActionsByAuthLevel.vendorRep = ['list-applications', 'edit-applications', 'list-quotes', 'edit-quotes', 'view-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
 
         // create and expose service methods
@@ -84,17 +84,17 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         exports.isInGroupByName = function(groupName) {
             return false;
         };
-        
+
         function doRedirect() {
-            
+
             var storedUser = $cookieStore.get('userData');
-            
-            if( storedUser ) {
+
+            if (storedUser) {
                 $location.url('/dashboard');
             } else {
                 $location.url('/login');
             }
-            
+
         }
 
 
@@ -168,30 +168,30 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
 
 
 
-angular.module('app').directive("canDoAction", [ 'authService', function(authService) {
-    return {
-        replace: false,
-        restrict: 'A',
-        link: function(scope, element, attr) {
-            
-            attr.$observe('canDoAction', function() {
-                
-                if(attr.canDoAction === 'none') {
-                    return true;
-                }
-                
-                var showIf = authService.showIfUserCanDoAction(attr.canDoAction);
-    
-                if(!showIf) {
-                    element[0].style.display = 'none';
-                } else {
-                    element[0].style.display = 'inherit';
-                }
-                
-            });
-            
-        }
-    };
-}]);
+angular.module('app').directive("canDoAction", ['authService',
+    function(authService) {
+        return {
+            replace: false,
+            restrict: 'A',
+            link: function(scope, element, attr) {
 
+                attr.$observe('canDoAction', function() {
 
+                    if (attr.canDoAction === 'none') {
+                        return true;
+                    }
+
+                    var showIf = authService.showIfUserCanDoAction(attr.canDoAction);
+
+                    if (!showIf) {
+                        element[0].style.display = 'none';
+                    } else {
+                        element[0].style.display = 'inherit';
+                    }
+
+                });
+
+            }
+        };
+    }
+]);

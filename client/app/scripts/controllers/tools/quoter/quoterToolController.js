@@ -121,7 +121,7 @@ angular
 
                         console.log('Program...');
 
-                        if(!program.rateSheet) program.rateSheet = {};
+                        if (!program.rateSheet) program.rateSheet = {};
 
                         _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx) {
 
@@ -206,7 +206,7 @@ angular
                     },
                     leasee: $scope.quote.company
                 };
-                
+
                 console.log(application);
 
                 $rootScope.fromQuote = true;

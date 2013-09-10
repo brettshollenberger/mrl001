@@ -13,22 +13,27 @@ angular
             $scope.modelObject = User;
 
             Auth.canUserDoAction('edit-users');
-            
+
             // Options you can set user roles
-            $scope.roles = [
-                {value: 'salesRep', label: 'Sales Rep'},
-                {value: 'vendorRep', label: 'Vendor Rep'},
-                {value: 'admin', label: 'Admin'}
-            ];
-            
+            $scope.roles = [{
+                value: 'salesRep',
+                label: 'Sales Rep'
+            }, {
+                value: 'vendorRep',
+                label: 'Vendor Rep'
+            }, {
+                value: 'admin',
+                label: 'Admin'
+            }];
+
             $scope.canChangeRole = function() {
-                if($scope.user._id === Auth.getCurrentUser()._id && $scope.user.role === 'admin') {
+                if ($scope.user._id === Auth.getCurrentUser()._id && $scope.user.role === 'admin') {
                     return false;
                 } else {
                     return true;
                 }
             };
-            
+
 
             // empty user object
             $scope.user = {};
@@ -68,7 +73,7 @@ angular
                 // get the user
                 User.getById(userId).then(function(response) {
                     $scope.user = response;
-                    
+
                     $scope.initialRole = $scope.user.role;
 
                     // get vendors for this user
@@ -78,30 +83,30 @@ angular
                 //console.log($scope.user);
                 $scope.formAction = 'Update';
             }
-            
-            
+
+
             function udpateVendorRelationships() {
-                        // process each program, checking if its active for the vendor
-                        _.each($scope.vendors, function(item, key) {
-                           
-                           // API saves an array of _ids
-                           if(item.active) {
-                           
-                                // check if the user is currently the sales or vendor rep for this vendor
-                                if(item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
-                                if(item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
-                                 
-                                // now set their proper role
-                                item[$scope.user.role] = $scope.user._id;
-                                console.log(item);
-                                
-                                Vendor.update(item);
-                                
-                               //Vendor.update();
-                           }
-                           
-                        });
+                // process each program, checking if its active for the vendor
+                _.each($scope.vendors, function(item, key) {
+
+                    // API saves an array of _ids
+                    if (item.active) {
+
+                        // check if the user is currently the sales or vendor rep for this vendor
+                        if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
+                        if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
+
+                        // now set their proper role
+                        item[$scope.user.role] = $scope.user._id;
+                        console.log(item);
+
+                        Vendor.update(item);
+
+                        //Vendor.update();
                     }
+
+                });
+            }
 
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
@@ -122,55 +127,55 @@ angular
                     });
 
                 } else {
-                
-                
-                    if($scope.initialRole !== $scope.user.role) {
-                        
+
+
+                    if ($scope.initialRole !== $scope.user.role) {
+
                         console.log('NEED TO update users vendors');
-                        
-                        if(confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
-                           
+
+                        if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
+
                             _.each($scope.vendors, function(item, key) {
                                 // check if the user is currently the sales or vendor rep for this vendor
-                                
-                                if(item.active) {
-                                    if(item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
-                                    if(item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
+
+                                if (item.active) {
+                                    if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
+                                    if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
                                     item.active = false;
                                 }
-                                
+
                                 console.log(item);
                                 Vendor.update(item);
-                            }); 
-                            
+                            });
+
                             udpateVendorRelationships();
-                            
+
                             // update existing item
                             User.update($scope.user);
-                            
+
                             //saveChangesPrompt.removeListener();
-        
+
                             if (doRedirect) {
                                 $location.url('/dashboard/users');
                             }
-                            
+
                         }
-                        
-                        
+
+
                     } else {
                         udpateVendorRelationships();
-                        
-                            // update existing item
+
+                        // update existing item
                         User.update($scope.user);
-                        
+
                         //saveChangesPrompt.removeListener();
-    
+
                         if (doRedirect) {
                             $location.url('/dashboard/users');
                         }
                     }
 
-                    
+
                 }
 
 
@@ -178,21 +183,21 @@ angular
 
 
             // --------
-            
+
             /**
-            * Gets all the programs, making two calls and merging the results
-            * In our view we sort and filter so the active programs appear first
-            *
-            */
+             * Gets all the programs, making two calls and merging the results
+             * In our view we sort and filter so the active programs appear first
+             *
+             */
             $scope.vendors = [];
 
             function refreshVendors() {
-            
-                User.getUsersNonVendors($scope.user._id).then(function(response) {                    
-                    $scope.vendors = $scope.vendors.concat(response);                    
+
+                User.getUsersNonVendors($scope.user._id).then(function(response) {
+                    $scope.vendors = $scope.vendors.concat(response);
                 });
-                
-                User.getUsersVendors($scope.user._id).then(function(response) {                    
+
+                User.getUsersVendors($scope.user._id).then(function(response) {
                     _.each(response, function(item) {
                         item.active = true; // set to active for this vendor
                     });
@@ -204,8 +209,8 @@ angular
             $scope.toggleActive = function(item) {
                 item.active = item.active ? false : true;
             };
-            
-            
+
+
             // -------
 
 
@@ -240,12 +245,20 @@ angular
             };
 
             $scope.tabs = ['Basic information', 'Vendors', 'Password'];
-            
-            $scope.tabs = [
-                {name: 'Basic information', active: true, permission: 'none'}, 
-                {name: 'Vendors', active: true, permission: 'changeVendors-users'},  
-                {name: 'Password', active: true, permission: 'changePassword-users'}  
-            ];
+
+            $scope.tabs = [{
+                name: 'Basic information',
+                active: true,
+                permission: 'none'
+            }, {
+                name: 'Vendors',
+                active: true,
+                permission: 'changeVendors-users'
+            }, {
+                name: 'Password',
+                active: true,
+                permission: 'changePassword-users'
+            }];
 
             /**
              * Tab functions.
@@ -269,9 +282,9 @@ angular
                 $scope.tabs[$scope.activeTab].selected = false;
 
                 $scope.activeTab = tab;
-                
+
                 $scope.tabs[$scope.activeTab].selected = true;
-                
+
             };
 
 

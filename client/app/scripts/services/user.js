@@ -119,23 +119,23 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 return response.data[0];
             });
         };
-        
-        
-        
+
+
+
         /**
-        * Gets vendors for a user
-        *
-        */
+         * Gets vendors for a user
+         *
+         */
         exports.getUsersVendors = function(id) {
             return $http.get(url + 'users/' + id + '/vendors').then(function(response) {
                 return response.data;
             });
         };
-        
+
         /**
-        * Gets vendors not associated to user
-        *
-        */
+         * Gets vendors not associated to user
+         *
+         */
         exports.getUsersNonVendors = function(id) {
             return $http.get(url + 'users/' + id + '/non_vendors').then(function(response) {
                 return response.data;

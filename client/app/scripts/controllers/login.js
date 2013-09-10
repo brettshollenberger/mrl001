@@ -8,7 +8,7 @@ angular
         '$timeout',
         '$routeParams',
         function($rootScope, $scope, $location, Auth, $timeout, $routeParams) {
-            
+
             // we use this to set credentials for demo on initial page screen
             $rootScope.demoCredentials = {
                 admin: {
@@ -24,22 +24,23 @@ angular
                     password: 'vrep'
                 }
             };
-            
-            
+
+
             /**
-            * This allows us to pass credentials into the controller to prefill the login form fields
-            * This is useful for demos and dev. 
-            *
-            */
+             * This allows us to pass credentials into the controller to prefill the login form fields
+             * This is useful for demos and dev.
+             *
+             */
             if ($routeParams.demo) {
                 $scope.email = $rootScope.demoCredentials[$routeParams.demo].email;
                 $scope.password = $rootScope.demoCredentials[$routeParams.demo].password;
             }
 
             /**
-            * Runs on success, useful for redirecting etc.
-            *
-            */
+             * Runs on success, useful for redirecting etc.
+             *
+             */
+
             function loginSuccessCallback() {
                 // clear any demo params as needed
                 $location.search('demo', null);
@@ -47,7 +48,7 @@ angular
                 $location.url('/dashboard');
             }
 
-            
+
             // used to provide a button specific activity spinner 
             // @todo eliminate this in favor of the namespaced "activity" spinners
             // @see https://github.com/ajoslin/angular-promise-tracker
@@ -58,7 +59,7 @@ angular
                 $scope.isProcessing = true;
 
                 Auth.login($scope.email, $scope.password).then(function(response) {
-                    
+
                     // @todo make this more robust! 
                     var loginSuccess = response;
 

@@ -1,9 +1,9 @@
 /**
-* Controller to manage updating password!
-*
-* 
-*
-*/
+ * Controller to manage updating password!
+ *
+ *
+ *
+ */
 angular
     .module('app')
     .controller('passwordChangeController', [
@@ -18,10 +18,10 @@ angular
 
             // message for the user, will show validation errors
             $scope.changeMessage = null;
-            
+
             // was the password changed successfully? 
             $scope.changestatus = null;
-            
+
             // save original form, used to "reset" the form on success
             // @note when converting to Anglar 1.2, we can user the form.$setPristine() method 
             $scope.originalForm = $scope.passwordForm;
@@ -32,22 +32,22 @@ angular
                 $scope.current_password = null;
                 $scope.confirm_password = null;
             };
-            
+
             // call to reset the form
             // @note when converting to Anglar 1.2, we can user the form.$setPristine() method
             var resetForm = function() {
                 $scope.passwordForm = angular.copy($scope.originalForm);
             };
-            
+
             // sets message and removes after timeout
             var setMessage = function(message) {
-               $scope.changeMessage = message; 
-               
-               // set timeout to clear our message after 2 seconds
-               $timeout(function() {
-                   $scope.changeMessage = null;
-               }, 2000);
-               
+                $scope.changeMessage = message;
+
+                // set timeout to clear our message after 2 seconds
+                $timeout(function() {
+                    $scope.changeMessage = null;
+                }, 2000);
+
             };
 
             // call once to set initially
@@ -67,7 +67,7 @@ angular
 
                     resetVars();
                     resetForm();
-                    
+
                     $scope.changestatus = true;
                     setMessage(response);
 
@@ -75,7 +75,7 @@ angular
 
                     resetForm();
                     resetVars();
-                    
+
                     $scope.changestatus = false;
                     setMessage(err.data.message);
 

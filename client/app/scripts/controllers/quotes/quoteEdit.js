@@ -13,10 +13,10 @@ angular
             $scope.modelObject = Quote;
 
             Auth.canUserDoAction('edit-quotes');
-            
+
             // deletes an item and then gets the list again to reflect the deleted item.
             $scope.deleteItem = function(id) {
-                
+
             };
 
             // empty quote object

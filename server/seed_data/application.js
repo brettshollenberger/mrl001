@@ -6,7 +6,7 @@ exports.seed = function() {
 var data = [{
     _id: '51e71518ed32080ffc000021',
     name: 'Application 1',
-    status: 'Open',
+    status: 'new',
     quoteId: '51e71518ed32080ffc000018',
     vendorId: '51e71518ed32080ffc000023',
     vendor: {},
@@ -51,7 +51,7 @@ var data = [{
 {
     _id: '51e71518ed32080ffc000022',
     name: 'Application 2',
-    status: 'Open',
+    status: 'new',
     quoteId: '51e71518ed32080ffc000018',
     vendorId: '51e71518ed32080ffc000024',
     vendor: {},

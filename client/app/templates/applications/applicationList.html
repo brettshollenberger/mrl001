@@ -24,6 +24,7 @@
                         <tr>
                             <th>Leasee</th>
                             <th>Vendor</th>
+                            <th>Status</th>
                             <th>Cost</th>
                         </tr>
                     </thead>
@@ -32,6 +33,7 @@
                         
                             <td>{{item.leasee.fullLegalBusineessName}}</td>
                             <td>{{item.vendor.name}}</td>
+                            <td>{{formatStatus(item.status)}}</td>
                             <td>${{item.quote.totalCost | number}}</td>
                         </tr>
                     </tbody>

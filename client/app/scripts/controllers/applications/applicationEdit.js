@@ -11,6 +11,9 @@ angular
 
             $scope.modelObject = Application;
             
+            // define possible statuses for our application
+            // note this is not the most robust, and can easily get out of sync with the database
+            // but for now it works. 
             $scope.statuses = [{
                 value: 'new',
                 label: 'New'
@@ -32,6 +35,13 @@ angular
             }];
             
             $scope.setStatus = function(newStatus) {
+                // this is a hack??? or not, for some reason the unsavedChanges directive moves the form
+                // into a child scope, so we need to access it here, or create a function to call
+                // which will set the directive dirty and workaround the scope issues
+                if($scope.$$childTail && $scope.$$childTail.applicationForm) {
+                    $scope.$$childTail.applicationForm.$setDirty();
+                }
+                // set our application status
                 $scope.application.status = newStatus;  
             };
             

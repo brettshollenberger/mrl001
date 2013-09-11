@@ -10,6 +10,31 @@ angular
         function($rootScope, $scope, $location, $routeParams, Auth, Application) {
 
             $scope.modelObject = Application;
+            
+            $scope.statuses = [{
+                value: 'new',
+                label: 'New'
+            }, {
+                value: 'inProgress',
+                label: 'In Progress'
+            }, {
+                value: 'complete',
+                label: 'Completed'
+            }, {
+                value: 'forApproval',
+                label: 'Submitted For Approval'
+            }, {
+                value: 'approved',
+                label: 'Approved'
+            }, {
+                value: 'denied',
+                label: 'Denied'
+            }];
+            
+            $scope.setStatus = function(newStatus) {
+                $scope.application.status = newStatus;  
+            };
+            
 
             Auth.canUserDoAction('edit-applications');
 

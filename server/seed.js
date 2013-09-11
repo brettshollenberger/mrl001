@@ -120,7 +120,7 @@ var db = mongoose.connect(config.db, function() {
                 console.log('Collection ' + name + ' dropped');
                 callback();
             });
-        }
+        };
         
         doDrops.push(dropFunction);
         

@@ -10,6 +10,11 @@ angular
         'vendorService',
         function($rootScope, $scope, $location, $routeParams, Auth, Application, Vendor) {
 
+            var applicationId;
+            $scope.application = {};
+            $scope.applications = [];
+
+
             //////////////////////////////////////////////////////////////////////////////
             /////////////////////////////// Index Action ////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
@@ -69,7 +74,7 @@ angular
                 $scope.cancel = privates.viewApplicationList;
                 
                 // get application ID for edit pages
-                var applicationId = $routeParams.id;
+                applicationId = $routeParams.id;
                 $scope.formAction = 'Add';
 
                 // get and store the application 

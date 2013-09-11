@@ -73,7 +73,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
     //base_url: 'http://marlinquoter.herokuapp.com/api/v1/'
     //base_url: 'http://localhost:3000/api/v1/'
     //base_url: 'http://0.0.0.0:3000/api/v1/'
-    base_url: 'http://10.1.10.100:3000/api/v1/'
+    base_url: 'http://127.0.0.1:3000/api/v1/'
 })
     .config(['$routeProvider',
         function($router) {
@@ -189,15 +189,15 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 
             // application routes
             .when('/dashboard/applications', {
-                controller: 'applicationListController',
+                controller: 'applicationController',
                 templateUrl: 'app/templates/applications/applicationList.html'
             })
                 .when('/dashboard/applications/new', {
-                    controller: 'applicationEditController',
+                    controller: 'applicationController',
                     templateUrl: 'app/templates/applications/applicationEdit.html'
                 })
                 .when('/dashboard/applications/:id', {
-                    controller: 'applicationEditController',
+                    controller: 'applicationController',
                     templateUrl: 'app/templates/applications/applicationEdit.html'
                 })
 

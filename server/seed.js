@@ -67,57 +67,24 @@ var env = process.env.NODE_ENV || 'development',
     
 // create database connection
 var db = mongoose.connect(config.db, function() {
-    console.log('Connected to ' + env + ' database!');
+    console.info('Connected to ' + env + ' database!');
     
     // Drop all our defined collections using async.
     // this prevents from dropping the whole db, which prevents us from logging back in
     // because it drops the high level users collection that mongo uses to register access
     var doDrops = [];
-    
-    // loop through resources
-/*
-    _.each(resources, function(value, key) {
-        
-        console.log('Registering ' + key + ' collection for dropping');
-        
-        var dropFunction = function(callback) {
-          
-            // drop this collection
-            db.connection.db.dropCollection(key, function() { 
-                console.log('Collection ' + key + ' dropped');
-                callback();
-            });  
 
-            
-            console.log(db.connection.collections[key]);
-
-            db.connection.collections[key].drop( function(err) {
-                console.log('Collection ' + key + ' dropped');
-                callback();
-            });
-            
-        };
-        
-        
-        
-        
-        
-        doDrops.push(dropFunction);
-        
-    });
-*/
-    
     // here we access the db collections
     // as defined by the database itself. 
     // this is instead of dropping the whole database, which disconnects us from mongolab
     _.each(db.connection.collections, function(collection) {
         
         var name = collection.name;
-        console.log('Prepping ' + name + ' for dropping');
+        console.info('Prepping ' + name + ' for dropping');
         
         var dropFunction = function(callback) {
             collection.drop( function(err) {
-                console.log('Collection ' + name + ' dropped');
+                console.info('Collection ' + name + ' dropped');
                 callback();
             });
         };
@@ -130,11 +97,11 @@ var db = mongoose.connect(config.db, function() {
     var closeAndReconnect = function(callback) {
         // close our connnection
         db.connection.close(function(){
-            console.log('Database connection closed, re-opening now...');
+            console.info('Database connection closed, re-opening now...');
             
             // reconnect to database
             db = mongoose.connect(config.db, function() {
-                console.log('Re-connected');
+                console.info('Re-connected');
                 callback();
             });
         });
@@ -162,7 +129,7 @@ var doSeed = function() {
     // loop through resources
     _.each(resources, function(value, key) {
         
-        console.log('Registering ' + key + ' collection for seeding');
+        console.info('Registering ' + key + ' collection for seeding');
         
         // loop through our resource items
         _.each(value, function(contents) {
@@ -176,7 +143,7 @@ var doSeed = function() {
                 // save mongo object
                 item.save(function(err, data) {
                     if(err) throw(err);
-                    console.log(key + ' ' + item._id + ' created.');
+                    console.info(key + ' ' + item._id + ' created.');
                     // async serices will pass param whcih is callbacl
                     // first param is error, second is result
                     callback(null, item);

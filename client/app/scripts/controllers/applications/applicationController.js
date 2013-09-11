@@ -171,7 +171,6 @@ angular
                 } else {
                     // update existing item
                     Application.update($scope.application);
-                    saveChangesPrompt.removeListener();
                     $location.url('/dashboard/applications');
                 }
             };

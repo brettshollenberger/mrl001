@@ -75,6 +75,7 @@ var db = mongoose.connect(config.db, function() {
     var doDrops = [];
     
     // loop through resources
+/*
     _.each(resources, function(value, key) {
         
         console.log('Registering ' + key + ' collection for dropping');
@@ -86,8 +87,40 @@ var db = mongoose.connect(config.db, function() {
                 console.log('Collection ' + key + ' dropped');
                 callback();
             });  
+
+            
+            console.log(db.connection.collections[key]);
+
+            db.connection.collections[key].drop( function(err) {
+                console.log('Collection ' + key + ' dropped');
+                callback();
+            });
             
         };
+        
+        
+        
+        
+        
+        doDrops.push(dropFunction);
+        
+    });
+*/
+    
+    // here we access the db collections
+    // as defined by the database itself. 
+    // this is instead of dropping the whole database, which disconnects us from mongolab
+    _.each(db.connection.collections, function(collection) {
+        
+        var name = collection.name;
+        console.log('Prepping ' + name + ' for dropping');
+        
+        var dropFunction = function(callback) {
+            collection.drop( function(err) {
+                console.log('Collection ' + name + ' dropped');
+                callback();
+            });
+        }
         
         doDrops.push(dropFunction);
         

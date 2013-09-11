@@ -13,6 +13,29 @@ angular
             var applicationId;
             $scope.application = {};
             $scope.applications = [];
+            
+            // define possible statuses for our application
+            // note this is not the most robust, and can easily get out of sync with the database
+            // but for now it works. 
+            var statuses = [{
+                value: 'new',
+                label: 'New'
+            }, {
+                value: 'inProgress',
+                label: 'In Progress'
+            }, {
+                value: 'complete',
+                label: 'Completed'
+            }, {
+                value: 'forApproval',
+                label: 'Submitted For Approval'
+            }, {
+                value: 'approved',
+                label: 'Approved'
+            }, {
+                value: 'denied',
+                label: 'Denied'
+            }];
 
 
             //////////////////////////////////////////////////////////////////////////////
@@ -35,6 +58,12 @@ angular
                         });
                     });
                 });
+                
+            
+                $scope.formatStatus = function(status) {
+                    var display = _.where(statuses, {value : status});
+                    return display.length ? display[0].label : '';
+                };
 
                 // Expose private methods on the scope object in certain controller
                 // actions if we want them to be accessible
@@ -50,6 +79,8 @@ angular
             $scope.edit = function() {
                 Auth.canUserDoAction('edit-applications');
                 $scope.modelObject = Application;
+
+                $scope.statuses = statuses;
 
                 // empty application object
                 $scope.application = {};
@@ -101,29 +132,6 @@ angular
                 $scope.changeTab = privates.changeTab;
                 
                 
-                // define possible statuses for our application
-                // note this is not the most robust, and can easily get out of sync with the database
-                // but for now it works. 
-                $scope.statuses = [{
-                    value: 'new',
-                    label: 'New'
-                }, {
-                    value: 'inProgress',
-                    label: 'In Progress'
-                }, {
-                    value: 'complete',
-                    label: 'Completed'
-                }, {
-                    value: 'forApproval',
-                    label: 'Submitted For Approval'
-                }, {
-                    value: 'approved',
-                    label: 'Approved'
-                }, {
-                    value: 'denied',
-                    label: 'Denied'
-                }];
-                
                 $scope.setStatus = function(newStatus) {
                     // this is a hack??? or not, for some reason the unsavedChanges directive moves the form
                     // into a child scope, so we need to access it here, or create a function to call
@@ -136,6 +144,9 @@ angular
                 };
 
             };
+            
+            
+            
 
             //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Private Methods //////////////////////////////

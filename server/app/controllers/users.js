@@ -28,7 +28,10 @@ exports.signin = function(req, res, next, passport) {
         if (!user) { return res.failure('Problem logging you in: ' + info.message, 401); }
         req.logIn(user, function(err) {
           if (err) { return next(err); }
-          res.ok(user);
+          
+          req.theUser = user;
+          exports.show(req, res, next);
+          
         });
     })(req, res, next);
 
@@ -117,15 +120,37 @@ exports.show = function(req, res) {
 };
 */
 
+// get vendor model
+var Vendor = mongoose.model('Vendor');
+
 /**
  * Show an application
  */
 exports.show = function(req, res) {
     
+    // if the user is a vendorRep, get the id of their vendor
+    // this will be useful in the app
+    if(req.theUser.role === 'vendorRep') {
     
+        Vendor.findOne({ 'vendorRep' : req.theUser._id }).exec(function(err, vendor) {
+            if (err) {
+                res.ok(req.theUser);
+            } else {
+                // add vendor reference and send res
+                req.theUser.vendorId = vendor._id;
+                req.theUser.vendor = vendor;
+                res.ok(req.theUser);
+            }
+        });
+      
+    // send the user right away    
+    } else {
     
-    res.ok(req.theUser);
+        res.ok(req.theUser);
+        
+    }    
 };
+
 
 /**
  * Send User

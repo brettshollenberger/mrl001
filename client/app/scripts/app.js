@@ -345,7 +345,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         function(Auth, $location) {
 
             return {
-                template: '<img class="img-circle" ng-show="currentUser().avatar.original" ng-src="{{currentUser().avatar.original}}"/><br/><br/><span ng-show="isLoggedIn()">{{currentUser().name.first}} {{currentUser().name.last}}</span><br/><a id="logout" ng-show="isLoggedIn()" ng-click="goToProfile()">My Profile</a><br /><a id="logout" ng-show="isLoggedIn()" ng-click="logout()">Log Out</a>',
+                templateUrl: 'app/templates/directives/userTray.html',
                 link: function(scope, element, attrs) {
                     scope.isLoggedIn = Auth.isAuthenticated;
 

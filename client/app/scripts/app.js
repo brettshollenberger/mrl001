@@ -120,7 +120,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
                 })
 
 
-            // Quoter tool! 
+            // Application tool! 
             .when('/tools/application', {
                 controller: 'applicationToolController',
                 templateUrl: 'app/templates/tools/application/applicationTool.html'
@@ -138,7 +138,8 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
 
             // Auth user dashboards
             .when('/dashboard', {
-                redirectTo: '/dashboard/quotes'
+                controller: 'applicationController',
+                templateUrl: 'app/templates/dashboard/index.html'
             })
 
 

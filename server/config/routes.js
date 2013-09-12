@@ -223,13 +223,14 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     
     
     /**
-	* APPLCIATIONS routes
+	* APPLICATIONS routes
 	* -------------------------
 	*/
 	var applications = require('../app/controllers/applications');
     //app.get('/applications', user.is('admin'), user.is('salesRep'), user.is('vendor'), applications.all);
     
     app.get('/api/v1/applications', isUserAllowed('list', 'applications'), applications.all);
+    app.post('/api/v1/applications/find', applications.find);
     app.post('/api/v1/applications', isUserAllowed('create', 'applications'), applications.create);
     app.get('/api/v1/applications/:applicationId', isUserAllowed('view', 'applications'), applications.show);
     app.put('/api/v1/applications/:applicationId', isUserAllowed('update', 'applications'), applications.update);

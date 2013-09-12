@@ -41,7 +41,7 @@ angular
             //////////////////////////////////////////////////////////////////////////////
             /////////////////////////////// Index Action ////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
-            
+
             $scope.index = function() {
                 Auth.canUserDoAction('list-applications');
                 $scope.searchBusiness = '';
@@ -149,10 +149,30 @@ angular
             
 
             //////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////// Dashboard Action /////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////
+
+            $scope.getNewApps = function() {
+                privates.find({'status' : 'new'});
+            };
+            
+            $scope.getActiveApps = function() {
+                privates.find({'status' : { '$ne' : 'new' }});
+            };
+
+
+            //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Private Methods //////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
 
             var privates = {};
+
+            // Flexible find method
+            privates.find = function(query) {
+                Application.find(query).then(function(response) {
+                    $scope.applications = response;
+                });
+            };
 
             // sends user to url based on item id
             privates.editItem = function(itemId) {

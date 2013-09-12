@@ -6,6 +6,16 @@ angular.module('app').factory('applicationService', ['$http', 'MARLINAPI_CONFIG'
         // create and expose service methods
         var exports = {};
 
+        // Generic find functionality
+        exports.find = function(query) {
+
+            query = JSON.stringify(query);
+
+            return $http.post(url + 'applications/find', {params: query}).then(function(response) {
+                return response.data;
+            });
+        };
+
         // get all items
         exports.getAll = function() {
             return $http.get(url + 'applications').then(function(response) {

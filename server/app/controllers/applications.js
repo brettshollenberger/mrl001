@@ -5,8 +5,27 @@ var mongoose = require('mongoose'),
     async = require('async'),
     Application = mongoose.model('Application'),
     Vendor = mongoose.model('Vendor'),
-    _ = require('underscore');
+    _ = require('underscore'),
 
+exports.find = function(req, res, next) {
+
+    var query = req.body;
+
+    // limit quotes to sales rep only. 
+    if(req.user && req.user.role === 'salesRep') {
+       query.salesRep = req.user._id;
+    } else if (req.user.role === 'vendorRep') {
+       query.vendorRep = req.user._id;
+    }
+
+    Application.find(query, function(err, application) {
+        if (err) {
+            res.failure(err);
+        } else {
+            res.ok(application, req.url);
+        }
+    });
+};
 
 /**
  * Find application by id

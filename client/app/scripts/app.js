@@ -236,16 +236,18 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
         // gets active class
         // use as ng-class="getClass('/path')"
         $rootScope.getClass = function(path) {
-            var cur_path = $location.path().substr(0, path.length);
-            cur_path = $location.path();
-            //console.log('Current path is: ' + cur_path + ', checked path is: ' + path);
+            var cur_path = $location.path();
+            
+            // do some counting
+            var splitCurPath = cur_path.split('/').length;
+            var splitPath = path.split('/').length;
+            
+            //console.log('$location.path() is: ' + cur_path + ', path is: ' + path);
             if (cur_path == path) {
-                if ($location.path().substr(0).length > 1 && path.length == 1)
-                    return "";
-                else
-                    return "active";
-            } else if ($location.path().indexOf(path) > -1) {
                 return "active";
+            } else if ($location.path().indexOf(path) > -1 && path.split('/').length === 3) {
+                // this check prevents 'dashboard' from being active when user is viewing quotes
+                return "active active-trail";
             } else {
                 return "";
             }

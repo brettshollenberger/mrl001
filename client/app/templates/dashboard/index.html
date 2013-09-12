@@ -1,0 +1,12 @@
+<div ng-controller="applicationController" ng-init="find({status: 'Open'})">
+    {{applications}}
+</div>
+
+<div ng-controller="applicationController" ng-init="find({status: {$ne : 'Open'} })">
+    {{applications}}
+</div>
+
+<div ng-controller="quoteController" ng-init="findRecent(10)">
+    {{quotes}}
+</div>
+

@@ -72,6 +72,10 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
 
         // checks if user is authenticated
         exports.getCurrentUser = function() {
+            if (!userData.currentUser) {
+                userData = $cookieStore.get('userData');
+            }
+            
             return userData.currentUser;
         };
 

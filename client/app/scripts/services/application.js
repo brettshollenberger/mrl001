@@ -11,7 +11,7 @@ angular.module('app').factory('applicationService', ['$http', 'MARLINAPI_CONFIG'
 
             query = JSON.stringify(query);
 
-            return $http.post(url + 'applications/find', {params: query}).then(function(response) {
+            return $http.post(url + 'applications/find', query).then(function(response) {
                 return response.data;
             });
         };

@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     async = require('async'),
     Application = mongoose.model('Application'),
     Vendor = mongoose.model('Vendor'),
-    _ = require('underscore'),
+    _ = require('underscore');
 
 exports.find = function(req, res, next) {
 

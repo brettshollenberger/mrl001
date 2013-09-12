@@ -18,11 +18,11 @@ exports.find = function(req, res, next) {
        query.vendorRep = req.user._id;
     }
 
-    Application.find(query, function(err, application) {
+    Application.find(query, function(err, applications) {
         if (err) {
             res.failure(err);
         } else {
-            res.ok(application, req.url);
+            res.ok(applications);
         }
     });
 };

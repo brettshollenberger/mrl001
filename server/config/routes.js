@@ -259,7 +259,7 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     // get programs for a vendor
     // @todo replace when we get a proper children setup
     
-    app.get('/api/v1/vendors/:vendorId/vendorRep', isUserAllowed('view', 'users'), vendors.getSalesRep);
+    app.get('/api/v1/vendors/:vendorId/salesRep', isUserAllowed('view', 'users'), vendors.getSalesRep);
     app.get('/api/v1/vendors/:vendorId/programs', isUserAllowed('updatePrograms', 'vendors'), vendors.getCurrentVendorPrograms);
     app.get('/api/v1/vendors/:vendorId/available_programs', isUserAllowed('updatePrograms', 'vendors'), vendors.getAvailableVendorPrograms);
 

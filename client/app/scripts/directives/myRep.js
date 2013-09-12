@@ -10,8 +10,8 @@ angular
                     // get current user
                     var user = authService.getCurrentUser();
                     
-                    // only show this to salesReps
-                    if(!user || !user.role || user.role !== 'vendorRep') return;
+                    // only show this to vendorReps
+                    if(!user || user.role !== 'vendorRep') return;
                     
                     // user might not have a vendor
                     if(!user.vendorId) return;

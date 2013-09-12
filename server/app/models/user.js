@@ -28,6 +28,8 @@ var UserSchema = new Schema({
     github: {},
     google: {},
     roles: Array,
+    vendorId: String,
+    vendor: Object,
     role: {type: String, "default": 'salesRep', trim: true},
     phoneNumber: String,
     avatar: {

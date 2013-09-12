@@ -215,3 +215,8 @@ exports.getAvailableVendorPrograms = function(req, res) {
     });
 };
 
+
+exports.getSalesRep = function(req, res) {
+    res.ok(req.vendor.salesRep);
+};
+

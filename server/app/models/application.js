@@ -22,7 +22,7 @@ var noteSchema = new Schema({
 var ApplicationSchema = new Schema({
     "created": { type: Date, "default": Date.now },
     name: { type: String, "default": '', trim: true },
-    status: { type: String, "default": 'Open', trim: true },
+    status: { type: String, "default": 'new', trim: true },
     quoteId: {
         type: Schema.ObjectId,
         ref: 'Quote'

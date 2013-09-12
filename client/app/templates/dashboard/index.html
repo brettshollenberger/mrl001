@@ -1,8 +1,8 @@
-<div ng-controller="applicationController" ng-init="find({status: 'Open'})">
+<div ng-controller="applicationController" ng-init="getNewApps()">
     {{applications}}
 </div>
 
-<div ng-controller="applicationController" ng-init="find({status: {$ne : 'Open'} })">
+<div ng-controller="applicationController" ng-init="getActiveApps()">
     {{applications}}
 </div>
 

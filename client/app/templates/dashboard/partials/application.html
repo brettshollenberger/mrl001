@@ -1,6 +1,6 @@
 <div class="application-sidebar">
-    <p>{{application.created}}</p>
-    <p>{{application.quote.totalCost}}</p>
+    <p>{{application.created | timeElapsed }}</p>
+    <p>{{application.quote.totalCost | cheddar}}</p>
 </div>
 <label>{{application.leasee.contactPerson.name}}</label>
 <a call-to="{{application.leasee.contactPerson.phone}}"></a>

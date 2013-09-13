@@ -1,21 +1,20 @@
-<div my-rep></div>
-
-<div class="row has-title-bar has-no-tabs">
+<div class="row has-title-bar has-no-tabs applications-dashboard">
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     <div class="span10 offset2">
-        
-        <div my-rep></div>
-        
+        <div class="row">
+            <div my-rep></div>
+        </div>
+
         <div class="row">  
             <div class="span5" ng-controller="applicationController" ng-init="getNewApps()">
-                new
+                 <h1>New Applications</h1>
                 <div ng-repeat="application in applications">
                     <div ng-include src="applicationTemplate.url"></div>
                 </div>
             </div>
             
             <div class="span5" ng-controller="applicationController" ng-init="getActiveApps()">
-                active
+                <h1>Open Applications</h1>
                 <div class="span5">
                     <div ng-repeat="application in applications">
                         <div ng-include src="applicationTemplate.url"></div>

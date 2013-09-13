@@ -139,7 +139,7 @@ angular
                         $scope.$$childTail.applicationForm.$setDirty();
                     }
                     // set our application status
-                    $scope.application.status = newStatus;  
+                    $scope.application.status = newStatus;
                 };
 
             };
@@ -157,7 +157,7 @@ angular
             };
 
             $scope.applicationTemplate = {
-                url: "app/templates/dashboard/application.html"
+                url: "app/templates/dashboard/partials/application.html"
             };
 
             //////////////////////////////////////////////////////////////////////////////

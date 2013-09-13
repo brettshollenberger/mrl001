@@ -24,6 +24,7 @@ var toolEnabledSchema = new Schema({
 
 /**
  * Vendor Schema
+ * @todo refactor tools to be use slug as keys? is this possible? 
  */
 var VendorSchema = new Schema({
     "created": { type: Date, "default": Date.now },

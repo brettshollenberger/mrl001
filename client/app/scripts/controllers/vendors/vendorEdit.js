@@ -548,6 +548,16 @@ angular
                 //});
 
             }
+            
+            
+            /**
+            * Checks if tool is active given a specific tool slug. 
+            *
+            */
+            $scope.isToolActive = function(slug) {
+                var isActive = _.where($scope.vendor.tools, {slug : slug, active : true});
+                return isActive.length ? true : false;
+            };
 
 
             /**

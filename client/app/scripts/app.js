@@ -752,5 +752,17 @@ angular
             }
         };
     })
+    .directive("vendorContact", function() {
+
+        return {
+            replace: true,
+            template: '<a stop-event="click"><i class="icon icon-user"></i>{{name}}</a>',
+            link: function(scope, element, attrs) {
+                attrs.$observe('vendorContact', function(item) {
+                    scope.name = item;
+                });
+            }
+        };
+    })
 
 ;

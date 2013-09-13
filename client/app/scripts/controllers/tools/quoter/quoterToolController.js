@@ -166,6 +166,9 @@ angular
 
                 // save the custom Field with the quote 
                 if ($scope.vendor && $scope.vendor.customField.enabled) {
+                    
+                    $scope.quote.customField = {};
+                    
                     $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
                 }
 

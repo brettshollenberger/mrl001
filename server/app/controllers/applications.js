@@ -14,11 +14,14 @@ exports.find = function(req, res, next) {
     // limit quotes to sales rep only. 
     if(req.user && req.user.role === 'salesRep') {
        query.salesRep = req.user._id;
-    } else if (req.user.role === 'vendorRep') {
+    } else if (req.user && req.user.role === 'vendorRep') {
        query.vendorRep = req.user._id;
     }
 
-    Application.find(query, function(err, applications) {
+    Application
+    .find(query)
+    .populate('vendorId')
+    .exec(function(err, applications) {
         if (err) {
             res.failure(err);
         } else {

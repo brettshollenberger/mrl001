@@ -29,9 +29,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-click="editItem(item._id)" ng-repeat="item in applications | filter: {leasee.fullLegalBusineessName: searchBusiness, vendor.name: searchVendor}">
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in applications | filter: {leasee.fullLegalBusinessName: searchBusiness, vendor.name: searchVendor}">
                         
-                            <td>{{item.leasee.fullLegalBusineessName}}</td>
+                            <td>{{item.leasee.fullLegalBusinessName}}</td>
                             <td>{{item.vendor.name}}</td>
                             <td>{{formatStatus(item.status)}}</td>
                             <td>${{item.quote.totalCost | number}}</td>

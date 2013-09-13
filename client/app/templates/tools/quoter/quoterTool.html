@@ -57,6 +57,13 @@
             <div class="span5">
                 <label>Description of Equipment</label>
                 <textarea type="text" class="large" ng-model="quote.description" ng-disabled="!canEdit"></textarea>
+                
+                <div ng-show="vendor.customField.enabled">        
+                    <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                    <input ui-if="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
+                    <input ui-if="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
+                </div>
+            
             </div>
         </div>
     </div>
@@ -193,16 +200,6 @@
         <p>Quotes expire after 30 (Thirty) days.</p>
     </div>
 </div>
-
-<div class="row" ng-show="vendor.customField.enabled">        
-    <div class="span10 offset1 text-center">
-        <br /><br />
-        <h3>{{quote.customField.displayName || vendor.customField.displayName}}</h3>
-        <input ui-if="vendor.customField.required" type="text" class="input-xxlarge" required ng-model="quote.customField.value" />
-        <input ui-if="!vendor.customField.required" type="text" class="input-xxlarge" ng-model="quote.customField.value" />
-    </div>
-</div>
-
     
 <div class="row" ui-if="canEdit && !didQuote">
         

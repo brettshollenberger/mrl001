@@ -188,7 +188,6 @@ angular
 
                     $rootScope.previewQuote = true;
                     $scope.quote.vendorId = $scope.vendor._id;
-                    console.log('vendor id for quote is ' + $scope.vendor._id);
 
                     // create new item
                     Quote.add($scope.quote).then(function(response) {
@@ -201,7 +200,7 @@ angular
                     filterQuotesByTotalCost();
 
                     Quote.update($scope.quote).then(function(response) {
-                        console.log('Updated quote successfully...');
+                        // do nothing, successful update
                     });
 
                 }
@@ -260,7 +259,6 @@ angular
 
                 $scope.downloading = true;
                 $scope.downloadMessage = "Please wait while we generate your PDF";
-                console.log(id);
 
                 // once the generation is complete, we'll put the download url 
                 // here. Users can click to download the file

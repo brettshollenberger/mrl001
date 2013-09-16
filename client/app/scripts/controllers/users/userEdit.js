@@ -33,7 +33,14 @@ angular
                     return true;
                 }
             };
-
+            
+            $scope.canDeleteUser = function() {
+                if ($scope.user._id !== Auth.getCurrentUser()._id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
 
             // empty user object
             $scope.user = {};

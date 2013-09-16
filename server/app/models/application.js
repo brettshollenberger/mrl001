@@ -42,7 +42,7 @@ var ApplicationSchema = new Schema({
     vendor: {},
     quote: {},
     leasee: {
-        fullLegalBusineessName: {type: String, "default": '', trim: true},
+        fullLegalBusinessName: {type: String, "default": '', trim: true},
         contactPerson: {
             name: {type: String, "default": '', trim: true},
             email: {type: String, "default": '', trim: true},

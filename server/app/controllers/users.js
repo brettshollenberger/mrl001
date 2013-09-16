@@ -137,8 +137,10 @@ exports.show = function(req, res) {
                 res.ok(req.theUser);
             } else {
                 // add vendor reference and send res
-                req.theUser.vendorId = vendor._id;
-                req.theUser.vendor = vendor;
+                if(vendor && vendor._id) {
+                    req.theUser.vendorId = vendor._id;
+                    req.theUser.vendor = vendor;  
+                }
                 res.ok(req.theUser);
             }
         });
@@ -149,6 +151,7 @@ exports.show = function(req, res) {
         res.ok(req.theUser);
         
     }    
+
 };
 
 

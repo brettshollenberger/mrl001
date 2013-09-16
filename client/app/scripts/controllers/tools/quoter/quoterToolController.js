@@ -12,18 +12,20 @@ angular
         'applicationService',
         function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
 
-            // empty quote object
+            // define empty objects
             $scope.quote = {};
-            var quote = {};
+            $scope.vendor = {};
+            $scope.vendors = [];
             
-            // misc variablles
+            // define variables
             $scope.didQuote = false;
             $scope.buttonText = 'Get Quote';
             $scope.canEdit = true;
-            $scope.haveVendor = false; // do we have a vendor_id param?
-            $scope.selectedVendor = null; // vendor selected in dropdown
-
-            // local version instance
+            
+            // define local store for quote
+            var quote = {};
+            
+            // Get quoter version
             // @todo this should be replaced with "version directive"
             $scope.version = $rootScope.version;
             
@@ -38,7 +40,6 @@ angular
                 // we have a vendor, so hide the dropdown
                 // if its not valid, we'll handle that later
                 $scope.haveVendor = true;
-                $scope.selectedVendor = vendorId;
                 
                 // get the vendor from API
                 getInitialVendor(vendorId);
@@ -49,27 +50,38 @@ angular
                 getAllVendors();
                 
             }
+            
 
             // get a single vendor at set as global vendor
             function getInitialVendor(getId) {
                 Vendor.getById(getId).then(function(response) {
                    
                     $scope.vendor = response;
-                    // not a valid vendor id
-                    if (!$scope.vendor) {
-                        $location.url('tools/quoter');
-                        $location.search('vendor_id', null);
-                    }
+                    
+                    // not a valid vendor, redirect
+                    if (!$scope.vendor) redirectAndClear();
+                    
+                }, function() {
+                    
+                    // API returned failure, redirect
+                    redirectAndClear();
                 });
             }
             
-            // gets all vendors
-            // sets 
+            
+            // redirect and clear the params using .search() method
+            function redirectAndClear() {
+                $location.url('tools/quoter');
+                $location.search('vendor_id', null);
+            }
+            
+            
+            // get all the vendors from API
+            // @todo this sould only get vendors with quoter enabled
             function getAllVendors() {
                 // get the vendors
                 Vendor.getAll().then(function(response) {
                     $scope.vendors = response;
-                    $scope.selectedVendor = $scope.vendors[0]._id;
                 });
             }
             
@@ -166,13 +178,16 @@ angular
 
                 // save the custom Field with the quote 
                 if ($scope.vendor && $scope.vendor.customField.enabled) {
+                    
+                    $scope.quote.customField = {};
+                    
                     $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
                 }
 
                 if (!quoteId) {
 
                     $rootScope.previewQuote = true;
-                    $scope.quote.vendorId = $scope.selectedVendor;
+                    $scope.quote.vendorId = $scope.vendor._id;
 
                     // create new item
                     Quote.add($scope.quote).then(function(response) {
@@ -185,7 +200,7 @@ angular
                     filterQuotesByTotalCost();
 
                     Quote.update($scope.quote).then(function(response) {
-                        console.log('Updated quote successfully...');
+                        // do nothing, successful update
                     });
 
                 }
@@ -238,7 +253,9 @@ angular
             $scope.downloadMessage = "Download as a PDF";
 
             // function called on ng-click
-            $scope.download = function() {
+            $scope.download = function(id) {
+
+                id = id || quoteId;
 
                 $scope.downloading = true;
                 $scope.downloadMessage = "Please wait while we generate your PDF";

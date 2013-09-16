@@ -110,15 +110,22 @@ exports.allForSalesRep = function(req, res) {
 exports.all = function(req, res) {
     
     var where = {};
+    var populate = 'programIds programs salesRep vendorRep';
+    var select = '';
         
     // limit quotes to sales rep only. 
-    if(req.user && req.user.role === 'salesRep') {
+    if(req.user && req.user.role === 'admin') {
+        // nothing, admin can see all!
+    } else if(req.user && req.user.role === 'salesRep') {
        where = {salesRep : req.user._id};  
     } else if (req.user.role === 'vendorRep') {
        where = {vendorRep : req.user._id};  
+    } else {
+        populate = ''; 
+        select = 'name _id logo customField';
     }
     
-    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
+    Vendor.find(where).select(select).sort('-name').populate(populate).exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {

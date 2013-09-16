@@ -9,14 +9,19 @@ angular
         'programService',
         'vendorService',
         'applicationService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application) {
+        'authService',
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application, Auth) {
 
             // empty application object
             $scope.application = {};
 
             // prevents end user from hitting application tool directly
             // comment out to easily test
-            if ($rootScope.fromQuote !== true) $location.url('/tools/quoter');
+            if ($rootScope.fromQuote !== true) {
+                if(!Auth.canUserDoAction('view-application')) {
+                    $location.url('/tools/quoter'); 
+                }
+            }
 
             // utility function to go back to the quote list
             // @todo this function is used in many places, find a way to streamline it

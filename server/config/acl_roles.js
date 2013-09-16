@@ -76,7 +76,7 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     * Guests
     * ----------
     */
-    acl.allow("guest", "vendors",       ["view"]);
+    acl.allow("guest", "vendors",       ["view", "list"]);
     // needed for the quoter tool to work
     acl.allow("guest", "quotes",        ["view", "create", "update"]);
     acl.allow("guest", "applications",  ["view", "create", "update"]);

@@ -254,10 +254,13 @@ angular
             $scope.downloadMessage = "Download as a PDF";
 
             // function called on ng-click
-            $scope.download = function() {
+            $scope.download = function(id) {
+
+                id = id || quoteId;
 
                 $scope.downloading = true;
                 $scope.downloadMessage = "Please wait while we generate your PDF";
+                console.log(id);
 
                 // once the generation is complete, we'll put the download url 
                 // here. Users can click to download the file

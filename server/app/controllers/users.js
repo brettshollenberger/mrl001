@@ -185,14 +185,25 @@ exports.user = function(req, res, next, id) {
  */
 exports.destroy = function(req, res) {
     var theUser = req.theUser;
-
-    theUser.remove(function(err) {
-        if (err) {
-            res.failure(err);
-        } else {
-            res.ok(theUser);
-        }
-    });
+    
+    // check for the logged in user trying to delete themselves!
+    if(theUser._id.toString() == req.user._id.toString()) {
+        
+        res.failure("You can't delete yourself!", 401);
+    
+    } else {
+        
+        res.failure('faiuled the test!');
+            
+        theUser.remove(function(err) {
+            if (err) {
+                res.failure(err);
+            } else {
+                res.ok(theUser);
+            }
+        });
+    }
+    
 };
 
 /**

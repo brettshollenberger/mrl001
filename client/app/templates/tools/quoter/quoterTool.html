@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="row area" ng-show="!didQuote && !vendor._id">
+<div class="row area" ng-show="!didQuote">
 
     <div class="span8 offset1">
             
@@ -22,7 +22,7 @@
         </select>
     </div>
     
-    <div class="span2">
+    <div class="span2" ng-show="!vendor._id">
         <img class="pull-right poweredby" src="img/powered_by.png" />
     </div>
     
@@ -40,7 +40,7 @@
         <div class="row area-equiptment area">
             <div class="span5">
                 <label>Total Cost</label>
-                <span class="dollarSign">$</span><input type="text" class="input-xlarge" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit">
+                <span class="dollarSign">$</span><input type="text" class="input-xlarge dollarSign-prepend" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit">
                 <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
                 
                 <a  class="btn btn-primary" 
@@ -192,9 +192,9 @@
     <div class="span10 offset1">
         <br /><br />
         <h3>Terms</h3>
-        <div id="legalTerms">{{vendor.legalTerms}}</div>
+        <div id="legalTerms"><small>{{vendor.legalTerms}}</small></div>
         <br />
-        <p>Quotes expire after 30 (Thirty) days.</p>
+        <p><small>Quotes expire after 30 (Thirty) days.</small></p>
     </div>
 </div>
 

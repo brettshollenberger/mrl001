@@ -15,9 +15,9 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         // we don't set level 0 because its super admin, so they can do anything
         //allowedActionsByAuthLevel[1] = [];
         // 2 = marlin sales rep
-        allowedActionsByAuthLevel.salesRep = ['list-applications', 'changeAvatar', 'edit-applications', 'list-quotes', 'edit-quotes', 'list-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
+        allowedActionsByAuthLevel.salesRep = ['list-applications', 'changeAvatar', 'view-applications', 'edit-applications', 'list-quotes', 'edit-quotes', 'list-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
 
-        allowedActionsByAuthLevel.vendorRep = ['list-applications', 'edit-applications', 'list-quotes', 'edit-quotes', 'view-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
+        allowedActionsByAuthLevel.vendorRep = ['list-applications', 'edit-applications', 'view-applications', 'list-quotes', 'edit-quotes', 'view-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
 
         // create and expose service methods
         var exports = {};

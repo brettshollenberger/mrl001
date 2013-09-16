@@ -122,7 +122,7 @@ exports.all = function(req, res) {
        where = {vendorRep : req.user._id};  
     } else {
         populate = ''; 
-        select = 'name _id';
+        select = 'name _id logo customField';
     }
     
     Vendor.find(where).select(select).sort('-name').populate(populate).exec(function(err, vendors) {

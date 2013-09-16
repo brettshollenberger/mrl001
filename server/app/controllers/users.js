@@ -193,8 +193,6 @@ exports.destroy = function(req, res) {
     
     } else {
         
-        res.failure('faiuled the test!');
-            
         theUser.remove(function(err) {
             if (err) {
                 res.failure(err);

@@ -3,7 +3,25 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.2 (current)
+Release 0.3.3 (current)
+--------
+
+- [FEATURE] User dashboard which shows new and open applications.
+- [FEATURE] "My Marlin Sales Rep" tray which is visible to vendors
+- [FEATURE] If user is a vendorRep, customize sidebar to include vendor logo and link to vendor profile.
+- [FEATURE] Add link to "view" and "print" quotes from dashboard/quotes/id.
+- [FEAUTRE] Add link to "view" application from dashboard/applications/id.
+ 
+- [CHORE] Vendor and Marlin Sales Rep shouldn't see user roles. Only admin role can see this area. 
+- [CHORE] Move Extra Field on quoter tool to equiptment options area.
+
+- [BUG] Fix bug in IE8 where buttons were not legiable because of black on blue color.
+- [BUG] Fix issue on quoter tool where vendor was incorrectly set from dropdown. 
+
+- [STYLE] Change location and size of terms on quote page.
+
+
+Release 0.3.2
 -------
 
 - [FEATURE] Admin can set user role from dashboard

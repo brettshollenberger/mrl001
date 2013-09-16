@@ -13,10 +13,9 @@
                   </li>
                 </ul>
                     <div class="actions">
-                        <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
-                        <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                         <a ng-show="isToolActive('quoter-tool')" class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
-                        
+                        <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
+                        <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                     </div>
                 
                 </div>

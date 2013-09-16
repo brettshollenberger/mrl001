@@ -14,9 +14,11 @@ Release 0.3.3 (current)
  
 - [CHORE] Vendor and Marlin Sales Rep shouldn't see user roles. Only admin role can see this area. 
 - [CHORE] Move Extra Field on quoter tool to equiptment options area.
+- [CHORE] Hide delete button on all content for non-admins
 
 - [BUG] Fix bug in IE8 where buttons were not legiable because of black on blue color.
 - [BUG] Fix issue on quoter tool where vendor was incorrectly set from dropdown. 
+- [BUG] Fixed bug where admin could delete themselves.
 
 - [STYLE] Change location and size of terms on quote page.
 

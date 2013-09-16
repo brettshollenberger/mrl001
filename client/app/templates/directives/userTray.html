@@ -6,6 +6,6 @@
 <br/>
 <a id="logout" ng-show="isLoggedIn()" ng-click="goToProfile()">My Profile</a>
 <br />
-<a id="logout" ng-show="currentUser().vendor._id" ng-click="goTo('dashboard/vendors/' + currentUser().vendor._id)">Vendor Profile</a>
+<a id="vendor_logout" ng-show="currentUser().vendor._id" ng-click="goTo('dashboard/vendors/' + currentUser().vendor._id)">Vendor Profile</a>
 <br />
 <a id="logout" ng-show="isLoggedIn()" ng-click="logout()"><small>Log Out</small></a>

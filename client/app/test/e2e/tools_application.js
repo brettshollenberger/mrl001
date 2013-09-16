@@ -16,7 +16,7 @@ describe('Tools: Application Tool', function() {
 
             // enter information
             input('quoteCost').enter('1000');
-            input('quote.company.fullLegalBusineessName').enter('Your business!');
+            input('quote.company.fullLegalBusinessName').enter('Your business!');
 
             sleep(1);
 
@@ -36,7 +36,7 @@ describe('Tools: Application Tool', function() {
 
         it('Should carry over infomation from the quote to pre-fill forms', function() {
 
-            expect(input('application.leasee.fullLegalBusineessName').val()).toEqual('Your business!');
+            expect(input('application.leasee.fullLegalBusinessName').val()).toEqual('Your business!');
             input('application.leasee.contactPerson.name').enter('Matt');
 
         });

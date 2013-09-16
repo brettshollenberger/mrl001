@@ -22,6 +22,8 @@ angular
                         // save to local scope
                         scope.salesRep = response;
                         
+                        if(!scope.salesRep._id) return;
+                        
                         // set class on body
                         angular.element($document[0].body).addClass('has-rep-tray');
                         

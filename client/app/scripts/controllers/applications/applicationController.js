@@ -14,8 +14,9 @@ angular
             $scope.application = {};
             $scope.applications = [];
             
-            // define possible statuses for our application
-            // note this is not the most robust, and can easily get out of sync with the database
+            // Define possible statuses for our application.
+            // Note this is not the most robust, and can 
+            // easily get out of sync with the database,
             // but for now it works. 
             var statuses = [{
                 value: 'new',
@@ -36,7 +37,6 @@ angular
                 value: 'denied',
                 label: 'Denied'
             }];
-
 
             //////////////////////////////////////////////////////////////////////////////
             /////////////////////////////// Index Action ////////////////////////////////
@@ -59,7 +59,6 @@ angular
                     });
                 });
                 
-            
                 $scope.formatStatus = function(status) {
                     var display = _.where(statuses, {value : status});
                     return display.length ? display[0].label : '';
@@ -140,14 +139,11 @@ angular
                         $scope.$$childTail.applicationForm.$setDirty();
                     }
                     // set our application status
-                    $scope.application.status = newStatus;  
+                    $scope.application.status = newStatus;
                 };
 
             };
             
-            
-            
-
             //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Dashboard Action /////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
@@ -157,9 +153,12 @@ angular
             };
             
             $scope.getActiveApps = function() {
-                privates.find({'status' : { '$ne' : 'new' }});
+                privates.find({'status' : { '$nin' : ['new', 'approved', 'denied'] }});
             };
 
+            $scope.applicationTemplate = {
+                url: "app/templates/dashboard/partials/application.html"
+            };
 
             //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Private Methods //////////////////////////////

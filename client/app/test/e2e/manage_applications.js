@@ -42,7 +42,7 @@ describe('Adding a application', function() {
         
         it('Should allow user to enter application information in a form', function() {
             expect(element('#save:disabled').count()).toBe(0);
-            input('application.leasee.fullLegalBusineessName').enter('A Test Application!!!!!!');
+            input('application.leasee.fullLegalBusinessName').enter('A Test Application!!!!!!');
             expect(element('#save:disabled').count()).toBe(0);
         });
         
@@ -75,7 +75,7 @@ describe('Adding a application', function() {
         });
 
         it('Should have editable fields', function() {
-            input('application.leasee.fullLegalBusineessName').enter('Changed the fullLegalBusineessName');
+            input('application.leasee.fullLegalBusinessName').enter('Changed the fullLegalBusinessName');
         });
 
         it('Clicking update should take user back to application list', function() {
@@ -84,7 +84,7 @@ describe('Adding a application', function() {
         });
 
         it('Applications information should be updated', function() {
-            expect(element('tr > td:last').text()).toEqual('Changed the fullLegalBusineessName');
+            expect(element('tr > td:last').text()).toEqual('Changed the fullLegalBusinessName');
         });
 
         it('Should provide a cancel button that takes user back to application dashboard', function() {

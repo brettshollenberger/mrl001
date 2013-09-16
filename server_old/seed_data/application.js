@@ -19,7 +19,7 @@ var data = [{
        termInMonths: 12
     },
     leasee: {
-        fullLegalBusineessName: 'Smith Medical',
+        fullLegalBusinessName: 'Smith Medical',
         contactPerson: {
             name: 'John Smith',
             email: 'john@smith.com',
@@ -64,7 +64,7 @@ var data = [{
        termInMonths: 12
     },
     leasee: {
-        fullLegalBusineessName: 'Max Fridge',
+        fullLegalBusinessName: 'Max Fridge',
         contactPerson: {
             name: 'John Doe',
             email: 'john@doe.com',

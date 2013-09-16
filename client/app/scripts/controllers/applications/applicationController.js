@@ -153,7 +153,7 @@ angular
             };
             
             $scope.getActiveApps = function() {
-                privates.find({'status' : { '$ne' : 'new' }});
+                privates.find({'status' : { '$nin' : ['new', 'approved', 'denied'] }});
             };
 
             $scope.applicationTemplate = {

@@ -1,4 +1,4 @@
-<div class="row vendorSection area" ui-if="vendor">
+<div class="row vendorSection area" ng-show="vendor._id">
     <div class="span8 offset1">
         <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
         <a ng-show="vendor.website" href="{{vendor.website}}">
@@ -12,13 +12,14 @@
     </div>
 </div>
 
-<div class="row area" ui-if="!didQuote && !haveVendor">
+<div class="row area" ng-show="!didQuote && !vendor._id">
 
     <div class="span8 offset1">
             
         <label>Choose your vendor</label>
-        <select ui-if="!didQuote && !haveVendor" id="vendorName" ng-model="selectedVendor" ng-options="value._id as value.name for (key, value) in vendors" ></select>
-        
+        <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors" >
+            <option value="">---- Choose Vendor ----</option>
+        </select>
     </div>
     
     <div class="span2">
@@ -49,9 +50,9 @@
                     analytics-category="Tools : Quoter" 
                     ng-disabled="" 
                     ng-click="generateQuote()" 
-                    ui-if="didQuote && canEdit">{{buttonText}}</a>
+                    ng-show="didQuote && canEdit">{{buttonText}}</a>
                     
-                <p ui-if="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
+                <p ng-show="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
             
             </div>
             <div class="span5">
@@ -60,8 +61,8 @@
                 
                 <div ng-show="vendor.customField.enabled">        
                     <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
-                    <input ui-if="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
-                    <input ui-if="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
+                    <input ng-show="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
+                    <input ng-show="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
                 </div>
             
             </div>
@@ -156,48 +157,14 @@
                 </tbody>
             </table>
         </div>
-        
-        <!--
-<pre>
-        {{filteredPrograms | json}}
-        </pre>
--->
-        
-        <div ng-repeat="program in quote.programs">
-            <!--
-           <h4>{{program.displayName || program.name}}</h4>
-            
-<table class="table">    
-                <thead>
-                    <tr>
-                        <th class="span3">End of Lease Options</th>
-                        <th class="span1" ng-repeat="term in program.rateSheet.buyoutOptions.termLength">{{term.length}} {{program.rateSheet.termPeriod}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="option in program.rateSheet.buyoutOptions">
-                        <td>{{option.name}}</td>
-                        <td ng-repeat="rate in option.rates">
-                            {{rate.periodPayment = rate.rate * quote.totalCost | number:2}}
-                            <br />
-                            <a ng-click="chooseRate(option.name, program.rateSheet.termLength[$index].length, program.rateSheet.termPeriod, rate.periodPayment)"  class="btn btn-primary btn-select-term">Select</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
--->
-        </div>
-
     </div>
-    
 </div>
     
-<div class="row" ui-if="canEdit && !didQuote">
+<div class="row" ng-show="canEdit && !didQuote">
         
     <div class="span10 offset1 text-center">
-        
         <hr />
-        <button type="submit" class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="!selectedVendor" ng-click="generateQuote()">{{buttonText}}</button>
+        <button type="submit" class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="!vendor._id" ng-click="generateQuote()">{{buttonText}}</button>
         <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
     </div>
 
@@ -217,7 +184,8 @@
         analytics-event="Download quote as PDF"
         analytics-category="Tools : Quoter"  
         ng-click="download()">{{downloadMessage}} <i ng-show="downloading" class="icon icon-spinner icon-spin"></i></button>
-    
+   
+    </div>
 </div>
 
 <div class="row" ng-show="vendor.legalTerms">        

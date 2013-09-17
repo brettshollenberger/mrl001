@@ -1,17 +1,17 @@
 /**
-* Service that makes working with standardized API responses easy. 
-* For example, we often return responses like so: {meta: {code: '', message: ''}, result: []}
-* Other times, an API may return 200 for calls that actually failed, hiding the real code within metadata
-*
-* This service intercepts all API responses, and if successful, 
-* returns the 'result' part (this ignoring the meta). If the call failed, the 'meta' part
-* is returned instead. 
-*
-* @note if the API uses a format different than 'meta' and 'result', you'll need to adjust below
-*
-* @note This service is compatiable with angular 1.0.8 and below. In 1.2 responseInterceptors() has changed.
-*
-*/
+ * Service that makes working with standardized API responses easy.
+ * For example, we often return responses like so: {meta: {code: '', message: ''}, result: []}
+ * Other times, an API may return 200 for calls that actually failed, hiding the real code within metadata
+ *
+ * This service intercepts all API responses, and if successful,
+ * returns the 'result' part (this ignoring the meta). If the call failed, the 'meta' part
+ * is returned instead.
+ *
+ * @note if the API uses a format different than 'meta' and 'result', you'll need to adjust below
+ *
+ * @note This service is compatiable with angular 1.0.8 and below. In 1.2 responseInterceptors() has changed.
+ *
+ */
 angular
     .module('apiResponse', [])
     .config([

@@ -44,10 +44,7 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
-//express settings
-//require('./config/roles')(app, config, passport, user);
-
-//express settings
+//Define user roles
 require('./config/acl_roles')(app, config, passport, user, acl);
 
 //express settings

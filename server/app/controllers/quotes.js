@@ -86,11 +86,11 @@ exports.all = function(req, res) {
     var where = {};
 
     // limit quotes to sales rep only. 
-    if (req.user && req.user.role === 'salesRep') {
+    if (req.userHasRole('salesRep')) {
         where = {
             salesRep: req.user._id
         };
-    } else if (req.user.role === 'vendorRep') {
+    } else if (req.userHasRole('vendorRep')) {
         where = {
             vendorRep: req.user._id
         };

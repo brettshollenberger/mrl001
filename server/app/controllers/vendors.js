@@ -112,13 +112,13 @@ exports.all = function(req, res) {
     var select = '';
 
     // limit quotes to sales rep only. 
-    if (req.user && req.user.role === 'admin') {
+    if (req.userHasRole('admin')) {
         // nothing, admin can see all!
-    } else if (req.user && req.user.role === 'salesRep') {
+    } else if (req.userHasRole('salesRep')) {
         where = {
             salesRep: req.user._id
         };
-    } else if (req.user.role === 'vendorRep') {
+    } else if (req.userHasRole('vendorRep')) {
         where = {
             vendorRep: req.user._id
         };

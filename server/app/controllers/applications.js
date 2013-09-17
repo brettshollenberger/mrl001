@@ -33,9 +33,9 @@ exports.find = function(req, res, next) {
     }
     */
 
-    if (req.user && req.user.role === 'salesRep') {
+    if (req.userHasRole('salesRep')) {
         query.salesRep = req.user._id;
-    } else if (req.user && req.user.role === 'vendorRep') {
+    } else if (req.userHasRole('vendorRep')) {
         query.vendorRep = req.user._id;
     }
 
@@ -121,13 +121,16 @@ exports.all = function(req, res) {
         where = {
             salesRep: req.user._id
         };
-    } else if (req.user.role === 'vendorRep') {
+    } else if (req.userHasRole('vendorRep')) {
         where = {
             vendorRep: req.user._id
         };
     }
 
-    Application.find(where).sort('-status -created').exec(function(err, applications) {
+    Application
+    .find(where)
+    .sort('-status -created')
+    .exec(function(err, applications) {
         if (err) {
             res.failure(err);
         } else {

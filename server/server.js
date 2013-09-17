@@ -16,6 +16,7 @@ var express = require('express'),
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
+    standardReponse = require('./config/middlewares/response'),
     mongoose = require('mongoose');
     
 var user = require('connect-roles');
@@ -50,7 +51,7 @@ var app = express();
 require('./config/acl_roles')(app, config, passport, user, acl);
 
 //express settings
-require('./config/express')(app, config, passport, user);
+require('./config/express')(app, config, passport, user, standardReponse);
 
 //Bootstrap routes
 require('./config/routes')(app, passport, auth, user, config, acl);

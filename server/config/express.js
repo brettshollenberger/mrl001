@@ -12,7 +12,7 @@ var express = require('express'),
 
 module.exports = function(app, config, passport, user, standardReponse) {
     app.set('showStackError', true);
-    
+
     //Should be placed before express.static
     app.use(express.compress({
         filter: function(req, res) {
@@ -20,17 +20,17 @@ module.exports = function(app, config, passport, user, standardReponse) {
         },
         level: 9
     }));
-    
+
     // Basic CORS middleware example
     var allowCrossDomain = function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         //res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    
+
         next();
     };
-    
+
     // @todo this might break local network testing on IE... 
     // app.use(allowCrossDomain);
 
@@ -39,13 +39,13 @@ module.exports = function(app, config, passport, user, standardReponse) {
     //Setting the fav icon and static folder
     app.use(express.favicon());
     app.use(express.static(config.root + '/public'));
-    
+
     // PORT from genesis
     //app.use(express.static(config.root + '/build'));
     //app.use("/downloads", express.static(config.root + '/tmp'));
     app.use(express.static(path.join(__dirname, '../../build')));
     app.use("/downloads", express.static(path.join(__dirname, '../../tmp')));
-    
+
     // end port
 
     //Don't use logger for test env
@@ -90,37 +90,37 @@ module.exports = function(app, config, passport, user, standardReponse) {
 
         // routes should be at the last
         app.use(app.router);
-        
+
         // welcome message for API
         app.all('/api', function(req, res, next) {
             res.ok('Hello world!');
         });
-        
+
         // get changelog
         // @todo make seperate mean resource? Or, all projects should have this so leave in place? 
         app.get('/api/changelog', function(req, res) {
-          var clog = path.join(config.root, '../changelog.md');
-          res.send(fs.readFileSync(clog));
+            var clog = path.join(config.root, '../changelog.md');
+            res.send(fs.readFileSync(clog));
         });
 
         // Standardize error responses
         app.use(standardReponse.errorResponse());
-        
+
         /**
-        * catch all for api endpoints
-        * that are not offical. They get a not found response
-        * 
-        * @note that by putting app.all() inside app.use() we ensure its run after
-        *       the regular routing. if we just called app.all() it would override all the other routes.
-        *
-        */
+         * catch all for api endpoints
+         * that are not offical. They get a not found response
+         *
+         * @note that by putting app.all() inside app.use() we ensure its run after
+         *       the regular routing. if we just called app.all() it would override all the other routes.
+         *
+         */
         app.use(function(req, res, next) {
             app.all('/api*', function(req, res, next) {
                 return res.failure('Resource not found', 404);
             });
             next(); // needed or the calls below will never happen
         });
-        
+
         // send all non-api requests to our main index.html page, which starts our app
         // this is a nice way to support non hash links on single page apps... and why we started using
         // angular and genesis in the first place <3

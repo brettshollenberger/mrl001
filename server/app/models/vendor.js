@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
     config = require('../../config/config')[env],
     Schema = mongoose.Schema;
 
-    
+
 var _ = require('lodash');
 
 
@@ -17,58 +17,129 @@ var customNameSchema = new Schema({
 });
 
 var toolEnabledSchema = new Schema({
-    "name" : String,
-    "active" : Boolean,
-    "slug" : String
+    "name": String,
+    "active": Boolean,
+    "slug": String
 });
 
 /**
  * Vendor Schema
- * @todo refactor tools to be use slug as keys? is this possible? 
+ * @todo refactor tools to be use slug as keys? is this possible?
  */
 var VendorSchema = new Schema({
-    "created": { type: Date, "default": Date.now },
-    "name": {type: String, "default": '', trim: true},
-    "contactPerson": {
-      "name": {type: String, "default": '', trim: true},
-      "email": {type: String, "default": '', trim: true},
-      "phone": {type: String, "default": '', trim: true}
+    "created": {
+        type: Date,
+        "default": Date.now
     },
-    "salesRep" : {
+    "name": {
+        type: String,
+        "default": '',
+        trim: true
+    },
+    "contactPerson": {
+        "name": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "email": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "phone": {
+            type: String,
+            "default": '',
+            trim: true
+        }
+    },
+    "salesRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    "vendorRep" : {
+    "vendorRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
     "logo": {
-      "original": {type: String, "default": '', trim: true}
+        "original": {
+            type: String,
+            "default": '',
+            trim: true
+        }
     },
-    "website": {type: String, "default": '', trim: true},
-    "legalTerms": {type: String, "default": '', trim: true},
-    "businessPhone": {type: String, "default": '', trim: true},
+    "website": {
+        type: String,
+        "default": '',
+        trim: true
+    },
+    "legalTerms": {
+        type: String,
+        "default": '',
+        trim: true
+    },
+    "businessPhone": {
+        type: String,
+        "default": '',
+        trim: true
+    },
     "businessAddress": {
-      "address1": {type: String, "default": '', trim: true},
-      "address2": {type: String, "default": '', trim: true},
-      "city": {type: String, "default": '', trim: true},
-      "state": {type: String, "default": '', trim: true},
-      "zip": {type: String, "default": '', trim: true}
+        "address1": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "address2": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "city": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "state": {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        "zip": {
+            type: String,
+            "default": '',
+            trim: true
+        }
     },
     "geo": {
-      "latitude": {type: Number, "default": null},
-      "longitude": {type: Number, "default": null}
+        "latitude": {
+            type: Number,
+            "default": null
+        },
+        "longitude": {
+            type: Number,
+            "default": null
+        }
     },
     "tools": [toolEnabledSchema],
     "programs": [{
         type: Schema.ObjectId,
         ref: 'Program'
     }],
-    "programCustomNames" : [customNameSchema],
+    "programCustomNames": [customNameSchema],
     "customField": {
-        required: {type: Boolean, "default": false},
-        enabled: {type: Boolean, "default": false},
-        displayName: {type: String, "default": '', trim: true}
+        required: {
+            type: Boolean,
+            "default": false
+        },
+        enabled: {
+            type: Boolean,
+            "default": false
+        },
+        displayName: {
+            type: String,
+            "default": '',
+            trim: true
+        }
     }
 });
 
@@ -80,7 +151,7 @@ VendorSchema.plugin(troop.merge);
  * Statics
  */
 VendorSchema.statics = {
-    
+
     // this gets called when a vendorId is present in the req.params
     // its a clever way to be able to access req.vendor in the next middlewares
     //
@@ -92,59 +163,61 @@ VendorSchema.statics = {
 };
 
 /**
-* Runs similar to "after get" callback
-*
-*/
-VendorSchema.pre('init', function(next, data) {  
-  
-  // iterate through each program and replace its name with custom name if set
-  // @todo not the most effecient
-  // attempts to just "merge" the 2 datasets failed, and replaced all the props
-  // of programs with custom name
-  _.each(data.programs, function(item) {
-      var customName = _.where(data.programCustomNames, { _id : item._id });
-      item.displayName = customName.length ? customName[0].displayName : null;
-  });
-    
-  next();
+ * Runs similar to "after get" callback
+ *
+ */
+VendorSchema.pre('init', function(next, data) {
+
+    // iterate through each program and replace its name with custom name if set
+    // @todo not the most effecient
+    // attempts to just "merge" the 2 datasets failed, and replaced all the props
+    // of programs with custom name
+    _.each(data.programs, function(item) {
+        var customName = _.where(data.programCustomNames, {
+            _id: item._id
+        });
+        item.displayName = customName.length ? customName[0].displayName : null;
+    });
+
+    next();
 });
 
-function convertToSlug(Text)
-{
+function convertToSlug(Text) {
     return Text
         .toLowerCase()
-        .replace(/ /g,'-')
-        .replace(/[^\w\-]+/g,'')
-        ;
+        .replace(/ /g, '-')
+        .replace(/[^\w\-]+/g, '');
 }
 
 
 VendorSchema.pre('save', function(next) {
-    
+
     _.each(this.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
-    
+
     next();
 });
 
 
 VendorSchema.statics = {
-    
+
     getCurrentReps: function(vendorId, cb) {
-        
+
         // attempt to get the sales rep, which we save with the quote
         // for easy geting from the database 
-        return this.findOne({_id : vendorId}, function(err, result) {
-            if(err) return cb(err);
-            if(result && result._id) {
+        return this.findOne({
+            _id: vendorId
+        }, function(err, result) {
+            if (err) return cb(err);
+            if (result && result._id) {
                 console.log(result);
                 return cb(null, result);
             } else {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
-        
+
     },
     load: function(id, cb) {
         this.findOne({
@@ -158,5 +231,3 @@ VendorSchema.statics = {
 
 
 mongoose.model('Vendor', VendorSchema);
-
-

@@ -16,8 +16,7 @@ var data = [{
         city: 'Philadelphia',
         state: 'PA'
     }
-},
-{
+}, {
     _id: '51e71518ed32080ffc000018',
     totalCost: 9900,
     status: 'Open',
@@ -30,8 +29,7 @@ var data = [{
         city: 'Philadelphia',
         state: 'PA'
     }
-},
-{
+}, {
     _id: '51e71518ed32080ffc000019',
     totalCost: 2000,
     status: 'Archived',
@@ -44,8 +42,7 @@ var data = [{
         city: 'Philadelphia',
         state: 'PA'
     }
-},
-{
+}, {
     _id: '51e71518ed32080ffc000020',
     totalCost: 28000,
     status: 'Archived',

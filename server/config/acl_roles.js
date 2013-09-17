@@ -2,73 +2,73 @@ module.exports = function(app, config, passport, user, acl) {
 
 
     /**
-    * ------------
-    * https://github.com/djvirgen/virgen-acl 
-    * ------------
-    */
+     * ------------
+     * https://github.com/djvirgen/virgen-acl
+     * ------------
+     */
 
     // Set up roles
-    acl.addRole("guest");                     // guest user, inherits from no one
+    acl.addRole("guest"); // guest user, inherits from no one
     acl.addRole("rep", "guest");
     acl.addRole("salesRep", "rep");
     acl.addRole("vendorRep", "rep");
-    acl.addRole("admin");                     // Admin inherits from no one
-    
-    
+    acl.addRole("admin"); // Admin inherits from no one
+
+
     // Set up resources
     acl.addResource("vendors");
     acl.addResource("quotes");
     acl.addResource("applications");
     acl.addResource("users");
     acl.addResource("programs");
-    
-    
+
+
     // Set up access rules (LIFO)
     // first deny all. This will protect all routes that call the middleware
     // @note using this caused issues with children inheriting permissions from parents
     //acl.deny();
-    
-    
+
+
     // admin can do all!  
-    acl.allow("admin");  
-    
-    
+    acl.allow("admin");
+
+
     /**
-    * Guests
-    * ----------
-    */
-    acl.allow("guest", "vendors",       ["view", "list"]);
+     * Guests
+     * ----------
+     */
+    acl.allow("guest", "vendors", ["view", "list"]);
     // needed for the quoter tool to work
-    acl.allow("guest", "quotes",        ["view", "create", "update"]);
-    acl.allow("guest", "applications",  ["view", "create", "update"]);
+    acl.allow("guest", "quotes", ["view", "create", "update"]);
+    acl.allow("guest", "applications", ["view", "create", "update"]);
     // @todo restrict this when quote calculation is done on the API site
-    acl.allow("guest", "programs",      ["view"]);
-    
-    
+    acl.allow("guest", "programs", ["view"]);
+
+
     /*
-    * Reps (which vendorRep and salesRep will extend)
-    * ----------
-    */
-    acl.allow("rep", "vendors",         ["update"]);
-    acl.allow("rep", "quotes",          ["list"]);
-    acl.allow("rep", "applications",    ["list"]);                            
-    acl.allow("rep", "users",           ["view", "update", "updatePassword"]);
-    
-    
+     * Reps (which vendorRep and salesRep will extend)
+     * ----------
+     */
+    acl.allow("rep", "vendors", ["update"]);
+    acl.allow("rep", "quotes", ["list"]);
+    acl.allow("rep", "applications", ["list"]);
+    acl.allow("rep", "users", ["view", "update", "updatePassword"]);
+
+
     /**
-    * vendorRep (vendors sales reps)
-    * ----------
-    */
-    acl.allow("salesRep", "vendors",   ["list"]);
-    acl.allow("salesRep", "programs",  ["list"]);
+     * vendorRep (vendors sales reps)
+     * ----------
+     */
+    acl.allow("salesRep", "vendors", ["list"]);
+    acl.allow("salesRep", "programs", ["list"]);
     //acl.allow("salesRep", "quotes");
 
 
     /**
-    * Custom Assertion example
-    * ----------
-    */
-    
+     * Custom Assertion example
+     * ----------
+     */
+
     /*
     acl.allow("guest", "quotes", "view", function(var1, role, resource, action, result, next) {
       // Use next() if unable to determine permission based on provided arguments

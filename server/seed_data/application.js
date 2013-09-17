@@ -11,9 +11,9 @@ var data = [{
     vendorId: '51e71518ed32080ffc000023',
     vendor: {},
     quote: {
-       totalCost: 9900,
-       description: 'Manaquins for my art project in the SkyBox',
-       termInMonths: 12
+        totalCost: 9900,
+        description: 'Manaquins for my art project in the SkyBox',
+        termInMonths: 12
     },
     leasee: {
         fullLegalBusinessName: 'Smith Medical',
@@ -21,7 +21,7 @@ var data = [{
             name: 'John Smith',
             email: 'john@smith.com',
             phone: '556-669-4444',
-            contactMethod:'phone'
+            contactMethod: 'phone'
         },
         businessAddress: {
             address1: '2424 York Street',
@@ -47,8 +47,7 @@ var data = [{
         }
     },
     notes: {}
-},
-{
+}, {
     _id: '51e71518ed32080ffc000022',
     name: 'Application 2',
     status: 'new',
@@ -56,9 +55,9 @@ var data = [{
     vendorId: '51e71518ed32080ffc000024',
     vendor: {},
     quote: {
-       totalCost: 9900,
-       description: 'Manaquins for my art project in the SkyBox',
-       termInMonths: 12
+        totalCost: 9900,
+        description: 'Manaquins for my art project in the SkyBox',
+        termInMonths: 12
     },
     leasee: {
         fullLegalBusinessName: 'Max Fridge',
@@ -91,5 +90,4 @@ var data = [{
         }
     },
     notes: {}
-}
-];
+}];

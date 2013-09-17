@@ -25,18 +25,18 @@ exports.quote = function(req, res, next, id) {
  * Create a quote
  */
 exports.create = function(req, res) {
-    
+
     var quote = new Quote(req.body);
 
     quote.save(function(err) {
         console.log(err);
-       if(err) {
-        return res.failure(err);
+        if (err) {
+            return res.failure(err);
         } else {
-            res.ok(quote); 
+            res.ok(quote);
         }
     });
-    
+
 };
 
 
@@ -84,75 +84,79 @@ exports.show = function(req, res) {
 exports.all = function(req, res) {
 
     var where = {};
-    
+
     // limit quotes to sales rep only. 
-    if(req.user && req.user.role === 'salesRep') {
-       where = {salesRep : req.user._id};  
+    if (req.user && req.user.role === 'salesRep') {
+        where = {
+            salesRep: req.user._id
+        };
     } else if (req.user.role === 'vendorRep') {
-       where = {vendorRep : req.user._id};  
+        where = {
+            vendorRep: req.user._id
+        };
     }
 
     Quote
-    .find(where)
-    .sort('-status -created')
+        .find(where)
+        .sort('-status -created')
     //.populate('vendorId salesRep')
     .exec(function(err, quotes) {
         if (err) {
-             res.failure(err);
+            res.failure(err);
         } else {
-           res.ok(quotes);
+            res.ok(quotes);
         }
-    });   
-    
+    });
+
 };
 
 
 /**
- * Get quotes for a sales rep. 
+ * Get quotes for a sales rep.
  *
- * @note This can be used to limit quotes when a user is logged in, or 
+ * @note This can be used to limit quotes when a user is logged in, or
  *       it can be used for a resource/:id/children instance (if we modify the way we get user id)
  *
  */
 exports.getAllForSalesRep = function(req, res) {
- 
+
     // First get all vendors for this sales rep.
     Vendor
-    .where('salesRep')
-    .equals(req.user._id)
-    .find()
-    .select('_id')
-    .exec(function(err, vendors) {
-        if (err) {
-            res.failure(err);
-        } else {
-    
-            // extract the vendor ids from the results
-            // this will be all vendors the user is associated with NOW! 
-            // @note we don't store user ids with the quotes... because if at any point the vendor gets
-            // a new sales rep, things would be out of sync. 
-            var vendorIds = [];
-            _.each(vendors, function(item) {
-                 vendorIds.push(item._id);
-            });
-            getQuotes(vendorIds);
-    
-        }
-    });
-    
-    var getQuotes = function(vendorIds) {
-        
-        Quote
+        .where('salesRep')
+        .equals(req.user._id)
         .find()
-        .where('vendorId')
-        .in(vendorIds)
-        .sort('-status -created')
-        .exec(function(err, quotes) {
+        .select('_id')
+        .exec(function(err, vendors) {
             if (err) {
-                 res.failure(err);
+                res.failure(err);
             } else {
-               res.ok(quotes, 'Getting quotes for salesRep ' + req.user.fullName);
+
+                // extract the vendor ids from the results
+                // this will be all vendors the user is associated with NOW! 
+                // @note we don't store user ids with the quotes... because if at any point the vendor gets
+                // a new sales rep, things would be out of sync. 
+                var vendorIds = [];
+                _.each(vendors, function(item) {
+                    vendorIds.push(item._id);
+                });
+                getQuotes(vendorIds);
+
             }
         });
+
+    var getQuotes = function(vendorIds) {
+
+        Quote
+            .find()
+            .where('vendorId')
+            .in(vendorIds)
+            .sort('-status -created')
+            .exec(function(err, quotes) {
+                if (err) {
+                    res.failure(err);
+                } else {
+                    res.ok(quotes, 'Getting quotes for salesRep ' + req.user.fullName);
+                }
+            });
     };
 };

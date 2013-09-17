@@ -18,20 +18,20 @@ var env = process.env.NODE_ENV || 'development',
     auth = require('./config/middlewares/authorization'),
     standardReponse = require('./config/middlewares/response'),
     mongoose = require('mongoose');
-    
+
 var user = require('connect-roles');
 
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
 
 
-    
+
 
 // accesss control!
 // Load library
-var Acl = require("virgen-acl").Acl
-  , acl = new Acl();
- 
+var Acl = require("virgen-acl").Acl,
+    acl = new Acl();
+
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';

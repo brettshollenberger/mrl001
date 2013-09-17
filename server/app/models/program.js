@@ -10,16 +10,25 @@ var mongoose = require('mongoose'),
 
 // Buyout Options Schema
 var buyoutOptionsSchema = new Schema({
-	name: {type: String, "default": ''}, 
-	terms: [{}],
-	costs: [costsSchema]
+    name: {
+        type: String,
+        "default": ''
+    },
+    terms: [{}],
+    costs: [costsSchema]
 });
 
 // Costs Schema
 var costsSchema = new Schema({
-	min: { type: Number, "default": ''},
-	max: { type: Number, "default": ''}, 
-	rates: [{}]
+    min: {
+        type: Number,
+        "default": ''
+    },
+    max: {
+        type: Number,
+        "default": ''
+    },
+    rates: [{}]
 });
 
 
@@ -28,11 +37,20 @@ var costsSchema = new Schema({
  * Program Schema
  */
 var ProgramSchema = new Schema({
-    "created": { type: Date, "default": Date.now },
-    name: {type: String, "default": ''},
+    "created": {
+        type: Date,
+        "default": Date.now
+    },
+    name: {
+        type: String,
+        "default": ''
+    },
     displayName: String,
     rateSheet: {
-        termPeriod: {type: String, "default": ''},
+        termPeriod: {
+            type: String,
+            "default": ''
+        },
         buyoutOptions: [buyoutOptionsSchema]
     }
 });
@@ -49,15 +67,11 @@ ProgramSchema.statics = {
 };
 
 ProgramSchema.pre('init', function(next, data) {
-  
-  //console.log('DATA IS...');
-  //console.log(data);
-    
-  next();
+
+    //console.log('DATA IS...');
+    //console.log(data);
+
+    next();
 });
 
 mongoose.model('Program', ProgramSchema);
-
-
-
-

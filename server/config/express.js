@@ -116,43 +116,7 @@ module.exports = function(app, config, passport, user, standardReponse) {
 
         // Assume "not found" in the error msgs is a 404. 
         // this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
-        app.use(function(err, req, res, next) {
-            
-            //Log it
-            console.log('ERROR');
-            console.error(err);
-            console.error(err.stack);
-            
-            if(err && err.msg ) {
-                // respond with 'bad request' ie: this will never work
-                // dont try this request again!                 
-                return res.failure(err.msg, 401); 
-            }
-            
-            if(err && err.msg ) {
-                // respond with 'bad request' ie: this will never work
-                // dont try this request again!                 
-                return res.failure(err.msg, 401); 
-            }
-            
-            if(err && err.message && err.message.indexOf('CastError')) {
-                // respond with 'bad request' ie: this will never work
-                // dont try this request again!                 
-                return res.failure('Invalid object id.', 400); 
-            }
-            
-            //Treat as 404
-            if (~err.message.indexOf('not found')) {
-                console.log('NOT FOUND....!!!!'); // debug to figure out when this is happening
-                return next();
-            }
-            
-            
-
-            res.failure('Error! ' + err);
-            
-            next(); // needed or the calls below will never happen
-        });
+        app.use(standardReponse.errorResponse());
 
         
         // catch all for api endpoints

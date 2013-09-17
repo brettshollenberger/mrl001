@@ -51,3 +51,42 @@ exports.middleware = function() {
     }; 
 };
 
+exports.errorResponse = function() {
+    
+    return function(err, req, res, next) {
+            
+        //Log it
+        console.error('ERROR');
+        console.error(err);
+        console.error(err.stack);
+        
+        if(err && err.msg ) {
+            // respond with 'bad request' ie: this will never work
+            // dont try this request again!                 
+            return res.failure(err.msg, 401); 
+        }
+        
+        if(err && err.msg ) {
+            // respond with 'bad request' ie: this will never work
+            // dont try this request again!                 
+            return res.failure(err.msg, 401); 
+        }
+        
+        if(err && err.message && err.message.indexOf('CastError')) {
+            // respond with 'bad request' ie: this will never work
+            // dont try this request again!                 
+            return res.failure('Invalid object id.', 400); 
+        }
+        
+        //Treat as 404
+        if (~err.message.indexOf('not found')) {
+            console.error('NOT FOUND....!!!!'); // debug to figure out when this is happening
+            return next();
+        }
+        
+        res.failure('Error! ' + err);
+        
+        next(); // needed or the calls after will never happen
+    };
+};
+

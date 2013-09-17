@@ -1,8 +1,19 @@
 angular
-    .module('app', ['apiResponse', 'unsavedNew', 'uiHelpers', 'ui.validate', 'ui.if', 'ui.bootstrap', 'ngCookies', 'angular-markdown', 'mb.spinner', 'ajoslin.promise-tracker', 'angulartics', 'angulartics.google.analytics', 'google-maps', 'truncate',
-        function() {
-
-        }
+    .module('app', [
+        'apiResponse',
+        'unsavedNew',
+        'uiHelpers',
+        'ui.validate',
+        'ui.if',
+        'ui.bootstrap',
+        'ngCookies',
+        'angular-markdown',
+        'mb.spinner',
+        'ajoslin.promise-tracker',
+        'angulartics',
+        'angulartics.google.analytics',
+        'google-maps',
+        'truncate'
     ])
 
 /**
@@ -11,8 +22,14 @@ angular
  * @note we dont yet have access to $rootScope, and a few other things
  *
  */
-.config(['$httpProvider', '$compileProvider',
-    function($httpProvider, $compileProvider, promiseTracker) {
+.config([
+    '$httpProvider',
+    '$compileProvider',
+    function(
+        $httpProvider,
+        $compileProvider,
+        promiseTracker
+    ) {
 
         /**
          * Standard CORS Configuration

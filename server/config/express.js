@@ -31,8 +31,8 @@ module.exports = function(app, config, passport, user, standardReponse) {
         next();
     };
     
-    //app.use(allowCrossDomain);
-
+    // @todo this might break local network testing on IE... 
+    // app.use(allowCrossDomain);
 
     app.use(standardReponse.middleware());
 
@@ -88,43 +88,32 @@ module.exports = function(app, config, passport, user, standardReponse) {
         app.use(passport.initialize());
         app.use(passport.session());
 
-        // user roles
-        // -----
-        // mode to after router when issue https://github.com/ForbesLindesay/connect-roles/issues/21
-        // is fixed
-        //app.use(user);
-        
-
         // routes should be at the last
         app.use(app.router);
-        
         
         // welcome message for API
         app.all('/api', function(req, res, next) {
             res.ok('Hello world!');
         });
         
-        
-        /**
-        * Gets changelog! 
-        */
+        // get changelog
+        // @todo make seperate mean resource? Or, all projects should have this so leave in place? 
         app.get('/api/changelog', function(req, res) {
           var clog = path.join(config.root, '../changelog.md');
           res.send(fs.readFileSync(clog));
         });
 
-
-        // Assume "not found" in the error msgs is a 404. 
-        // this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
+        // Standardize error responses
         app.use(standardReponse.errorResponse());
-
         
-        // catch all for api endpoints
-        // that are not offical. They get a not found response
-        // 
-        // @note that by putting app.all() inside app.use() we ensure its run after
-        //       the regular routing. if we just called app.all() it would override all the other routes.
-        //
+        /**
+        * catch all for api endpoints
+        * that are not offical. They get a not found response
+        * 
+        * @note that by putting app.all() inside app.use() we ensure its run after
+        *       the regular routing. if we just called app.all() it would override all the other routes.
+        *
+        */
         app.use(function(req, res, next) {
             app.all('/api*', function(req, res, next) {
                 return res.failure('Resource not found', 404);
@@ -132,12 +121,11 @@ module.exports = function(app, config, passport, user, standardReponse) {
             next(); // needed or the calls below will never happen
         });
         
-        
-        // catch all for non-api routes
-        // this serves up our main app
+        // send all non-api requests to our main index.html page, which starts our app
+        // this is a nice way to support non hash links on single page apps... and why we started using
+        // angular and genesis in the first place <3
         app.use(function(req, res, next) {
             app.get('*', function(req, res, next) {
-                //return res.ok('catch all');
                 res.redirect('/#' + req.url);
             });
         });

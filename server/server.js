@@ -16,6 +16,7 @@ var express = require('express'),
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
+    notifier = require('./app/notifier'),
     mongoose = require('mongoose');
     
 var user = require('connect-roles');

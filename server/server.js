@@ -31,8 +31,6 @@ var db = mongoose.connect(config.db);
 var Acl = require("virgen-acl").Acl
   , acl = new Acl();
  
-var acl2 = require('acl');  
-acl2 = new acl2(new acl2.memoryBackend());
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -49,13 +47,13 @@ var app = express();
 //require('./config/roles')(app, config, passport, user);
 
 //express settings
-require('./config/acl_roles')(app, config, passport, user, acl, acl2);
+require('./config/acl_roles')(app, config, passport, user, acl);
 
 //express settings
 require('./config/express')(app, config, passport, user);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user, config, acl, acl2);
+require('./config/routes')(app, passport, auth, user, config, acl);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

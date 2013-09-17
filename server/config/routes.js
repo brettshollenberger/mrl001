@@ -1,7 +1,7 @@
 var async = require('async');
 var util = require('util');
 
-module.exports = function(app, passport, auth, user, config, acl, acl2) {
+module.exports = function(app, passport, auth, user, config, acl) {
  
     var vendors = require('../app/controllers/vendors');
  

@@ -5,10 +5,10 @@ var express = require('express'),
     mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
     path = require('path'),
-    helpers = require('view-helpers');
-    
-var fs = require('fs');
-var acl = require('acl');
+    helpers = require('view-helpers'),
+    fs = require('fs'),
+    acl = require('acl');
+
 
 module.exports = function(app, config, passport, user) {
     app.set('showStackError', true);
@@ -21,7 +21,7 @@ module.exports = function(app, config, passport, user) {
         level: 9
     }));
     
-    //CORS middleware
+    // Basic CORS middleware example
     var allowCrossDomain = function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -31,7 +31,7 @@ module.exports = function(app, config, passport, user) {
         next();
     };
     
-    app.use(allowCrossDomain);
+    //app.use(allowCrossDomain);
 
 
 

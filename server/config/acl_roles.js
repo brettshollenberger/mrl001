@@ -1,44 +1,4 @@
-module.exports = function(app, config, passport, user, acl, acl2) {
-
-
-    /**
-    * https://github.com/OptimalBits/node_acl
-    */
-    
-    var customCheck = function() {
-        console.log('custom check???');
-    };
-    
-    
-    
-
-    acl2.allow([
-        {
-            roles:['self'], 
-            allows:[
-                {resources:'users', permissions:['view', 'update', 'changePassword']}
-            ]
-        },
-        {
-            roles:['rep'], 
-            allows:[
-                {resources:'vendors', permissions:['list', 'view', 'update']},
-                {resources:['applications','quotes'], permissions:['list', 'view', 'create', 'update']}
-            ]
-        },
-        {
-            roles:['guest'], 
-            allows:[
-                {resources:'vendors', permissions:['view']},
-                {resources:['quotes'], permissions:['list', 'view', 'create', 'update']},
-                {resources:['applications'], permissions:['list', 'view', 'create']}
-                
-            ]
-        }
-    ], function(err) {});
-    
-    acl2.allow('admin', '*', '*', function() {});
-
+module.exports = function(app, config, passport, user, acl) {
 
 
     /**
@@ -65,6 +25,7 @@ module.exports = function(app, config, passport, user, acl, acl2) {
     
     // Set up access rules (LIFO)
     // first deny all. This will protect all routes that call the middleware
+    // @note using this caused issues with children inheriting permissions from parents
     //acl.deny();
     
     
@@ -104,13 +65,14 @@ module.exports = function(app, config, passport, user, acl, acl2) {
 
 
     /**
-    * DEV - testing and such
+    * Custom Assertion example
     * ----------
     */
-/*
+    
+    /*
     acl.allow("guest", "quotes", "view", function(var1, role, resource, action, result, next) {
       // Use next() if unable to determine permission based on provided arguments
-      //if (!(role instanceof User) || !(resource instanceof Blog))
+      // if (!(role instanceof User) || !(resource instanceof Blog))
       // return next(); 
     
       console.log(role);
@@ -128,7 +90,7 @@ module.exports = function(app, config, passport, user, acl, acl2) {
       }
 
     });
-*/
+    */
 
 
 };

@@ -1,5 +1,5 @@
 angular
-    .module('app')    
+    .module('app')
     .directive('decimalPlaces', function() {
         return {
             link: function(scope, ele, attrs) {
@@ -13,12 +13,12 @@ angular
 
                     if (theCharacter.search(/\d/) === -1) {
                         console.log('not a number, checking for period (.)');
-                        
+
                         // temp fix to allow '-' to indicate null value on rate sheets
                         if (theCharacter.search(/\-/) !== -1 && ele.val().split("-").length <= 1) {
                             return true;
                         }
-                        
+
                         if (theCharacter.search(/\./) === -1 || ele.val().split(".").length > 1) {
                             console.log('Too many periods (.)');
                             e.preventDefault();

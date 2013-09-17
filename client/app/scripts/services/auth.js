@@ -75,7 +75,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             if (!userData.currentUser) {
                 userData = $cookieStore.get('userData');
             }
-            
+
             return userData.currentUser;
         };
 

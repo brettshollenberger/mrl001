@@ -18,8 +18,8 @@ angular
             // prevents end user from hitting application tool directly
             // comment out to easily test
             if ($rootScope.fromQuote !== true) {
-                if(!Auth.canUserDoAction('view-applications')) {
-                    $location.url('/tools/quoter'); 
+                if (!Auth.canUserDoAction('view-applications')) {
+                    $location.url('/tools/quoter');
                 }
             }
 

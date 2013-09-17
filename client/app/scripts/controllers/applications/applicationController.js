@@ -13,7 +13,7 @@ angular
             var applicationId;
             $scope.application = {};
             $scope.applications = [];
-            
+
             // Define possible statuses for our application.
             // Note this is not the most robust, and can 
             // easily get out of sync with the database,
@@ -58,9 +58,11 @@ angular
                         });
                     });
                 });
-                
+
                 $scope.formatStatus = function(status) {
-                    var display = _.where(statuses, {value : status});
+                    var display = _.where(statuses, {
+                        value: status
+                    });
                     return display.length ? display[0].label : '';
                 };
 
@@ -74,7 +76,7 @@ angular
             //////////////////////////////////////////////////////////////////////////////
             //////////////////////////////// Edit Action ////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
-            
+
             $scope.edit = function() {
                 Auth.canUserDoAction('edit-applications');
                 $scope.modelObject = Application;
@@ -102,7 +104,7 @@ angular
                 };
 
                 $scope.cancel = privates.viewApplicationList;
-                
+
                 // get application ID for edit pages
                 applicationId = $routeParams.id;
                 $scope.formAction = 'Add';
@@ -129,13 +131,13 @@ angular
                 $scope.activeTab = 0;
                 $scope.isActiveTab = privates.isActiveTab;
                 $scope.changeTab = privates.changeTab;
-                
-                
+
+
                 $scope.setStatus = function(newStatus) {
                     // this is a hack??? or not, for some reason the unsavedChanges directive moves the form
                     // into a child scope, so we need to access it here, or create a function to call
                     // which will set the directive dirty and workaround the scope issues
-                    if($scope.$$childTail && $scope.$$childTail.applicationForm) {
+                    if ($scope.$$childTail && $scope.$$childTail.applicationForm) {
                         $scope.$$childTail.applicationForm.$setDirty();
                     }
                     // set our application status
@@ -143,17 +145,23 @@ angular
                 };
 
             };
-            
+
             //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Dashboard Action /////////////////////////////
             ////////////////////////////////////////////////////////////////////////////
 
             $scope.getNewApps = function() {
-                privates.find({'status' : 'new'});
+                privates.find({
+                    'status': 'new'
+                });
             };
-            
+
             $scope.getActiveApps = function() {
-                privates.find({'status' : { '$nin' : ['new', 'approved', 'denied'] }});
+                privates.find({
+                    'status': {
+                        '$nin': ['new', 'approved', 'denied']
+                    }
+                });
             };
 
             $scope.applicationTemplate = {

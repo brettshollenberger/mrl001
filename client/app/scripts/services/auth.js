@@ -49,7 +49,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             'list-quotes',
             'edit-quotes',
             'list-vendors',
-            'edit-vendors'
+            'edit-vendors',
             'edit-users',
             'changePassword-users',
             'changeAvatar'

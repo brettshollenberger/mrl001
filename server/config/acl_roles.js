@@ -1,18 +1,18 @@
 module.exports = function(app, config, passport, user, acl) {
 
-    
+
     /**
-    * Middlewares which make our roles module easier to use
-    *
-    *
-    */
+     * Middlewares which make our roles module easier to use
+     *
+     *
+     */
     app.use(function(req, res, next) {
         req.userHasRole = function(role) {
             return req.user && req.user.role == role;
         };
         next();
     });
-    
+
 
     /**
      * ------------

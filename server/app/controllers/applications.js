@@ -128,15 +128,15 @@ exports.all = function(req, res) {
     }
 
     Application
-    .find(where)
-    .sort('-status -created')
-    .exec(function(err, applications) {
-        if (err) {
-            res.failure(err);
-        } else {
-            res.ok(applications);
-        }
-    });
+        .find(where)
+        .sort('-status -created')
+        .exec(function(err, applications) {
+            if (err) {
+                res.failure(err);
+            } else {
+                res.ok(applications);
+            }
+        });
 };
 
 

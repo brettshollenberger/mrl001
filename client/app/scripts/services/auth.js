@@ -1,3 +1,20 @@
+/**
+* A modular authenication service, which can be dropped into any project to provide basic auth
+* 
+* @note this is a good exmaple of a modular pattern for Faculty development. Especially in the way it provides
+*       directives, as well as functions, to the entire app.   
+* 
+* Provides:
+* - Login / logout
+* - persisnant user storage with cookies
+* 
+* In addition, it provides basic permissions
+* - Resource-action based permission strategy
+* - Controller method for checking permissions
+* - Direcitve for showing / hiding elements based on permissions
+*
+*/
+
 angular.module('app').factory('authService', ['$http', '$rootScope', 'userService', '$location', '$cookieStore',
     function($http, $rootScope, User, $location, $cookieStore) {
 
@@ -9,51 +26,101 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             authLevel: false
         };
 
-        // holds actions for each level where array index is auth level to check
-        var allowedActionsByAuthLevel = [];
 
-        // we don't set level 0 because its super admin, so they can do anything
-        //allowedActionsByAuthLevel[1] = [];
-        // 2 = marlin sales rep
-        allowedActionsByAuthLevel.salesRep = ['list-applications', 'changeAvatar', 'view-applications', 'edit-applications', 'list-quotes', 'edit-quotes', 'list-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
+        /**
+        * Define the allows action-resource patterns for each role type
+        * 
+        * @note we don't define any limitations for adnin, allowing them to do anything! 
+        * 
+        * @todo this needs to be signifigantly refactored to clean up inconsistancies. Mainly:
+        *       - follow resource-action pattern
+        *       - avoid overlap / duplication of code from API by returning allowed actions with user? 
+        *
+        */
+        
+        // define inital object
+        var allowedActionsByAuthLevel = {};
 
-        allowedActionsByAuthLevel.vendorRep = ['list-applications', 'edit-applications', 'view-applications', 'list-quotes', 'edit-quotes', 'view-vendors', 'edit-users', 'changePassword-users', 'edit-vendors'];
+        // define Marlin Sales Rep actions
+        allowedActionsByAuthLevel.salesRep = [
+            'list-applications', 
+            'view-applications', 
+            'edit-applications', 
+            'list-quotes', 
+            'edit-quotes', 
+            'list-vendors',
+            'edit-vendors'
+            'edit-users', 
+            'changePassword-users',
+            'changeAvatar' 
+        ];
+
+        // define Vendor Sales Rep actions
+        allowedActionsByAuthLevel.vendorRep = [
+            'list-applications', 
+            'view-applications',
+            'edit-applications', 
+            'list-quotes', 
+            'edit-quotes', 
+            'view-vendors', 
+            'edit-vendors',
+            'edit-users', 
+            'changePassword-users' 
+        ];
+
+        
+        /**
+        * Provide Auth service methods, mainly login and logout.
+        *
+        * @note these leverage the User service to perform the user relaated actions of login and logout, 
+        *       while adding additional functionality such as storing user in cookie, 
+        *       clearing user, granting permissions, getting current user, etc. 
+        * 
+        *
+        */
 
         // create and expose service methods
         var exports = {};
 
+        /**
+        * Method to login a user given email and password
+        * 
+        * @todo better handling of login failure 
+        * 
+        */ 
         exports.login = function(email, password) {
 
             return User.login({
                 email: email,
                 password: password
             }).then(function(response) {
+                
                 var attemptingUser = response;
-
-                console.log('LOGIN: Attempting user is: ');
-                console.log(attemptingUser);
-
+                
+                // no user found!
                 if (!attemptingUser) return false;
 
-                // store user data
+                // we have a user, store the data
                 userData.currentUser = attemptingUser;
                 userData.userId = attemptingUser._id;
                 userData.isAuth = true;
                 userData.authLevel = attemptingUser.role;
 
+                // store in cookie
                 $cookieStore.put('userData', userData);
 
+                // return success
                 return true;
 
             });
-
-
-
+            
         };
-
+        
+        /**
+        * Method to logout a user, cleaing their cookie data and variables
+        *
+        */
         exports.logout = function() {
-
-            console.log('Logging out the user');
 
             // clear user data
             userData.currentUser = null;
@@ -61,16 +128,29 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             userData.isAuth = false;
             userData.authLevel = false;
 
+            // clear cookue
             $cookieStore.remove('userData');
 
         };
 
-        // checks if user is authenticated
+        /**
+        * Method to check if user is authenticated
+        * 
+        * @return {bool} True if use if authenticated, false if not 
+        *
+        */ 
         exports.isAuthenticated = function() {
             return userData.isAuth;
         };
 
-        // checks if user is authenticated
+        /**
+        * Method to return current user
+        * 
+        * @example var userId = Auth.getCurrentUser()._id   // returns user id
+        * @example var user = Auth.getCurrentUser()         // gets entire user object
+        * @example var userBinding = Auth.getCurrentUser    // better binding. Try to see how this works
+        *
+        */
         exports.getCurrentUser = function() {
             if (!userData.currentUser) {
                 userData = $cookieStore.get('userData');
@@ -79,16 +159,66 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             return userData.currentUser;
         };
 
-        // checks if user is authenticated
+        /**
+        * Method to get the current user Role
+        *
+        * @note this is not being used
+        *
+        */
         exports.getAuthLevel = function() {
             return userData.authLevel;
         };
+        
+        
+        /**
+        * Method to use in controller to limit access. Prevents controller function from running by redirecting
+        *
+        * @example
+        *  
+        *    $scope.listQuotes = function() {
+        *       
+        *       // attempt to authenticate user, if not allowed a redirect will occur
+        *       Auth.canUserDoAction('list-quotes');
+        *       
+        *       // if we get to here, we know user is authenticated for the a resource-action
+        *       $scope.quotes = Quotes.list();
+        *    }
+        *
+        */
+        exports.canUserDoAction = function(action) {
 
-        // checks if user is in a certin group
-        exports.isInGroupByName = function(groupName) {
-            return false;
+            //console.log('user is requesting permission to: ' + action);
+
+            if (!checkLevelForAction(action)) {
+                doRedirect();
+            } else {
+                return true;
+            }
+
         };
 
+        /**
+        * Method which masks our canUserDoAction method for use in our directive 
+        * @todo refactor and remove this dup.
+        *
+        */ 
+        exports.showIfUserCanDoAction = function(action) {
+
+            return checkLevelForAction(action);
+        };
+
+        /**
+        * Private Helper Functions
+        *
+        */
+        
+        /**
+        * Redirects user based on login status
+        * 
+        * - logged in users to dashboard
+        * - logged out users to login screen 
+        * 
+        */
         function doRedirect() {
 
             var storedUser = $cookieStore.get('userData');
@@ -102,12 +232,17 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         }
 
 
-        // private function to Check for a min auth level, 
-        // returning true if user passes or false if not.
-
+        /**
+        * Helper to validate auth level for current user as stored in cookie
+        *
+        * @param checkAction {string} Action to check against
+        * @return {bool} True to allow action, false if denied
+        *
+        */
         function checkLevelForAction(checkAction) {
 
             // attempt to get session data
+            // @todo refactor to use currentUser() ?
             var storedUser = $cookieStore.get('userData');
 
             // if we have a stored user, lets load them to userData
@@ -117,50 +252,30 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
                 userData = storedUser;
             }
 
+            // if no stored user, or stored user has no role, deny
             if (!storedUser || !storedUser.authLevel) return false;
 
-
             // if there is no actions array set
-            // case of superadmin
+            // case of admin
             if (!allowedActionsByAuthLevel[storedUser.authLevel]) {
+                
                 return true;
-
-                // if action is in the array
+             
+            // if action is in the array    
             } else if (_.contains(allowedActionsByAuthLevel[storedUser.authLevel], checkAction)) {
+               
                 return true;
-
-                // user can't do this! redirect them           
+             
+            // user can't do this! redirect them               
             } else {
-                //return true;
+                
                 return false;
+                
             }
 
         }
 
-        // put in the beginning of a controller to limit access
-        exports.canUserDoAction = function(action) {
-
-            //console.log('user is requesting permission to: ' + action);
-
-            if (!checkLevelForAction(action)) {
-                doRedirect();
-            } else {
-                return true;
-            }
-
-        };
-
-        // use with ng-show / ng-hide to show buttons and links as needed
-        exports.showIfUserCanDoAction = function(action) {
-
-            //console.log('should we show link to: ' + action);
-
-            return checkLevelForAction(action);
-        };
-
-
         // --------
-
 
         return exports;
 
@@ -168,10 +283,15 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
 ]);
 
 
-
-
-
-
+/**
+* Directive which sets elements visibility based on action-resource persmissions
+* 
+* @note this can conflict with other ng-show / ng-hide declerations on the same element. Be warned!
+* @note this is for presentation only! Ovbiously things need to be locked down on the API side to be secure. 
+* 
+* @exmaple <button ng-click="delete()" can-do-action="delete-quote">Delete This Quote</button>
+*
+*/
 angular.module('app').directive("canDoAction", ['authService',
     function(authService) {
         return {

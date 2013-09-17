@@ -25,14 +25,6 @@ exports.find = function(req, res, next) {
     // currently query is just request body
     var query = req.body;
 
-    // limit quotes to sales rep only. 
-    // @todo make this middleware, something like this: 
-    /*
-    if(userHasRole('salesRep')) {
-        query.salesRep = req.user._id;
-    }
-    */
-
     if (req.userHasRole('salesRep')) {
         query.salesRep = req.user._id;
     } else if (req.userHasRole('vendorRep')) {

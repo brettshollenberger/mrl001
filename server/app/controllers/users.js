@@ -6,14 +6,6 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     _ = require('underscore');
 
-/**
- * Auth callback
- */
-/*
-exports.authCallback = function(req, res, next) {
-    res.redirect('/');
-};
-*/
 
 /**
  * Show login form
@@ -21,8 +13,6 @@ exports.authCallback = function(req, res, next) {
 exports.signin = function(req, res, next, passport) {
 
     passport.authenticate('local', function(err, user, info) {
-        
-        console.log(info);
         
         if (err) { return next(err); }
         if (!user) { return res.failure('Problem logging you in: ' + info.message, 401); }
@@ -37,17 +27,6 @@ exports.signin = function(req, res, next, passport) {
 
 };
 
-/**
- * Show sign up form
- */
-/*
-exports.signup = function(req, res) {
-    res.render('users/signup', {
-        title: 'Sign up',
-        user: new User()
-    });
-};
-*/
 
 /**
  * Logout
@@ -57,20 +36,11 @@ exports.signout = function(req, res) {
     res.ok('success, you are now logged out!');
 };
 
-/**
- * Session
- */
-/*
-exports.session = function(req, res) {
-    res.redirect('/');
-};
-*/
 
 /**
  * Create user
  */
 exports.create = function(req, res) {
-    
     
     var theUser = new User(req.body);
     
@@ -78,50 +48,19 @@ exports.create = function(req, res) {
 
     theUser.save(function(err) {
         
-        console.log(err);
         if(err) {
             res.failure(err);
         } else {
            res.ok(theUser); 
         }
     });
-    
-    
-    /*
-    var theUser = new User(req.body);
 
-    theUser.provider = 'local';
-    theUser.save(function(err) {
-        if (err) {
-            return res.render('users/signup', {
-                errors: err.errors,
-                user: theUser
-            });
-        }
-        req.logIn(theUser, function(err) {
-            if (err) return next(err);
-            return res.redirect('/');
-        });
-    });
-*/
 };
 
-/**
- *  Show profile
- */
-/*
-exports.show = function(req, res) {
-    var user = req.profile;
-
-    res.render('users/show', {
-        title: user.name,
-        user: user
-    });
-};
-*/
 
 // get vendor model
 var Vendor = mongoose.model('Vendor');
+
 
 /**
  * Show an application
@@ -147,9 +86,7 @@ exports.show = function(req, res) {
       
     // send the user right away    
     } else {
-    
         res.ok(req.theUser);
-        
     }    
 
 };
@@ -162,20 +99,21 @@ exports.me = function(req, res) {
     res.ok(req.theUser || null);
 };
 
+
 /**
  * Find user by id
  */
 exports.user = function(req, res, next, id) {
     User
-        .findOne({
-            _id: id
-        })
-        .exec(function(err, theUser) {
-            if (err) return next(err);
-            if (!theUser) return res.failure('Failed to load User ' + id);
-            req.theUser = theUser;
-            next();
-        });
+    .findOne({
+        _id: id
+    })
+    .exec(function(err, theUser) {
+        if (err) return next(err);
+        if (!theUser) return res.failure('Failed to load User ' + id);
+        req.theUser = theUser;
+        next();
+    });
 };
 
 
@@ -227,14 +165,14 @@ exports.update = function(req, res) {
     // this is because users can update them selves
     // note we should also remove other things here, like password, etc. 
     
+    // prevents non admin users from deleting role
     if(req.user.role && req.user.role !== 'admin') {
         delete req.body.role;
     }
     
-    console.log(req.body);
-    
+    // prevents password from changing
+    // we have a seperate controller for that
     if(req.body.password) {
-        console.log('deleting password');
         delete req.body.password;
     }
     
@@ -262,7 +200,7 @@ exports.updatePassword = function(req, res) {
     // require new password
     // @Note we don't need to do this here because when we set the password to be req.body.new_password
     // below, even its its null there are no errors, and the model validation will handle the null value
-    // Compare this to php, its soooo LEAN! 
+    // Compare this to php, its soooo LEAN! no need for this: 
     //if(!req.body.new_password) {
         //return res.failure('A new password is required');
     //}

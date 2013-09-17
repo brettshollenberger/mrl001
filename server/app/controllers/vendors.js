@@ -29,6 +29,7 @@ exports.create = function(req, res) {
     var vendor = new Vendor(req.body);
 
     // set default tools
+    // @todo move to pre save in model
     vendor.tools = [
         {
             "name" : "Locator Tool",
@@ -125,7 +126,12 @@ exports.all = function(req, res) {
         select = 'name _id logo customField';
     }
     
-    Vendor.find(where).select(select).sort('-name').populate(populate).exec(function(err, vendors) {
+    Vendor
+    .find(where)
+    .select(select)
+    .sort('-name')
+    .populate(populate)
+    .exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {
@@ -147,8 +153,11 @@ exports.listForUser = function(req, res) {
         where  = {$or : [{salesRep : id}, {vendorRep : id}] };
     }
     
-    
-    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
+    Vendor
+    .find(where)
+    .sort('-name')
+    .populate('programIds programs salesRep vendorRep')
+    .exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {
@@ -170,8 +179,11 @@ exports.listNotForUser = function(req, res) {
         where  = {$nor : [{salesRep : id}, {vendorRep : id}] };
     }
     
-    
-    Vendor.find(where).sort('-name').populate('programIds programs salesRep vendorRep').exec(function(err, vendors) {
+    Vendor
+    .find(where)
+    .sort('-name')
+    .populate('programIds programs salesRep vendorRep')
+    .exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {
@@ -186,7 +198,12 @@ exports.listNotForUser = function(req, res) {
  * List of Vendors
  */
 exports.getAllNames = function(req, res) {
-    Vendor.find().select('_id name').sort('-created').populate('programIds salesRep programs').exec(function(err, vendors) {
+    Vendor
+    .find()
+    .select('_id name')
+    .sort('-created')
+    .populate('programIds salesRep programs')
+    .exec(function(err, vendors) {
         if (err) {
             res.failure(err);
         } else {
@@ -208,9 +225,6 @@ exports.getCurrentVendorPrograms = function(req, res) {
 
 
 exports.getAvailableVendorPrograms = function(req, res) {
-     //console.log(req.vendor.programs);
-     //var theIds = req.vendor.programs;
-     
      var theIds = _.pluck(req.vendor.programs, '_id');
      if(!theIds) theIds = [];
      Program.find().where('_id').nin(theIds).sort('-created').exec(function(err, programs) {

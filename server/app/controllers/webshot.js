@@ -66,7 +66,7 @@ module.exports = function(app, config) {
         getWebshotFromUrl: function(req, res){
       
             // debug
-            console.log('generating pdf for quote id: ' + req.params.id);
+            //console.info('generating pdf for quote id: ' + req.params.id);
           
             // get quote id
             // @todo we need to check when user visits this page for a valid quote
@@ -89,8 +89,6 @@ module.exports = function(app, config) {
             }
             var url = fullHost + '/#/tools/quoter/' + id + '/print';
             
-            console.log(url);
-            
             // timestamp appended to the quite id, so each is unique
             var time = new Date().getTime().toString();
             
@@ -99,12 +97,12 @@ module.exports = function(app, config) {
             
             // create path to file
             var file = join(__dirname, '/../../../', tmpdir, fileName);
-            console.log('WEBSHOT : FILE is ' + file); 
+            //console.info('WEBSHOT : FILE is ' + file); 
             
             getWebshot(url, file, function(err){
-                console.log('WEBSHOT : Complete'); 
+                //console.log('WEBSHOT : Complete'); 
                 if (err) {
-                    console.log('WEBSHOT : ERROR ' + err);
+                    //console.log('WEBSHOT : ERROR ' + err);
                     
                     res.json({
                        status: 'FAIL',
@@ -112,7 +110,7 @@ module.exports = function(app, config) {
                     }, 400);
                     //return console.log(err);
                 }
-                console.log('WEBSHOT : OK');
+                //console.log('WEBSHOT : OK');
                 
                 //res.download(file);
                 

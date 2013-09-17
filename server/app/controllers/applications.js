@@ -7,11 +7,32 @@ var mongoose = require('mongoose'),
     Vendor = mongoose.model('Vendor'),
     _ = require('underscore');
 
+
+/**
+* Find / query function, allows us to pass a mongodb style query over rest
+* 
+* @todo change to GET!!! might require querystring module and will def require modifying angular service
+* @todo add to remaining controllers, currently only in application controller.
+*
+* @example { 'status' : 'open' } // gets all with status open
+* @example { 'status' : { '$nin' : ['open', 'archived', 'denied'] } } // gets all where status not in array
+*
+* @note these must be passed through JSON.stringify on the angular app side
+*
+*/
 exports.find = function(req, res, next) {
 
+    // currently query is just request body
     var query = req.body;
 
     // limit quotes to sales rep only. 
+    // @todo make this middleware, something like this: 
+    /*
+    if(userHasRole('salesRep')) {
+        query.salesRep = req.user._id;
+    }
+    */
+        
     if(req.user && req.user.role === 'salesRep') {
        query.salesRep = req.user._id;
     } else if (req.user && req.user.role === 'vendorRep') {
@@ -157,14 +178,6 @@ exports.getAllForSalesRep = function(req, res) {
                  res.failure(err);
             } else {
                  res.ok(quotes);
-                 /*
-res.ok({
-                    meta: {
-                        message: 'Getting applications for salesRep ' + req.user.fullName,
-                    },
-                    results: quotes
-                });
-*/
             }
         });
     };

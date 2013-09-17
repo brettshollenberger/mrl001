@@ -5,62 +5,6 @@ module.exports = function(app, passport, auth, user, config, acl) {
  
     var vendors = require('../app/controllers/vendors');
  
-   /*
- //User Routes
-    var users = require('../app/controllers/users');
-    app.get('/signin', users.signin);
-    app.get('/signup', users.signup);
-    app.get('/signout', users.signout);
-
-    //Setting up the users api
-    app.post('/users', users.create);
-    app.post('/users/session', passport.authenticate('local', {
-        failureRedirect: '/signin',
-        failureFlash: 'Invalid email or password.'
-    }), users.session);
-    app.get('/users/me', users.me);
-    app.get('/users/:userId', users.show);
-
-    //Setting the facebook oauth routes
-    app.get('/auth/facebook', passport.authenticate('facebook', {
-        scope: ['email', 'user_about_me'],
-        failureRedirect: '/signin'
-    }), users.signin);
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
-
-    //Setting the github oauth routes
-    app.get('/auth/github', passport.authenticate('github', {
-        failureRedirect: '/signin'
-    }), users.signin);
-    app.get('/auth/github/callback', passport.authenticate('github', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
-
-    //Setting the twitter oauth routes
-    app.get('/auth/twitter', passport.authenticate('twitter', {
-        failureRedirect: '/signin'
-    }), users.signin);
-    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-        failureRedirect: '/signin'
-    }), users.authCallback);
-
-    //Setting the google oauth routes
-    app.get('/auth/google', passport.authenticate('google', {
-        failureRedirect: '/signin',
-        scope: 'https://www.google.com/m8/feeds'
-    }), users.signin);
-    app.get('/auth/google/callback', passport.authenticate('google', {
-        failureRedirect: '/signin',
-        scope: 'https://www.google.com/m8/feeds'
-    }), users.authCallback);
-
-    //Finish with setting up the userId param
-    app.param('userId', users.user);
-*/
-
-
     /**
     * Middleware authentication using vergin-acl
     * -------------------------
@@ -71,6 +15,8 @@ module.exports = function(app, passport, auth, user, config, acl) {
     * @see config/acl_roles.js for roles
     *
     * @note vergin-acl doesn't support middleware out of the box, so we wrap its check in our own middleware
+    *
+    * @todo move to middleware... !
     *
     */
     function isUserAllowed(action, resource) {
@@ -83,7 +29,7 @@ module.exports = function(app, passport, auth, user, config, acl) {
             };
         }
         
-        console.log(util.format('Can user role %s %s %s?', req.user.role, action, resource));
+        console.info(util.format('Can user role %s %s %s?', req.user.role, action, resource));
         
         // perform acl query on resource + action
         // responds with 401 and message if user doesn't have permissions
@@ -146,26 +92,8 @@ module.exports = function(app, passport, auth, user, config, acl) {
 	* -------------------------
 	*/
 	var quotes = require('../app/controllers/quotes');
-    //app.get('/quotes', user.is('logged in'), quotes.all);
-    
-    /*
-app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, next) {
-            
-        if(req.user.role === 'admin') {
-            quotes.all(req, res, next);
-        } else if(req.user.role === 'salesRep') {
-            
-            // @todo support all for vendor
-            quotes.getAllForSalesRep(req, res, next);
-        } else {
-            res.send('Not found', 404);
-        }
-        
-    });
-*/
     
     app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
-    
     app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), quotes.create);
     app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
     app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
@@ -176,50 +104,6 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     app.get('/api/v1/quotes/:id/download', webshot.getWebshotFromUrl);
 
     app.param('quoteId', quotes.quote);
-    
-    
-    /**
-    * Secure all API endpoints with ACL
-    * Here we do our checks to assign roles etc. based on user.id and resource.id
-    *
-    */
-/*
-    app.all('/api*', function(req, res, next) {
-        
-        // if there is no user set, grant guest access
-        if(!req.user || !req.user.userId) {
-            console.log('Adding guest access');
-            req.user = {
-                userId: 'guest'
-            };
-            acl2.addUserRoles(req.user.userId, 'admin', function(err) {}); 
-            acl2.whatResources(req.user.userId, function(err, roles) {
-                console.log(roles);
-            });
-            return next();
-        }
-        
-        
-        console.log('req.user is:');
-        console.log(req.user);
-        
-        if(req.user.roles.indexOf('admin')) {
-            console.log('We have an admin!!!');
-        }
-     
-                
-        if(req.user.userId) {
-            acl2.addUserRoles(req.user.userId, 'author', function(err) {
-                if(err) throw (err);
-            });  
-        }
-        
-        
-        
-        next();
-        
-    });
-*/
     
     
     /**
@@ -237,7 +121,6 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     app.del('/api/v1/applications/:applicationId', isUserAllowed('delete', 'applications'), applications.destroy);
 
     app.param('applicationId', applications.application);
-
 
 
 	/**
@@ -285,40 +168,6 @@ app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), function(req, res, ne
     app.del('/api/v1/programs/:programId', isUserAllowed('delete', 'programs'), programs.destroy);
 
     app.param('programId', programs.program);
-    
-    
-    /**
-	* DEV / TESTING routes
-	* -------------------------
-	*/
-    /*
-app.get('/private', user.can('view all programs'), function(req, res) {
-        res.send('OK PRIVATE...!');
-    });
-*/
-   /*
- 
-    app.get('/fancy',
-      // Authenticate using HTTP Basic credentials, with session support disabled.
-      passport.authenticate('local'),
-       function(req, res){
-        res.json({ username: req.user.username, email: req.user.email });
-    });
-    
-    app.get('/out', function(req, res) {
-        req.logout();
-        res.json({meta: {message: 'success, you are now logged out!'}});
-    });
-    
-*/
-    
-    
-    
-    // Catch all for non-existant routes
-/*
-    app.all('*', function(req, res, next) {
-        res.failure('Resource not found', 404);
-    });
-*/
+
     
 };

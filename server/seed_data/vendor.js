@@ -71,7 +71,7 @@ var data = [{
         },
         {
             "name" : "Quoter Tool",
-            "active" : false
+            "active" : true
         }
     ],
     "programs": [ '522f4634cc2aadba4d000005' ],

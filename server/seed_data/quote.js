@@ -24,11 +24,19 @@ var data = [{
     vendorId: '51e71518ed32080ffc000024',
     description: 'Manaquins for my art project in the SkyBox',
     company: {
-        name: 'Art Manaquins',
-        address1: '123 Company Lane',
-        phone: '556-669-4444',
-        city: 'Philadelphia',
-        state: 'PA'
+        fullLegalBusinessName: 'Max Fridge',
+        contactPerson: {
+            name: 'John Doe',
+            email: 'john@doe.com',
+            phone: '556-669-4444'
+        },
+        businessAddress: {
+            address1: '2424 York Street',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '19125'
+        }
     }
 },
 {
@@ -38,11 +46,19 @@ var data = [{
     vendorId: '51e71518ed32080ffc000025',
     description: 'Cookies for lunch for everyone!',
     company: {
-        name: 'C is for Cookie',
-        address1: '123 Company Lane',
-        phone: '556-669-4444',
-        city: 'Philadelphia',
-        state: 'PA'
+        fullLegalBusinessName: 'Cookie Company',
+        contactPerson: {
+            name: 'John Doe Cookie',
+            email: 'john@doe.com',
+            phone: '556-669-4444'
+        },
+        businessAddress: {
+            address1: '2424 York Street',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '19125'
+        }
     }
 },
 {
@@ -52,10 +68,18 @@ var data = [{
     vendorId: '51e71518ed32080ffc000025',
     description: 'Security system for my office.',
     company: {
-        name: 'NSA',
-        address1: '123 Company Lane',
-        phone: '556-669-4444',
-        city: 'Philadelphia',
-        state: 'PA'
+        fullLegalBusinessName: 'Security Company',
+        contactPerson: {
+            name: 'John Doe Security',
+            email: 'john@doe.com',
+            phone: '556-669-4444'
+        },
+        businessAddress: {
+            address1: '2424 York Street',
+            address2: '',
+            city: 'Philadelphia',
+            state: 'PA',
+            zip: '19125'
+        }
     }
 }];

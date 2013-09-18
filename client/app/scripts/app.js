@@ -225,7 +225,7 @@ return angular.isObject(d) && !(angular.toString.apply(d) === '[object File]') ?
     function($rootScope, $location, Auth, $document, $http, promiseTracker) {
 
         // global functions and variables available app wide in $rootScope go here!
-        $rootScope.version = '0.3.3';
+        $rootScope.version = '0.3.4';
 
         $rootScope.apiTracker = promiseTracker('api');
 

@@ -156,10 +156,6 @@ angular
                 privates.find({'status' : { '$nin' : ['new', 'approved', 'denied'] }});
             };
 
-            $scope.applicationTemplate = {
-                url: "app/templates/dashboard/partials/application.html"
-            };
-
             //////////////////////////////////////////////////////////////////////////////
             ////////////////////////////// Private Methods //////////////////////////////
             ////////////////////////////////////////////////////////////////////////////

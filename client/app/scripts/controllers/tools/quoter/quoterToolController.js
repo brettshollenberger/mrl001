@@ -122,7 +122,6 @@ angular
                 // get programs from VendorID    
 
             } else {
-                $scope.quote.status = 'Open';
                 
                 //List states in dropdown menu
                 // get states list and set default
@@ -216,7 +215,6 @@ angular
 
                 // build the application for us to save
                 var application = {
-                    status: 'Open',
                     quoteId: $scope.quote._id,
                     vendorId: $scope.vendor._id,
                     quote: {

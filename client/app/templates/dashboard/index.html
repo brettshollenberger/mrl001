@@ -9,14 +9,60 @@
             <div class="span5" ng-controller="applicationController" ng-init="getNewApps()">
                  <h2>New Applications <sup><span class="label label-info">{{applications.length}}</span></sup></h2>
                  <table class="table table-applications">
-                    <tr ng-include src="applicationTemplate.url" ng-repeat="application in applications" ng-click="goTo('dashboard/applications/' + application._id)"></tr>
+                    <tr ng-repeat="application in applications" ng-click="goTo('dashboard/applications/' + application._id)">
+                        <td class="inner-wrapper">
+                            <div class="pull-right text-right">
+                                <p class="capitalize time-ago">{{application.created | timeElapsed }}</p>
+                                <p class="money">{{application.quote.totalCost | cheddar}}</p>
+                            </div>
+                            <div class="pull-left">
+                                <span class="label">{{application.status}}</span>
+                                <p class="capitalize">{{application.leasee.contactPerson.name}}</p>
+                                <span ng-show="application.leasee.contactPerson.contactMethod == 'phone'">
+                                    <a call-to="{{application.leasee.contactPerson.phone}}"></a>
+                                </span>
+                                <span ng-show="application.leasee.contactPerson.contactMethod == 'email'">
+                                    <a mail-to="{{application.leasee.contactPerson.email}}"></a>
+                                </span>
+                                <p>{{application.leasee.fullLegalBusinessName}} / 
+                                    <a ng-click='goTo("dashboard/vendors/" + application.vendorId._id)'><i class="icon-briefcase"></i> {{application.vendorId.name}}</a>
+                                </p>
+                            </div>
+                            <div class="clear-fix area-desc">
+                                <p>{{application.quote.description}}</p>
+                            </div> 
+                         </td>
+                    </tr>
                  </table>
             </div>
             
             <div class="span5" ng-controller="applicationController" ng-init="getActiveApps()">
                 <h2>Open Applications <sup><span class="label label-info">{{applications.length}}</span></sup></h2>
                  <table class="table table-applications">
-                    <tr ng-include src="applicationTemplate.url" ng-repeat="application in applications" ng-click="goTo('dashboard/applications/' + application._id)"></tr>
+                    <tr ng-repeat="application in applications" ng-click="goTo('dashboard/applications/' + application._id)">
+                        <td class="inner-wrapper">
+                            <div class="pull-right text-right">
+                                <p class="capitalize time-ago">{{application.created | timeElapsed }}</p>
+                                <p class="money">{{application.quote.totalCost | cheddar}}</p>
+                            </div>
+                            <div class="pull-left">
+                                <span class="label">{{application.status}}</span>
+                                <p class="capitalize">{{application.leasee.contactPerson.name}}</p>
+                                <span ng-show="application.leasee.contactPerson.contactMethod == 'phone'">
+                                    <a call-to="{{application.leasee.contactPerson.phone}}"></a>
+                                </span>
+                                <span ng-show="application.leasee.contactPerson.contactMethod == 'email'">
+                                    <a mail-to="{{application.leasee.contactPerson.email}}"></a>
+                                </span>
+                                <p>{{application.leasee.fullLegalBusinessName}} / 
+                                    <a ng-click='goTo("dashboard/vendors/" + application.vendorId._id)'><i class="icon-briefcase"></i> {{application.vendorId.name}}</a>
+                                </p>
+                            </div>
+                            <div class="clear-fix area-desc">
+                                <p>{{application.quote.description}}</p>
+                            </div> 
+                         </td>                    
+                    </tr>
                  </table>
             </div>
         </div>

@@ -42,35 +42,19 @@ var QuoteSchema = new Schema({
         trim: true
     },
     company: {
-        "name": {
-            type: String,
-            "default": '',
-            trim: true
+        fullLegalBusinessName: {type: String, "default": '', trim: true},
+        contactPerson: {
+            name: {type: String, "default": '', trim: true},
+            email: {type: String, "default": '', trim: true},
+            phone: {type: String, "default": '', trim: true},
+            contactMethod:{type: String, "default": '', trim: true}
         },
-        "address1": {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        "address2": {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        "city": {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        "state": {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        "zip": {
-            type: String,
-            "default": '',
-            trim: true
+        businessAddress: {
+          "address1": {type: String, "default": '', trim: true},
+          "address2": {type: String, "default": '', trim: true},
+          "city": {type: String, "default": '', trim: true},
+          "state": {type: String, "default": '', trim: true},
+          "zip": {type: Number}
         }
     },
     customField: {

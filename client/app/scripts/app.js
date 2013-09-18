@@ -232,10 +232,12 @@ angular
 .run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker',
     function($rootScope, $location, Auth, $document, $http, promiseTracker) {
 
+
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
-        $rootScope.version = '0.3.3';
+        $rootScope.version = '0.3.4';
+
 
         // @note this is related to experimental promisetracker module
         $rootScope.apiTracker = promiseTracker('api');

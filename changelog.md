@@ -3,7 +3,15 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.3 (current)
+Release 0.3.4 (current)
+--------
+
+- [BUG] Fix issue where quote information didn't copy to applicaiton. 
+- [BUG] Fix issue with displaying contact and company inforamtion on quote edit page. 
+- [CHORE] Update seed data to add more quotes and applications for demo. 
+
+
+Release 0.3.3
 --------
 
 - [FEATURE] User dashboard which shows new and open applications.

@@ -1,7 +1,7 @@
 var async = require('async');
 var util = require('util');
 
-module.exports = function(app, passport, auth, user, config, acl, acl2) {
+module.exports = function(app, passport, auth, user, config, acl, acl2, emailer) {
  
     var vendors = require('../app/controllers/vendors');
  
@@ -60,6 +60,14 @@ module.exports = function(app, passport, auth, user, config, acl, acl2) {
     app.param('userId', users.user);
 */
 
+
+    app.get('/api/v1/emails/test', function(req, res, next) {
+        
+        emailer.test();
+        
+        res.ok('Emails were sent, yo.');
+        
+    });
 
     /**
     * Middleware authentication using vergin-acl

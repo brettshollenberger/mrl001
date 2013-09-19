@@ -58,7 +58,7 @@ require('./config/acl_roles')(app, config, passport, user, acl, acl2);
 require('./config/express')(app, config, passport, user);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user, config, acl, acl2);
+require('./config/routes')(app, passport, auth, user, config, acl, acl2, emailer);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

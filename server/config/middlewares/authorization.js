@@ -2,7 +2,7 @@
  * Generic require login routing middleware
  */
 exports.requiresLogin = function(req, res, next) {
-/*
+    /*
     console.log('CHECKING IF request is authenticated');
     console.log(req.roles);
     

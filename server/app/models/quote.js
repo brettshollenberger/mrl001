@@ -11,22 +11,36 @@ var mongoose = require('mongoose'),
  * Quote Schema
  */
 var QuoteSchema = new Schema({
-    created: { type: Date, "default": Date.now },
-    totalCost: { type: Number, "default": 0 },
-    status: {type: String, "default": 'Open', trim: true},
+    created: {
+        type: Date,
+        "default": Date.now
+    },
+    totalCost: {
+        type: Number,
+        "default": 0
+    },
+    status: {
+        type: String,
+        "default": 'Open',
+        trim: true
+    },
     vendorId: {
         type: Schema.ObjectId,
         ref: 'Vendor'
     },
-    "salesRep" : {
+    "salesRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    "vendorRep" : {
+    "vendorRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    description: {type: String, "default": '', trim: true},
+    description: {
+        type: String,
+        "default": '',
+        trim: true
+    },
     company: {
         fullLegalBusinessName: {type: String, "default": '', trim: true},
         contactPerson: {
@@ -58,18 +72,18 @@ QuoteSchema.path('vendorId').validate(function(vendorId) {
 */
 
 
-QuoteSchema.pre('save', function(next, something) {  
-    
+QuoteSchema.pre('save', function(next, something) {
+
     var self = this;
-    
+
     // attempt to get the sales rep, which we save with the quote
     // for easy geting from the database 
     mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
-        if(err) { 
+        if (err) {
             next();
-            
+
             //next(new Error(self.vendorId + ' Not a valid vendor'));
-        } else { 
+        } else {
             self.salesRep = result.salesRep;
             self.vendorRep = result.vendorRep;
             self.vendorId = self.vendorId;
@@ -89,7 +103,3 @@ QuoteSchema.statics = {
 };
 
 mongoose.model('Quote', QuoteSchema);
-
-
-
-

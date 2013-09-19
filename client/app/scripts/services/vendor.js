@@ -72,7 +72,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
                 return response.data;
             });
         };
-        
+
         // get one item by id
         exports.getSalesRep = function(vendorId) {
             return $http.get(url + 'vendors/' + vendorId + '/salesRep').then(function(response) {

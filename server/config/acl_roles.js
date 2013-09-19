@@ -1,4 +1,4 @@
-module.exports = function(app, config, passport, user, acl) {
+module.exports = function(app, config, passport, acl) {
 
 
     /**

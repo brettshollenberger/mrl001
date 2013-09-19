@@ -6,11 +6,9 @@ var express = require('express'),
     flash = require('connect-flash'),
     path = require('path'),
     helpers = require('view-helpers'),
-    fs = require('fs'),
-    acl = require('acl');
+    fs = require('fs');
 
-
-module.exports = function(app, config, passport, user, standardReponse) {
+module.exports = function(app, config, passport, standardReponse) {
     app.set('showStackError', true);
 
     //Should be placed before express.static

@@ -19,8 +19,6 @@ var env = process.env.NODE_ENV || 'development',
     standardReponse = require('./config/middlewares/response'),
     mongoose = require('mongoose');
 
-var user = require('connect-roles');
-
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
 
@@ -45,13 +43,13 @@ require('./config/passport')(passport, config);
 var app = express();
 
 //Define user roles
-require('./config/acl_roles')(app, config, passport, user, acl);
+require('./config/acl_roles')(app, config, passport, acl);
 
 //express settings
-require('./config/express')(app, config, passport, user, standardReponse);
+require('./config/express')(app, config, passport, standardReponse);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user, config, acl);
+require('./config/routes')(app, passport, auth, config, acl);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

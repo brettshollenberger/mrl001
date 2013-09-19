@@ -44,13 +44,6 @@ angular
             $scope.salesName = '';
             $scope.vendorName = '';
 
-            // options for vendor tags
-            $scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
-            $scope.vendorTagsOptions = {
-                'tags': ['tag1', 'tag2', 'tag3', 'tag4'],
-                'width': 'element'
-            };
-
             // empty vendor object
             $scope.vendor = {};
             $scope.vendor.salesRepId = '';
@@ -61,7 +54,15 @@ angular
             //States picker
             $scope.states = States.states();
             $scope.vendor.state = $scope.states[0].abbreviation;
-
+            
+            // options for vendor tags
+            //$scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
+            $scope.vendor.tags = [];
+            $scope.vendorTagsOptions = {
+                'tags': ['tag1', 'tag2', 'tag3', 'tag4'],
+                'width': 'element'
+            };
+            
             // get all the reps
             User.getAll().then(function(response) {
                 $scope.allReps = response;
@@ -127,7 +128,6 @@ angular
             var vendorId = $routeParams.id;
             $scope.formAction = 'Add';
 
-
             // get and store the vendor 
             if (vendorId) {
 
@@ -145,7 +145,7 @@ angular
                         $scope.tabs[4].permission = 'changeLocationOptions-vendor';
                         $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
 
-                        console.log($scope.tabs);
+                        //console.log($scope.tabs);
 
                     });
 

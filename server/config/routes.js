@@ -64,8 +64,11 @@ module.exports = function(app, passport, auth, user, config, acl, acl2, emailer)
     app.get('/api/v1/emails/test', function(req, res, next) {
         
         var locals = {
-            pasta: 'NODEJS ',
-            subject: 'Custom Subject!'
+            subject: 'Email with no attachments?',
+            variables: {
+                pasta: 'NODEJS '
+            },
+            attachments: null
         };
         
         emailer.send('pasta-dinner', locals);

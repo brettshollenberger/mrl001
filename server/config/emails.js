@@ -92,19 +92,31 @@ var trySend = function(templateSlug, locals) {
         }
         
         // Send a single email
-        template(templateSlug, locals, function (err, html, text) {
+        template(templateSlug, locals.variables, function (err, html, text) {
             
             if(err) { 
                 console.error(err);
             }
             
+            // Send email using our default transport
             transport.sendMail({
+                
+                // basic information
                 from: buildAddress(localConfig.sender),
                 to: buildAddress(locals.email),
                 subject: locals.subject,
-                html: html, // html returned from the template builder
+                
+                // options that creates text automatically? We set it specifically in our template
                 // generateTextFromHTML: true,
-                text: text // text returned from template builder
+                
+                // will not always be present
+                attachments: locals.attachments ? locals.attachments : null,
+                headers: locals.headers ? locals.headers : null, 
+                
+                // text and html are returned from our template builder
+                text: text, 
+                html: html  
+                
             }, function (err, responseStatus) {
                 if (err) {
                     console.log(err);
@@ -137,29 +149,6 @@ module.exports = {
     },    
 
     /**
-    * Test function for development, sends an email using a template
-    *
-    */
-    test: function () {
-
-        var templateSlug = 'pasta-dinner';
-
-        /**
-        * Object with reciever address, name, and variables on a per email basis
-        * 
-        */
-        var locals = {
-            email: 'matt@facultycreative.com',
-            fullName: 'Matt Miller',
-            subject: 'This is a special subject!',
-            pasta: 'special sauce'
-        };
-        
-        trySend(templateSlug, locals);
-
-    },
-    
-    /**
     * Function to send an email using a specified template and set of variables
     * This function should be called anywhere in the app that we need to send an email
     *
@@ -183,10 +172,10 @@ module.exports = {
         // extend local options with template defaults
         // this ensure all variables are set, and prevents template rendering error or 
         // strange emails with broken syntax.
-        defaults = _.extend(defaults, locals);
+        locals = _.extend(defaults, locals);
         
         // attempt to send the email
-        trySend(slug, defaults);
+        trySend(slug, locals);
         
     }
     

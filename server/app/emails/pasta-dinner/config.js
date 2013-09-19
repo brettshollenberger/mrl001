@@ -14,7 +14,9 @@ module.exports = {
             'X-Laziness-level': 1000
         },
         
-        pasta: 'Undefined',
+        variables: {
+            pasta: 'Undefined'
+        },
     
         // plaintext body
         text: 'Hello to myself!',

@@ -5,7 +5,7 @@ module.exports = {
     development: {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
-        siteUrl: null,
+        siteUrl: 'http://127.0.0.1:3000',
         email: {
             type : 'SMTP',
             settings : {

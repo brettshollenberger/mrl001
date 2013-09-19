@@ -6,6 +6,21 @@ module.exports = {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
         siteUrl: null,
+        email: {
+            type : 'SMTP',
+            settings : {
+                service: 'Mandrill',
+                auth: {
+                    user: "matt@facultycreative.com",
+                    pass: "-FlPq-kjxI5ZEDee4M9dTQ"
+                }
+            },
+            templatesDir : path.join(rootPath, 'app/emails/'),
+            sender: {
+                fullName: 'Marlin Admin',
+                email: 'matt@facultycreative.com'
+            }
+        },
         app: {
             name: 'MEAN - A Modern Stack - Development'
         },

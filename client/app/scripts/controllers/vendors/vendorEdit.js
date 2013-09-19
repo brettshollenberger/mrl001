@@ -41,9 +41,15 @@ angular
                 permission: 'changeToolOptions-vendors'
             }];
 
-
             $scope.salesName = '';
             $scope.vendorName = '';
+
+            // options for vendor tags
+            $scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
+            $scope.vendorTagsOptions = {
+                'tags': ['tag1', 'tag2', 'tag3', 'tag4'],
+                'width': 'element'
+            };
 
             // empty vendor object
             $scope.vendor = {};

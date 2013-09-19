@@ -1,23 +1,24 @@
 <div class="row has-title-bar" unsaved-warning-group>
+
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
+    
         <div class="span10 offset2">
             
             <div class="row title-bar">
                 <div class="span10">
                     <h2><i class="icon icon-briefcase"></i> {{vendor.name || 'New Vendor'}}</h2>
                     <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" 
-                      ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"
-                      can-do-action="{{tab.permission}}">
-                      <a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a>
-                  </li>
-                </ul>
+                        <li ng-repeat="tab in tabs" 
+                          ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"
+                          can-do-action="{{tab.permission}}">
+                          <a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a>
+                        </li>
+                    </ul>
                     <div class="actions">
                         <a ng-show="isToolActive('quoter-tool')" class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
                         <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
                         <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</button>
                     </div>
-                
                 </div>
             </div>
  
@@ -28,13 +29,11 @@
                </div>
                
                 <div class="span4">
-                    
                     <label>Vendor Logo</label>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
                     <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
                     
                     <br /><br />
-                    
                     
                     <label>Vendor Name</label>
                     <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-block">
@@ -45,9 +44,6 @@
                     
                     <label>Business Phone Number</label>
                     <input type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone">
-                    
-                    
- 
                 </div>
                 
                 <div class="span5">            
@@ -65,11 +61,9 @@
                     
                     <label>Zip</label>
                     <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
-                    
                 </div>
                 
                 <div class="span10 clearfix">  
-                   
                     <h3>Primary Contact</h3>
                     <label>Name</label>
                     <input type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
@@ -80,6 +74,7 @@
                     <label>Phone</label>
                     <input type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone">
                 </div>
+                
             </form>
             
             <div class="row" ng-show="isActiveTab(1)" can-do-action="changeSalesRep-vendors">
@@ -93,11 +88,9 @@
                             <a user-profile="vendor.salesRep"></a><br />
                             <a mail-to="{{vendor.salesRep.email}}"></a> <br/>
                             <a call-to="{{vendor.salesRep.phone}}"></a>
-                            
                             <a class="btn btn-link link-danger" id="removeSalesRep" ng-click="removeSalesRep()">Remove Sales Rep</a>
                         </span>  
                     </div>
-                    
                 </div>
                 <div class="span4">
                     
@@ -127,13 +120,13 @@
                     </div>
                 
                 </div>
-            
+
             </div>
             
-            <div class="row" ng-show="isActiveTab(2)">    
+            <div class="row" ng-show="isActiveTab(2)"> 
+               
                 <div class="span10">
                     <h3>Vendor Sales Rep</h3>
-                
                     <div ng-show="vendor.vendorRep">
                         <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original"/>
                         
@@ -141,12 +134,11 @@
                             <a user-profile="vendor.vendorRep"></a><br />
                             <a mail-to="{{vendor.vendorRep.email}}"></a> <br/>
                             <a call-to="{{vendor.vendorRep.phone}}"></a>
-                            
                             <a class="btn btn-link link-danger" id="removeVendorRep" ng-click="removeVendorRep()">Remove Vendor Rep</a>
                         </span>  
                     </div>
-                    
                 </div>
+                
                 <div class="span4">
                     
                     <div ng-show="!vendor.vendorRep">
@@ -182,17 +174,20 @@
 
                 <form class="span10" name="rateForm" unsaved-warning-form can-do-action="changeRateSheets-vendors">
                     <h3>Manage Vendor Rate Sheets</h3>
+                    
                     <table class="table table-rate-sheets">
                         <thead>
                             <th></th>
                             <th>Rate Sheet</th>
                             <th>Custom Display Name</th>
                         </thead>
-                        
                         <tbody>
                             <tr ng-repeat="item in programs | orderBy:'active':true">
                                 <td>
-                                    <button ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
+                                    <button
+                                        ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();"
+                                        class="btn"
+                                        ng-class="{'btn-success' : item.active}">
                                         <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
                                     </button>
                                 </td>
@@ -200,11 +195,16 @@
                                     <p>{{item.name}}</p>
                                 </td>
                                 <td>    
-                                    <input ng-disabled="!item.active" type="text" class="input-block" value="{{item.displayName}}" ng-model="item.displayName" placeholder="Custom Display Name" />
+                                    <input
+                                        ng-disabled="!item.active"
+                                        type="text"
+                                        class="input-block"
+                                        value="{{item.displayName}}"
+                                        ng-model="item.displayName"
+                                        placeholder="Custom Display Name" />
                                 </td>
                             </tr>
                         </tbody>
-                            
                     </table>
                 </form>
                 
@@ -217,18 +217,15 @@
                     
                     <ul class="unstyled">
                         <li ng-repeat="item in vendor.tools">
-                            
                             <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
                                 <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
                             </button>
                             {{item.name}}
                         </li>
                     </ul>
-                    
                 </form>
                 
             </div>
-
             
             <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
@@ -252,12 +249,8 @@
                     
                 </div>
             
-                <div class="span10">    
-                            
+                <div class="span10">       
                     <hr />
-                    
-                    
-                    
                 </div>
             </form><!-- row -->
             
@@ -282,6 +275,7 @@
                             <label>City</label>
                             <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
                             <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
+                            
                             <label>State</label>
                             <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                             
@@ -316,19 +310,27 @@
                         
                         </div>
                         
+                    </div><!-- .row -->
+                    
+                    <br/><br/>
+                    
+                    <div class="row">
                         
-  
+                        <div class="span10">                        
+                            <label>Tags</label>
+                            <input type="text" ui-select2="vendorTagsOptions" ng-model="vendorTags">
+                        </div>
+                        
+                    </div><!-- .row -->
                     
-                    </div>
-                    
-                </div>
+                </div><!-- .span -->
             
-            </form><!-- row -->
+            </form>
             
             <button can-do-action="delete-vendors" can-do-action='delete-anything' delete-this id="vendor._id" redirect="/dashboard/vendors" model="modelObject"></button>
             
         </div><!-- offset 2 -->
         
+    </div> <!-- .sidebar -->
         
- 
 </div>

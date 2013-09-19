@@ -20,6 +20,8 @@ var path = require('path')
     , localConfig = {}
     , _ = require('underscore')
     , transport = null
+    , preventSend = false
+    , env = process.env.NODE_ENV || 'development'
     ;
 
 
@@ -39,6 +41,11 @@ module.exports = {
         // create our nodemailer transport object
         // we only need to create this once, and we'll use it to send any emails for this request 
         transport = nodemailer.createTransport(localConfig.type, localConfig.settings);
+        
+        // don't send real emails in development or testing
+        if(env !== 'production') {
+            preventSend = true;
+        }
 
     },    
 
@@ -51,7 +58,7 @@ module.exports = {
     * - Get the template defaults (subject, variables, etc.) which prevents errors in template rendering
     * - Then render the template
     * - validate attachments, if any, match the required format 
-    * - (@todo) Check environment, and only log if we are in development or testing
+    * - Check environment, and only log if we are in development or testing
     * - Send email
     *
     * @note that currently this function doesn't accept callbacks, so the controller won't know if it was
@@ -207,6 +214,19 @@ var validateAttachments = function(attachments) {
     
 };
 
+
+/**
+* Logging function for delopment and testing mode
+*
+*/
+var logEmail = function(options) {
+    console.info('-----------------------------------');
+    console.info('TESTING, TESTING, read all about it');
+    console.info('-----------------------------------');
+    console.info(options);
+    console.info('-----------------------------------');
+};
+
 /**
 * Function compiles template, and sends email to a single user
 *
@@ -231,8 +251,8 @@ var trySend = function(templateSlug, locals) {
                 console.error(err);
             }
             
-            // Send email using our default transport
-            transport.sendMail({
+            // Assemble our final options, we do this here so we can easily log or email them.
+            var finalOptions = {
                 
                 // basic information
                 from: buildAddress(localConfig.from),
@@ -250,13 +270,28 @@ var trySend = function(templateSlug, locals) {
                 text: text, 
                 html: html  
                 
-            }, function (err, responseStatus) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(responseStatus.message);
-                }
-            });
+            };
+            
+            /**
+            * PreventSend will be flagged true if we are in development || testing mode. 
+            * This prevents us from sending un wanted emails to random people. 
+            */
+            if(preventSend) {
+                
+                logEmail(finalOptions);
+                
+            } else {
+               // Send email using our default transport
+                transport.sendMail(finalOptions, function (err, responseStatus) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(responseStatus.message);
+                    }
+                }); 
+            }
+            
+            
         });            
 
     });

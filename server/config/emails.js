@@ -2,10 +2,15 @@
  * Module four all our email sending needs!
  *
  * This compiles templates with external style sheets and varaibles into email ready (inline styles)
- * emails. It then sends them using a transport method of our choice. 
+ * emails. It then sends them using a transport method of our choice.
+ *
+ * It utilizies the 'email-templates' module from NPM to render nice html emails.
+ *  
  * 
  * @note config settings are located in config.js and can be set per environment
  * @note our temlates are stored in app/templates/email-slug
+ *
+ * @todo support non-html emails, for simple stuff? 
  *
  */
 var path = require('path')
@@ -16,6 +21,63 @@ var path = require('path')
     , _ = require('underscore')
     , transport = null
     ;
+
+
+
+module.exports = {
+
+    /**
+    * Initialize function, needs to be called in our server.js file
+    * Creates a transport using environment config settings 
+    *
+    */
+    init: function (app, config) {
+
+        // save the config object within this module
+        localConfig = config;
+
+        // create our nodemailer transport object
+        // we only need to create this once, and we'll use it to send any emails for this request 
+        transport = nodemailer.createTransport(localConfig.type, localConfig.settings);
+
+    },    
+
+    /**
+    * Function to send an email using a specified template and set of variables
+    * This function should be called anywhere in the app that we need to send an email
+    *
+    * It does the following: 
+    * - Check for a valid slug, ie: there is a template folder that exists
+    * - Get the template defaults (subject, variables, etc.) which prevents errors in template rendering
+    * - Then render the template
+    * - validate attachments, if any, match the required format 
+    * - (@todo) Check environment, and only log if we are in development or testing
+    * - Send email
+    *
+    * @note that currently this function doesn't accept callbacks, so the controller won't know if it was
+    *       completed successfully. This also means we don't need to wait for the email to send to move on.
+    *
+    */
+    send: function(slug, locals) {
+        
+        // Get config path
+        var configPath = path.join(localConfig.templatesDir, slug, 'config.js');
+        
+        // Get defaults from config path
+        var defaults = require(configPath).defaults;
+        if(!defaults) throw Error('The config.js file for this email is missing or invalid.');
+
+        // extend local options with template defaults
+        // this ensure all variables are set, and prevents template rendering error or 
+        // strange emails with broken syntax.
+        locals = _.extend(defaults, locals);
+        
+        // attempt to send the email
+        trySend(slug, locals);
+        
+    }
+    
+};
 
 
 /**
@@ -40,9 +102,11 @@ var path = require('path')
 * @example buildAddress({fullName : 'Matt Miller'}) 
 *    // throw error, email is missing!
 *
-* @example buildAddress({fullname : 'Matt Miller', email: 'matt@gmail.com'}) 
+* @example buildAddress({fullName : 'Matt Miller', email: 'matt@gmail.com'}) 
 *    // return "Matt Miller <matt@gmail.com>" 
 *
+*
+* @todo convert our variable to lowercase, since thats much easier to remember
 *
 */
 var buildAddress = function(objOrString) {
@@ -68,9 +132,78 @@ var buildAddress = function(objOrString) {
         formattedAddress = objOrString.fullName + " <" + formattedAddress + ">";
     }
     
-    console.log(formattedAddress);
-    
     return formattedAddress;
+    
+};
+
+
+/**
+* Function to check if an object matches an object format. 
+* Returns false or the obj if match. 
+*
+*/
+var matchFormat = function(format, obj) {
+    
+    var match = true;
+    var formatted = {};
+    
+    _.each(format, function(value, key) {
+        if(!obj[key]) {
+            match = false;
+            //console.warn(key + ' doesn\'t exist in obj');
+            return;
+        } else {
+            //console.log(key + ' = ' + value);
+            formatted[key] = obj[key];
+        }
+    });
+    
+    if(!match) {
+        
+        console.warn('Pattern didn\'t match format. Please try again with:');
+        console.warn(format);
+        
+        fs.exists(obj, function(exists) {
+            if(exists) {
+                console.log('Although not in the proper format, this is a real file. We can try to fudge it. We won\'t be doing it now though.');
+            } else {
+                console.log('No hope :(');
+                return;
+            }
+        });
+        
+    } else {
+        return formatted;
+    }
+    
+};
+
+
+/**
+* Validates format for attachments. Currenly only validates File Stream
+* @todo support Binary Buffer and String if needed
+* 
+* If you only send an array of filePaths, we'll be nice enought to generate the proper 
+* structure for you :)
+*
+*/ 
+var validateAttachments = function(attachments) {
+    
+    if(typeof attachments !== 'object' && typeof attachments !== 'array') {
+        throw Error('Attachment should be an array (For multiple) or an object');
+    }
+    
+    var format = {
+        fileName: null,     // file name
+        filePath: null,     // path to file
+        cid: null           // should be as unique as possible
+    };
+    
+    _.each(attachments, function(attachment) {
+        attachment = matchFormat(format, attachment);
+    });
+    
+    return attachments;
     
 };
 
@@ -102,15 +235,15 @@ var trySend = function(templateSlug, locals) {
             transport.sendMail({
                 
                 // basic information
-                from: buildAddress(localConfig.sender),
-                to: buildAddress(locals.email),
+                from: buildAddress(localConfig.from),
+                to: buildAddress(locals.to),
                 subject: locals.subject,
                 
                 // options that creates text automatically? We set it specifically in our template
                 // generateTextFromHTML: true,
                 
                 // will not always be present
-                attachments: locals.attachments ? locals.attachments : null,
+                attachments: locals.attachments ? validateAttachments(locals.attachments) : null,
                 headers: locals.headers ? locals.headers : null, 
                 
                 // text and html are returned from our template builder
@@ -129,59 +262,3 @@ var trySend = function(templateSlug, locals) {
     });
     
 };
-
-module.exports = {
-
-    /**
-    * Initialize function, needs to be called in our server.js file
-    * Creates a transport using environment config settings 
-    *
-    */
-    init: function (app, config) {
-
-        // save the config object within this module
-        localConfig = config;
-
-        // create our nodemailer transport object
-        // we only need to create this once, and we'll use it to send any emails for this request 
-        transport = nodemailer.createTransport(localConfig.type, localConfig.settings);
-
-    },    
-
-    /**
-    * Function to send an email using a specified template and set of variables
-    * This function should be called anywhere in the app that we need to send an email
-    *
-    * It does the following: 
-    * - Check for a valid slug, ie: there is a template folder that exists
-    * - Get the template defaults (subject, variables, etc.) which prevents errors in template rendering
-    * - Then render the template 
-    * - Check environment, and only log if we are in development or testing
-    * - Send email
-    *
-    */
-    send: function(slug, locals) {
-        
-        // Get config path
-        var configPath = path.join(localConfig.templatesDir, slug, 'config.js');
-        
-        // Get defaults from config path
-        var defaults = require(configPath).defaults;
-        if(!defaults) throw Error('The config.js file for this email is missing or invalid.');
-
-        // extend local options with template defaults
-        // this ensure all variables are set, and prevents template rendering error or 
-        // strange emails with broken syntax.
-        locals = _.extend(defaults, locals);
-        
-        // attempt to send the email
-        trySend(slug, locals);
-        
-    }
-    
-};
-
-
-
-
-

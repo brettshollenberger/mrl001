@@ -1,12 +1,6 @@
 module.exports = {
     defaults: {
     
-        // sender info
-        email: 'matt@facultycreative.com',
-    
-        // Comma separated list of recipients
-        to: '"Receiver Name" <matt@facultycreative.com>',
-    
         // Subject of the message
         subject: 'Nodemailer is unicode friendly ✔', //
     

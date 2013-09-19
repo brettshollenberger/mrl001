@@ -16,7 +16,7 @@ module.exports = {
                 }
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
-            sender: {
+            from: {
                 fullName: 'Marlin Admin',
                 email: 'matt@facultycreative.com'
             }

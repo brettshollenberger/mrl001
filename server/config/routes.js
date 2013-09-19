@@ -64,11 +64,16 @@ module.exports = function(app, passport, auth, user, config, acl, acl2, emailer)
     app.get('/api/v1/emails/test', function(req, res, next) {
         
         var locals = {
-            subject: 'Email with no attachments?',
+            to: "rob@facultycreative.com, matt@facultycreative.com, brett@facultycreative.com, gavin@facultycreative.com, bueno@facultycreative.com",
+            subject: 'Email to matt and rob with a PDF attachment',
             variables: {
-                pasta: 'NODEJS '
+                pasta: 'NODEJS'
             },
-            attachments: null
+            attachments: [{
+                fileName: '52372434892244487b000005_1379347821983.pdf',
+                filePath: '/Volumes/Macintosh HD/Users/facultymatt/Sites/mrl/mrl001/tmp/52372434892244487b000005_1379347821983.pdf',     // path to file
+                cid: '52372434892244487b000005_1379347821983@marlinquoter'           // should be as unique as possible
+            }]            
         };
         
         emailer.send('pasta-dinner', locals);

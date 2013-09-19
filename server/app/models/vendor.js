@@ -140,6 +140,9 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "tags" : {
+        type: Array
     }
 });
 
@@ -226,8 +229,5 @@ VendorSchema.statics = {
     }
 
 };
-
-
-
 
 mongoose.model('Vendor', VendorSchema);

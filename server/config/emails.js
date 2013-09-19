@@ -67,6 +67,8 @@ module.exports = {
     */
     send: function(slug, locals) {
         
+        if(!slug || !locals) throw Error('Slug and locals are required');
+        
         // Get config path
         var configPath = path.join(localConfig.templatesDir, slug, 'config.js');
         

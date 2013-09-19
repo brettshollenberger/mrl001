@@ -33,7 +33,7 @@ module.exports = {
     * Creates a transport using environment config settings 
     *
     */
-    init: function (app, config) {
+    init: function (config) {
 
         // save the config object within this module
         localConfig = config;

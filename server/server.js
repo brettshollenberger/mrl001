@@ -24,8 +24,7 @@ var db = mongoose.connect(config.db);
 
 // initialize and configure the emailer
 var emailer = require('./config/emails');
-emailer.init(app, config.email);
-
+emailer.init(config.email);
 
 
 // accesss control!

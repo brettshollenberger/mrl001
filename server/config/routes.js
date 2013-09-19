@@ -2,7 +2,7 @@ var async = require('async');
 var util = require('util');
 
 
-module.exports = function(app, passport, auth, config, acl, emailer) {
+module.exports = function(app, passport, auth, config, acl) {
 
     var vendors = require('../app/controllers/vendors');
 
@@ -21,7 +21,7 @@ module.exports = function(app, passport, auth, config, acl, emailer) {
             }]            
         };
         
-        emailer.send('pasta-dinner', locals);
+        app.emailer.send('pasta-dinner', locals);
         
         res.ok('Emails were sent, yo.');
         

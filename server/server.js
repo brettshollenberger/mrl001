@@ -44,14 +44,25 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
+// @todo verify this practice is OK and best. This gives us easy access to emailer without having to 
+//       inject it into every controller and router
+// @note this is shared accross the app, see caution notes below.
+app.emailer = emailer;
+
+// easy access to config variables. Locals are shared across the app. 
+// @note since this is stored within the app, every req has access to it. 
+//       so, we'd want to avoid setting something like: app.locals.userName = 'Matt'
+//       But, saving app.locals.siteName = 'Site' is OK>
+app.locals.config = config;
+
 //Define user roles
 require('./config/acl_roles')(app, config, passport, acl);
 
 //express settings
-require('./config/express')(app, config, passport, standardReponse);
+require('./config/express')(app, config, passport, standardReponse, emailer);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, config, acl, emailer);
+require('./config/routes')(app, passport, auth, config, acl);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

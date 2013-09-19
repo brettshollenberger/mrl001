@@ -11,7 +11,9 @@
 var path = require('path')
     , templatesDir, emailTemplates = require('email-templates')
     , nodemailer = require('nodemailer')
+    , fs = require('fs')
     , localConfig = {}
+    , _ = require('underscore')
     , transport = null
     ;
 
@@ -148,16 +150,49 @@ module.exports = {
         */
         var locals = {
             email: 'matt@facultycreative.com',
-            name: {
-                first: 'Mamma',
-                last: 'Mia'
-            },
+            fullName: 'Matt Miller',
             subject: 'This is a special subject!',
             pasta: 'special sauce'
         };
         
-        trySend('pasta-dinner', locals);
+        trySend(templateSlug, locals);
 
+    },
+    
+    /**
+    * Function to send an email using a specified template and set of variables
+    * This function should be called anywhere in the app that we need to send an email
+    *
+    * It does the following: 
+    * - Check for a valid slug, ie: there is a template folder that exists
+    * - Get the template defaults (subject, variables, etc.) which prevents errors in template rendering
+    * - Then render the template 
+    * - Check environment, and only log if we are in development or testing
+    * - Send email
+    *
+    */
+    send: function(slug, locals) {
+        
+        // Get config path
+        var configPath = path.join(localConfig.templatesDir, slug, 'config.js');
+        
+        // Get defaults from config path
+        var defaults = require(configPath).defaults;
+        if(!defaults) throw Error('The config.js file for this email is missing or invalid.');
+
+        // extend local options with template defaults
+        // this ensure all variables are set, and prevents template rendering error or 
+        // strange emails with broken syntax.
+        defaults = _.extend(defaults, locals);
+        
+        // attempt to send the email
+        trySend(slug, defaults);
+        
     }
     
 };
+
+
+
+
+

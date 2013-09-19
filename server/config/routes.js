@@ -63,7 +63,12 @@ module.exports = function(app, passport, auth, user, config, acl, acl2, emailer)
 
     app.get('/api/v1/emails/test', function(req, res, next) {
         
-        emailer.test();
+        var locals = {
+            pasta: 'NODEJS ',
+            subject: 'Custom Subject!'
+        };
+        
+        emailer.send('pasta-dinner', locals);
         
         res.ok('Emails were sent, yo.');
         

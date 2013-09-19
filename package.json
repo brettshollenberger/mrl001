@@ -65,6 +65,7 @@
     "connect-roles" : "latest",
     "lodash" : "latest",
     "mongoose-troop": "latest",
+    "nodemailer" : "latest",
     "passport-http" : "latest",
     "virgen-acl": "latest",
     "acl" : "latest"

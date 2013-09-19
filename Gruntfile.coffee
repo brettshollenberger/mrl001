@@ -48,7 +48,8 @@ module.exports = (grunt)->
     # beautify
     jsbeautifier:
       working:
-        src:        [ '<%= CLIENT_DIR + JS_FILES %>' ]
+        src:        [ '<%= CLIENT_DIR + JS_FILES %>'
+                      '<%= SERVER_DIR + JS_FILES %>' ]
     
     # Wipe the `build` directory
     clean:

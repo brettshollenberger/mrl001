@@ -62,13 +62,11 @@
     "async": "latest",
     "view-helpers": "latest",
     "mean-logger": "latest",
-    "connect-roles" : "latest",
     "lodash" : "latest",
     "mongoose-troop": "latest",
     "nodemailer" : "latest",
     "passport-http" : "latest",
-    "virgen-acl": "latest",
-    "acl" : "latest"
+    "virgen-acl": "latest"
   },
   "devDependencies": {
     "supertest": "latest",

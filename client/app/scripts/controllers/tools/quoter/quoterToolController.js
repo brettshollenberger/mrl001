@@ -16,76 +16,79 @@ angular
             $scope.quote = {};
             $scope.vendor = {};
             $scope.vendors = [];
-            
+
             // define variables
             $scope.didQuote = false;
             $scope.buttonText = 'Get Quote';
             $scope.canEdit = true;
-            
+
             // define local store for quote
             var quote = {};
-            
+
             // Get quoter version
             // @todo this should be replaced with "version directive"
             $scope.version = $rootScope.version;
-            
+
             // get route params
             var quoteId = $routeParams.id;
             var vendorId = $routeParams.vendor_id;
 
             // if we don't already have a quote, we need to figure out the vendor
             // lets do some logic to figure this out 
-            if(!quoteId && vendorId) {
-            
+            if (!quoteId && vendorId) {
+
                 // we have a vendor, so hide the dropdown
                 // if its not valid, we'll handle that later
                 $scope.haveVendor = true;
-                
+
                 // get the vendor from API
                 getInitialVendor(vendorId);
-            
-            } else if(!quoteId) {
-                
+
+            } else if (!quoteId) {
+
                 // gets all the vendors so our user can select one!
                 getAllVendors();
-                
+
             }
-            
+
 
             // get a single vendor at set as global vendor
+
             function getInitialVendor(getId) {
                 Vendor.getById(getId).then(function(response) {
-                   
+
                     $scope.vendor = response;
-                    
+
                     // not a valid vendor, redirect
                     if (!$scope.vendor) redirectAndClear();
-                    
+
                 }, function() {
-                    
+
                     // API returned failure, redirect
                     redirectAndClear();
                 });
             }
-            
-            
+
+
             // redirect and clear the params using .search() method
+
             function redirectAndClear() {
                 $location.url('tools/quoter');
                 $location.search('vendor_id', null);
             }
-            
-            
+
+
             // get all the vendors from API
             // @todo this sould only get vendors with quoter enabled
+
             function getAllVendors() {
                 // get the vendors
                 Vendor.getAll().then(function(response) {
                     $scope.vendors = response;
                 });
             }
-            
-            
+
+
             // utility function to go back to the quote list
             // @todo this function is used in many places, find a way to streamline it
             $scope.cancel = function() {
@@ -106,7 +109,7 @@ angular
                         $scope.vendor = response;
                         filterQuotesByTotalCost();
                     });
-                    
+
                 }, function(error) {
                     $location.path('/tools/quoter');
                 });
@@ -122,8 +125,7 @@ angular
                 // get programs from VendorID    
 
             } else {
-                $scope.quote.status = 'Open';
-                
+
                 //List states in dropdown menu
                 // get states list and set default
                 $scope.quote.company = {};
@@ -178,9 +180,9 @@ angular
 
                 // save the custom Field with the quote 
                 if ($scope.vendor && $scope.vendor.customField.enabled) {
-                    
+
                     $scope.quote.customField = {};
-                    
+
                     $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
                 }
 
@@ -216,7 +218,6 @@ angular
 
                 // build the application for us to save
                 var application = {
-                    status: 'Open',
                     quoteId: $scope.quote._id,
                     vendorId: $scope.vendor._id,
                     quote: {
@@ -269,7 +270,7 @@ angular
                 Quote.generatePDF(quoteId).then(function(response) {
                     $scope.downloading = false;
                     $scope.downloadMessage = "Download Complete";
-                    
+
                     if (response.status === 'OK') {
                         SaveToDisk(response.file, 'Quote');
                     } else {

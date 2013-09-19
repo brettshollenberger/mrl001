@@ -8,10 +8,13 @@ var mongoose = require('mongoose'),
 
 
 /**
- * Sub-Schemas 
+ * Sub-Schemas
  */
 var noteSchema = new Schema({
-    "created": { type: Date, "default": Date.now },
+    "created": {
+        type: Date,
+        "default": Date.now
+    },
     note: String
 });
 
@@ -20,9 +23,20 @@ var noteSchema = new Schema({
  * Application Schema
  */
 var ApplicationSchema = new Schema({
-    "created": { type: Date, "default": Date.now },
-    name: { type: String, "default": '', trim: true },
-    status: { type: String, "default": 'new', trim: true },
+    "created": {
+        type: Date,
+        "default": Date.now
+    },
+    name: {
+        type: String,
+        "default": '',
+        trim: true
+    },
+    status: {
+        type: String,
+        "default": 'new',
+        trim: true
+    },
     quoteId: {
         type: Schema.ObjectId,
         ref: 'Quote'
@@ -31,45 +45,122 @@ var ApplicationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Vendor'
     },
-    "salesRep" : {
+    "salesRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
-    "vendorRep" : {
+    "vendorRep": {
         type: Schema.ObjectId,
         ref: 'User'
     },
     vendor: {},
     quote: {},
     leasee: {
-        fullLegalBusinessName: {type: String, "default": '', trim: true},
+        fullLegalBusinessName: {
+            type: String,
+            "default": '',
+            trim: true
+        },
         contactPerson: {
-            name: {type: String, "default": '', trim: true},
-            email: {type: String, "default": '', trim: true},
-            phone: {type: String, "default": '', trim: true},
-            contactMethod:{type: String, "default": '', trim: true}
+            name: {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            email: {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            phone: {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            contactMethod: {
+                type: String,
+                "default": '',
+                trim: true
+            }
         },
         businessAddress: {
-          "address1": {type: String, "default": '', trim: true},
-          "address2": {type: String, "default": '', trim: true},
-          "city": {type: String, "default": '', trim: true},
-          "state": {type: String, "default": '', trim: true},
-          "zip": {type: Number}
+            "address1": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "address2": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "city": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "state": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "zip": {
+                type: Number
+            }
         },
-        yearsInBusiness: {type: Number},
-        soleProp: {type: Boolean, "default": false}
+        yearsInBusiness: {
+            type: Number
+        },
+        soleProp: {
+            type: Boolean,
+            "default": false
+        }
     },
     guarantorInfo: {
-        name: {type: String, "default": '', trim: true},
-        email: {type: String, "default": '', trim: true},
-        phone: {type: String, "default": '', trim: true},
-        socialSecurityNumber: {type: String, "default": '', trim: true},
+        name: {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        email: {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        phone: {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        socialSecurityNumber: {
+            type: String,
+            "default": '',
+            trim: true
+        },
         homeAddress: {
-          "address1": {type: String, "default": '', trim: true},
-          "address2": {type: String, "default": '', trim: true},
-          "city": {type: String, "default": '', trim: true},
-          "state": {type: String, "default": '', trim: true},
-          "zip": {type: Number}
+            "address1": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "address2": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "city": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "state": {
+                type: String,
+                "default": '',
+                trim: true
+            },
+            "zip": {
+                type: Number
+            }
         }
     },
     notes: [noteSchema]
@@ -86,16 +177,16 @@ ApplicationSchema.statics = {
     }
 };
 
-ApplicationSchema.pre('save', function(next, something) {  
-    
+ApplicationSchema.pre('save', function(next, something) {
+
     var self = this;
-    
+
     // attempt to get the sales rep, which we save with the quote
     // for easy geting from the database 
     mongoose.models.Vendor.getCurrentReps(self.vendorId, function(err, result) {
-        if(err) { 
+        if (err) {
             next();
-        } else { 
+        } else {
             self.salesRep = result.salesRep;
             self.vendorRep = result.vendorRep;
             self.vendorId = self.vendorId;
@@ -106,7 +197,3 @@ ApplicationSchema.pre('save', function(next, something) {
 
 
 mongoose.model('Application', ApplicationSchema);
-
-
-
-

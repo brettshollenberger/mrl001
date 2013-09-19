@@ -16,9 +16,8 @@ var express = require('express'),
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
     auth = require('./config/middlewares/authorization'),
+    standardReponse = require('./config/middlewares/response'),
     mongoose = require('mongoose');
-    
-var user = require('connect-roles');
 
 //Bootstrap db connection
 var db = mongoose.connect(config.db);
@@ -27,15 +26,13 @@ var db = mongoose.connect(config.db);
 var emailer = require('./config/emails');
 emailer.init(app, config.email);
 
-    
+
 
 // accesss control!
 // Load library
-var Acl = require("virgen-acl").Acl
-  , acl = new Acl();
- 
-var acl2 = require('acl');  
-acl2 = new acl2(new acl2.memoryBackend());
+var Acl = require("virgen-acl").Acl,
+    acl = new Acl();
+
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -48,17 +45,14 @@ require('./config/passport')(passport, config);
 
 var app = express();
 
-//express settings
-//require('./config/roles')(app, config, passport, user);
+//Define user roles
+require('./config/acl_roles')(app, config, passport, acl);
 
 //express settings
-require('./config/acl_roles')(app, config, passport, user, acl, acl2);
-
-//express settings
-require('./config/express')(app, config, passport, user);
+require('./config/express')(app, config, passport, standardReponse);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, user, config, acl, acl2, emailer);
+require('./config/routes')(app, passport, auth, config, acl, emailer);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;

@@ -2,7 +2,7 @@ module.exports = {
     defaults: {
     
         // Subject of the message
-        subject: 'Thankf for generating a quote',
+        subject: 'A quote was generated',
     
         // variables 
         variables: {

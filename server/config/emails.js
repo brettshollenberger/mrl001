@@ -1,16 +1,41 @@
 /**
  * Module four all our email sending needs!
  *
- * This compiles templates with external style sheets and varaibles into email ready (inline styles)
+ * ----------
+ *
+ * IMPORTANT USAGE NOTES
+ *
+ * @note MAILCATCHER
+ *       you should have http://mailcatcher.me/ installed and running for development
+ *       this will use mailcatcher to send emails, which you can view at http://127.0.0.1:1080/
+ *       Emails will also be logged in the console
+ *
+ * @note TEST environment
+ *       Email addresses are overridden and sent to emails define in `config.email.testEmails`
+ *       Email is sent using Mandrill to simulate production as closely as possible 
+ *
+ * @note SET TEST ENV
+ *       To set test env for your app (or any other env or process variable), run `export NODE_ENV=test`
+ *       in terminal then run `grunt server` to start your app.
+ *
+ * ----------
+ *
+ * This module compiles templates with external style sheets and varaibles into email ready (inline styles)
  * emails. It then sends them using a transport method of our choice.
  *
  * It utilizies the 'email-templates' module from NPM to render nice html emails.
- *  
  * 
  * @note config settings are located in config.js and can be set per environment
  * @note our temlates are stored in app/templates/email-slug
  *
  * @todo support non-html emails, for simple stuff? 
+ * 
+ * @todo this module supports sending an email to multiple people, with the following limitations:
+ * - Variables must be the same for all users
+ * - to: should be comma separated list of addresses
+ * - The template library does support variables on a per email basis, 
+ *   but that specific example was not integrated.( However we could get around this by 
+ *   just calling req.app.emailer.send('slug', locals) within a foreEach loop.)
  *
  */
 var path = require('path')

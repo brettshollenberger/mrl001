@@ -68,7 +68,6 @@ var emailQuoter = function(req, quote) {
         }            
     };
     
-    // @note we could just as well store this in req.emailer instead of req.app.locals.emailer
     req.app.emailer.send('new-quote-requester', locals);            
     
 };
@@ -76,7 +75,11 @@ var emailQuoter = function(req, quote) {
 
 /**
 * Email salesRep that a quote is 
+* 
+* @todo For the email to sales rep, we should get the vendor so we can access the name. 
+*       Do this with async since we need to get vendor, and user, before we send anything.
 *
+* @todo Send the entire quote in the email
 *
 */
 var emailSalesRep = function(req, quote) {
@@ -112,7 +115,6 @@ var emailSalesRep = function(req, quote) {
             }            
         };
         
-        // @note we could just as well store this in req.emailer instead of req.app.locals.emailer
         req.app.emailer.send('new-quote-salesRep', locals); 
     });
        

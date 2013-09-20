@@ -1,0 +1,60 @@
+// ---------------------------------------------------------
+//
+// PRINT style for quotes
+//
+// ---------------------------------------------------------
+
+.print {
+
+    background: @white;
+    
+    .vendorSection a {
+        display: block;
+    }
+    
+    .vendor-address,
+    .application-address {
+        p {
+            margin: 0;
+        }
+        
+        a {
+            font-size: 12px;
+        }
+    }
+    
+    a, a:hover {
+        text-decoration: underline;
+    }
+    
+    a [class^="icon-"], a [class*=" icon-"] {
+        text-decoration: none;
+    }
+    
+    .area-fine-print p {
+        font-size: 12px; 
+        margin-bottom: 2px;
+    }
+    
+    a[href]:after {
+        content: none;
+    }
+    
+    abbr[title]:after {
+        content: none;
+    }
+    
+    // Don't show links for images, or javascript/internal links
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: none;
+    }
+        
+    @media print {
+       thead tr {
+           background: @grayLighter !important; 
+        } 
+    }
+    
+}

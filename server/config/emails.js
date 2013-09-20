@@ -46,9 +46,10 @@ var path = require('path')
     , _ = require('underscore')
     , transport = null
     , preventSend = false
+    , logEmails
+    , overrideEmails = false
     , env = process.env.NODE_ENV || 'development'
     ;
-
 
 
 module.exports = {
@@ -66,14 +67,22 @@ module.exports = {
 
         // save the config object within this module
         localConfig = config;
-
+        
         // create our nodemailer transport object
         // we only need to create this once, and we'll use it to send any emails for this request 
         transport = nodemailer.createTransport(localConfig.type, localConfig.settings);
         
         // don't send real emails in development or testing
         if(env !== 'production') {
-            preventSend = true;
+            logEmails = true;
+        }
+        
+        if(env === 'test') {
+            overrideEmails = true;
+            if(!localConfig.testingEmails || typeof localConfig.testingEmails !== 'string') {
+                throw Error("Please define testing emails as comma seperated string in config.js");
+            }
+            console.info('We are in testing, overriding emails with our testing addresses: ' + localConfig.testingEmails);
         }
         
         // makes app.emailer accessiable throughout app
@@ -253,17 +262,22 @@ var validateAttachments = function(attachments) {
 * Logging function for delopment and testing mode
 *
 */
-var logEmail = function(options) {
-    console.info('-----------------------------------');
-    console.info('TESTING, TESTING, read all about it');
-    console.info('-----------------------------------');
+var writeLog = function(options) {
+
+    var toAddress = localConfig.settings.host || '';
+    toAddress += ':' + localConfig.settings.port || '';
+    
+    console.info('---------------------------------------------------------');
+    console.info('App is running in ' + env + ' environment');
+    console.info('Emails are being sent using ' + toAddress);
+    console.info('---------------------------------------------------------');
     console.info(options);
-    console.info('-----------------------------------');
+    console.info('---------------------------------------------------------');
 };
+
 
 /**
 * Function compiles template, and sends email to a single user
-*
 *
 */ 
 var trySend = function(templateSlug, locals) {
@@ -307,15 +321,29 @@ var trySend = function(templateSlug, locals) {
             };
             
             /**
-            * PreventSend will be flagged true if we are in development || testing mode. 
+            * overrideEmails will be flagged true if we are in `test` mode. 
             * This prevents us from sending un wanted emails to random people. 
             */
-            if(preventSend) {
-                
-                logEmail(finalOptions);
-                
-            } else {
-               // Send email using our default transport
+            if(overrideEmails) {
+                finalOptions.to = localConfig.testingEmails;
+            }
+            
+            /**
+            * logEmail is flagged true in development mode
+            * 
+            */
+            if(logEmails) {
+                writeLog(finalOptions);
+            }
+            
+            /**
+            * PreventSend is currently never flagged, since we started using mailcatcher. 
+            * leaving it here just in case we want it. Set in config. 
+            *  
+            */
+            if(!preventSend) {
+            
+                // Send email using our default transport
                 transport.sendMail(finalOptions, function (err, responseStatus) {
                     if (err) {
                         console.log(err);
@@ -324,7 +352,6 @@ var trySend = function(templateSlug, locals) {
                     }
                 }); 
             }
-            
             
         });            
 

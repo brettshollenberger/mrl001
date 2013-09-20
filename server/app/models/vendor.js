@@ -4,12 +4,8 @@
 var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
-    Schema = mongoose.Schema;
-
-
-var _ = require('lodash');
-
-
+    Schema = mongoose.Schema,
+    _ = require('lodash');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
@@ -140,15 +136,14 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
-    },
-    "tags" : {
-        type: Array
     }
 });
 
 var troop = require('mongoose-troop');
 VendorSchema.plugin(troop.merge);
 
+var taggable = require('mongoose-taggable');
+VendorSchema.plugin(taggable, {'path':'tags'});
 
 /**
  * Statics
@@ -192,16 +187,23 @@ function convertToSlug(Text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-
 VendorSchema.pre('save', function(next) {
+    
+    var vendor = this;
+    
+    _.each(vendor.vendorTags, function(item) {     
+        vendor.addTag(item.text, function(err, addedTag) {
+            //console.log(err);
+            //console.log(addedTag);
+        });
+    });
 
-    _.each(this.tools, function(item) {
+    _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
 
     next();
 });
-
 
 VendorSchema.statics = {
 
@@ -220,14 +222,12 @@ VendorSchema.statics = {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
-
     },
     load: function(id, cb) {
         this.findOne({
             _id: id
         }).populate('programs salesRep vendorRep').exec(cb);
     }
-
 };
 
 mongoose.model('Vendor', VendorSchema);

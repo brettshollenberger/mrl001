@@ -57,9 +57,9 @@ angular
             
             // options for vendor tags
             //$scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
-            $scope.vendor.tags = [];
+            $scope.vendor.vendorTags = [];
             $scope.vendorTagsOptions = {
-                'tags': ['tag1', 'tag2', 'tag3', 'tag4'],
+                'tags': [], // populate this with tag suggestions
                 'width': 'element'
             };
             
@@ -146,7 +146,11 @@ angular
                         $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
 
                         //console.log($scope.tabs);
-
+                    });
+                    
+                    $scope.vendor.vendorTags = [];
+                    _.each($scope.vendor.tags, function(tag) {
+                        $scope.vendor.vendorTags.push({'id':tag, 'text':tag});
                     });
 
                     updatePrograms();
@@ -409,24 +413,23 @@ angular
              * Generate map, optionally create a marker for the vendor if they have geo data.
              *
              */
-
             function makeMap() {
 
-                console.log('Making map now! Geo data for vendor is:');
+                //console.log('Making map now! Geo data for vendor is:');
 
                 $scope.isMapMade = true;
 
                 // if vendor has geo set, lets make map center from this
                 if ($scope.vendor.geo) {
 
-                    console.log('VENDOR HAS EXISTING GEO DATA, centering the map now on their lcoation');
+                    //console.log('VENDOR HAS EXISTING GEO DATA, centering the map now on their lcoation');
 
                     $scope.map.center = {
                         latitude: $scope.vendor.geo.latitude,
                         longitude: $scope.vendor.geo.longitude
                     };
 
-                    console.log($scope.map.center);
+                    //console.log($scope.map.center);
 
                     makeMarkerFromVendor();
                 }
@@ -542,8 +545,8 @@ angular
 
                 $scope.vendorMarker = [newMarker];
 
-                console.log('VENDOR MARKER is...');
-                console.log($scope.vendorMarker);
+                //console.log('VENDOR MARKER is...');
+                //console.log($scope.vendorMarker);
 
                 // doesnt seem to be needed
                 // was an attempt to get the map to re render

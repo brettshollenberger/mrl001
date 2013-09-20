@@ -7,6 +7,7 @@
 .print {
 
     background: @white;
+    padding-top: 40px;
     
     .vendorSection a {
         display: block;
@@ -36,25 +37,28 @@
         margin-bottom: 2px;
     }
     
-    a[href]:after {
-        content: none;
-    }
-    
-    abbr[title]:after {
-        content: none;
-    }
-    
-    // Don't show links for images, or javascript/internal links
-    .ir a:after,
-    a[href^="javascript:"]:after,
-    a[href^="#"]:after {
-        content: none;
-    }
-        
+    // over ride the print style sheets from bootstrap/reset.css
+    // these styles are 
     @media print {
-       thead tr {
+    
+        a[href]:after {
+            content: none;
+        }
+        
+        abbr[title]:after {
+            content: none;
+        }
+        
+        .ir a:after,
+        a[href^="javascript:"]:after,
+        a[href^="#"]:after {
+            content: none;
+        }
+   
+        thead tr {
            background: @grayLighter !important; 
-        } 
+        }
+         
     }
     
 }

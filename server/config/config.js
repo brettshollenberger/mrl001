@@ -17,7 +17,8 @@ module.exports = {
             from: {
                 fullName: 'Marlin Admin',
                 email: 'matt@facultycreative.com'
-            }
+            },
+            testingEmails: 'matt@facultycreative.com, matt@facultycreative.com'
         },
         app: {
             name: 'MEAN - A Modern Stack - Development'

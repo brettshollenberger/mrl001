@@ -150,6 +150,7 @@ angular
                     
                     $scope.vendor.vendorTags = [];
                     _.each($scope.vendor.tags, function(tag) {
+                        tag = tag.toLowerCase();
                         $scope.vendor.vendorTags.push({'id':tag, 'text':tag});
                     });
 

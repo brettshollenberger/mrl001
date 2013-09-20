@@ -105,7 +105,7 @@ var emailSalesRep = function(req, quote) {
                 fullName: salesRep.fullname
             },
             variables: {
-                link: quote.quoterToolLink, // a virtual property of quote model
+                link: quote.dashboardLink, // a virtual property of quote model
                 vendorName: quote.company.contactPerson.name,
                 dateTime: quote.created,
                 salesRepName: salesRep.fullname

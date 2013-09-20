@@ -33,7 +33,11 @@ module.exports = {
     * Creates a transport using environment config settings 
     *
     */
-    init: function (config) {
+    init: function (app, config) {
+
+        if(!app || !config) {
+            throw new Error("Failed to initalize emailer");
+        }
 
         // save the config object within this module
         localConfig = config;
@@ -46,6 +50,9 @@ module.exports = {
         if(env !== 'production') {
             preventSend = true;
         }
+        
+        // makes app.emailer accessiable throughout app
+        app.emailer = this;
 
     },    
 

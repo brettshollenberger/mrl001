@@ -24,8 +24,6 @@ var db = mongoose.connect(config.db);
 
 // initialize and configure the emailer
 var emailer = require('./config/emails');
-emailer.init(config.email);
-
 
 // accesss control!
 // Load library
@@ -74,6 +72,10 @@ console.log('Express app started on port ' + port);
 
 //Initializing logger 
 logger.init(app, passport, mongoose);
+
+// Initialize emailer
+// @note emailer will be accessiable using app.emailer
+emailer.init(app, config.email);
 
 //expose app
 exports = module.exports = app;

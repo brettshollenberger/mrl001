@@ -6,27 +6,6 @@ module.exports = function(app, passport, auth, config, acl) {
 
     var vendors = require('../app/controllers/vendors');
 
-    app.get('/api/v1/emails/test', function(req, res, next) {
-        
-        var locals = {
-            to: "rob@facultycreative.com, matt@facultycreative.com, brett@facultycreative.com, gavin@facultycreative.com, bueno@facultycreative.com",
-            subject: 'Email to matt and rob with a PDF attachment',
-            variables: {
-                pasta: 'NODEJS'
-            },
-            attachments: [{
-                fileName: '52372434892244487b000005_1379347821983.pdf',
-                filePath: '/Volumes/Macintosh HD/Users/facultymatt/Sites/mrl/mrl001/tmp/52372434892244487b000005_1379347821983.pdf',     // path to file
-                cid: '52372434892244487b000005_1379347821983@marlinquoter'           // should be as unique as possible
-            }]            
-        };
-        
-        app.emailer.send('pasta-dinner', locals);
-        
-        res.ok('Emails were sent, yo.');
-        
-    });
-
     /**
      * Middleware authentication using vergin-acl
      * -------------------------

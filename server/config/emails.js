@@ -46,7 +46,7 @@ var path = require('path')
     , _ = require('underscore')
     , transport = null
     , preventSend = false
-    , logEmails
+    , logEmails = false
     , overrideEmails = false
     , env = process.env.NODE_ENV || 'development'
     ;
@@ -73,7 +73,7 @@ module.exports = {
         transport = nodemailer.createTransport(localConfig.type, localConfig.settings);
         
         // don't send real emails in development or testing
-        if(env !== 'production') {
+        if(env === 'development') {
             logEmails = true;
         }
         

@@ -47,6 +47,24 @@ module.exports = {
     test: {
         db: 'mongodb://localhost/mean-test',
         root: rootPath,
+        siteUrl: 'http://127.0.0.1:3000',
+        email: {
+            // mailcatcher settings, must have mailcatcher installed and running
+            type : 'SMTP',
+            settings : {
+                service: 'Mandrill',
+                auth: {
+                    user: "matt@facultycreative.com",
+                    pass: "-FlPq-kjxI5ZEDee4M9dTQ"
+                }
+            },
+            templatesDir : path.join(rootPath, 'app/emails/'),
+            from: {
+                fullName: 'Marlin Admin',
+                email: 'matt@facultycreative.com'
+            },
+            testingEmails: 'matt@facultycreative.com, matt@facultycreative.com'
+        },
         app: {
             name: 'MEAN - A Modern Stack - Test'
         },
@@ -75,6 +93,22 @@ module.exports = {
         db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
         siteUrl: 'http://marlinquoter.herokuapp.com',
+        email: {
+            // mailcatcher settings, must have mailcatcher installed and running
+            type : 'SMTP',
+            settings : {
+                service: 'Mandrill',
+                auth: {
+                    user: "matt@facultycreative.com",
+                    pass: "-FlPq-kjxI5ZEDee4M9dTQ"
+                }
+            },
+            templatesDir : path.join(rootPath, 'app/emails/'),
+            from: {
+                fullName: 'Marlin Admin',
+                email: 'matt@facultycreative.com'
+            }
+        },
         app: {
             name: 'MEAN - A Modern Stack - Production'
         },

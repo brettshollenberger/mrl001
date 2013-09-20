@@ -8,13 +8,8 @@ var express = require('express'),
     helpers = require('view-helpers'),
     fs = require('fs');
 
-module.exports = function(app, config, passport, standardReponse, emailer) {
+module.exports = function(app, config, passport, standardReponse) {
     app.set('showStackError', true);
-    
-    app.use(function(req, res, next) {
-        req.emailer = emailer; 
-        next();
-    });
 
     //Should be placed before express.static
     app.use(express.compress({

@@ -30,7 +30,6 @@ var emailer = require('./config/emails');
 var Acl = require("virgen-acl").Acl,
     acl = new Acl();
 
-
 //Bootstrap models
 var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach(function(file) {
@@ -57,7 +56,7 @@ app.locals.config = config;
 require('./config/acl_roles')(app, config, passport, acl);
 
 //express settings
-require('./config/express')(app, config, passport, standardReponse, emailer);
+require('./config/express')(app, config, passport, standardReponse);
 
 //Bootstrap routes
 require('./config/routes')(app, passport, auth, config, acl);

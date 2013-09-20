@@ -63,6 +63,17 @@ var QuoteSchema = new Schema({
     }
 });
 
+
+// virtual fields are available anywhere on the server. 
+// They are not passes over the API unless explicitly set. 
+QuoteSchema.virtual('quoterToolLink').get(function() {
+    return config.siteUrl + '/tools/quoter/' + this._id;
+});
+
+QuoteSchema.virtual('dashboardLink').get(function() {
+    return config.siteUrl + '/dashboard/quotes/' + this._id;
+});
+
 /*
 // the below 4 validations only apply if you are signing up traditionally
 QuoteSchema.path('vendorId').validate(function(vendorId) {

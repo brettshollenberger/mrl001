@@ -64,6 +64,7 @@ exports.create = function(req, res) {
 
     application.save();
     res.ok(application);
+        
 };
 
 /**

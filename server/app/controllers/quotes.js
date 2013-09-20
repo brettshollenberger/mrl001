@@ -34,9 +34,90 @@ exports.create = function(req, res) {
             return res.failure(err);
         } else {
             res.ok(quote);
+            
+            emailQuoter(req, quote);
+            emailSalesRep(req, quote);
+            
         }
     });
 
+};
+
+
+/**
+* Send a new email to end user when they get a quote 
+*
+* @todo add file to this email
+*
+*/
+var emailQuoter = function(req, quote) {
+    
+    // check for valid email
+    // @todo this check is in the email.js module, but it throws an error. Should 
+    // we change that and eliminate the check here? 
+    if(!quote.company.contactPerson.email) return false;
+ 
+    var locals = {
+        to: {
+            email: quote.company.contactPerson.email,
+            fullName: quote.company.contactPerson.name
+        },
+        variables: {
+            link: quote.quoterToolLink, // a virtual property of quote model
+            fullName: quote.company.contactPerson.name
+        }            
+    };
+    
+    req.app.emailer.send('new-quote-requester', locals);            
+    
+};
+
+
+/**
+* Email salesRep that a quote is 
+* 
+* @todo For the email to sales rep, we should get the vendor so we can access the name. 
+*       Do this with async since we need to get vendor, and user, before we send anything.
+*
+* @todo Send the entire quote in the email
+*
+*/
+var emailSalesRep = function(req, quote) {
+   
+    if(!quote.salesRep) {
+        // @todo send a default email to system admin!
+        console.warn('A quote was generated for a vendor with no Marlin Sales Rep');
+        return;
+    }
+   
+    var User = mongoose.model('User');
+   
+    User.load(quote.salesRep, function(err, salesRep) {
+     
+        // abort if there is an error or salesRep has no email
+        // @todo this error checking should be more robust. Again, we should consider moving check into 
+        // the emails module, and even adding more 
+        if(err || !salesRep.email) return false;
+     
+        console.log('Sales rep is...');
+        console.log(salesRep);
+     
+        var locals = {
+            to: {
+                email: salesRep.email,
+                fullName: salesRep.fullname
+            },
+            variables: {
+                link: quote.dashboardLink, // a virtual property of quote model
+                vendorName: quote.company.contactPerson.name,
+                dateTime: quote.created,
+                salesRepName: salesRep.fullname
+            }            
+        };
+        
+        req.app.emailer.send('new-quote-salesRep', locals); 
+    });
+       
 };
 
 

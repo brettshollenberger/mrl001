@@ -297,8 +297,8 @@ var trySend = function(templateSlug, locals) {
                 // generateTextFromHTML: true,
                 
                 // will not always be present
-                attachments: locals.attachments ? validateAttachments(locals.attachments) : null,
-                headers: locals.headers ? locals.headers : null, 
+                attachments: locals.attachments ? validateAttachments(locals.attachments) : {},
+                headers: locals.headers ? locals.headers : {}, 
                 
                 // text and html are returned from our template builder
                 text: text, 

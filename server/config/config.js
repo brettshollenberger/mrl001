@@ -7,13 +7,11 @@ module.exports = {
         root: rootPath,
         siteUrl: 'http://127.0.0.1:3000',
         email: {
+            // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
             settings : {
-                service: 'Mandrill',
-                auth: {
-                    user: "matt@facultycreative.com",
-                    pass: "-FlPq-kjxI5ZEDee4M9dTQ"
-                }
+                host: "127.0.0.1", 
+                port: 1025
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
             from: {

@@ -2,7 +2,7 @@ module.exports = {
     defaults: {
     
         // Subject of the message
-        subject: 'Your (Vendor Company Name) Quote',
+        subject: 'Your Quote',
     
         // variables 
         variables: {

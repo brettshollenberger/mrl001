@@ -57,11 +57,14 @@ angular
             
             // options for vendor tags
             //$scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
+            
             $scope.vendor.vendorTags = [];
-            $scope.vendorTagsOptions = {
-                'tags': [], // populate this with tag suggestions
-                'width': 'element'
-            };
+            Vendor.getAllVendorTags().then(function(tags) {
+                $scope.vendorTagsOptions = {
+                    'tags': tags, // populate this with tag suggestions
+                    'width': 'element'
+                }; 
+            });
             
             // get all the reps
             User.getAll().then(function(response) {

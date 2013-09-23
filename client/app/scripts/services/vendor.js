@@ -202,8 +202,13 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             });
 
         };
-
-
+        
+        exports.getAllVendorTags = function() {        
+            return $http.get(url + 'vendors/tags').then(function(response) {
+                return response.data;
+            });
+        };
+        
         return exports;
 
     }

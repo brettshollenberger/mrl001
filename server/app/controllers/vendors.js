@@ -225,6 +225,17 @@ exports.getAllNames = function(req, res) {
         });
 };
 
+/**
+ * Get distinct vendor tags
+ *
+ */
+exports.getDistinctTags = function(req, res) {
+    Vendor.distinct('tags', {}, function (err, result) {
+        if (err) res.failure(err);
+        res.ok(result);
+    });
+};
+
 
 /**
  * Get programs for a vendor

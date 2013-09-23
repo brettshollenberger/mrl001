@@ -68,7 +68,7 @@ var emailQuoter = function(req, quote) {
         }            
     };
     
-    req.app.emailer.send('new-quote-requester', locals);            
+    req.app.emailer.send('quotes/new-endUser', locals);            
     
 };
 
@@ -115,7 +115,7 @@ var emailSalesRep = function(req, quote) {
             }            
         };
         
-        req.app.emailer.send('new-quote-salesRep', locals); 
+        req.app.emailer.send('quotes/new-salesRep', locals); 
     });
        
 };

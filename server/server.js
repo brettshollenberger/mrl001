@@ -4,7 +4,9 @@
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
+    emailer = require('mean-emailer'),
     logger = require('mean-logger');
+    
 
 /**
  * Main application entry file.
@@ -23,7 +25,7 @@ var env = process.env.NODE_ENV || 'development',
 var db = mongoose.connect(config.db);
 
 // initialize and configure the emailer
-var emailer = require('./config/emails');
+//var emailer = require('./config/emails');
 
 // accesss control!
 // Load library

@@ -110,7 +110,10 @@ module.exports = function(app, config, passport, standardReponse) {
         var csrfMiddleware = express.csrf({value: csrfValue});
         function csrfHandler(req, res, next) { 
             csrfMiddleware(req, res, next);
-            res.cookie('XSRF-TOKEN', req.csrfToken()); 
+            
+            if(req.csrfToken && typeof req.csrfToken === 'function') {
+                res.cookie('XSRF-TOKEN', req.csrfToken());   
+            }
         }
         
         app.all('/api*', csrfHandler, function(req, res, next) {

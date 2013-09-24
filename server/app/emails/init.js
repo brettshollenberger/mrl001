@@ -1,3 +1,12 @@
+/**
+* This file is where we define all the emails the system sends. 
+* - Each function can be accessed in our app controllers by calling `req.app.emailer.sendFuntionName(req, item)`
+* - The function should then handle all logic, formatting, setting variables, etc.
+* - Finally the function should call `req.app.emailer.send('path/to-email', locals);`
+*   where `path/to-email` is a path to a template folder and `locals` is an object 
+*   with to, from, subject and other variables as required by the template
+*
+*/
 var mongoose = require('mongoose'),
     Quote = mongoose.model('Quote'),
     Vendor = mongoose.model('Vendor'),

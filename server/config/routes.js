@@ -100,6 +100,14 @@ module.exports = function(app, passport, auth, config, acl) {
     app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
     app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
     app.del('/api/v1/quotes/:quoteId', isUserAllowed('delete', 'quotes'), quotes.destroy);
+    
+    
+    app.post('/public_api/v1/quotes', function(req, res, next) {
+        
+        console.info('PUBLIC QUOTE API accessed');
+        next();
+        
+    }, quotes.create );
 
     var webshot = require('../app/controllers/webshot')(app, config);
 

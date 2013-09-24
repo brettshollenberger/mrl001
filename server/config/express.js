@@ -1,3 +1,5 @@
+// @see https://npmjs.org/package/cors
+
 /**
  * Module dependencies.
  */
@@ -63,8 +65,9 @@ module.exports = function(app, config, passport, standardReponse) {
         //cookieParser should be above session
         app.use(express.cookieParser());
 
-        //bodyParser should be above methodOverride
         app.use(express.bodyParser());
+
+        //bodyParser should be above methodOverride
         app.use(express.methodOverride());
 
         //express/mongo session storage
@@ -75,6 +78,49 @@ module.exports = function(app, config, passport, standardReponse) {
                 collection: 'sessions'
             })
         }));
+        
+        
+        /**
+        * -------------------------
+        *  
+        * nice fix for angular and csrf protection
+        * @see http://mircozeiss.com/using-csrf-with-express-and-angular/
+        * 
+        * @note in a nutshell, csrf works by generating a hashed key per user per session. This key
+        *       is returned and stored in a cookie in the browser. This key is then sent automatically
+        *       with each subsequent request.
+        *
+        * @note we have modified this to work with specific routes. 
+        *       this allows us to rpotect our local api with csrf, while exposing our public api
+        *
+        * @note this also adds a basic security layer to our internal API
+        *       since a user would need to first visit the regular site, then copy a valid x-xsrf-token 
+        *       and session id, and then set from a REST client or curl request. 
+        *       Not impossible, just an extra layer.
+        * 
+        */ 
+        var csrfValue = function(req) {
+          var token = (req.body && req.body._csrf) || 
+                      (req.query && req.query._csrf) || 
+                      (req.headers['x-csrf-token']) || 
+                      (req.headers['x-xsrf-token']);
+          return token;
+        };
+        
+        var csrfMiddleware = express.csrf({value: csrfValue});
+        function csrfHandler(req, res, next) { 
+            csrfMiddleware(req, res, next);
+            res.cookie('XSRF-TOKEN', req.csrfToken()); 
+        }
+        
+        app.all('/api*', csrfHandler, function(req, res, next) {
+            next();
+        });
+        
+        /**
+        * end nice fix
+        * -------------------------
+        */
 
         //connect flash for flash messages
         app.use(flash());

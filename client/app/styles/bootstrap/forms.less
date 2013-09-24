@@ -368,8 +368,11 @@ input[type="checkbox"][readonly] {
 // Shares styles with the .control-group.error above
 input:focus:invalid,
 textarea:focus:invalid,
-select:focus:invalid {
-  color: @pink;
+select:focus:invalid,
+input:focus.ng-invalid,
+textarea.ng-invalid:focus,
+select.ng-invalid:focus,
+input.ng-invalid:focus {
   border-color: @red;
   &:focus {
     border-color: darken(@red, 10%);

@@ -48,7 +48,7 @@
     <script src="bower_components/event-shim.js/event-shim.js"></script>
     <![endif]-->
   </head>
-  <body id="ng-app" ng-app="app" class="{{pageSlug}}">
+  <body id="ng-app" ng-app="app" class="{{pageSlug}}" ng-controller="MainController">
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
@@ -94,9 +94,11 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/validate/validate.js"></script>
     <script src="bower_components/angular-ui-utils/modules/ie-shiv/ie-shiv.js"></script>
     <script src="bower_components/angular-ui-utils/modules/if/if.js"></script>
     <script src="bower_components/angular-ui-utils/modules/validate/validate.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/mask/mask.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/showdown/compressed/showdown.js"></script>
@@ -112,6 +114,7 @@
     
     <script src="app/scripts/app.js"></script>
     <script src="app/scripts/app.templates.js"></script>
+    <script src="app/scripts/controllers/main.js"></script>
     <script src="app/scripts/controllers/login.js"></script>
     <script src="app/scripts/controllers/logout.js"></script>
     <script src="app/scripts/controllers/vendors/vendor.js"></script>
@@ -154,6 +157,7 @@
     <script src="app/scripts/services/application.js"></script>
     <script src="app/scripts/services/googleMapsService.js"></script>
     <script src="app/scripts/services/api.js"></script>
+    <script src="app/scripts/services/validator.js"></script>
 
     
     <!-- endbuild -->

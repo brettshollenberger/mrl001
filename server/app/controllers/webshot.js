@@ -75,13 +75,14 @@ module.exports = function(app, config) {
 
             // get quote id
             // @todo we need to check when user visits this page for a valid quote
+            // @see https://www.pivotaltracker.com/story/show/57533434
             var id = req.params.id;
 
             // this url will use css to format for printing
             // phantomjs will visit this url
             // we use the base url, so be sure its set properly   
             // we create the base url from the incoming request
-            // @note we need so support subdomains later o
+            // @note we need so support subdomains later
             // @note for dev its fine to get the port... but for heroku the ip is always changing
             // so we need to user the actual url     
 
@@ -109,6 +110,7 @@ module.exports = function(app, config) {
                 if (err) {
                     //console.log('WEBSHOT : ERROR ' + err);
 
+                    // @todo standardize with .ok() and .failure() responses
                     res.json({
                         status: 'FAIL',
                         error: err
@@ -122,6 +124,8 @@ module.exports = function(app, config) {
                 // create relative path for downloading
                 var dl = join('downloads', fileName);
 
+                // @todo sometimes on fail, this still returns OK to the app
+                // @todo standardize with .ok() and .failure() responses
                 res.json({
                     status: 'OK',
                     file: dl

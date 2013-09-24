@@ -66,7 +66,8 @@
     "mongoose-troop": "latest",
     "passport-http": "latest",
     "virgen-acl": "latest",
-    "moment": "~2.2.1"
+    "moment": "~2.2.1",
+    "format-number" : "latest"
   },
   "devDependencies": {
     "supertest": "latest",

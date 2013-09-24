@@ -2,11 +2,15 @@ var mongoose = require('mongoose'),
     Quote = mongoose.model('Quote'),
     Vendor = mongoose.model('Vendor'),
     User = mongoose.model('User'),
-    moment = require('moment')
+    moment = require('moment'),
+    formatFactory = require('format-number')
     ;
 
 // our formatting for moment.js
 var dateTimeFormat = "dddd, MMMM Do YYYY, h:mm:ss a";
+
+// our number formatting function
+var format = formatFactory({prefix: '$'});
 
 // ---------------------------------------
 // 
@@ -58,7 +62,7 @@ exports.newQuoteSalesRep = function(req, quote) {
         console.warn('A quote was generated for a salesRep who has no email, ' + quote.salesRep.fullname);
         return;
     }
- 
+     
     var locals = {
         to: {
             email: quote.salesRep.email,
@@ -76,7 +80,7 @@ exports.newQuoteSalesRep = function(req, quote) {
             quoteContact: quote.company.contactPerson.name,
             quotePhone: quote.company.contactPerson.phone,
             quoteEmail: quote.company.contactPerson.email,
-            quoteAmount: quote.totalCost,
+            quoteAmount: format(quote.totalCost),
             quoteDesc: quote.description
         }            
     };
@@ -116,7 +120,7 @@ exports.newQuoteVendorRep = function(req, quote) {
             quoteContact: quote.company.contactPerson.name,
             quotePhone: quote.company.contactPerson.phone,
             quoteEmail: quote.company.contactPerson.email,
-            quoteAmount: quote.totalCost,
+            quoteAmount: format(quote.totalCost),
             quoteDesc: quote.description
         }            
     };

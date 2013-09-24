@@ -13,7 +13,8 @@ angular
         'angulartics',
         'angulartics.google.analytics',
         'google-maps',
-        'truncate'
+        'truncate',
+        'ui.utils'
     ])
 
 /**

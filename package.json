@@ -53,7 +53,6 @@
     "mongoose": "latest",
     "connect-mongo": "latest",
     "connect-flash": "latest",
-    "passport": "latest",
     "passport-local": "latest",
     "passport-facebook": "latest",
     "passport-twitter": "latest",
@@ -63,11 +62,13 @@
     "async": "latest",
     "view-helpers": "latest",
     "mean-logger": "latest",
-    "lodash" : "latest",
+    "mean-emailer": "0.0.2",
+    "lodash": "latest",
     "mongoose-troop": "latest",
-    "nodemailer" : "latest",
-    "passport-http" : "latest",
-    "virgen-acl": "latest"
+    "passport-http": "latest",
+    "virgen-acl": "latest",
+    "moment": "~2.2.1",
+    "format-number" : "latest"
   },
   "devDependencies": {
     "supertest": "latest",

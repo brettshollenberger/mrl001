@@ -45,9 +45,9 @@ module.exports = {
         }
     },
     test: {
-        db: 'mongodb://localhost/mean-test',
+        db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
-        siteUrl: 'http://127.0.0.1:3000',
+        siteUrl: 'http://marlinquoter.herokuapp.com',
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',

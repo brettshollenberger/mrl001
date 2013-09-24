@@ -88,6 +88,7 @@ module.exports = function(app, config) {
 
             var fullHost = null;
 
+            // @note we put the app in 'test' sometimes to test locally... but this causes an error here.
             if ('development' === app.get('env')) {
                 fullHost = req.protocol + '://' + (req.domain ? req.domain : req.ip) + ':' + config.port;
             } else {

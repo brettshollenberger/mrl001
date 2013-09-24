@@ -96,6 +96,10 @@ h2 {
     width: 200px;
 }
 
+.clear-fix {
+    clear: both;
+}
+
 
 
 // ---------------------------------------------------------
@@ -213,6 +217,7 @@ label sup {
 .rep-tray {
     
     padding: 20px 0;
+    padding-left: 30px;
     
     .section-image {
         margin-right: 10px;
@@ -224,6 +229,14 @@ label sup {
     
     p {
         margin-bottom: 0;
+    }
+    
+}
+
+.dashboard.has-rep-tray {
+    
+    .applications-dashboard {
+        margin-top: 160px;
     }
     
 }
@@ -245,6 +258,8 @@ label sup {
     
     h3 {
         text-align: center;
+        
+        padding-bottom: 20px;
         
         &:after {
             content: "";
@@ -269,13 +284,22 @@ label sup {
         padding: 20px 0;        
     }
     
-    :disabled {
+    input :disabled,
+    textarea :disabled {
         background: @white;
         border-color: @white;
     }
 
-    .area-equiptment textarea {
+    .area-equiptment textarea, 
+    .area-equiptment input {
         width: (@gridColumnWidth * 5) + 40;
+    }
+    
+    .area-equiptment input.dollarSign-prepend {
+       width: (@gridColumnWidth * 5) + 20; 
+    }
+    
+    .area-equiptment textarea {
         height: 100px;
     }
     
@@ -285,6 +309,10 @@ label sup {
     
     .input-xxxlarge {
         width: 630px;
+    }
+    
+    small {
+        font-size: 10px;
     }
     
 }
@@ -769,8 +797,5 @@ footer em {
     padding: 0 20px;
 }
 
-.application-sidebar {
-    float: right;
-}
 
 @import "./components/dashboard.less";

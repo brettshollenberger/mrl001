@@ -6,8 +6,9 @@
                 <h2><i class="icon icon-file-text-alt"></i>{{!application._id && 'New' || 'Edit'}} Application</h2>
                 
                 <div class="actions">
-                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="applicationForm.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-primary" target="_blank" ng-href="#/tools/application/{{application._id}}"><i class="icon icon-paste"></i>View Application</a>
                     <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="applicationForm.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>
                 </div>
             
             </div>
@@ -107,7 +108,7 @@
 
         </form>
         
-        <button delete-this id="application._id" redirect="/dashboard/applications" model="modelObject"></button>
+        <button delete-this can-do-action='delete-anything' id="application._id" redirect="/dashboard/applications" model="modelObject"></button>
 
     </div>
 </div>

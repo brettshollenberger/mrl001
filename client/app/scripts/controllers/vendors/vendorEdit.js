@@ -551,6 +551,19 @@ angular
 
 
             /**
+             * Checks if tool is active given a specific tool slug.
+             *
+             */
+            $scope.isToolActive = function(slug) {
+                var isActive = _.where($scope.vendor.tools, {
+                    slug: slug,
+                    active: true
+                });
+                return isActive.length ? true : false;
+            };
+
+
+            /**
              * Used to check the current object, against the original returned object
              * This is useful when you are editing an object outside of a form, where form.$dirty wont work.
              *

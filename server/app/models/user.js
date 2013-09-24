@@ -13,8 +13,16 @@ var mongoose = require('mongoose'),
  */
 var UserSchema = new Schema({
     name: {
-        first: {type: String, "default": '', trim: true},
-        last: {type: String, "default": '', trim: true}
+        first: {
+            type: String,
+            "default": '',
+            trim: true
+        },
+        last: {
+            type: String,
+            "default": '',
+            trim: true
+        }
     },
     fullname: String,
     email: String,
@@ -30,12 +38,24 @@ var UserSchema = new Schema({
     roles: Array,
     vendorId: String,
     vendor: Object,
-    role: {type: String, "default": 'salesRep', trim: true},
+    role: {
+        type: String,
+        "default": 'salesRep',
+        trim: true
+    },
     phoneNumber: String,
     avatar: {
-        original: {type: String, "default": '', trim: true}
+        original: {
+            type: String,
+            "default": '',
+            trim: true
+        }
     },
-    status: {type: String, "default": 'Active', trim: true}
+    status: {
+        type: String,
+        "default": 'Active',
+        trim: true
+    }
 });
 
 
@@ -103,11 +123,11 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
  * Pre-save hook
  */
 UserSchema.pre('save', function(next) {
-    
-    this.fullname = this.name.first + ' ' + this.name.last; 
-    
+
+    this.fullname = this.name.first + ' ' + this.name.last;
+
     console.log(this.fullname);
-    
+
     if (!this.isNew) return next();
 
     if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)
@@ -151,6 +171,17 @@ UserSchema.methods = {
     encryptPassword: function(password) {
         if (!password) return '';
         return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+    }
+};
+
+/**
+ * Statics
+ */
+UserSchema.statics = {
+    load: function(id, cb) {
+        this.findOne({
+            _id: id
+        }).exec(cb);
     }
 };
 

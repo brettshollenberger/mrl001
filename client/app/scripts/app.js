@@ -4,6 +4,7 @@ angular
         'unsavedNew',
         'uiHelpers',
         'ui.validate',
+        'ui.mask',
         'ui.if',
         'ui.bootstrap',
         'ngCookies',
@@ -13,8 +14,7 @@ angular
         'angulartics',
         'angulartics.google.analytics',
         'google-maps',
-        'truncate',
-        'ui.utils'
+        'truncate'
     ])
 
 /**

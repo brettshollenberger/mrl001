@@ -67,7 +67,8 @@
     "passport-http": "latest",
     "virgen-acl": "latest",
     "moment": "~2.2.1",
-    "format-number" : "latest"
+    "format-number" : "latest",
+    "cors" : "latest"
   },
   "devDependencies": {
     "supertest": "latest",

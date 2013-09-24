@@ -1,4 +1,3 @@
-// @see https://npmjs.org/package/cors
 
 /**
  * Module dependencies.
@@ -9,7 +8,7 @@ var express = require('express'),
     path = require('path'),
     helpers = require('view-helpers'),
     fs = require('fs');
-
+    
 module.exports = function(app, config, passport, standardReponse) {
     app.set('showStackError', true);
 
@@ -78,8 +77,18 @@ module.exports = function(app, config, passport, standardReponse) {
                 collection: 'sessions'
             })
         }));
+
+        //connect flash for flash messages
+        app.use(flash());
+
+        //dynamic helpers
+        app.use(helpers(config.app.name));
+
+        //use passport session
+        app.use(passport.initialize());
+        app.use(passport.session());
         
-        
+
         /**
         * -------------------------
         *  
@@ -97,8 +106,14 @@ module.exports = function(app, config, passport, standardReponse) {
         *       since a user would need to first visit the regular site, then copy a valid x-xsrf-token 
         *       and session id, and then set from a REST client or curl request. 
         *       Not impossible, just an extra layer.
+        *
+        * @note this must come after the passport.initalize() and passport.session. Not sure why
+        *       but throws errors otherwise.  
         * 
         */ 
+        
+        // custom csrf grabbing function, 
+        // which works with angulars native method of sending the token in header
         var csrfValue = function(req) {
           var token = (req.body && req.body._csrf) || 
                       (req.query && req.query._csrf) || 
@@ -107,33 +122,103 @@ module.exports = function(app, config, passport, standardReponse) {
           return token;
         };
         
+        // reference express.csrf() method as variable
         var csrfMiddleware = express.csrf({value: csrfValue});
+        
+        // define our middleware
         function csrfHandler(req, res, next) { 
             csrfMiddleware(req, res, next);
             
+            // check for instances where req.csrfToken() is not a function
+            // which would otherwise throw error
             if(req.csrfToken && typeof req.csrfToken === 'function') {
                 res.cookie('XSRF-TOKEN', req.csrfToken());   
             }
         }
         
-        app.all('/api*', csrfHandler, function(req, res, next) {
+        // attach csrf protection to all of our api endpoints
+        
+            app.all('/api*', csrfHandler, function(req, res, next) {
             next();
         });
+        
         
         /**
         * end nice fix
         * -------------------------
         */
-
-        //connect flash for flash messages
-        app.use(flash());
-
-        //dynamic helpers
-        app.use(helpers(config.app.name));
-
-        //use passport session
-        app.use(passport.initialize());
-        app.use(passport.session());
+        
+        
+        
+        /**
+        * -------------------------
+        *
+        * This middleware prevents outside requests to internal api endpoints
+        * Many of these endpoints don't require auth, for example list vendors, but we 
+        * still don't want people to hit these from a curl request and access the data.
+        * 
+        * This is basically CORS for the server
+        * @note there might be a fine replacement for this in NPM, but I couldn't fine anything! 
+        *       typical fors solutions only work for browser requests.  
+        *
+        * @todo make this async!
+        *
+        * Headers examples:
+        * --------
+        *
+        * Example from within the site (on heroku) @note heroku doesn't use IP's
+        *  origin: 'http://marlin-dev.herokuapp.com'
+        *  host: 'marlin-dev.herokuapp.com'
+        *
+        * Example from external request
+        *  origin: 'chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm'
+        *  host: 'marlin-dev.herokuapp.com'
+        *
+        * Example Internal request, locally
+        *  origin: 'http://127.0.0.1:3000'
+        *  host: '127.0.0.1:3000',
+        * 
+        */
+        
+        var serverCORS = function(req, res, next) {
+            
+            // Someone is screwing with the headers
+            if(!req.header('Origin') || !req.header('Host')) {
+                res.failure('You\'re headers are all like, whaaa?.. stop messin with me!');
+                return;
+            }
+            
+            // we need a whitelist
+            if(!config.whitelist) {
+                throw new Error('Whitelist is missing for this environment');
+            }
+            
+            // next we check if origin is in our array of allowed origins
+            if(config.whitelist.indexOf('*') !== -1) {
+            
+                next();
+                
+            // included in whitelist    
+            } else if(config.whitelist.indexOf(req.header('Origin')) !== -1) {
+                
+                next();
+             
+            // not included    
+            } else {
+                
+                return res.failure('This origin is blocked', 401);
+                
+            }
+            
+        };
+        
+        app.all('/api*', serverCORS, function(req, res, next) {
+            next();
+        });
+        
+        /**
+        * -------------------------
+        */
 
         // routes should be at the last
         app.use(app.router);

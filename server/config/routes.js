@@ -96,7 +96,19 @@ module.exports = function(app, passport, auth, config, acl) {
     var quotes = require('../app/controllers/quotes');
 
     app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
-    app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), quotes.create);
+    app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), function(req, res, next) {
+        
+        console.log(req.headers);
+        
+        /*
+origin: 'http://marlin-dev.herokuapp.com',
+2013-09-24T20:49:24.571355+00:00 app[web.1]:   host: 'marlin-dev.herokuapp.com',
+*/
+        
+        console.info('INTERNAL QUOTE API accessed');
+        next();
+        
+    }, quotes.all);
     app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
     app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
     app.del('/api/v1/quotes/:quoteId', isUserAllowed('delete', 'quotes'), quotes.destroy);
@@ -104,10 +116,18 @@ module.exports = function(app, passport, auth, config, acl) {
     
     app.post('/public_api/v1/quotes', function(req, res, next) {
         
+        console.log(req.headers);
+        /*
+origin: 'chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm',
+2013-09-24T20:50:12.694409+00:00 heroku[router]: at=info method=POST path=/api/v1/quotes host=marlin-dev.herokuapp.com fwd="68.80.214.30" dyno=web.1 connect=3ms service=116ms status=200 bytes=473
+2013-09-24T20:50:12.616752+00:00 app[web.1]:   host: 'marlin-dev.herokuapp.com',
+*/
+        
         console.info('PUBLIC QUOTE API accessed');
+
         next();
         
-    }, quotes.create );
+    }, quotes.all);
 
     var webshot = require('../app/controllers/webshot')(app, config);
 

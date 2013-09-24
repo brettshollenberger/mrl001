@@ -5,6 +5,7 @@ module.exports = {
     development: {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
+        whitelist: ['http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://127.0.0.1:3000',
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
@@ -47,6 +48,7 @@ module.exports = {
     test: {
         db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
+        whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
@@ -92,6 +94,7 @@ module.exports = {
     production: {
         db: 'mongodb://facultymatt:scrapple1@dbh46.mongolab.com:27467/marlin-production',
         root: rootPath,
+        whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
         email: {
             // mailcatcher settings, must have mailcatcher installed and running

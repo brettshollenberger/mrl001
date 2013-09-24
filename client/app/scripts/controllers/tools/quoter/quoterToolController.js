@@ -51,7 +51,6 @@ angular
 
             }
 
-
             // get a single vendor at set as global vendor
 
             function getInitialVendor(getId) {
@@ -175,36 +174,37 @@ angular
 
 
             $scope.generateQuote = function() {
+                if ($scope.Validator.validateForm($scope.QuoterToolForm)) {
+                    $scope.quote.totalCost = $scope.quoteCost;
 
-                $scope.quote.totalCost = $scope.quoteCost;
+                    // save the custom Field with the quote 
+                    if ($scope.vendor && $scope.vendor.customField.enabled) {
 
-                // save the custom Field with the quote 
-                if ($scope.vendor && $scope.vendor.customField.enabled) {
+                        $scope.quote.customField = {};
 
-                    $scope.quote.customField = {};
+                        $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
+                    }
 
-                    $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
-                }
+                    if (!quoteId) {
 
-                if (!quoteId) {
+                        $rootScope.previewQuote = true;
+                        $scope.quote.vendorId = $scope.vendor._id;
 
-                    $rootScope.previewQuote = true;
-                    $scope.quote.vendorId = $scope.vendor._id;
+                        // create new item
+                        Quote.add($scope.quote).then(function(response) {
+                            var newQuote = response;
+                            $location.url('/tools/quoter/' + newQuote._id);
+                        });
 
-                    // create new item
-                    Quote.add($scope.quote).then(function(response) {
-                        var newQuote = response;
-                        $location.url('/tools/quoter/' + newQuote._id);
-                    });
+                    } else {
 
-                } else {
+                        filterQuotesByTotalCost();
 
-                    filterQuotesByTotalCost();
+                        Quote.update($scope.quote).then(function(response) {
+                            // do nothing, successful update
+                        });
 
-                    Quote.update($scope.quote).then(function(response) {
-                        // do nothing, successful update
-                    });
-
+                    }
                 }
             };
 

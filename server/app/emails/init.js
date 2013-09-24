@@ -84,7 +84,7 @@ exports.newQuoteSalesRep = function(req, quote) {
             vendorName: quote.vendorId.name,
             salesRepName: quote.salesRep.fullname,
             
-            quoteCompany: quote.company.contactPerson.name,
+            quoteCompany: quote.company.fullLegalBusinessName,
             quoteMethod: quote.company.contactPerson.contactMethod,
             quoteContact: quote.company.contactPerson.name,
             quotePhone: quote.company.contactPerson.phone,
@@ -124,7 +124,7 @@ exports.newQuoteVendorRep = function(req, quote) {
             vendorName: quote.vendorId.name,
             salesRepName: quote.salesRep.fullname,
             
-            quoteCompany: quote.company.contactPerson.name,
+            quoteCompany: quote.company.fullLegalBusinessName,
             quoteMethod: quote.company.contactPerson.contactMethod,
             quoteContact: quote.company.contactPerson.name,
             quotePhone: quote.company.contactPerson.phone,

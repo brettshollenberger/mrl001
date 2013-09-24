@@ -4,7 +4,8 @@ angular
     return function(money) {
       // Reverse string, and for every three digits,
       // add a comma, then return the string to normal
-      var cheddar = money.toString()
+      var cheddar = money
+        .toString()
         .split("")
         .reverse()
         .join("")

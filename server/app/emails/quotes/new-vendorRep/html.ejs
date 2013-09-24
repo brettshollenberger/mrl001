@@ -1,17 +1,19 @@
-Hello <%= vendorName %>, a quote was just generated for you.
+<p>Hello <%= vendorName %>, a quote was just generated for you.</p>
 
-The quote was generated <%= dateTime %>
+<p>The quote was generated <%= dateTime %></p>
 
-Company	               <%= quoteCompany %>
-Contact	               <%= quoteContact %>
+<p>
+<strong>Company:</strong> <%= quoteCompany %><br />
+<strong>Contact:</strong> <%= quoteContact %><br />
 
-Phone		           <%= quotePhone %>
-E-mail Address	       <%= quoteEmail %>
-Preferred Contact	   <%= quoteMethod %>
+<strong>Phone:</strong> <%= quotePhone %><br />
+<strong>E-mail Address:</strong> <%= quoteEmail %><br />
+<strong>Preferred Contact:</strong> <%= quoteMethod %><br />
 
-Amount	               <%= quoteAmount %>
-Equipment Description  <%= quoteDesc %>
+<strong>Amount:</strong> <%= quoteAmount %><br />
+<strong>Equipment Description:</strong> <%= quoteDesc %><br />
+</p>
 
-Click below to view the quote in your dashboard. 
+<p>Click below to view the quote in your dashboard.</p> 
 
-<%= link %>
+<p><a href="<%= link %>"><%= link %></a></p>

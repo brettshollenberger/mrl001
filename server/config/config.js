@@ -5,7 +5,7 @@ module.exports = {
     development: {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
-        whitelist: ['http://marlin-dev.herokuapp.com'],
+        whitelist: ['*'],
         siteUrl: 'http://127.0.0.1:3000',
         email: {
             // mailcatcher settings, must have mailcatcher installed and running

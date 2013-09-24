@@ -65,8 +65,9 @@
     "mean-emailer": "0.0.1",
     "lodash" : "latest",
     "mongoose-troop": "latest",
-    "passport-http" : "latest",
-    "virgen-acl": "latest"
+    "passport-http": "latest",
+    "virgen-acl": "latest",
+    "moment": "~2.2.1"
   },
   "devDependencies": {
     "supertest": "latest",

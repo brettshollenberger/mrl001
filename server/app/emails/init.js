@@ -2,9 +2,11 @@ var mongoose = require('mongoose'),
     Quote = mongoose.model('Quote'),
     Vendor = mongoose.model('Vendor'),
     User = mongoose.model('User'),
-    async = require('async')
+    moment = require('moment')
     ;
 
+// our formatting for moment.js
+var dateTimeFormat = "dddd, MMMM Do YYYY, h:mm:ss a";
 
 // ---------------------------------------
 // 
@@ -64,7 +66,7 @@ exports.newQuoteSalesRep = function(req, quote) {
         },
         variables: {
             link: quote.dashboardLink, // a virtual property of quote model
-            dateTime: quote.created,
+            dateTime: moment(quote.created).format(dateTimeFormat),
             
             vendorName: quote.vendorId.name,
             salesRepName: quote.salesRep.fullname,
@@ -104,7 +106,7 @@ exports.newQuoteVendorRep = function(req, quote) {
         },
         variables: {
             link: quote.dashboardLink, // a virtual property of quote model
-            dateTime: quote.created,
+            dateTime: moment(quote.created).format(dateTimeFormat),
             
             vendorName: quote.vendorId.name,
             salesRepName: quote.salesRep.fullname,

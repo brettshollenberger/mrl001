@@ -105,14 +105,15 @@ angular
             controller: 'quoterToolController',
             templateUrl: 'app/templates/tools/quoter/quoterTool.html'
         })
+            .when('/tools/quoter/:id/print', {
+                controller: 'quoterToolController',
+                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html'
+            })
             .when('/tools/quoter/:id', {
                 controller: 'quoterToolController',
                 templateUrl: 'app/templates/tools/quoter/quoterTool.html'
             })
-            .when('/tools/quoter/:id/print', {
-                controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterTool.html'
-            })
+            
 
 
         // Application tool! 

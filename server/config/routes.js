@@ -103,6 +103,10 @@ module.exports = function(app, passport, auth, config, acl) {
 
     var webshot = require('../app/controllers/webshot')(app, config);
 
+    // @todo Adjust function when we send webshot to pdf
+    // @see https://www.pivotaltracker.com/story/show/57533434
+    // @note we should prob be using something like uploadfs to allow our app to send to amazon... 
+    // currently we are only storing files locally. 
     app.get('/api/v1/quotes/:id/download', webshot.getWebshotFromUrl);
 
     app.param('quoteId', quotes.quote);

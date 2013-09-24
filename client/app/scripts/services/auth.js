@@ -68,7 +68,6 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             'changePassword-users'
         ];
 
-
         /**
          * Provide Auth service methods, mainly login and logout.
          *
@@ -123,10 +122,12 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         exports.logout = function() {
 
             // clear user data
-            userData.currentUser = null;
-            userData.userId = null;
-            userData.isAuth = false;
-            userData.authLevel = false;
+            var userData = {
+                userId: null,
+                isAuth: false,
+                currentUser: null,
+                authLevel: false
+            };
 
             // clear cookue
             $cookieStore.remove('userData');
@@ -229,9 +230,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             } else {
                 $location.url('/login');
             }
-
         }
-
 
         /**
          * Helper to validate auth level for current user as stored in cookie
@@ -274,13 +273,9 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
                 return false;
 
             }
-
         }
 
-        // --------
-
         return exports;
-
     }
 ]);
 

@@ -191,10 +191,25 @@ VendorSchema.pre('save', function(next) {
     
     var vendor = this;
     
-    _.each(vendor.vendorTags, function(item) {     
-        vendor.addTag(item.text, function(err, addedTag) {
-            //console.log(err);
-            //console.log(addedTag);
+    var vendorTags = [];  // tags that are currently being passed from the vendor
+    
+    // create a unified array of current vendor tags
+    _.each(vendor.vendorTags, function(item) {
+        vendorTags.push(item.text);
+    });
+
+    var newTags = _.difference(vendorTags, vendor.tags);
+    var removeTags = _.difference(vendor.tags, vendorTags);
+        
+    _.each(newTags, function(item) {
+        vendor.addTag(item, function(err, addedTag) {
+            console.log('Added: ' + item);
+        });
+    });
+    
+    _.each(removeTags, function(item) {
+        vendor.removeTag(item, function(err, removedTag) {
+            console.log('Removed: ' + item);
         });
     });
 

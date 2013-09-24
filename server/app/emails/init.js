@@ -23,7 +23,7 @@ exports.newQuoteEndUser = function(req, quote) {
     if(!quote.company.contactPerson.email) return false;
     
     var vendorName = quote.vendorId.name || '';
- 
+     
     var locals = {
         to: {
             email: quote.company.contactPerson.email,
@@ -50,12 +50,12 @@ exports.newQuoteSalesRep = function(req, quote) {
 
     if(!quote.salesRep) {
         // @todo send a default email to system admin!
-        console.log('A quote was generated for a vendor with no Marlin Sales Rep');
+        console.warn('A quote was generated for a vendor with no Marlin Sales Rep');
         return;
     }
    
     if(!quote.salesRep.email) {
-        console.log('A quote was generated for a salesRep who has no email, ' + quote.salesRep.fullname);
+        console.warn('A quote was generated for a salesRep who has no email, ' + quote.salesRep.fullname);
         return;
     }
  
@@ -90,12 +90,12 @@ exports.newQuoteVendorRep = function(req, quote) {
 
     if(!quote.vendorRep) {
         // @todo send a default email to system admin!
-        console.log('A quote was generated for a vendor with no vendorRep, ' + quote.vendorId.name);
+        console.warn('A quote was generated for a vendor with no vendorRep, ' + quote.vendorId.name);
         return;
     }
    
     if(!quote.vendorRep.email) {
-        console.log('A quote was generated for a vendorRep who has no email, ' + quote.vendorRep.fullname);
+        console.warn('A quote was generated for a vendorRep who has no email, ' + quote.vendorRep.fullname);
         return;
     }
  

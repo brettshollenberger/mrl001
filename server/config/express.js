@@ -64,9 +64,8 @@ module.exports = function(app, config, passport, standardReponse) {
         //cookieParser should be above session
         app.use(express.cookieParser());
 
-        app.use(express.bodyParser());
-
         //bodyParser should be above methodOverride
+        app.use(express.bodyParser());
         app.use(express.methodOverride());
 
         //express/mongo session storage
@@ -79,6 +78,7 @@ module.exports = function(app, config, passport, standardReponse) {
         }));
 
         //connect flash for flash messages
+        // @todo remove and test, remove instance where flash messages are set..
         app.use(flash());
 
         //dynamic helpers

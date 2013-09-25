@@ -4,6 +4,7 @@ var myApp = angular.module('unsavedNew', [])
     function($rootScope) {
         return {
             scope: true,
+            priority: 2000,
             controller: function() {
 
                 // Controller scopped variables
@@ -99,6 +100,7 @@ var myApp = angular.module('unsavedNew', [])
     return {
         scope: true,
         require: '^unsavedWarningGroup',
+        priority: 3000,
         controller: function($scope) {
             this.componentFunction = function() {
                 $scope.screenCtrl.doSomethingScreeny();

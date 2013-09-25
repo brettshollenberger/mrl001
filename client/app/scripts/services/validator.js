@@ -136,15 +136,54 @@ angular
     };
     return Validator;
   }
-).directive('validatedForm', [
-    function() {
+).directive('formGroup',
+  function() {
     return {
-      restrict: 'A',
+      restrict: 'EA',
+      transclude: true,
+      template: "<div ng-transclude ng-class='{formGroupFinished: checkValidity()}'></div>",
+      scope: {},
+      controller: function($scope) {
+        $scope.fields = [];
+        this.addField = function(field) {
+          $scope.fields.push(field);
+        };
+      },
+
       link: function(scope, element, attrs) {
-        element.bind("keyup", function (event) {
-          scope.Validator.alertFieldSuccess(scope[attrs.validatedForm]);
-          scope.$apply();
+        var form = scope.$parent[attrs.form];
+        scope.form = form;
+
+        scope.fields.forEach(function(f) {
+          f.bind('keyup', function(event) {
+            scope.$parent.Validator.alertFieldSuccess(form);
+            scope.$apply();
+            scope.checkValidity();
+          });
         });
+
+        scope.checkValidity = function() {
+          var validity = true;
+          scope.fields.forEach(function(field) {
+            if (form[field[0].name] && form[field[0].name].$invalid) {
+              validity = false;
+            }
+          });
+          return validity;
+        };
+        scope.checkValidity();
       }
     };
-  }]);
+  })
+  .directive('formField', [
+    function() {
+      return {
+        restrict: 'EA',
+        scope: false,
+        require: '^formGroup',
+        link: function(scope, element, attrs, formGroupCtrl) {
+          formGroupCtrl.addField(element);
+          console.log(scope);
+        }
+      };
+    }]);

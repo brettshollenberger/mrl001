@@ -10,8 +10,6 @@ angular
         '$timeout',
         function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
 
-            //google.maps.visualRefresh = true;
-
             // markers will be vendors that match out serarch! 
             $scope.markers = [];
 
@@ -70,19 +68,14 @@ angular
                 if (!$scope.geolocationAvailable) return false;
 
                 navigator.geolocation.getCurrentPosition(function(position) {
+                
                     $scope.map.center = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     };
 
-                    //setCenter(position.coords.latitude, position.coords.longitude);
-
-                    // create latLng object, which we need for distanc comparisons
-
                     $scope.hasLocation = true;
-
                     $scope.$apply();
-
                     filterMarkers(); // refilter the markers based on new location
                 });
 
@@ -140,7 +133,6 @@ angular
             });
 
             $rootScope.$on('$routeChangeSuccess', function() {
-                //console.log('removing google callback ');
                 listener1();
             });
 
@@ -194,7 +186,6 @@ angular
                         // @note that users can set "unlimited" distance
                         item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
 
-                        //console.log(distance);
                         if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
 
                         // we need to create the marker from the vendor
@@ -213,6 +204,24 @@ angular
 
                         $scope.tempMarkers.push(newMarker);
                     });
+                    
+                    /*
+                    if($scope.tempMarkers.length < 3) {
+                        console.log('WE NEED MORE MARKERS!!!');
+                        if($scope.distanceFrom !== 'Any') {
+                            var currentIndex = $scope.distanceOptions.indexOf($scope.distanceFrom);
+                            var nextIndex = currentIndex + 1;
+                            if((nextIndex in $scope.distanceOptions) ) {
+                                $scope.distanceFrom = $scope.distanceOptions[nextIndex];
+                            }
+                        } else {
+                            $scope.searchText = '';
+                            console.log('WE NEED TO BROADEN THE TEXT SEARCH!!!');
+                        }
+                        
+                        filterMarkers();
+                    }
+                    */
 
                     //console.log('THERE are now ' + $scope.tempMarkers.length + ' markers');
                     
@@ -248,37 +257,15 @@ angular
 
             // perform the initial filter when vendors are loaded
             $scope.$watch('$scope.vendors', filterMarkers, true);
-
-
             $scope.map.centerHasChanged = false;
 
             // map events
-            // @note enents on markers dont register here! 
+            // @note events on markers dont register here! 
             $scope.map.events = {
                 click: function(mapModel, eventName, originalEventArgs) {
                     // 'this' is the directive's scope
                     //console.log("user defined event: " + eventName, mapModel, originalEventArgs);
-
                     closeAllWindows();
-
-                    /*
-                var e = originalEventArgs[0];
-
-                if (!$scope.map.clickedMarker) {
-                    $scope.map.clickedMarker = {
-                        latitude: e.latLng.lat(),
-                        longitude: e.latLng.lng()
-                    };
-                }
-                else {
-                    $scope.map.clickedMarker.latitude = e.latLng.lat();
-                    $scope.map.clickedMarker.longitude = e.latLng.lng();
-                }
-                
-                //console.log($scope.map.clickedMarker);
-
-                $scope.$apply();
-*/
                 },
                 zoom_changed: function() {
                     ////console.log('User is zooming map');
@@ -294,10 +281,6 @@ angular
                 $scope.map.centerHasChanged = false;
                 filterMarkers();
             };
-
-            function redrawCircle() {
-
-            }
 
             $scope.closeAllWindows = function() {
                 console.log('CLOSING all windows!!!!!');

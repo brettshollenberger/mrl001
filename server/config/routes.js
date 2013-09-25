@@ -2,7 +2,7 @@ var async = require('async');
 var util = require('util');
 
 
-module.exports = function(app, passport, auth, config, acl) {
+module.exports = function(app, passport, auth, config, acl, public_api) {
 
     var vendors = require('../app/controllers/vendors');
 
@@ -111,7 +111,7 @@ module.exports = function(app, passport, auth, config, acl) {
         console.info('PUBLIC QUOTE API accessed');
         next();
         
-    }, quotes.create);
+    }, public_api.validateApiKey, quotes.validatePublicRequest, quotes.create);
 
     var webshot = require('../app/controllers/webshot')(app, config);
 

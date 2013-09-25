@@ -77,7 +77,7 @@ exports.destroy = function(req, res) {
  * Show an vendor
  */
 exports.show = function(req, res) {
-    res.jsonp(req.vendor);
+    res.ok(req.vendor);
 };
 
 

@@ -23,9 +23,8 @@ var myApp = angular.module('unsavedNew', [])
 
                 function allFormsClean() {
                     angular.forEach(allForms, function(item, idx) {
-                        console.log(item);
                         if (item.$dirty) {
-                            console.log('FOUND AT LEAST 1 DIRTY FORM');
+                            //console.log('FOUND AT LEAST 1 DIRTY FORM');
                             areAllFormsClean = false;
                         }
                     });
@@ -43,12 +42,12 @@ var myApp = angular.module('unsavedNew', [])
 
                 // pass form controller and adds it to the array
                 this.init = function(form) {
-                    console.log('Adding to all forms');
+                    //console.log('Adding to all forms');
                     allForms.push(form);
                 };
 
                 this.removePrompt = function() {
-                    console.log('CHOOSING TO REMOVE THIS FUNCTION');
+                    //console.log('CHOOSING TO REMOVE THIS FUNCTION');
                     allForms = []; // reset forms array
                     removeFunction();
                     window.onbeforeunload = null;
@@ -57,7 +56,7 @@ var myApp = angular.module('unsavedNew', [])
                 // Function called when user tries to close the window
                 this.confirmExit = function() {
 
-                    console.log('REFRESH / CLOSE detected');
+                    //console.log('REFRESH / CLOSE detected');
 
                     // @todo this could be written a lot cleaner! 
                     if (!allFormsClean()) {
@@ -74,7 +73,7 @@ var myApp = angular.module('unsavedNew', [])
                 // calling this function later will unbind this, acting as $off()
                 removeFunction = $rootScope.$on('$locationChangeStart', function(event, next, current) {
 
-                    console.log('ROUTE CHANGE detected');
+                    //console.log('ROUTE CHANGE detected');
 
                     // @todo this could be written a lot cleaner! 
                     if (!allFormsClean()) {

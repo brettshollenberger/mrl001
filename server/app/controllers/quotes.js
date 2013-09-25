@@ -23,6 +23,30 @@ exports.quote = function(req, res, next, id) {
 
 
 /**
+* Middleware called when accessing public quoter api
+* validates that required fields are present, then calls next
+* 
+* @note we use this because it allows us to send a more specific error message
+*       then what mongoose validation would normally throw.
+*       It also allows us to process, trim, etc. 
+* 
+*/
+exports.validatePublicRequest = function(req, res, next) {
+        
+    if(!req.body.totalCost) {
+        return res.failure("totalCost is required", 400);
+    } 
+    
+    if(!req.body.description) {
+        return res.failure("description is required", 400);
+    } 
+    
+    next();
+    
+};
+
+
+/**
  * Create a quote
  */
 exports.create = function(req, res) {
@@ -34,6 +58,13 @@ exports.create = function(req, res) {
         if (err) {
             return res.failure(err);
         } else {
+        
+            // delete some things we dont want to be public
+            // @todo later we should all more robust access controll, since the "get" method needs this also
+            //delete quote.vendorId;
+            //delete quote.salesRep;
+            //delete quote.vendorRep;
+        
             res.ok(quote);
             
             Quote

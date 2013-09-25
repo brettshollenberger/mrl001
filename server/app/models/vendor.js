@@ -140,6 +140,10 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "apiKey" : {
+        type: String,
+        "default": null
     }
 });
 

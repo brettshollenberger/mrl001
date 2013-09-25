@@ -17,6 +17,7 @@ angular
         required: "This field is required.",
         zip: "A five or nine digit zip code is required.",
         email: "Please enter a valid email address.",
+        mask: "Please enter a valid phone number",
         phone: "Please enter a valid phone number."
       },
 
@@ -82,6 +83,9 @@ angular
               } else {
                 errors[field.$name] = key.toString();
               }
+              break;
+            } else if (field.$error[key] === false) {
+              errors[field.$name] = null;
             }
           }
         }
@@ -111,9 +115,36 @@ angular
           return false;
         }
         return true;
-      }
+      },
 
+      removeErrors: function(field, errors) {
+        for (var key in field.$error) {
+          if (field.$error[key] === true) {
+            return;
+          }
+        }
+        errors[field.$name] = null;
+      },
+
+      alertFieldSuccess: function(form) {
+        var errors = form.FacultyErrors = form.FacultyErrors || {};
+        for (var f in form) {
+          var field = form[f];
+          this.removeErrors(field, errors);
+        }
+      }
     };
     return Validator;
   }
-);
+).directive('validatedForm', [
+    function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        element.bind("keyup", function (event) {
+          scope.Validator.alertFieldSuccess(scope[attrs.validatedForm]);
+          scope.$apply();
+        });
+      }
+    };
+  }]);

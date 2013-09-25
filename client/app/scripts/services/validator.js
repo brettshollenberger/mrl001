@@ -20,6 +20,34 @@ angular
         phone: "Please enter a valid phone number."
       },
 
+      setDirty: function(form) {
+        for (var i in form) {
+          var input = form[i];
+          if (input.$pristine) {
+            input.$pristine = false;
+            input.$dirty = true;
+          }
+        }
+      },
+
+      setDirtyField: function(input) {
+        if (input.$pristine) {
+          input.$pristine = false;
+          input.$dirty = true;
+        }
+      },
+
+      // The same issue exists with form.setPristine().
+      setPristine: function(form) {
+        for (var i in form) {
+          var input = form[i];
+          if (input.$dirty) {
+            input.$pristine = true;
+            input.$dirty = false;
+          }
+        }
+      },
+
       validateCash: function(number, field) {
         if (typeof number === 'string') {
             if (!isNaN(Number(number)) && number.length > 0) {

@@ -373,14 +373,23 @@ input:focus.ng-invalid,
 textarea.ng-invalid:focus,
 select.ng-invalid:focus,
 input.ng-invalid:focus {
-  border-color: @red;
-  &:focus {
-    border-color: darken(@red, 10%);
-    @shadow: 0 0 6px lighten(@red, 20%);
-    .box-shadow(@shadow);
-  }
+  border-color: @blue;
 }
 
+input.ng-valid.ng-dirty,
+textarea.ng-valid.ng-dirty,
+select.ng-valid.ng-dirty,
+input.ng-valid.ng-dirty:focus,
+textarea.ng-valid.ng-dirty:focus,
+select.ng-valid.ng-dirty:focus {
+  border-color: @green;
+};
+
+input.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty,
+select.ng-invalid.ng-dirty {
+  border-color: @red;
+};
 
 
 // FORM ACTIONS

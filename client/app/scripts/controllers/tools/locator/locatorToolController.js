@@ -125,7 +125,7 @@ angular
             var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
                 // update center based on search 
                 if (type && type === 'locationSearch') {
-                    //console.log(data);
+                    
                     $scope.map.center = {
                         latitude: data.lat,
                         longitude: data.lng
@@ -134,10 +134,7 @@ angular
                     //setCenter(position.coords.latitude, position.coords.longitude);
 
                     $scope.hasLocation = true;
-
-                    //console.log($scope.map.center);
                     filterMarkers();
-
                     $scope.$apply();
                 }
             });
@@ -170,25 +167,28 @@ angular
 
                     _.each($scope.vendors, function(item) {
 
-                        // check if vendor has geo data!
-                        if (!item.geo) return;
-
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
-                        var originalSearch = $scope.searchText.toLowerCase();
-                        var tags = originalSearch.split(" ");
-                        tags.push(originalSearch);
-                        var isValid = false;
-
-                        _.each(tags, function(tag) {
-                            if(_.contains(item.tags, tag)) {
-                                isValid = true;
+                        if($scope.searchText) {
+                        
+                            var originalSearch = $scope.searchText.toLowerCase();
+                            var tags = originalSearch.split(" ");
+                            tags.push(originalSearch);
+                            var isValid = false;
+    
+                            _.each(tags, function(tag) {
+                                if(_.contains(item.tags, tag)) {
+                                    isValid = true;
+                                }
+                            });
+                           
+                            if(!isValid) {
+                                return;
                             }
-                        });
-                       
-                        if(!isValid) {
-                            return;
                         }
+                        
+                        // check if vendor has geo data!
+                        if (!item.geo) return;
                         
                         // check if distance is withing range
                         // @note that users can set "unlimited" distance

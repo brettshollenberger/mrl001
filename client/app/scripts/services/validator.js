@@ -45,21 +45,30 @@ angular
         return false;
       },
 
+      setErrors: function(field, errors) {
+        if (typeof field.$error === 'object') {
+          for (var key in field.$error) {
+            if (field.$error[key] === true) {
+              if (this.validationMessages[key]) {
+                errors[field.$name] = this.validationMessages[key];
+              } else {
+                errors[field.$name] = key.toString();
+              }
+            }
+          }
+        }
+      },
+
+      validateField: function(field, form) {
+        var errors = form.FacultyErrors = form.FacultyErrors || {};
+        this.setErrors(field, errors);
+      },
+
       validateForm: function(form) {
         var errors = form.FacultyErrors = {};
         for (var f in form) {
           var field = form[f];
-          if (typeof field.$error === 'object') {
-            for (var key in field.$error) {
-              if (field.$error[key] === true)  {
-                if (this.validationMessages[key]) {
-                  errors[field.$name] = this.validationMessages[key];
-                } else {
-                  errors[field.$name] = key.toString();
-                }
-              }
-            }
-          }
+          this.setErrors(field, errors);
         }
         if (!isEmpty(errors)) {
           form.FacultyErrors = errors;
@@ -68,7 +77,7 @@ angular
           // the input will be invalid, but pristine. If we
           // automatically set the whole field to dirty,
           // the missed fields will be revealed.
-          $location.hash(Object.keys(errors)[0]);
+          // $location.hash(Object.keys(errors)[0]);
           $anchorScroll();
           form.$setDirty();
           return false;

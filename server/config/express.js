@@ -137,12 +137,12 @@ module.exports = function(app, config, passport, standardReponse) {
         }
         
         // attach csrf protection to all of our api endpoints
-        
+        if(process.env.NODE_ENV !== 'development') {
             app.all('/api*', csrfHandler, function(req, res, next) {
-            next();
-        });
-        
-        
+                next();
+            });
+        }
+                
         /**
         * end nice fix
         * -------------------------
@@ -212,9 +212,13 @@ module.exports = function(app, config, passport, standardReponse) {
             
         };
         
-        app.all('/api*', serverCORS, function(req, res, next) {
-            next();
-        });
+        // ignore CORS protection in development
+        // this makes it easy to use POSTMAN or similar REST client
+        if(process.env.NODE_ENV !== 'development') {
+            app.all('/api*', serverCORS, function(req, res, next) {
+                next();
+            });
+        }        
         
         /**
         * -------------------------

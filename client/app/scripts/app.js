@@ -81,7 +81,6 @@ angular
             templateUrl: 'app/templates/home.html'
         })
 
-
         .when('/changelog', {
             controller: 'changelogController',
             templateUrl: 'app/templates/changelog.html'
@@ -99,6 +98,10 @@ angular
             templateUrl: 'app/templates/logout.html'
         })
 
+        .when('/tools/api', {
+            controller: 'apiController',
+            templateUrl: 'app/templates/tools/api/documentation.html'
+        })
 
         // Quoter tool!  
         .when('/tools/quoter', {
@@ -114,7 +117,6 @@ angular
                 templateUrl: 'app/templates/tools/quoter/quoterTool.html'
             })
             
-
 
         // Application tool! 
         .when('/tools/application', {

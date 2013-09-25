@@ -105,7 +105,9 @@ var ApplicationSchema = new Schema({
                 trim: true
             },
             "zip": {
-                type: Number
+                type: String, 
+                "default": '', 
+                trim: true
             }
         },
         yearsInBusiness: {

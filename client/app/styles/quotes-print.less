@@ -1,0 +1,64 @@
+// ---------------------------------------------------------
+//
+// PRINT style for quotes
+//
+// ---------------------------------------------------------
+
+.print {
+
+    background: @white;
+    padding-top: 40px;
+    
+    .vendorSection a {
+        display: block;
+    }
+    
+    .vendor-address,
+    .application-address {
+        p {
+            margin: 0;
+        }
+        
+        a {
+            font-size: 12px;
+        }
+    }
+    
+    a, a:hover {
+        text-decoration: underline;
+    }
+    
+    a [class^="icon-"], a [class*=" icon-"] {
+        text-decoration: none;
+    }
+    
+    .area-fine-print p {
+        font-size: 12px; 
+        margin-bottom: 2px;
+    }
+    
+    // over ride the print style sheets from bootstrap/reset.css
+    // these styles are 
+    @media print {
+    
+        a[href]:after {
+            content: none;
+        }
+        
+        abbr[title]:after {
+            content: none;
+        }
+        
+        .ir a:after,
+        a[href^="javascript:"]:after,
+        a[href^="#"]:after {
+            content: none;
+        }
+   
+        thead tr {
+           background: @grayLighter !important; 
+        }
+         
+    }
+    
+}

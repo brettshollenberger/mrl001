@@ -106,14 +106,15 @@ angular
             controller: 'quoterToolController',
             templateUrl: 'app/templates/tools/quoter/quoterTool.html'
         })
+            .when('/tools/quoter/:id/print', {
+                controller: 'quoterToolController',
+                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html'
+            })
             .when('/tools/quoter/:id', {
                 controller: 'quoterToolController',
                 templateUrl: 'app/templates/tools/quoter/quoterTool.html'
             })
-            .when('/tools/quoter/:id/print', {
-                controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterTool.html'
-            })
+            
 
 
         // Application tool! 
@@ -237,7 +238,7 @@ angular
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
-        $rootScope.version = '0.3.4';
+        $rootScope.version = '0.3.5';
 
 
         // @note this is related to experimental promisetracker module

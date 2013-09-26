@@ -23,10 +23,12 @@
             <button class="btn btn-large" ng-show="searchText" ng-click="clearText()">Clear</button>
         </div>
         
-        <div class="pull-left">
+        <!--
+<div class="pull-left">
             <label>&nbsp;</label>
             <button class="btn btn-large" ng-show="centerHasChanged" ng-click="searchHere()">Search map location</button>
         </div>
+-->
      </div>    
 </div>
 
@@ -68,8 +70,8 @@
     		
     		<markers models="markers" coords="'self'" icon="'icon'" click="'openClick'">
 				<windows show="'showWindow'" closeClick="'closeClick'">
-					<div ng-non-bindable >
-                        <!-- <img ng-src="{{logo}}" class="img-medium"/> -->
+					<div ng-non-bindable>
+					    <!-- <img ng-src="{{logo}}" class="img-medium"/> -->
                 		<p>{{name}}</p>
                 		<p ng-show="website != ''"><a target="_blank" ng-href="{{website}}">Visit Website</a></p>
                         <p>{{businessPhone}}</p>

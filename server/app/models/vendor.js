@@ -27,6 +27,10 @@ var VendorSchema = new Schema({
         type: Date,
         "default": Date.now
     },
+    "searchString" : {
+        type: String,
+        "default": ''
+    },
     "name": {
         type: String,
         "default": '',
@@ -212,7 +216,25 @@ VendorSchema.pre('save', function(next) {
             console.log('Removed: ' + item);
         });
     });
+    
+    
+    /**
+    * A nice way to create a search string that we can use on the dealer locator
+    *
+    */
+    vendor.searchString = '';
+    
+    _.each(vendor.vendorTags, function(tag) {
+        vendor.searchString += tag.text + ' '; 
+    });
+    
+    console.log('vendor.searchString is : ' + vendor.searchString);
+    
 
+    /**
+    * Standardize tool slugs
+    *
+    */
     _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });

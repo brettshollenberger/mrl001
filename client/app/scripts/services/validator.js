@@ -10,6 +10,16 @@ angular
       return true;
     };
 
+    var nullValues = function(x) {
+      var returner = true;
+      for (var y in x) {
+        if (x[y] !== null) {
+          returner = false;
+        }
+      };
+      return returner;
+    };
+
     var Validator = {
 
       validationMessages: {
@@ -102,7 +112,7 @@ angular
           var field = form[f];
           this.setErrors(field, errors);
         }
-        if (!isEmpty(errors)) {
+        if (!nullValues(errors)) {
           form.FacultyErrors = errors;
           // Errors will display when the form fields are
           // dirty and invalid. If a user has missed a field,
@@ -183,7 +193,6 @@ angular
         require: '^formGroup',
         link: function(scope, element, attrs, formGroupCtrl) {
           formGroupCtrl.addField(element);
-          console.log(scope);
         }
       };
     }]);

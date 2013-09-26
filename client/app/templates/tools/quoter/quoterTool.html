@@ -45,7 +45,7 @@
                         <!-- ########################### Cost ########################### -->
                         <!-- ############################################################ -->
                         <label>Total Cost</label>
-                        <span class="dollarSign">$</span><input form-field type="text" id="cost" class="input-block dollarSign-prepend" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit" name="cost" ui-validate="{numericality: 'Validator.validateCash($value, QuoterToolForm.cost)'}" required ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)">
+                        <span class="dollarSign">$</span><input form-field type="text" id="cost" class="input-block dollarSign-prepend" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit" name="cost" simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Must be a number'}}" required ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)">
                         <div ng-show="QuoterToolForm.FacultyErrors.cost" class="alert alert-error alert-tooltip">
 
                             {{QuoterToolForm.FacultyErrors.cost}}

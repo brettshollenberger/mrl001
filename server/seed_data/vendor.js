@@ -29,6 +29,7 @@ var data = [{
         "latitude": 39.9549651,
         "longitude": -75.15735110000003
     },
+    "tags": ["bear", "computers", "intercom"],
     "tools": [{
         "name": "Locator Tool",
         "active": true
@@ -297,6 +298,7 @@ var data = [{
         "name": "Quoter Tool",
         "active": true
     }],
+    "tags": ["office", "supplies", "printers", "computers", "iPads"],
     "geo": {
         "latitude": 29.22700799999999,
         "longitude": -81.00835589999997
@@ -383,6 +385,7 @@ var data = [{
         "name": "Quoter Tool",
         "active": true
     }],
+    "tags": ["freezers", "kitchens", "Restaurant supply", "diners", "drive ins", "dives"],
     "geo": {
         "latitude": 39.8998074,
         "longitude": -86.23617439999998

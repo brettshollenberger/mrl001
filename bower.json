@@ -13,6 +13,7 @@
     "angular-strap": "~0.7.4",
     "angulartics" : ">=0.3.7",
     "angular-truncate": "latest",
+    "angular-ui-select2": "~0.0.2",
     "angular-ui-utils" : "=0.0.2",
     "bootstrap": "~2.3.2",
     "es5-shim" : "latest",
@@ -21,8 +22,10 @@
     "html5shiv-dist": "~3.6.2",
     "json3" : "3.2.5",
     "json3" : "3.2.4",
-    "jquery" : "1.9.x",
+    "jquery" : "1.10.2",
+    "jquery-migrate": "~1.2.1",
     "lodash" : "1.2.1",
     "modernizr": "~2.6.2"
    }
+  }
 }

@@ -66,13 +66,7 @@ exports.errorResponse = function() {
             return res.failure(err.msg, 401);
         }
 
-        if (err && err.msg) {
-            // respond with 'bad request' ie: this will never work
-            // dont try this request again!                 
-            return res.failure(err.msg, 401);
-        }
-
-        if (err && err.message && err.message.indexOf('CastError')) {
+        if (err && err.message && ~err.message.indexOf('CastError')) {
             // respond with 'bad request' ie: this will never work
             // dont try this request again!                 
             return res.failure('Invalid object id.', 400);

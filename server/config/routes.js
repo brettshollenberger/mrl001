@@ -96,10 +96,22 @@ module.exports = function(app, passport, auth, config, acl) {
     var quotes = require('../app/controllers/quotes');
 
     app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
-    app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), quotes.create);
+    app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), function(req, res, next) {
+
+        console.info('INTERNAL QUOTE API accessed');
+        next();
+        
+    }, quotes.create);
     app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
     app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
     app.del('/api/v1/quotes/:quoteId', isUserAllowed('delete', 'quotes'), quotes.destroy);
+    
+    app.post('/public_api/v1/quotes', function(req, res, next) {
+        
+        console.info('PUBLIC QUOTE API accessed');
+        next();
+        
+    }, quotes.create);
 
     var webshot = require('../app/controllers/webshot')(app, config);
 
@@ -139,6 +151,8 @@ module.exports = function(app, passport, auth, config, acl) {
     // show all vendors, or just users vendors based on role
     app.get('/api/v1/vendors', isUserAllowed('list', 'vendors'), vendors.all);
     app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
+
+    app.get('/api/v1/vendors/tags', vendors.getDistinctTags);
 
     // @todo this technically works for now, but needs to be locked down with different show functions per role
     app.get('/api/v1/vendors/:vendorId', isUserAllowed('view', 'vendors'), vendors.show);

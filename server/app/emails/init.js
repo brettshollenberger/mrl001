@@ -143,3 +143,19 @@ exports.newQuoteVendorRep = function(req, quote) {
 // NEW APPLICATION
 //
 // ---------------------------------------
+
+exports.completeAppCredit = function(req, app) {
+     
+    var locals = {
+        to: {
+            email: 'credit@marlinfinance.com',
+            fullName: 'Marlin Finance'
+        },
+        variables: {
+            link: app.dashboardLink
+        }   
+    };
+    
+    req.app.emailer.send('apps/complete-credit', locals);            
+    
+};

@@ -4,12 +4,8 @@
 var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
-    Schema = mongoose.Schema;
-
-
-var _ = require('lodash');
-
-
+    Schema = mongoose.Schema,
+    _ = require('lodash');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
@@ -30,6 +26,10 @@ var VendorSchema = new Schema({
     "created": {
         type: Date,
         "default": Date.now
+    },
+    "searchString" : {
+        type: String,
+        "default": ''
     },
     "name": {
         type: String,
@@ -146,6 +146,8 @@ var VendorSchema = new Schema({
 var troop = require('mongoose-troop');
 VendorSchema.plugin(troop.merge);
 
+var taggable = require('mongoose-taggable');
+VendorSchema.plugin(taggable, {'path':'tags'});
 
 /**
  * Statics
@@ -189,16 +191,80 @@ function convertToSlug(Text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-
 VendorSchema.pre('save', function(next) {
+    
+    
+    /**
+    * Process tags from dashboard
+    * --------------------------------
+    * 
+    * @note tags are sent as vendorTags which are then saved into vendor.tags
+    * @todo refactor with fulltext mondules that @pickle was looking into
+    * @note when calling addTag() and removeTag() without a callback, it happens in memory
+    *       only and thus will not be refrected in vendor.tags until vendor.save() is complete
+    *
+    */
+    var vendor = this;
+    
+    var vendorTags = [];  // tags that are currently being passed from the vendor
+    
+    // create a unified array of current vendor tags
+    _.each(vendor.vendorTags, function(item) {
+        vendorTags.push(item.text);
+    });
 
-    _.each(this.tools, function(item) {
+    var newTags = _.difference(vendorTags, vendor.tags);
+    var removeTags = _.difference(vendor.tags, vendorTags);
+        
+    _.each(newTags, function(item) {
+        vendor.addTag(item, function(err, addedTag) {
+            console.log('Added: ' + item);
+        });
+    });
+    
+    _.each(removeTags, function(item) {
+        vendor.removeTag(item, function(err, removedTag) {
+            console.log('Removed: ' + item);
+        });
+    });
+    
+    
+    /**
+    * A nice way to create a search string that we can use on the dealer locator
+    * --------------------------------
+    * 
+    * @todo refactor with fulltext mondules that @pickle was looking into
+    *       with a fultext search in place, we could just send tag searches as get queries
+    *       and let the server do all the work.
+    *
+    */
+    vendor.searchString = '';
+    
+    
+    // will be present when updating from dashboard
+    if(vendor.vendorTags) {
+        _.each(vendor.vendorTags, function(tag) {
+            vendor.searchString += tag.text + ' '; 
+        });
+        
+    // on seed data
+    } else {
+        _.each(vendor.tags, function(tag) {
+            vendor.searchString += tag + ' '; 
+        });
+    }
+
+
+    /**
+    * Standardize tool slugs
+    *
+    */
+    _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
 
     next();
 });
-
 
 VendorSchema.statics = {
 
@@ -217,17 +283,12 @@ VendorSchema.statics = {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
-
     },
     load: function(id, cb) {
         this.findOne({
             _id: id
         }).populate('programs salesRep vendorRep').exec(cb);
     }
-
 };
-
-
-
 
 mongoose.model('Vendor', VendorSchema);

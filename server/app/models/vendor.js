@@ -193,6 +193,17 @@ function convertToSlug(Text) {
 
 VendorSchema.pre('save', function(next) {
     
+    
+    /**
+    * Process tags from dashboard
+    * --------------------------------
+    * 
+    * @note tags are sent as vendorTags which are then saved into vendor.tags
+    * @todo refactor with fulltext mondules that @pickle was looking into
+    * @note when calling addTag() and removeTag() without a callback, it happens in memory
+    *       only and thus will not be refrected in vendor.tags until vendor.save() is complete
+    *
+    */
     var vendor = this;
     
     var vendorTags = [];  // tags that are currently being passed from the vendor
@@ -220,16 +231,29 @@ VendorSchema.pre('save', function(next) {
     
     /**
     * A nice way to create a search string that we can use on the dealer locator
+    * --------------------------------
+    * 
+    * @todo refactor with fulltext mondules that @pickle was looking into
+    *       with a fultext search in place, we could just send tag searches as get queries
+    *       and let the server do all the work.
     *
     */
     vendor.searchString = '';
     
-    _.each(vendor.vendorTags, function(tag) {
-        vendor.searchString += tag.text + ' '; 
-    });
     
-    console.log('vendor.searchString is : ' + vendor.searchString);
-    
+    // will be present when updating from dashboard
+    if(vendor.vendorTags) {
+        _.each(vendor.vendorTags, function(tag) {
+            vendor.searchString += tag.text + ' '; 
+        });
+        
+    // on seed data
+    } else {
+        _.each(vendor.tags, function(tag) {
+            vendor.searchString += tag + ' '; 
+        });
+    }
+
 
     /**
     * Standardize tool slugs

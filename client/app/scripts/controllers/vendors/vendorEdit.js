@@ -41,7 +41,6 @@ angular
                 permission: 'changeToolOptions-vendors'
             }];
 
-
             $scope.salesName = '';
             $scope.vendorName = '';
 
@@ -55,7 +54,18 @@ angular
             //States picker
             $scope.states = States.states();
             $scope.vendor.state = $scope.states[0].abbreviation;
-
+            
+            // options for vendor tags
+            //$scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
+            
+            $scope.vendor.vendorTags = [];
+            Vendor.getAllVendorTags().then(function(tags) {
+                $scope.vendorTagsOptions = {
+                    'tags': tags, // populate this with tag suggestions
+                    'width': 'element'
+                }; 
+            });
+            
             // get all the reps
             User.getAll().then(function(response) {
                 $scope.allReps = response;
@@ -121,7 +131,6 @@ angular
             var vendorId = $routeParams.id;
             $scope.formAction = 'Add';
 
-
             // get and store the vendor 
             if (vendorId) {
 
@@ -139,8 +148,13 @@ angular
                         $scope.tabs[4].permission = 'changeLocationOptions-vendor';
                         $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
 
-                        console.log($scope.tabs);
-
+                        //console.log($scope.tabs);
+                    });
+                    
+                    $scope.vendor.vendorTags = [];
+                    _.each($scope.vendor.tags, function(tag) {
+                        tag = tag.toLowerCase();
+                        $scope.vendor.vendorTags.push({'id':tag, 'text':tag});
                     });
 
                     updatePrograms();
@@ -403,24 +417,23 @@ angular
              * Generate map, optionally create a marker for the vendor if they have geo data.
              *
              */
-
             function makeMap() {
 
-                console.log('Making map now! Geo data for vendor is:');
+                //console.log('Making map now! Geo data for vendor is:');
 
                 $scope.isMapMade = true;
 
                 // if vendor has geo set, lets make map center from this
                 if ($scope.vendor.geo) {
 
-                    console.log('VENDOR HAS EXISTING GEO DATA, centering the map now on their lcoation');
+                    //console.log('VENDOR HAS EXISTING GEO DATA, centering the map now on their lcoation');
 
                     $scope.map.center = {
                         latitude: $scope.vendor.geo.latitude,
                         longitude: $scope.vendor.geo.longitude
                     };
 
-                    console.log($scope.map.center);
+                    //console.log($scope.map.center);
 
                     makeMarkerFromVendor();
                 }
@@ -536,8 +549,8 @@ angular
 
                 $scope.vendorMarker = [newMarker];
 
-                console.log('VENDOR MARKER is...');
-                console.log($scope.vendorMarker);
+                //console.log('VENDOR MARKER is...');
+                //console.log($scope.vendorMarker);
 
                 // doesnt seem to be needed
                 // was an attempt to get the map to re render

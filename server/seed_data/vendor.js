@@ -26,8 +26,8 @@ var data = [{
         "zip": "19107"
     },
     "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
+        "latitude": 39.9549651,
+        "longitude": -75.15735110000003
     },
     "tools": [{
         "name": "Locator Tool",
@@ -67,11 +67,7 @@ var data = [{
         "name": "Quoter Tool",
         "active": true
     }],
-    "programs": ['522f4634cc2aadba4d000005'],
-    "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
-    }
+    "programs": ['522f4634cc2aadba4d000005']
 }, {
 
     "_id": '51e71518ed32080ffc000025',
@@ -94,10 +90,6 @@ var data = [{
         "city": "",
         "state": "",
         "zip": ""
-    },
-    "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
     },
     "tools": [{
         "name": "Locator Tool",
@@ -129,10 +121,6 @@ var data = [{
         "city": "",
         "state": "",
         "zip": ""
-    },
-    "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
     },
     "tools": [{
         "name": "Locator Tool",
@@ -205,8 +193,8 @@ var data = [{
     "businessPhone": "",
     "website": "http://www.absinc-sw.com/",
     "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
+        "latitude": 33.604143,
+        "longitude": -111.71662800000001
     }
 }, {
 
@@ -232,11 +220,7 @@ var data = [{
         "phone": "(661)327-5336",
         "email": "tony_flores@praxair.com"
     },
-    "website": "www.praxair.com",
-    "geo": {
-        "latitude": 35.5217431,
-        "longitude": -118.90627940000002
-    }
+    "website": "www.praxair.com"
 }, {
 
     "_id": '51e71518ed32080ffc000030',
@@ -262,11 +246,7 @@ var data = [{
         "phone": "(800)273-5033",
         "email": "vpsales@ez2000software.com"
     },
-    "website": "www.ez2000software.com",
-    "geo": {
-        "latitude": 34.06269899999999,
-        "longitude": -118.41526299999998
-    }
+    "website": "www.ez2000software.com"
 }, {
 
     "_id": '51e71518ed32080ffc000031',
@@ -291,11 +271,7 @@ var data = [{
     }, {
         "name": "Quoter Tool",
         "active": true
-    }],
-    "geo": {
-        "latitude": 39.6999073,
-        "longitude": -104.9330448
-    }
+    }]
 }, {
 
     "_id": '51e71518ed32080ffc000032',
@@ -303,7 +279,7 @@ var data = [{
         "original": "https://www.filepicker.io/api/file/m6PTCIGdRsSVyMYimcI2"
     },
     "state": false,
-    "name": "capitol office products",
+    "name": "Capitol Office Products",
     "businessAddress": {
         "address1": "P O Box 1671",
         "city": "Daytona Beach",
@@ -524,7 +500,11 @@ var data = [{
     }, {
         "name": "Quoter Tool",
         "active": true
-    }]
+    }],
+    "geo": {
+        "latitude": 35.141915,
+        "longitude": -90.05563999999998
+    }
 }, {
     "_id": '51e71518ed32080ffc000040',
     "logo": {
@@ -572,7 +552,11 @@ var data = [{
     }, {
         "name": "Quoter Tool",
         "active": true
-    }]
+    }],
+    "geo": {
+        "latitude": 47.8486592,
+        "longitude": -122.2199478
+    }
 }, {
 
     "_id": '51e71518ed32080ffc000042',
@@ -597,7 +581,11 @@ var data = [{
     }, {
         "name": "Quoter Tool",
         "active": true
-    }]
+    }],
+    "geo": {
+        "latitude": 40.056981,
+        "longitude": -80.72520600000001
+    }
 }, {
 
     "_id": '51e71518ed32080ffc000043',

@@ -10,10 +10,6 @@ angular
         '$timeout',
         function($rootScope, $scope, $location, $routeParams, Vendor, googleMaps, $timeout) {
 
-
-
-            //google.maps.visualRefresh = true;
-
             // markers will be vendors that match out serarch! 
             $scope.markers = [];
 
@@ -72,19 +68,14 @@ angular
                 if (!$scope.geolocationAvailable) return false;
 
                 navigator.geolocation.getCurrentPosition(function(position) {
+                
                     $scope.map.center = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     };
 
-                    //setCenter(position.coords.latitude, position.coords.longitude);
-
-                    // create latLng object, which we need for distanc comparisons
-
                     $scope.hasLocation = true;
-
                     $scope.$apply();
-
                     filterMarkers(); // refilter the markers based on new location
                 });
 
@@ -100,7 +91,6 @@ angular
                 $scope.searchText = '';
                 filterMarkers();
             };
-
 
             // distances in miles
             $scope.distanceOptions = [100, 500, 1000, 2000, 'Any'];
@@ -128,27 +118,21 @@ angular
             var listener1 = $rootScope.$on('event:geo-location-success', function(event, data, type) {
                 // update center based on search 
                 if (type && type === 'locationSearch') {
-                    //console.log(data);
+                    
                     $scope.map.center = {
                         latitude: data.lat,
                         longitude: data.lng
                     };
 
-                    console.log(data);
-
                     //setCenter(position.coords.latitude, position.coords.longitude);
 
                     $scope.hasLocation = true;
-
-                    //console.log($scope.map.center);
                     filterMarkers();
-
                     $scope.$apply();
                 }
             });
 
             $rootScope.$on('$routeChangeSuccess', function() {
-                //console.log('removing google callback ');
                 listener1();
             });
 
@@ -161,34 +145,47 @@ angular
                 closeAllWindows();
 
                 if (!$scope.vendors) {
-                    console.log('$scope.vendors is undefined, aborting!');
+                    //console.log('$scope.vendors is undefined, aborting!');
                     return;
                 }
 
-
                 $timeout(function() {
+                
                     $scope.markers = [];
                     $scope.tempMarkers = [];
 
-                    console.log('Filtering markers...');
-                    console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
+                    //console.log('Filtering markers...');
+                    //console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
 
                     _.each($scope.vendors, function(item) {
 
+                        // first check for text based search
+                        // if this doesn't match, we dont care how close the vendor is!
+                        if($scope.searchText) {
+                        
+                            var originalSearch = $scope.searchText.toLowerCase();
+                            var tags = originalSearch.split(" ");
+                            tags.push(originalSearch);
+                            var isValid = false;
+    
+                            _.each(tags, function(tag) {
+                                if(_.contains(item.tags, tag)) {
+                                    isValid = true;
+                                }
+                            });
+                           
+                            if(!isValid) {
+                                return;
+                            }
+                        }
+                        
                         // check if vendor has geo data!
                         if (!item.geo) return;
-
-
-                        // first check for text based search
-                        // if this doesn't match, we dont care how close the vendor is! 
-                        if ($scope.searchText.toLowerCase() && item.name.toLowerCase().indexOf($scope.searchText.toLowerCase()) === -1) return;
-
-
+                        
                         // check if distance is withing range
                         // @note that users can set "unlimited" distance
                         item.geo.distance = isMarkerWithinDistanceFromCenter($scope.map.center, item.geo, $scope.distanceFrom);
 
-                        //console.log(distance);
                         if ($scope.distanceFrom !== 'Any' && item.geo.distance === false) return;
 
                         // we need to create the marker from the vendor
@@ -206,10 +203,28 @@ angular
                         };
 
                         $scope.tempMarkers.push(newMarker);
-
                     });
+                    
+                    /*
+                    if($scope.tempMarkers.length < 3) {
+                        console.log('WE NEED MORE MARKERS!!!');
+                        if($scope.distanceFrom !== 'Any') {
+                            var currentIndex = $scope.distanceOptions.indexOf($scope.distanceFrom);
+                            var nextIndex = currentIndex + 1;
+                            if((nextIndex in $scope.distanceOptions) ) {
+                                $scope.distanceFrom = $scope.distanceOptions[nextIndex];
+                            }
+                        } else {
+                            $scope.searchText = '';
+                            console.log('WE NEED TO BROADEN THE TEXT SEARCH!!!');
+                        }
+                        
+                        filterMarkers();
+                    }
+                    */
 
-                    console.log('THERE are now ' + $scope.tempMarkers.length + ' markers');
+                    //console.log('THERE are now ' + $scope.tempMarkers.length + ' markers');
+                    
                     $scope.markers = $scope.tempMarkers;
                     _.each($scope.markers, function(marker) {
 
@@ -226,11 +241,9 @@ angular
                             closeAllWindows();
                             console.log('CLOSING WINDOWS by openClick....');
                         };
-
                     });
 
                 }, 50);
-
             }
 
             /**
@@ -244,37 +257,15 @@ angular
 
             // perform the initial filter when vendors are loaded
             $scope.$watch('$scope.vendors', filterMarkers, true);
-
-
             $scope.map.centerHasChanged = false;
 
             // map events
-            // @note enents on markers dont register here! 
+            // @note events on markers dont register here! 
             $scope.map.events = {
                 click: function(mapModel, eventName, originalEventArgs) {
                     // 'this' is the directive's scope
                     //console.log("user defined event: " + eventName, mapModel, originalEventArgs);
-
                     closeAllWindows();
-
-                    /*
-var e = originalEventArgs[0];
-
-                if (!$scope.map.clickedMarker) {
-                    $scope.map.clickedMarker = {
-                        latitude: e.latLng.lat(),
-                        longitude: e.latLng.lng()
-                    };
-                }
-                else {
-                    $scope.map.clickedMarker.latitude = e.latLng.lat();
-                    $scope.map.clickedMarker.longitude = e.latLng.lng();
-                }
-                
-                //console.log($scope.map.clickedMarker);
-
-                $scope.$apply();
-*/
                 },
                 zoom_changed: function() {
                     ////console.log('User is zooming map');
@@ -290,13 +281,6 @@ var e = originalEventArgs[0];
                 $scope.map.centerHasChanged = false;
                 filterMarkers();
             };
-
-
-            function redrawCircle() {
-
-
-
-            }
 
             $scope.closeAllWindows = function() {
                 console.log('CLOSING all windows!!!!!');
@@ -323,8 +307,6 @@ var e = originalEventArgs[0];
                 $scope.map.infoWindow.show = true;
             }, 2000);
 
-
-
             function genereateSingleLineAddress(businessAddress) {
 
                 var address = _.filter(businessAddress, function(item) {
@@ -348,8 +330,6 @@ var e = originalEventArgs[0];
                 var checkDsitance = getDistanceFromLatLonInKm(center.latitude, center.longitude, marker.latitude, marker.longitude);
                 return checkDsitance <= distance ? checkDsitance : false;
             }
-
-
 
             function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
@@ -376,6 +356,5 @@ var e = originalEventArgs[0];
             function deg2rad(deg) {
                 return deg * (Math.PI / 180);
             }
-
         }
     ]);

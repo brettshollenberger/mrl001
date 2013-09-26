@@ -1,3 +1,6 @@
+# allows for "archiving" files or folders by prefacing them with 3 underscores
+___*
+
 /bower_components
 /build
 /node_modules

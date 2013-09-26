@@ -254,9 +254,9 @@
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
+            <form name="locationForm" ui-if="isActiveTab(5)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 
-                <div class="span10" ui-if="isActiveTab(5)">
+                <div class="span10">
                     
                     <div class="row">
                     
@@ -284,7 +284,7 @@
                         
                         </div>
                         
-                        <div class="span6">
+                        <div class="span6" ui-if="mapActive">
                         
                             <div class="google-map"
                 				center="map.center"
@@ -292,8 +292,8 @@
                 				draggable="true"
                                 dragging="map.dragging">
                         		
-                        		<markers models="vendorMarker" coords="'self'" icon="'icon'" click="'onClicked'" >
-                					<windows show="'showWindow'" closeClick="'closeClick'">
+                        		<markers models="vendorMarker" coords="'self'" icon="'icon'">
+                					<windows show="'showWindow'">
                                         <div ng-non-bindable>
                                             <p>{{name}}</p>
                                     		<p ng-show="website != ''"><a target="_blank" ng-href="{{website}}">Visit Website</a></p>

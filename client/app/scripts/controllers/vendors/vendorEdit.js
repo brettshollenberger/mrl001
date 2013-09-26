@@ -16,6 +16,7 @@ angular
         function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
 
             $scope.modelObject = Vendor;
+            $scope.mapActive = false;
 
             Auth.canUserDoAction('edit-vendors');
 
@@ -386,14 +387,64 @@ angular
 
             };
 
-            $scope.$watch('activeTab', function(newValue, oldValue) {
+            var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {
 
                 // only make map if user is switching to tab 4, and there is no map made
                 if (newValue === 5) {
+                    $scope.mapActive = true;
                     if (!$scope.isMapMade) makeMap();
+                } else {
+                    $scope.mapActive = false;
                 }
             });
+            
+            var removeFunction = $scope.$on('$locationChangeStart', function(event, next, current) {
+               
+               // removes the map
+               $scope.mapActive = false; 
+               
+               // remove watchers for page
+               removeFunction();
+               watchTab();
+              
+               /**
+               * ---------------
+               * BEGIN IE8 FIX
+               * ---------------
+               * 
+               * IE8 throws a fit when we try to switch routes
+               *  and the map is on the screen. To get around this, we 
+               *  prevent the default location change event, then get the path 
+               *  we are navigating to, and use $location.url() to navigate. 
+               *
+               * I'm not sure if THIS is what fixes it, OR if its the forced $digest
+               *  that happens by wrapping it in $timeout()
+               *
+               */
+               event.preventDefault();               
 
+               $timeout(function() { 
+                   $location.url(relativeUrl(next));
+               }, 0);
+               
+               /**
+               * ---------------
+               */
+               
+            });
+            
+            /**
+            * Gets a realtive path, given a full path to a page in the app
+            * 
+            * @note this is useful when we want to get a relative path
+            *       from a next / prev from $locationChangeStart
+            *
+            */
+            var relativeUrl = function(next) {
+                var base = $location.absUrl().replace($location.path(), '');
+                return next.replace(base, '');
+            };
+            
 
             /**
              * Variables for map

@@ -11,7 +11,7 @@
     "modernizr": "~2.6.2",
     "angular-resource": "1.0.8",
     "json3": "3.2.5",
-    "jquery" : "1.10.2",
+    "jquery": "1.10.2",
     "lodash": "1.2.1",
     "angular-ui-utils": "=0.0.2",
     "angular-cookies": "1.0.8",
@@ -23,6 +23,7 @@
     "event-shim.js": "latest",
     "es5-shim": "latest",
     "angular-truncate": "latest",
-    "angular-ui-select2": "~0.0.2"
+    "angular-ui-select2": "~0.0.2",
+    "jquery-migrate": "~1.2.1"
   }
 }

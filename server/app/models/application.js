@@ -177,6 +177,16 @@ ApplicationSchema.statics = {
     }
 };
 
+// virtual fields are available anywhere on the server. 
+// They are not passes over the API unless explicitly set. 
+ApplicationSchema.virtual('applicationToolLink').get(function() {
+    return config.siteUrl + '/tools/application/' + this._id;
+});
+
+ApplicationSchema.virtual('dashboardLink').get(function() {
+    return config.siteUrl + '/dashboard/applications/' + this._id;
+});
+
 ApplicationSchema.pre('save', function(next, something) {
 
     var self = this;

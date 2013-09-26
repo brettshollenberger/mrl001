@@ -61,7 +61,7 @@
     "async": "latest",
     "view-helpers": "latest",
     "mean-logger": "latest",
-    "mean-emailer": "0.0.2",
+    "mean-emailer": "0.0.4",
     "lodash": "latest",
     "mongoose-troop": "latest",
     "passport-http": "latest",

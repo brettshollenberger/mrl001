@@ -16,7 +16,7 @@ angular
         if (x[y] !== null) {
           returner = false;
         }
-      };
+      }
       return returner;
     };
 

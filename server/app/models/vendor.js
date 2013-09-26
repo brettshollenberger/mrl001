@@ -4,12 +4,8 @@
 var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
-    Schema = mongoose.Schema;
-
-
-var _ = require('lodash');
-
-
+    Schema = mongoose.Schema,
+    _ = require('lodash');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
@@ -146,6 +142,8 @@ var VendorSchema = new Schema({
 var troop = require('mongoose-troop');
 VendorSchema.plugin(troop.merge);
 
+var taggable = require('mongoose-taggable');
+VendorSchema.plugin(taggable, {'path':'tags'});
 
 /**
  * Statics
@@ -189,16 +187,38 @@ function convertToSlug(Text) {
         .replace(/[^\w\-]+/g, '');
 }
 
-
 VendorSchema.pre('save', function(next) {
+    
+    var vendor = this;
+    
+    var vendorTags = [];  // tags that are currently being passed from the vendor
+    
+    // create a unified array of current vendor tags
+    _.each(vendor.vendorTags, function(item) {
+        vendorTags.push(item.text);
+    });
 
-    _.each(this.tools, function(item) {
+    var newTags = _.difference(vendorTags, vendor.tags);
+    var removeTags = _.difference(vendor.tags, vendorTags);
+        
+    _.each(newTags, function(item) {
+        vendor.addTag(item, function(err, addedTag) {
+            console.log('Added: ' + item);
+        });
+    });
+    
+    _.each(removeTags, function(item) {
+        vendor.removeTag(item, function(err, removedTag) {
+            console.log('Removed: ' + item);
+        });
+    });
+
+    _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
 
     next();
 });
-
 
 VendorSchema.statics = {
 
@@ -217,17 +237,12 @@ VendorSchema.statics = {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));
             }
         });
-
     },
     load: function(id, cb) {
         this.findOne({
             _id: id
         }).populate('programs salesRep vendorRep').exec(cb);
     }
-
 };
-
-
-
 
 mongoose.model('Vendor', VendorSchema);

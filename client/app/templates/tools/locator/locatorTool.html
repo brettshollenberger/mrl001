@@ -17,7 +17,7 @@
         </div>
         
         <div class="pull-left">
-            <label>Search by Name</label>
+            <label>Search by Tag</label>
             <input type="text" ng-model="searchText">
             <button class="btn btn-large" ng-click="searchByText()">Search</button>
             <button class="btn btn-large" ng-show="searchText" ng-click="clearText()">Clear</button>
@@ -29,7 +29,6 @@
         </div>
      </div>    
 </div>
-
 
 <div class="row">
     
@@ -70,7 +69,7 @@
     		<markers models="markers" coords="'self'" icon="'icon'" click="'openClick'">
 				<windows show="'showWindow'" closeClick="'closeClick'">
 					<div ng-non-bindable >
-<!--     					<img ng-src="{{logo}}" class="img-medium"/> -->
+                        <!-- <img ng-src="{{logo}}" class="img-medium"/> -->
                 		<p>{{name}}</p>
                 		<p ng-show="website != ''"><a target="_blank" ng-href="{{website}}">Visit Website</a></p>
                         <p>{{businessPhone}}</p>
@@ -82,8 +81,8 @@
 					</div>
 				</windows>
 			</markers>
-<!--
-			
+            
+            <!--
 			<marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
 				<window show="m.showWindow" closeClick="m.closeClick()">
 					<img ng-src="{{m.logo}}" class="img-medium"/>
@@ -97,29 +96,19 @@
             		<p><a target="_blank" ng-href="{{m.destAddress}}">Open in Google Maps</a></p>
 				</window>
 			</marker>
-			
-			
--->
+			-->
     		
     		<!-- prefedined markers -->
     		<!-- <marker ng-repeat="m in markers" coords="m" icon="m.icon" click="m.closeClick()" ></marker> -->
 
 			<!-- marker for clicked position -->
 
-
-<!-- 			<window show="map.infoWindow.show" coords="map.infoWindow.coords" isIconVisibleOnClick="false">I should not be attached to a marker.</window> -->
+            <!-- <window show="map.infoWindow.show" coords="map.infoWindow.coords" isIconVisibleOnClick="false">I should not be attached to a marker.</window> -->
 
 		</div>
           
 	</div>
 	
-	
-	<div show="showWindow">
-		
-	</div>
-	
-        
+	<div show="showWindow"></div>
+	  
 </div>
-    
-    
-

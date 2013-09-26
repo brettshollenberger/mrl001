@@ -28,6 +28,17 @@ module.exports = function(app, config, passport, standardReponse) {
 
         next();
     };
+    
+    var cacheBuster = function(req, res, next){
+    
+        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.header("Pragma", "no-cache");
+        res.header("Expires", 0);
+        next();
+    };
+    
+    // @todo isolate to api routes...
+    app.use(cacheBuster);
 
     // @todo this might break local network testing on IE... 
     // app.use(allowCrossDomain);

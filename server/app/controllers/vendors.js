@@ -77,7 +77,7 @@ exports.destroy = function(req, res) {
  * Show an vendor
  */
 exports.show = function(req, res) {
-    res.jsonp(req.vendor);
+    res.ok(req.vendor);
 };
 
 
@@ -223,6 +223,17 @@ exports.getAllNames = function(req, res) {
                 res.ok(vendors);
             }
         });
+};
+
+/**
+ * Get distinct vendor tags
+ *
+ */
+exports.getDistinctTags = function(req, res) {
+    Vendor.distinct('tags', {}, function (err, result) {
+        if (err) res.failure(err);
+        res.ok(result);
+    });
 };
 
 

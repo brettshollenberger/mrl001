@@ -124,7 +124,7 @@ exports.all = function(req, res) {
         };
     } else {
         populate = '';
-        select = 'name _id logo customField';
+        select = 'name _id logo customField geo tools';
     }
 
     Vendor

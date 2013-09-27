@@ -204,7 +204,7 @@ angular
 
             // function that calls async geo location call to google
             $scope.findMyLocation = function() {
-                console.log('User is searching by location:' + $scope.locationSearch);
+                // console.log('User is searching by location:' + $scope.locationSearch);
                 googleMaps.geo($scope.locationSearch, 'locationSearch');
             };
 
@@ -262,8 +262,8 @@ angular
                     // when a user updates their location text search
                     $scope.$apply();
 
-                    console.log('Filtering markers...');
-                    console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
+                    // console.log('Filtering markers...');
+                    // console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
 
                     _.each($scope.vendors, function(item) {
 
@@ -276,7 +276,6 @@ angular
                         
                         // check if vendor has geo data!
                         if (!item.geo.latitude || !item.geo.longitude) {
-                            console.log('item has no geo data');
                             return;
                         }
                         
@@ -328,7 +327,7 @@ angular
                     // since we refactored the code
                     // 
                     if($scope.tempMarkers.length < 3) {
-                        console.log('WE NEED MORE MARKERS!!!');
+                        // console.log('WE NEED MORE MARKERS!!!');
                         if($scope.distanceFrom !== 'Any') {
                             var currentIndex = $scope.distanceOptions.indexOf($scope.distanceFrom);
                             var nextIndex = currentIndex + 1;
@@ -337,7 +336,7 @@ angular
                             }
                         } else {
                             $scope.searchText = '';
-                            console.log('WE NEED TO BROADEN THE TEXT SEARCH!!!');
+                            // console.log('WE NEED TO BROADEN THE TEXT SEARCH!!!');
                         }
                         
                         filterMarkers();
@@ -511,7 +510,7 @@ angular
                 // check for no tags
                 if(!item.tags || !item.tags.length) return false;
                 
-                console.log(item.searchString);
+                // console.log(item.searchString);
                 
                 // for each search tag that user has entered, check if 
                 // it exists in the items tags array.

@@ -26,6 +26,5 @@
     "jquery-migrate": "~1.2.1",
     "lodash" : "1.2.1",
     "modernizr": "~2.6.2"
-   }
   }
 }

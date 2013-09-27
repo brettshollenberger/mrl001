@@ -1,3 +1,39 @@
+/**
+* A validation helper for angular apps
+* ---------------------
+*
+* This service extends the angular validation methods to provide a simple and consistant 
+* way to handle validation. It: 
+* 
+* - Provides extra validation methods, such as cash and zip code
+*   these can be used by setting `simple-validate` or `ui-validate` if using angular ui
+*
+*   @example <input ui-validate="{zip: 'Validator.validateZip($value)'}" />
+*   @example <input simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Must be a number'}}" />
+*
+* @todo how are multiple valiations handled?
+*
+* - Provides a method for setting default validation messages
+*   Currently angular requires that you create an html element and message for each input
+*   This can get taxing if you are using the same validations over and over, thus
+*   repeating the same error message at multiple places in the DOM. Changing one requires a 
+*   complex find and replace. 
+* 
+* - Provides a consistant formName.$setPristine() method. 
+*   Anular 1.2 provides this method, but apparently there are still issues with it
+*   @todo add @see link to a discussion for ref. 
+*
+* - Provides method to validatie an entire form (and change class based on validitiy)
+* 
+* - Provides mehtod to validate form field. 
+*
+* @note did we basically create our own version of ui-validate with simple-validate? 
+* @note how does ui-validate-watch get supported? 
+* 
+* @todo what other fields are missing? 
+* 
+*/
+
 angular
   .module('app')
   .factory('Validator',
@@ -63,6 +99,7 @@ angular
         }
       },
 
+      // @note this will be useful on the server too for the quoting
       validateCash: function(number, field) {
         if (typeof number === 'string') {
             if (!isNaN(Number(number)) && number.length > 0) {
@@ -107,6 +144,11 @@ angular
 
       validateField: function(field, form) {
         var errors = form.FacultyErrors = form.FacultyErrors || {};
+        
+        // @note checking for $pristine will prevent errors from being displayed if user
+        // has NOT entered any content in the field
+        //if(field.$pristine) return;
+        
         this.setErrors(field, errors);
       },
 

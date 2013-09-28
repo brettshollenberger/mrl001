@@ -231,6 +231,19 @@ angular
       }
     };
   })
+  
+  /**
+  * Used of form inputs, selects, etc. to register with a `form-group` area
+  * formGroup will validate all child `form-field` inputs to check validity. 
+  *
+  * @note that inputs where model props are not objects, for example:
+  *   ng-model='variable' instead of ng-model='object.variable' 
+  *   will have trouble with scope. To avoid this specify ng-model='$parent.variable' or
+  *   use as an object. 
+  * 
+  * @see https://github.com/FacultyCreative/MRL001/commit/9ff4f7b48f6eb1ffa5724921c1f2525b0193e938
+  *
+  */
   .directive('formField', [
     function() {
       return {

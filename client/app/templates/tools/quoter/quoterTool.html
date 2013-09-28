@@ -45,7 +45,12 @@
                         <!-- ########################### Cost ########################### -->
                         <!-- ############################################################ -->
                         <label>Total Cost</label>
-                        <span class="dollarSign">$</span><input form-field type="text" id="cost" class="input-block dollarSign-prepend" placeholder="" ng-model="$parent.quoteCost" ng-disabled="!canEdit" name="cost" simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Must be a number'}}" required ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)">
+                        <span class="dollarSign">$</span>
+                        <input form-field type="text" id="cost" class="input-block dollarSign-prepend" placeholder="" ng-model="$parent.quoteCost" ng-disabled="!canEdit" name="cost" simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Must be a number'}}" required ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)">
+                        
+                        <!-- Shown when user revisits the quote -->
+                        <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | cheddar:'' }}">
+                        
                         <div ng-show="QuoterToolForm.FacultyErrors.cost" class="alert alert-error alert-tooltip">
 
                             {{QuoterToolForm.FacultyErrors.cost}}
@@ -72,16 +77,25 @@
                         <!-- ########################### Description #################### -->
                         <!-- ############################################################ -->
                         <label for="description">Description of Equipment</label>
-                        <textarea form-field name="description" id="description" type="text" class="textarea-block" ng-model="quote.description" ng-disabled="!canEdit" ng-blur="Validator.validateField(QuoterToolForm.description, QuoterToolForm)" required></textarea>
+                        <textarea  ng-show="canEdit" form-field name="description" id="description" type="text" class="textarea-block" ng-model="quote.description" ng-disabled="!canEdit" ng-blur="Validator.validateField(QuoterToolForm.description, QuoterToolForm)" required></textarea>
+
+                        <!-- Shown when user revisits the quote -->
+                        <textarea ng-show="!canEdit" disabled name="description" id="description" type="text" class="textarea-block">{{quote.description}}</textarea>
 
                         <div ng-show="QuoterToolForm.FacultyErrors.description" class="alert alert-error alert-tooltip">
                             {{QuoterToolForm.FacultyErrors.description}}
                         </div>
                         
-                        <div ng-show="vendor.customField.enabled">        
+                        <div ng-show="vendor.customField.enabled && canEdit">        
                             <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
                             <input ng-show="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
                             <input ng-show="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
+                        </div>
+                        
+                        <!-- Shown when user revisits the quote -->
+                        <div ng-show="vendor.customField.enabled && !canEdit">        
+                            <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input disabled type="text" class="large" value="quote.customField.value" />
                         </div>
                     
                     </div>
@@ -235,7 +249,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>${{quote.totalCost | number:2}}</td>
+                            <td>{{quote.totalCost | cheddar}}</td>
                             <td ng-repeat="rate in buyOutOption.costs[0].rates" ng-show="rate.rate != '-'">
                                
                                 ${{rate.rate *  quote.totalCost | number:2}}<br/>

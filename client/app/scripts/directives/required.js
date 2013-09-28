@@ -32,14 +32,22 @@ angular
                     if (elemForm && !elemForm.hasClass(options.theClass)) {
                         elemForm.append(options.message).addClass(options.theClass);
                     }
-
-                    // add required message to elements label
-                    if (elemLabel) {
-                        elemLabel.append(options.requiredMessage);
+                    
+                    this.shouldShow = function() {
+                        // add required message to elements label
+                        if (elemLabel && element.css('display') !== 'none' && !element.prop('disabled') && !element.hasClass('required-label')) {
+                            elemLabel.append(options.requiredMessage);
+                            element.addClass('required-label');
+                        }
                     }
-
+                    
+                    scope.$watch('element.disabled', shouldShow);
+                    scope.$watch('element.style.display', shouldShow);
+                    
 
                 }
             };
+            
+            
         }
     ]);

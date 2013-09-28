@@ -1,7 +1,23 @@
+/**
+* Formats number with commas and prefixed $
+* Optionally you can disable prefix by using cheddar:''
+*
+* examples:
+
+    111111111 | cheddar = $111,111,111
+    111111 | cheddar:'' = 111,111
+* 
+*
+*/
 angular
   .module('app')
   .filter('cheddar', function() {
-    return function(money) {
+    
+    return function(money, prefix) {
+      
+      // support preface, or more useful hide preface
+      preface = typeof prefix === 'string' ? prefix : '$';
+      
       if (!money) return money;
       // Reverse string, and for every three digits,
       // add a comma, then return the string to normal
@@ -17,6 +33,6 @@ angular
         .reverse()
         .join("");
 
-      return "$" + cheddar;
+      return preface + cheddar;
     };
   });

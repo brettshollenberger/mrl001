@@ -2,7 +2,7 @@
   "title": "Marlin Quoter Tool",
   "name": "marlin-quoter-tool",
   "description": "Marlin Quoter Tool",
-  "version": "0.1.0",
+  "version": "0.3.5",
   "author": {
     "name": "Matt Miller",
     "email": "matt@facultycreative.com"
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "bower": "~0.10.0",
+    "email-templates": "~0.1.0",
     "express": "~3.3.1",
     "grunt-angular-templates": "~0.3.9",
     "grunt-cli": "~0.1.9",
@@ -61,13 +62,14 @@
     "async": "latest",
     "view-helpers": "latest",
     "mean-logger": "latest",
-    "mean-emailer": "0.0.2",
+    "mean-emailer": "0.0.5",
     "lodash": "latest",
     "mongoose-troop": "latest",
     "passport-http": "latest",
     "virgen-acl": "latest",
     "moment": "~2.2.1",
-    "format-number" : "latest"
+    "format-number" : "latest",
+    "mongoose-taggable" : "latest"
   },
   "devDependencies": {
     "supertest": "latest",

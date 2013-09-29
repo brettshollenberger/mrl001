@@ -27,15 +27,6 @@ angular
             }, {
                 value: 'complete',
                 label: 'Completed'
-            }, {
-                value: 'forApproval',
-                label: 'Submitted For Approval'
-            }, {
-                value: 'approved',
-                label: 'Approved'
-            }, {
-                value: 'denied',
-                label: 'Denied'
             }];
 
             //////////////////////////////////////////////////////////////////////////////
@@ -78,6 +69,7 @@ angular
             ////////////////////////////////////////////////////////////////////////////
 
             $scope.edit = function() {
+            
                 Auth.canUserDoAction('edit-applications');
                 $scope.modelObject = Application;
 
@@ -114,6 +106,13 @@ angular
                     // get the application
                     Application.getById(applicationId).then(function(response) {
                         $scope.application = response;
+                        
+                        // if the Application is new, set it to pending after it is initially looked at
+                        if($scope.application.status === 'new') {
+                            $scope.application.status = 'inProgress';
+                            Application.update($scope.application);
+                        }
+                        
                     });
 
                     //console.log($scope.application);
@@ -122,7 +121,10 @@ angular
 
                 // activated when user clicks the save button
                 $scope.save = privates.save;
-
+                
+                // activated when the user clickes the complete button
+                $scope.complete = privates.complete;
+                
                 /**
                  * Tab functions.
                  * @todo make into a direct
@@ -131,7 +133,6 @@ angular
                 $scope.activeTab = 0;
                 $scope.isActiveTab = privates.isActiveTab;
                 $scope.changeTab = privates.changeTab;
-
 
                 $scope.setStatus = function(newStatus) {
                     // this is a hack??? or not, for some reason the unsavedChanges directive moves the form
@@ -212,6 +213,12 @@ angular
                     Application.update($scope.application);
                     $location.url('/dashboard/applications');
                 }
+            };
+            
+            // activated when user clicks the complete button
+            privates.complete = function() {
+                $scope.application.status = 'complete';
+                privates.save();
             };
 
             // used for active class

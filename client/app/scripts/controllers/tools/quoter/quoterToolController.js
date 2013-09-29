@@ -21,6 +21,7 @@ angular
             $scope.didQuote = false;
             $scope.buttonText = 'Get Quote';
             $scope.canEdit = true;
+            $scope.quoteCost = null;
 
             // define local store for quote
             var quote = {};
@@ -50,7 +51,6 @@ angular
                 getAllVendors();
 
             }
-
 
             // get a single vendor at set as global vendor
 
@@ -173,11 +173,13 @@ angular
 
             }
 
-
             $scope.generateQuote = function() {
-
+                
                 $scope.quote.totalCost = $scope.quoteCost;
-
+                $scope.didQuote = false;
+                
+                console.log('$scope.quoteCost is %s', $scope.quoteCost);
+                
                 // save the custom Field with the quote 
                 if ($scope.vendor && $scope.vendor.customField.enabled) {
 

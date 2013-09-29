@@ -3,7 +3,17 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.4 (current)
+Release 0.3.5 (current)
+--------
+This is a big release, adding email AND tagging functionality to the app.
+
+- [FEATURE] Add email notification system. Emails are now triggered when an End User generates a quote. They are sent to the End User, the Marlin Rep, and the Vendor Rep.
+- [FEATURE] Add tagging to vendors and dealer locator. The Marlin Admin can add tags on the vendor > edit > locator tool tab. The End User can search by these tags on the Dealer Locator Tool.
+- [CHORE] Quote letter has been re-designed to look more like a professional letter. 
+- [CHORE] Added "test" environment, which prevents emails from being sent in development and test modes.
+
+
+Release 0.3.4
 --------
 
 - [BUG] Fix issue where quote information didn't copy to applicaiton. 

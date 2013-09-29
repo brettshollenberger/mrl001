@@ -4,6 +4,7 @@ angular
         'unsavedNew',
         'uiHelpers',
         'ui.validate',
+        'ui.mask',
         'ui.if',
         'ui.bootstrap',
         'ngCookies',
@@ -13,7 +14,8 @@ angular
         'angulartics',
         'angulartics.google.analytics',
         'google-maps',
-        'truncate'
+        'truncate',
+        'ui.select2'
     ])
 
 /**
@@ -239,7 +241,7 @@ angular
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
-        $rootScope.version = '0.3.4';
+        $rootScope.version = '0.3.5';
 
 
         // @note this is related to experimental promisetracker module

@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     async = require('async'),
     Application = mongoose.model('Application'),
     Vendor = mongoose.model('Vendor'),
+    emailer = require('./../emails/init'),
     _ = require('underscore');
 
 
@@ -74,6 +75,12 @@ exports.update = function(req, res) {
     var application = req.application;
 
     application = _.extend(application, req.body);
+
+    // If application is complete check is JUST completed.
+    // If so send email to credit department.
+    if(application.isModified('status') && application.status === 'complete') {
+        emailer.completeAppCredit(req, application);
+    }
 
     application.save(function(err) {
         res.ok(application);

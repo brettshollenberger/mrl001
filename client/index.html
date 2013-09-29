@@ -48,7 +48,7 @@
     <script src="bower_components/event-shim.js/event-shim.js"></script>
     <![endif]-->
   </head>
-  <body id="ng-app" ng-app="app" class="{{pageSlug}}">
+  <body id="ng-app" ng-app="app" class="{{pageSlug}}" ng-controller="MainController">
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
@@ -65,20 +65,12 @@
       <div class="push"><!--//--></div>
       
      </div>
-     
-  <!--
-    <footer class="muted text-center footer container">
-          <div class="row">
-              <div class="span12">
-                
-              </div>
-          </div>
-      </footer>
--->
    
+    <script src="bower_components/jquery/jquery.js"></script>
     
     <!--[if lte IE 8]>
       <script src="bower_components/json3/lib/json3.js"></script>
+      <script src="bower_components/jquery-migrate/jquery-migrate.js"></script>
     <![endif]-->
 
     <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
@@ -86,15 +78,19 @@
     
     
     <!-- build:js app/scripts/all.min.js -->
-
+    
+   
+    <script src="bower_components/select2/select2.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/modernizr/modernizr.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/validate/validate.js"></script>
     <script src="bower_components/angular-ui-utils/modules/ie-shiv/ie-shiv.js"></script>
     <script src="bower_components/angular-ui-utils/modules/if/if.js"></script>
     <script src="bower_components/angular-ui-utils/modules/validate/validate.js"></script>
+    <script src="bower_components/angular-ui-utils/modules/mask/mask.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/showdown/compressed/showdown.js"></script>
@@ -102,14 +98,13 @@
     <script src="bower_components/angular-markdown/angular.markdown.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
     <script src="bower_components/angular-truncate/dist/angular-truncate.js"></script>
-    
-    
-    
     <script src="bower_components/angulartics/src/angulartics.js"></script>
-    <script src="bower_components/angulartics/src/angulartics-google-analytics.js"></script>    
+    <script src="bower_components/angulartics/src/angulartics-google-analytics.js"></script>
+    <script src="bower_components/angular-ui-select2/src/select2.js"></script>
     
     <script src="app/scripts/app.js"></script>
     <script src="app/scripts/app.templates.js"></script>
+    <script src="app/scripts/controllers/main.js"></script>
     <script src="app/scripts/controllers/login.js"></script>
     <script src="app/scripts/controllers/logout.js"></script>
     <script src="app/scripts/controllers/vendors/vendor.js"></script>
@@ -139,6 +134,7 @@
     <script src="app/scripts/directives/uiHelpers.js"></script>
     <script src="app/scripts/directives/customValidation.js"></script>
     <script src="app/scripts/directives/apiResponse.js"></script>
+    <script src="app/scripts/directives/ngBlur.js"></script>
     
     <script src="app/scripts/filters/isodate.js"></script>
     <script src="app/scripts/filters/timeElapsed.js"></script>
@@ -153,6 +149,7 @@
     <script src="app/scripts/services/application.js"></script>
     <script src="app/scripts/services/googleMapsService.js"></script>
     <script src="app/scripts/services/api.js"></script>
+    <script src="app/scripts/services/validator.js"></script>
 
     
     <!-- endbuild -->

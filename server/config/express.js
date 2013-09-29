@@ -29,6 +29,17 @@ module.exports = function(app, config, passport, standardReponse) {
 
         next();
     };
+    
+    var cacheBuster = function(req, res, next){
+    
+        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.header("Pragma", "no-cache");
+        res.header("Expires", 0);
+        next();
+    };
+    
+    // @todo isolate to api routes...
+    app.use(cacheBuster);
 
     // @todo this might break local network testing on IE... 
     // app.use(allowCrossDomain);
@@ -142,7 +153,7 @@ module.exports = function(app, config, passport, standardReponse) {
                 next();
             });
         }
-                
+
         /**
         * end nice fix
         * -------------------------
@@ -180,45 +191,37 @@ module.exports = function(app, config, passport, standardReponse) {
         * 
         */
         
-        var serverCORS = function(req, res, next) {
-            
-            // Someone is screwing with the headers
-            if(!req.header('Origin') || !req.header('Host')) {
-                res.failure('You\'re headers are all like, whaaa?.. stop messin with me!');
-                return;
-            }
-            
-            // we need a whitelist
-            if(!config.whitelist) {
-                throw new Error('Whitelist is missing for this environment');
-            }
-            
-            // next we check if origin is in our array of allowed origins
-            if(config.whitelist.indexOf('*') !== -1) {
-            
-                next();
-                
-            // included in whitelist    
-            } else if(config.whitelist.indexOf(req.header('Origin')) !== -1) {
-                
-                next();
-             
-            // not included    
-            } else {
-                
-                return res.failure('This origin is blocked', 401);
-                
-            }
-            
+        //var cors = require('./middlewares/cors');
+        
+        /*
+var cors = require('cors');
+        
+        var internalApiCORS = {
+            origin: false,
+            methods: "GET"
         };
         
-        // ignore CORS protection in development
-        // this makes it easy to use POSTMAN or similar REST client
-        if(process.env.NODE_ENV !== 'development') {
-            app.all('/api*', serverCORS, function(req, res, next) {
-                next();
-            });
-        }        
+
+        var publicApiCORS = {
+            origin: false
+        };
+        
+        var corsOptions = {
+          origin: 'http://example.com'
+        };
+        
+        //var cors = require('./config/middlewares/cors')(config);
+                    
+        app.all('/api*', cors(corsOptions), function(req, res, next) {
+            res.json({msg: 'This is CORS-enabled for only example.com.'});
+            //next();
+        });
+        
+        app.all('/public_api*', cors(publicApiCORS), function(req, res, next) {
+            //next();
+            res.ok('See');
+        });
+*/
         
         /**
         * -------------------------

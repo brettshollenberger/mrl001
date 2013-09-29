@@ -39,7 +39,7 @@ angular
                             elemLabel.append(options.requiredMessage);
                             element.addClass('required-label');
                         }
-                    }
+                    };
                     
                     scope.$watch('element.disabled', shouldShow);
                     scope.$watch('element.style.display', shouldShow);

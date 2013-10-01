@@ -3,7 +3,20 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.5 (current)
+Release 0.3.6 (current)
+--------
+
+- [FEATURE] Send email to the credit department when an application is completed
+
+- [CHORE] Add cache buster to fix IE8 issue with caching.
+- [CHORE] Refactor dealer locator tool, fixing many issues and improving overall stability.
+- [CHORE] Add CSRF protection to app (cross site resource forgery) 
+
+- [BUG] Fix issue in IE8 where closing vendor edit tab threw map errors.
+- [BUG] Fix issue where closing form presented user with multiple "unsaved changes" messages
+
+
+Release 0.3.5
 --------
 This is a big release, adding email AND tagging functionality to the app.
 
@@ -186,6 +199,7 @@ Release 0.1.6
 This is a pre-release demoing 2 new features: 1) advanced rate sheet editing 2) dealer locator tool
 
 The following items are addressed: 
+
 - [FEATURE] - Added dealer locator end user tool. Users can search by location, distance, name, and use geolocation to find marlin vendors. 
 - [FEATURE] - Added admin dealer locator customize panel - the Marlin Super admin can now pin-point a vendor on a map. This information will show on the locator tool.
 - [FEATURE] [RATE SHEET] - Added advanced rate sheet edit controls, including ability to add rows and columns.

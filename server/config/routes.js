@@ -111,7 +111,7 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
         console.info('PUBLIC QUOTE API accessed');
         next();
         
-    }, public_api.validateApiKey, quotes.validatePublicRequest, quotes.create);
+    }, public_api.validateApiKey, public_api.throttle, quotes.validatePublicRequest, quotes.create);
 
     var webshot = require('../app/controllers/webshot')(app, config);
 

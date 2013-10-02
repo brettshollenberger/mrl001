@@ -7,6 +7,10 @@ module.exports = {
         root: rootPath,
         whitelist: ['*'],
         siteUrl: 'http://127.0.0.1:3000',
+        redis : {
+            port: 6379,
+            host: 'localhost'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
@@ -50,6 +54,13 @@ module.exports = {
         root: rootPath,
         whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
+        redis : {
+            port: 6379,
+            options: {
+                auth_pass : 'Vxv9soUqzmxBEUWD'
+            },
+            host: 'pub-redis-17789.us-east-1-4.2.ec2.garantiadata.com'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
@@ -96,6 +107,13 @@ module.exports = {
         root: rootPath,
         whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
+        redis : {
+            port: 6379,
+            options: {
+                auth_pass : 'Vxv9soUqzmxBEUWD'
+            },
+            host: 'pub-redis-17789.us-east-1-4.2.ec2.garantiadata.com'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',

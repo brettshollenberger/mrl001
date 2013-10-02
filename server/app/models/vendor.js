@@ -289,9 +289,22 @@ VendorSchema.pre('save', function(next) {
     * Standardize tool slugs
     *
     */
+/*
     _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
+*/
+
+    /**
+    * Generate API key if api tool is enabled and no key exists
+    *
+    */
+    if(this.isModified('tools') && this.tools.api.enabled === true) { 
+        console.log('API key needs to be generated');
+        var key = require('node-uuid')();
+        this.apiKey = key; 
+    }
+    
 
     next();
 });

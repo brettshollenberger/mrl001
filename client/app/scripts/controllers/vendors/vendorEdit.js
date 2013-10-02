@@ -143,14 +143,19 @@ angular
                         $scope.vendor.salesRep = User.getById($scope.vendor.salesRepId);
                     }
 
+                    // Convert tools to tabs
                     _.each($scope.vendor.tools, function(tool) {
-                        $scope.tabs.push(tool);
-
-                        $scope.tabs[4].permission = 'changeLocationOptions-vendor';
-                        $scope.tabs[5].permission = 'changeQuoterOptions-vendor';
-
-                        //console.log($scope.tabs);
+                        $scope.tabs.push({
+                            name : tool.display,
+                            active: tool.enabled
+                        });
                     });
+                    
+                    // assign a permission for each tab
+                    $scope.tabs[5].permission = 'changeApiOptions-vendor';
+                    $scope.tabs[6].permission = 'changeQuoterOptions-vendor';
+                    $scope.tabs[7].permission = 'changeLocationOptions-vendor';
+                    
                     
                     $scope.vendor.vendorTags = [];
                     _.each($scope.vendor.tags, function(tag) {
@@ -217,7 +222,7 @@ angular
             };
 
             $scope.toggleActive = function(item) {
-                item.active = item.active ? false : true;
+                item.enabled = item.enabled ? false : true;
             };
 
             $scope.addProgram = function(program) {
@@ -390,7 +395,7 @@ angular
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {
 
                 // only make map if user is switching to tab 4, and there is no map made
-                if (newValue === 5) {
+                if (newValue === 7) {
                     $scope.mapActive = true;
                     if (!$scope.isMapMade) makeMap();
                 } else {

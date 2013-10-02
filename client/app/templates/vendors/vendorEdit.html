@@ -217,15 +217,24 @@
                     
                     <ul class="unstyled">
                         <li ng-repeat="item in vendor.tools">
-                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
-                                <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
-                            </button>
-                            {{item.name}}
+                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.enabled}">
+                                <i class="icon " ng-class="{'icon-check' : item.enabled, 'icon-check-empty' : !item.enabled}"></i>
+                            </button> {{item.display}}
                         </li>
                     </ul>
                 </form>
                 
             </div>
+            
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form can-do-action="changeApiOptions-vendor">
+                <div class="span10">
+                    <h3>API</h3>
+                    <p>This key will provides access to the Marlin Quoter API. <a href="/#/tools/api" target="_blank">Click here</a> to learn more.</p>
+                    <h4>{{vendor.apiKey}}</h4>
+                          
+                    <hr />
+                </div>
+            </form><!-- row -->
             
             <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
@@ -254,7 +263,7 @@
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" ui-if="isActiveTab(5)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
+            <form name="locationForm" ui-if="isActiveTab(7)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 
                 <div class="span10">
                     

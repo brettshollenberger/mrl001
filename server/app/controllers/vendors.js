@@ -28,16 +28,6 @@ exports.vendor = function(req, res, next, id) {
 exports.create = function(req, res) {
     var vendor = new Vendor(req.body);
 
-    // set default tools
-    // @todo move to pre save in model
-    vendor.tools = [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": false
-    }];
-
     vendor.save();
     res.ok(vendor);
 };

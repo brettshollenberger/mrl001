@@ -12,11 +12,6 @@ var customNameSchema = new Schema({
     displayName: String
 });
 
-var toolEnabledSchema = new Schema({
-    "name": String,
-    "active": Boolean,
-    "slug": String
-});
 
 /**
  * Vendor Schema
@@ -120,7 +115,20 @@ var VendorSchema = new Schema({
             "default": null
         }
     },
-    "tools": [toolEnabledSchema],
+    "tools": {
+        'locator': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'quoter': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'api': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        }
+    },
     "programs": [{
         type: Schema.ObjectId,
         ref: 'Program'
@@ -194,6 +202,24 @@ function convertToSlug(Text) {
         .replace(/ /g, '-')
         .replace(/[^\w\-]+/g, '');
 }
+
+/**
+ * Runs similar to "after get" callback
+ *
+ */
+VendorSchema.post('init', function() {
+    
+    // set display name for tools
+    // seems silly to save this within the vendor
+    // however the model objects needs these props anyway for it to work
+    // so its redundent then to set here. 
+    if(this.tools) {
+        this.tools.locator.display = 'Vendor Locator';
+        this.tools.quoter.display = 'Quoter';
+        this.tools.api.display = 'API';
+    }
+      
+});
 
 VendorSchema.pre('save', function(next) {
     

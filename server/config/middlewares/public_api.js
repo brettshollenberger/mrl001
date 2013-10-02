@@ -40,6 +40,8 @@ exports.validateApiKey = function(req, res, next) {
            // @note this should be hooked up to an api access log at some point
            console.info("%s successfully authenticated public API with key '%s'", vendor.name, vendor.apiKey); 
            
+           req.vendor = vendor;
+           
            // save vendor for access in quote controller
            req.body.vendorId = vendor._id;
            

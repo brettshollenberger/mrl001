@@ -30,7 +30,7 @@ exports.validateApiKey = function(req, res, next) {
     
     // lookup vendor by API key
     Vendor
-        .findOne({apiKey : key})
+        .findOne({apiKey : key, 'tools.api.enabled' : true})
         .exec(function(err, vendor) {
            
            // check for error or no vendor found

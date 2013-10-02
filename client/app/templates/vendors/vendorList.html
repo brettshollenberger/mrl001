@@ -41,12 +41,13 @@
                                 <a call-to="{{item.contactPerson.phone}}"></a>
                             </td>
                             <td class="tool-icons">
-                                <i  ng-repeat="tool in item.tools" 
+                                <i  ng-repeat="(key, tool) in item.tools" 
                                     class="icon " 
                                     ng-class="{ 
-                                        'icon-success' : tool.active, 
-                                        'icon-comments-alt' : tool.slug == 'quoter-tool', 
-                                        'icon-map-marker' : tool.clug = 'location-tool'}"></i>
+                                        'icon-success' : tool.enabled, 
+                                        'icon-comments-alt' : key == 'quoter', 
+                                        'icon-map-marker' : key == 'locator',
+                                        'icon-bullseye' : key == 'api'}"></i>
                             </td>
                             <td ng-show="item.salesRep" class="text-center">
                                 <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />

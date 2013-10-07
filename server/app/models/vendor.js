@@ -298,8 +298,10 @@ VendorSchema.pre('save', function(next) {
     /**
     * Generate API key if api tool is enabled and no key exists
     *
+    * @note to change the API key enable and then disable
+    *
     */
-    if(this.isModified('tools') && this.tools.api.enabled === true) { 
+    if(this.isModified('tools') && this.tools.api.enabled === true && !this.isNew) { 
         console.log('API key needs to be generated');
         var key = require('node-uuid')();
         this.apiKey = key; 

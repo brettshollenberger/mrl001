@@ -123,110 +123,24 @@ module.exports = function(app, config, passport, standardReponse) {
         *       but throws errors otherwise.  
         * 
         */ 
-        
-        // custom csrf grabbing function, 
-        // which works with angulars native method of sending the token in header
-        var csrfValue = function(req) {
-          var token = (req.body && req.body._csrf) || 
-                      (req.query && req.query._csrf) || 
-                      (req.headers['x-csrf-token']) || 
-                      (req.headers['x-xsrf-token']);
-          return token;
-        };
-        
-        // reference express.csrf() method as variable
-        var csrfMiddleware = express.csrf({value: csrfValue});
+        var csrfMiddleware = express.csrf();
         
         // define our middleware
         function csrfHandler(req, res, next) { 
             csrfMiddleware(req, res, next);
-            
-            // check for instances where req.csrfToken() is not a function
-            // which would otherwise throw error
-            if(req.csrfToken && typeof req.csrfToken === 'function') {
-                res.cookie('XSRF-TOKEN', req.csrfToken());   
-            }
+        }
+        
+        function csrfCookieSetter(req, res, next) { 
+            res.cookie('XSRF-TOKEN', req.csrfToken()); 
+            next();
         }
         
         // attach csrf protection to all of our api endpoints
-        if(process.env.NODE_ENV !== 'development') {
-            app.all('/api*', csrfHandler, function(req, res, next) {
-                next();
-            });
-        }
-
-        /**
-        * end nice fix
-        * -------------------------
-        */
-        
-        
-        
-        /**
-        * -------------------------
-        *
-        * This middleware prevents outside requests to internal api endpoints
-        * Many of these endpoints don't require auth, for example list vendors, but we 
-        * still don't want people to hit these from a curl request and access the data.
-        * 
-        * This is basically CORS for the server
-        * @note there might be a fine replacement for this in NPM, but I couldn't fine anything! 
-        *       typical fors solutions only work for browser requests.  
-        *
-        * @todo make this async!
-        *
-        * Headers examples:
-        * --------
-        *
-        * Example from within the site (on heroku) @note heroku doesn't use IP's
-        *  origin: 'http://marlin-dev.herokuapp.com'
-        *  host: 'marlin-dev.herokuapp.com'
-        *
-        * Example from external request
-        *  origin: 'chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm'
-        *  host: 'marlin-dev.herokuapp.com'
-        *
-        * Example Internal request, locally
-        *  origin: 'http://127.0.0.1:3000'
-        *  host: '127.0.0.1:3000',
-        * 
-        */
-        
-        //var cors = require('./middlewares/cors');
-        
-        /*
-var cors = require('cors');
-        
-        var internalApiCORS = {
-            origin: false,
-            methods: "GET"
-        };
-        
-
-        var publicApiCORS = {
-            origin: false
-        };
-        
-        var corsOptions = {
-          origin: 'http://example.com'
-        };
-        
-        //var cors = require('./config/middlewares/cors')(config);
-                    
-        app.all('/api*', cors(corsOptions), function(req, res, next) {
-            res.json({msg: 'This is CORS-enabled for only example.com.'});
-            //next();
+        //if(process.env.NODE_ENV !== 'development') {
+        app.all('/api*', csrfHandler, csrfCookieSetter, function(req, res, next) {
+            next();
         });
-        
-        app.all('/public_api*', cors(publicApiCORS), function(req, res, next) {
-            //next();
-            res.ok('See');
-        });
-*/
-        
-        /**
-        * -------------------------
-        */
+   
 
         // routes should be at the last
         app.use(app.router);
@@ -234,6 +148,10 @@ var cors = require('cors');
         // welcome message for API
         app.all('/api', function(req, res, next) {
             res.ok('Hello world!');
+        });
+        
+        app.all('/api/ping', function(req, res, next) {
+            res.ok('PONG');
         });
 
         // get changelog

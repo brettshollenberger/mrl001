@@ -234,8 +234,12 @@ angular
  *       but include them in our app?
  *
  */
-.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker',
-    function($rootScope, $location, Auth, $document, $http, promiseTracker) {
+.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', 'apiService', 
+    function($rootScope, $location, Auth, $document, $http, promiseTracker, api) {
+        
+        // PING the server to check for current status and get XSFR cookie
+        // @todo this could be expanded to check for API down etc.
+        api.ping().then(function() {});
 
 
         // define our version

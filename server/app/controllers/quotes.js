@@ -223,6 +223,10 @@ exports.create = function(req, res) {
            
            var payment = applyRateToCost(totalCost, program.costs.rates[key]);
            
+           // if there is no payment info, ie there is no rate, 
+           // don't include it. In some cases the rate will be '0' if not being used. 
+           if(payment === 0) return;
+           
            termAndRates.push({
                
                // term + plurized version of term length

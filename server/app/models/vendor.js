@@ -317,10 +317,9 @@ VendorSchema.statics = {
         // for easy geting from the database 
         return this.findOne({
             _id: vendorId
-        }, function(err, result) {
+        }).populate('vendorRep').exec(function(err, result) {
             if (err) return cb(err);
             if (result && result._id) {
-                console.log(result);
                 return cb(null, result);
             } else {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));

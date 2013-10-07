@@ -126,8 +126,6 @@ UserSchema.pre('save', function(next) {
 
     this.fullname = this.name.first + ' ' + this.name.last;
 
-    console.log(this.fullname);
-
     if (!this.isNew) return next();
 
     if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1)

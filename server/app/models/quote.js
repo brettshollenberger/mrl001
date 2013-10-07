@@ -42,6 +42,7 @@ var QuoteSchema = new Schema({
         "default": '',
         trim: true
     },
+    payments: {},
     company: {
         fullLegalBusinessName: {type: String, "default": '', trim: true},
         contactPerson: {
@@ -60,7 +61,8 @@ var QuoteSchema = new Schema({
     },
     customField: {
         displayName: String,
-        value: String
+        value: String,
+        "default": ""
     }
 });
 
@@ -104,6 +106,7 @@ QuoteSchema.pre('save', function(next, something) {
         }
     });
 });
+
 /**
  * Statics
  */

@@ -7,6 +7,7 @@ var express = require('express'),
     flash = require('connect-flash'),
     path = require('path'),
     helpers = require('view-helpers'),
+    env = process.env.NODE_ENV || 'development',
     fs = require('fs');
     
 module.exports = function(app, config, passport, standardReponse) {

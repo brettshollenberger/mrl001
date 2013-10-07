@@ -9,13 +9,12 @@ angular
         'MARLINAPI_CONFIG',
         function($rootScope, $scope, $location, $routeParams, Auth, MARLINAPI_CONFIG) {
         
-            
             $scope.documentationPage = function() {
                 
-                $scope.api_base = MARLINAPI_CONFIG.base_url;
+                $scope.api_base = MARLINAPI_CONFIG.base_url.replace('api', 'public_api');
                 
             };
         
-        
         }
+        
     ]);

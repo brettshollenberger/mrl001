@@ -41,8 +41,8 @@ var data = [{
             'enabled' : true
         }
     },
-    "programs": ['522f4634cc2aadba4d000005'],
-    "apiKey" : null
+    "programs": ['522f4634cc2aadba4d000005', '522f4634cc2aadba4d000006'],
+    "apiKey" : 'b1f46153-05c3-489e-b3fb-7bfc55e66c79'
 }, {
 
     "_id": '51e71518ed32080ffc000024',

@@ -55,11 +55,11 @@ exports.validatePublicRequest = function(req, res, next) {
        return res.failure("Invalid totalCost. Must be in for format 1000.00 or 1000", 400); 
     } 
     
-    // strip commas
-    totalCost = totalCost.replace(/,/g, "");
+    // strip commas and dollar signs
+    totalCost = numeral().unformat(totalCost);
     
     // convert to cents
-    totalCost = parseFloat(totalCost) * 100;
+    totalCost = totalCost * 100;
     
     // lastly assign back to req.body.totalCost
     req.body.totalCost = totalCost;

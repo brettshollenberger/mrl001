@@ -3,16 +3,20 @@
     
         <h1>We have an api!</h1>
         
-        <h3>Authentication</h3>
+        <h3>Introduction</h3>
+        <h4>Authentication</h4>
         <p>The API requires a key for all requests. To view your key, login to the vendor portal. To signup for a key, email <a>admin@marlinleasing.com</a></p>
+        
+        <h4>Rate Limit</h4>
+        <p>The API is currently limited to 5 requests per minute. Please throttle accordingly.</p>
         
         <hr />
                         
-        <h3>Generate A Quote</h3>
+        <h3>METHOD: Generate A Quote</h3>
         <p>Participating vendors can generate quotes using the API. This allows the vendor to integrate Marlin Finance options with their online shopping cart experience.</p>
         
         <h4>Endpoint</h4>
-        <p>METHOD: <code>POST</code> URL: <code>{{api_base}}quotes</code></p>
+        <p><code>POST {{api_base}}quotes</code></p>
         
         <h4>Authentication</h4>
         <p>This request requires authentication. Add the following to your request header</p>
@@ -30,7 +34,34 @@
         'code': 200                             // code indicating success status
         'message': 'this is a message for you!' // message to developer, if any
     },
-    result: {}                                  // array or object, depending on the request.
+    {
+    "meta": {
+        "code": 200
+    },
+    "result": {
+        "payments": {
+            "Custom Rate Sheet": [{             // Rate program name, may be multiple programs
+                    "rates": [{                 // rates for this program based on buyout option
+                        "totalCostDisplay": "$50,001.00",
+                        "totalCost": 50001,
+                        "paymentDisplay": "$4,095.08",
+                        "payment": 4095.0818999999997,  // testing data only
+                        "rate": 0.0819,                 // testing data only
+                        "term": "12 Months"
+                    },
+                    {
+                        "totalCostDisplay": "$50,001.00",
+                        "totalCost": 50001,
+                        "paymentDisplay": "$2,145.04",
+                        "payment": 2145.0429,
+                        "rate": 0.0429,
+                        "term": "24 Months"
+                    }]
+                }]
+            }
+        }
+    }
+    
 }
         </pre>
  
@@ -46,10 +77,7 @@
         
                 
         <hr />
-        
-        <h3>Locate Vendors</h3>
-        <p>Coming soon</p> 
-        
+
     
     </div>
 </div>

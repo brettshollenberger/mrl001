@@ -96,9 +96,10 @@ QuoteSchema.pre('save', function(next, something) {
 
             //next(new Error(self.vendorId + ' Not a valid vendor'));
         } else {
+                
             self.salesRep = result.salesRep;
             self.vendorRep = result.vendorRep;
-            self.vendorId = self.vendorId;
+            self.vendorId = result._id;
             next();
         }
     });

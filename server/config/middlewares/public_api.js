@@ -36,6 +36,7 @@ exports.validateApiKey = function(req, res, next) {
     // lookup vendor by API key
     Vendor
         .findOne({apiKey : key, 'tools.api.enabled' : true})
+        .populate('programs')
         .exec(function(err, vendor) {
            
            // check for error or no vendor found
@@ -79,23 +80,10 @@ if(!connection) {
     throw Error('REDIS connection details must be included in config.');
 }
 
-// workaround for the throttle module not properly authorizing client
-// if a password is present, we'll save it locally and delete it from the options
-// so that redis won't try to auth again.
-if(connection.options && connection.options.auth_pass) {
-    pass = connection.options.auth_pass;
-    delete connection.options.auth_pass;
-}
+console.log(connection);
 
 // create our Throttle
 Throttle.configure(connection);
-
-// if we have a password, authorize
-if(pass) {
-    Throttle.rdb.auth(pass, function() {
-        console.info('REDIS Server connected');
-    });    
-}
 
 // current setting is 2 requests per minute
 var rateLimit = 5;

@@ -71,6 +71,7 @@ module.exports = function(app, passport, auth, config, acl) {
     app.post('/api/v1/users', isUserAllowed('create', 'users'), users.create);
     // @todo check for vendor, is this their approved sales rep?
     app.get('/api/v1/users/:userId', isUserAllowed('view', 'users'), users.show);
+    
     // sales rep and vendor = edit their own info
     app.put('/api/v1/users/:userId', isUserAllowed('update', 'users'), users.update);
     app.del('/api/v1/users/:userId', isUserAllowed('delete', 'users'), users.destroy);
@@ -80,6 +81,7 @@ module.exports = function(app, passport, auth, config, acl) {
 
     // update user password
     app.put('/api/v1/users/:userId/password', isUserAllowed('updatePassword', 'users'), users.updatePassword);
+    app.put('/api/v1/users/:userId/reset_password', users.resetPassword);
 
     // get users vendors
     app.get('/api/v1/users/:userId/vendors', isUserAllowed('list', 'vendors'), vendors.listForUser);

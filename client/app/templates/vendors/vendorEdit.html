@@ -36,11 +36,11 @@
                     <br /><br />
                     
                     <label>Vendor Name</label>
-                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-block">
+                    <input type="text" id="name" placeholder="Name" ng-model="vendor.name">
                     <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                     
                     <label>Website Url</label>
-                    <input type="text" class="large" placeholder="Website" class="input-block"ng-model="vendor.website">
+                    <input type="text" class="large" placeholder="Website" ng-model="vendor.website">
                     
                     <label>Business Phone Number</label>
                     <input type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone">
@@ -48,16 +48,16 @@
                 
                 <div class="span5">            
                     <label>Address 1</label>
-                    <input type="text" class="input-block" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+                    <input type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
                     
                     <label>Address 2</label>
-                    <input type="text" class="input-block" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                    <input type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
                     
                     <label>City</label>
                     <input type="text" placeholder="City" ng-model="vendor.businessAddress.city">
                     <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                     <label>State</label>
-                    <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                    <select ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                     
                     <label>Zip</label>
                     <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
@@ -98,11 +98,11 @@
                         <p class="alert">This vendor has no Marlin Sales Reps</p>
                         
                         <label>Add sales rep by searching by name</label>
-                        <div class="input-append">
+                   
                             <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                             <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                            <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
-                        </div>
+                        <input type="text" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
+                      
                         
                         <!-- <pre>{{allReps}}</pre> -->
                         <ul class="unstyled salesReps">
@@ -145,11 +145,11 @@
                         <p class="alert">This vendor has no Vendor Reps</p>
                         
                         <label>Add vendor rep by searching by name</label>
-                        <div class="input-append">
+                        
                             <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                             <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                            <input type="text" class="input-large" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
-                        </div>
+                        <input type="text" class="input-large" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
+                       
                         
                         <!-- <pre>{{allReps}}</pre> -->
                         <ul class="unstyled vendorReps">
@@ -277,10 +277,10 @@
                             <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                             
                             <label>State</label>
-                            <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                            <select ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                             
                             <label>Zip</label>
-                            <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                            <input type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip">
                         
                         </div>
                         

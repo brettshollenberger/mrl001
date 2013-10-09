@@ -1,7 +1,8 @@
 @import "bootstrap/variables.less"; 
 @import "bootstrap/mixins.less";
 @import "components/sidebar.less";
-@import "components/dashboard.less"; 
+@import "components/dashboard.less";
+@import "components/quoter.less"; 
 
 /**
  * Angular
@@ -208,116 +209,6 @@ sup.required {
 label sup {
     margin-left: 5px;
 }
-
-
-// ---------------------------------------------------------
-//
-// Sales Rep Tray
-//
-// ---------------------------------------------------------
-.rep-tray {
-    
-    padding: 20px 0;
-    padding-left: 30px;
-    
-    .section-image {
-        margin-right: 10px;
-    }
-    
-    .section-contact {
-        //margin-top: 10px;
-    }
-    
-    p {
-        margin-bottom: 0;
-    }
-    
-}
-
-.dashboard.has-rep-tray {
-    
-    .applications-dashboard {
-        margin-top: 160px;
-    }
-    
-}
-
-.img-vendor {
-    padding: 15px;
-    background: white;
-}
-
-
-
-// ---------------------------------------------------------
-//
-// QUOTER Tool
-//
-// ---------------------------------------------------------
-
-.quoter {
-    
-    h3 {
-        text-align: center;
-        
-        padding-bottom: 20px;
-        
-        &:after {
-            content: "";
-            border: 0;
-            border-top: 1px solid @hrBorder;
-            border-bottom: 1px solid @white;
-            display: block;
-        }
-        
-    }
-    
-    label {
-        text-transform: uppercase;
-    }
-    
-    .dollarSign {
-        font-size: 25px;
-        margin-right: 10px;
-    }
-    
-    .area {
-        padding: 20px 0;        
-    }
-    
-    input :disabled,
-    textarea :disabled {
-        background: @white;
-        border-color: @white;
-    }
-
-    .area-equiptment textarea, 
-    .area-equiptment input {
-        width: (@gridColumnWidth * 5) + 40;
-    }
-    
-    .area-equiptment input.dollarSign-prepend {
-       width: (@gridColumnWidth * 5) + 20; 
-    }
-    
-    .area-equiptment textarea {
-        height: 100px;
-    }
-    
-    .btn-mega {
-        margin: 0 auto;
-    }
-    
-    .input-xxxlarge {
-        width: 630px;
-    }
-    
-    small {
-        font-size: 10px;
-    }
-    
-}
-
 
 
 // ---------------------------------------------------------

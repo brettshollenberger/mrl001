@@ -4,7 +4,7 @@
 - Redis [http://redis.io/download](http://redis.io/download)
 - Mongo database
 - Heroku (For deployment)
-- Install bower and grunt and drunt-cli globally `$ npm install -g yo bower grunt-cli`
+- Install bower and grunt and grunt-cli globally `$ npm install -g yo bower grunt-cli`
 
 ## Development Server
 - Run NPM and bower with `$ npm install` and `bower install`. This will make sure your dependencies are all up to date. 

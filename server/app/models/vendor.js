@@ -147,7 +147,8 @@ var troop = require('mongoose-troop');
 VendorSchema.plugin(troop.merge);
 
 var taggable = require('mongoose-taggable');
-VendorSchema.plugin(taggable, {'path':'tags'});
+var test = VendorSchema.plugin(taggable, {'path':'tags'});
+VendorSchema.plugin(taggable, {'path':'industryTags'});
 
 /**
  * Statics
@@ -206,28 +207,36 @@ VendorSchema.pre('save', function(next) {
     */
     var vendor = this;
     
-    var vendorTags = [];  // tags that are currently being passed from the vendor
+    // the tags that are present on the vendor model
+    var tagTypes = {'tags' : 'vendorTags', 'industryTags' : 'vendorIndustryTags'};
     
-    // create a unified array of current vendor tags
-    _.each(vendor.vendorTags, function(item) {
-        vendorTags.push(item.text);
-    });
+    _.each(tagTypes, function(type, index) {
 
-    var newTags = _.difference(vendorTags, vendor.tags);
-    var removeTags = _.difference(vendor.tags, vendorTags);
+        var vendorTags = [];  // tags that are currently being passed from the vendor
+        var newTags = [];
+        var removeTags = [];
         
-    _.each(newTags, function(item) {
-        vendor.addTag(item, function(err, addedTag) {
-            console.log('Added: ' + item);
+        // create a unified array of current vendor tags
+        _.each(vendor[type], function(item) {
+            vendorTags.push(item.text);
         });
-    });
     
-    _.each(removeTags, function(item) {
-        vendor.removeTag(item, function(err, removedTag) {
-            console.log('Removed: ' + item);
+        newTags = _.difference(vendorTags, vendor[index]);
+        removeTags = _.difference(vendor[index], vendorTags);
+            
+        _.each(newTags, function(item) {
+            vendor.addTag(item, function(err, addedTag) {
+                console.log('Added: ' + item);
+            });
         });
+        
+        _.each(removeTags, function(item) {
+            vendor.removeTag(item, function(err, removedTag) {
+                console.log('Removed: ' + item);
+            });
+        });
+
     });
-    
     
     /**
     * A nice way to create a search string that we can use on the dealer locator
@@ -239,7 +248,6 @@ VendorSchema.pre('save', function(next) {
     *
     */
     vendor.searchString = '';
-    
     
     // will be present when updating from dashboard
     if(vendor.vendorTags) {

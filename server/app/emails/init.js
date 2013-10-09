@@ -53,7 +53,7 @@ exports.newQuoteEndUser = function(req, quote) {
         subject: 'Your ' + vendorName + ' Quote'          
     };
     
-    req.app.emailer.send('quotes/new-endUser', locals);            
+    req.app.emailer.send('quotes/new-endUser', locals);
     
 };
 
@@ -156,6 +156,31 @@ exports.completeAppCredit = function(req, app) {
         }   
     };
     
-    req.app.emailer.send('apps/complete-credit', locals);            
+    req.app.emailer.send('apps/complete-credit', locals);
+    
+};
+
+// ---------------------------------------
+// 
+// RESET PASSWORD EMAIL
+//
+// ---------------------------------------
+exports.resetPassword = function(req, app) {
+
+    console.log(req);
+     
+    var locals = {
+        to: {
+            email: req.theUser.email,
+            fullName: req.theUser.fullname || req.theUser.name.first || "User"
+        },
+        variables: {
+            fullName: req.theUser.fullname || req.theUser.name.first || "User",
+            link: 'http://' + req.headers.host + "/#/login",
+            password: req.theUser.password
+        }
+    };
+    
+    req.app.emailer.send('password/password-reset', locals);
     
 };

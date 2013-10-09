@@ -210,7 +210,7 @@ VendorSchema.pre('save', function(next) {
     // the tags that are present on the vendor model
     var tagTypes = {'tags' : 'vendorTags', 'industryTags' : 'vendorIndustryTags'};
     
-    _.each(tagTypes, function(type, index) {
+    _.each(tagTypes, function(type, path) {
 
         var vendorTags = [];  // tags that are currently being passed from the vendor
         var newTags = [];
@@ -221,17 +221,17 @@ VendorSchema.pre('save', function(next) {
             vendorTags.push(item.text);
         });
     
-        newTags = _.difference(vendorTags, vendor[index]);
-        removeTags = _.difference(vendor[index], vendorTags);
+        newTags = _.difference(vendorTags, vendor[path]);
+        removeTags = _.difference(vendor[path], vendorTags);
             
         _.each(newTags, function(item) {
-            vendor.addTag(item, function(err, addedTag) {
+            vendor.addTag(path, item, function(err, addedTag) {
                 console.log('Added: ' + item);
             });
         });
         
         _.each(removeTags, function(item) {
-            vendor.removeTag(item, function(err, removedTag) {
+            vendor.removeTag(path, item, function(err, removedTag) {
                 console.log('Removed: ' + item);
             });
         });

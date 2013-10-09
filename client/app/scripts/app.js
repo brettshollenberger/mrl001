@@ -100,6 +100,11 @@ angular
             templateUrl: 'app/templates/logout.html'
         })
 
+        .when('/password_reset', {
+            controller: 'passwordResetController',
+            templateUrl: 'app/templates/password_reset.html'
+        })
+
 
         // Quoter tool!  
         .when('/tools/quoter', {

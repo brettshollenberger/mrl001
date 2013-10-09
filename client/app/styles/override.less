@@ -2,7 +2,9 @@
 @import "bootstrap/mixins.less";
 @import "components/sidebar.less";
 @import "components/dashboard.less";
-@import "components/quoter.less"; 
+@import "components/quoter.less";
+@import "components/login.less";
+@import "components/home.less";  
 
 /**
  * Angular
@@ -106,28 +108,6 @@ h2 {
 
 // ---------------------------------------------------------
 //
-// LOGIN page
-//
-// ---------------------------------------------------------
-
-body.login, body.home {
-   background: url('../../img/bg_large_login.jpg') top left no-repeat; 
-   
-   .background-size(cover);
-   
-   hr {
-       display: none;
-   }
-   
-   .logo {
-       margin-top: 130px;
-   }
-   
-}
-
-
-// ---------------------------------------------------------
-//
 // WELL
 //
 // ---------------------------------------------------------
@@ -209,139 +189,6 @@ sup.required {
 label sup {
     margin-left: 5px;
 }
-
-
-// ---------------------------------------------------------
-//
-// HOME Page
-//
-// ---------------------------------------------------------
-
-body.home {
-        
-    h1, h3 {
-        color: white;
-        font-weight: bold;
-    }
-    
-    .well {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-}
-
-
-.area-start {
-    
-    margin-bottom: 100px;
-    
-    i {
-        font-size: 60px;
-        text-shadow: 1px 1px 1px white;
-    }
-    
-    p {
-        font-size: 15px;
-        line-height: 17px;
-        margin-top: 20px;
-    }
-    
-    .start-button {
-        
-        .transition(color 120ms ease);
-        
-        &:hover {
-             cursor: pointer;
-             color: @linkColor;
-        }
-        
-    }
-    
-} 
-
-
-// apply top outtermost row when page contains title-bar. 
-// this ensures proper padding is applied to show title-bar under fixed title-bar
-.has-title-bar {
-    margin-top: 140px;
-}
-
-.has-no-tabs .title-bar [class*="span"] {
-    //border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-    //padding-top: 10px;
-    display: block;
-    position: relative;
-    
-    
-}
-
-.title-bar, .rep-tray {
-    position: fixed;
-    top: 0;
-    background: @white;
-    z-index: @zindexFixedNavbar;
-    width: 980px; // how is this calculdated?
-    margin-left: -(@gridGutterWidth+10px);
-}
-
-
-.title-bar {
-
-    h2 {
-        margin-top: 18px;
-        margin-left: 10px;
-    }
-    
-    .icon {
-       font-size: 1.4em;
-       margin-right: 10px;
-       line-height: .6em;
-    }
-    
-    .actions {
-        position: fixed;
-        top: 20px;
-        right: 30px;
-        
-        @newWidth: (@gridRowWidth + @gridGutterWidth);
-        
-        @media all and (min-width: @newWidth) {
-            position: absolute;
-            right: 30px; 
-        }
-        
-    }
-    
-    .nav-tabs {
-        margin-bottom: 0;
-        margin-top: 30px;
-        padding-left: 20px;
-        margin-left: -20px;
-    }
-    
-    .span10 {
-        position: relative;
-        width: 960px;
-    }
-}
-
-.area-locator-search {
-    
-    .pull-left {
-        margin-right: 20px;
-    }
-    
-}
-
-
-textarea.legalTerms {
-    width: 500px;
-    height: 200px;
-}
-
-
-
 
 // ---------------------------------------------------
 // 

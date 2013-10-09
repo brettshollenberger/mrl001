@@ -166,8 +166,6 @@ exports.completeAppCredit = function(req, app) {
 //
 // ---------------------------------------
 exports.resetPassword = function(req, app) {
-
-    console.log(req);
      
     var locals = {
         to: {

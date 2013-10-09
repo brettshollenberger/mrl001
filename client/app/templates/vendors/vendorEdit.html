@@ -28,7 +28,7 @@
                     <h3>Basic Info</h3>
                </div>
                
-                <div class="span4">
+                <div class="span5">
                     <label>Vendor Logo</label>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
                     <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
@@ -63,7 +63,7 @@
                     <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
                 </div>
                 
-                <div class="span10 clearfix">  
+                <div class="span5">  
                     <h3>Primary Contact</h3>
                     <label>Name</label>
                     <input type="text" placeholder="Name" ng-model="vendor.contactPerson.name">

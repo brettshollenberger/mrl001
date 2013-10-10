@@ -520,7 +520,7 @@ angular
                 var isValid = false;                
                 
                 _.each(searchTags, function(tag) {
-                    if(item.searchString.indexOf(tag) !== -1) {
+                    if(item.searchString.toLowerCase().indexOf(tag) !== -1) {
                         isValid = true;
                     }
                 });

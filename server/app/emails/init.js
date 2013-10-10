@@ -174,7 +174,7 @@ exports.resetPassword = function(req, app) {
         },
         variables: {
             fullName: req.theUser.fullname || req.theUser.name.first || "User",
-            link: 'http://' + req.headers.host + "/#/login",
+            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
             password: req.theUser.password
         }
     };

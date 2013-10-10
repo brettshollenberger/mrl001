@@ -28,8 +28,16 @@ angular
                     password: 'vrep'
                 }
             };
-
-
+            
+            
+            /**
+            * Check for email which will be present in reset password links
+            *
+            */
+            if($routeParams.email) {
+                $scope.email = $routeParams.email;
+            }
+            
             /**
              * This allows us to pass credentials into the controller to prefill the login form fields
              * This is useful for demos and dev.

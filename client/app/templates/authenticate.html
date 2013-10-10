@@ -32,7 +32,7 @@
         
         <form class="well passwordForm" id="passwordForm" name="passwordForm" ng-controller="passwordResetController" ng-show="isPage('/password_reset')">
         
-            <p class="alert alert-error" ng-show="message">{{message}}</p>
+            <p class="alert alert-{{status}}" ng-show="message">{{message}}</p>
             
             <label for="email">Email</label>
             <input type="text" class="input-block" required placeholder="jsmith@marlinfinance.com" ng-model="email" name="email">

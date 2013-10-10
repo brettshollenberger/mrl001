@@ -7,6 +7,7 @@ angular
         function($scope, User, $http) {
             $scope.isProcessing = false;
             $scope.email = "";
+            $scope.status = "";
 
             $scope.passwordReset = function() {
                 $scope.isProcessing = true;
@@ -19,11 +20,14 @@ angular
                             url: '/api/v1/users/' + user._id + '/reset_password'
                         }).success(function(data) {
                             $scope.message = "An email has been sent to " + $scope.email + " containing login instructions.";
+                            $scope.status = 'success';
                         }).error(function(data) {
                             $scope.message = "There was an error resetting your password. Please try again.";
+                            $scope.status = 'error';
                         });
                     } else {
                         $scope.message = "We didn't find that email address in our system. Double check the spelling and try again";
+                        $scope.status = 'error';
                     }
                     $scope.isProcessing = false;
                 });

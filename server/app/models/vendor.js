@@ -145,6 +145,11 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "creditEmailAddress": {
+        type: String,
+        "default": '',
+        trim: true
     }
 });
 

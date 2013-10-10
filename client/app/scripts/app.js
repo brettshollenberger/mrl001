@@ -62,6 +62,7 @@ angular
     //base_url: 'http://localhost:3000/api/v1/'
     //base_url: 'http://0.0.0.0:3000/api/v1/'
     base_url: 'http://127.0.0.1:3000/api/v1/'
+    //base_url: 'http://10.1.10.48:3000/api/v1/'
 })
 
 /**

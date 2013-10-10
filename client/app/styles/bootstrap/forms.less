@@ -366,9 +366,9 @@ input[type="checkbox"][readonly] {
 
 // HTML5 invalid states
 // Shares styles with the .control-group.error above
-input:focus:invalid,
-textarea:focus:invalid,
-select:focus:invalid {
+input:focus:invalid.ng-dirty,
+textarea:focus:invalid.ng-dirty,
+select:focus:invalid.ng-dirty {
   color: @pink;
   border-color: @red;
   &:focus {

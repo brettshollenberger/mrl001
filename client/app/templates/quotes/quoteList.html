@@ -40,14 +40,14 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <!-- <pre>{{quotes | json}}</pre> -->
+                    
                     <tbody>
                         <tr ng-click="editItem(item._id)" ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
                             
                             <td>${{item.totalCost | number}}</td>
                             <td>{{item.description}}</td>
                             <td>
-                                <img style="width:50px;" src="{{item.vendor.logo.original}}"/> &nbsp;
+                                <img class="img-tiny" src="{{item.vendor.logo.original}}"/> &nbsp;
                                 {{item.vendor.name}} 
                             </td>
                             <td>{{item.status}}</td>

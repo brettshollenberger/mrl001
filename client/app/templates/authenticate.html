@@ -1,0 +1,56 @@
+<div class="row-fluid">
+
+     <div class="span4 offset2">
+        <img class="logo" src="img/logo_large_login.png" title="Marlin Quoter" />
+     </div>
+
+    <div class="span4">
+        
+        <form class="well loginForm" id="loginForm" name="loginForm" ng-controller="loginController" ng-show="isPage('/login')">
+        
+            <p class="alert alert-error" ng-show="message">{{message}}</p>
+            
+            <label for="email">Email</label>
+            <input autocomplete="off" type="text" class="input-block" required placeholder="jsmith@marlinfinance.com" ng-model="email" name="email">
+            
+            <label for="password">Password</label>
+            <input autocomplete="off" type="password" class="input-block" required placeholder="password" ng-model="password" name="password">
+            
+            <br />
+            
+            <button type="submit" class="btn btn-primary btn-block" id="login" ng-click="login()">Login <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></button>
+            
+            <br /> 
+            
+            <a href="#/password_reset">Forgot Password</a>
+            
+            <br /><br />
+            
+            <!-- <p class="alert alert-info">Username is your Marlin email, before the @. Password is the same.</p> -->
+         
+        </form>
+        
+        <form class="well passwordForm" id="passwordForm" name="passwordForm" ng-controller="passwordResetController" ng-show="isPage('/password_reset')">
+        
+            <p class="alert alert-error" ng-show="message">{{message}}</p>
+            
+            <label for="email">Email</label>
+            <input type="text" class="input-block" required placeholder="jsmith@marlinfinance.com" ng-model="email" name="email">
+                        
+            <br />
+            
+            <button type="submit" ng-disabled="passwordForm.$invalid" class="btn btn-primary btn-block" id="password" ng-click="passwordReset()">Email New Password <i ng-show="isProcessing" class="icon icon-spinner icon-spin"></i></button>
+            
+            <br /> 
+            
+            <a href="#/login">Login</a>
+            
+            <br /><br />
+            
+            <!-- <p class="alert alert-info">Username is your Marlin email, before the @. Password is the same.</p> -->
+         
+        </form> 
+                
+               
+    </div>
+</div>

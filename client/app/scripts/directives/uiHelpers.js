@@ -58,18 +58,56 @@ angular
             }
         };
     })
+    
+    /**
+    * DEFAULT IMAGE Directive
+    * ----------------------------------
+    * Use this directive to define a default image for an image
+    *
+    * Observes ngSrc, and if it's null then applys a default in two ways
+    * 1. Specify an image src, 
+    *    @example: default-image="img/default-user.png"
+    *
+    * 2. Specify an image type, as defined in defaults object, 
+    *    @example default-image="vendor", where defaults.vendor === "img/default-user.png"
+    *
+    * It also adds and remove a class based on default image being applied or not
+    * 
+    * @note we observe ngSrc so changes to src should update the image
+    * @note you might need a style of diplay: block !important if you are setting the display
+    *       of the element based on ng-src, for @example ng-show="image.src" 
+    * 
+    */
     .directive("defaultImage", function() {
 
+        // default cla
+        var defaultClass = 'default-image';
+
+        // define our defaults
+        // @todo allow easy way to override independent of directive
+        var defaults = {
+            user: 'img/default-user.jpg',
+            vendor: 'img/default-vendor.png'
+        };
+        
+        // method to check for image path being used in directive by checking for index of '.' period
+        var whichImage = function(srcOrKey) {
+            if(srcOrKey.indexOf('.') === -1) return defaults[srcOrKey];
+            return srcOrKey;
+        };
+
+        // directive linker
         return {
             link: function(scope, element, attrs) {
                                 
                 attrs.$observe('ngSrc', function(item) {
                     if(!item) {
-                        element.attr("src", attrs.defaultImage).addClass('default-image');
+                        element.attr("src", whichImage(attrs.defaultImage)).addClass(defaultClass);
                     } else {
-                        element.removeClass('default-image');
+                        element.removeClass(defaultClass);
                     }
                 });
+                
             }
         };
     });

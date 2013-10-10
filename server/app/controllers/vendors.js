@@ -230,7 +230,7 @@ exports.getAllNames = function(req, res) {
  *
  */
 exports.getDistinctTags = function(req, res) {
-    Vendor.distinct('tags', {}, function (err, result) {
+    Vendor.distinct(req.params.tagType, {}, function (err, result) {
         if (err) res.failure(err);
         res.ok(result);
     });

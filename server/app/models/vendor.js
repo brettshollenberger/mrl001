@@ -153,6 +153,7 @@ VendorSchema.plugin(troop.merge);
 
 var taggable = require('mongoose-taggable');
 VendorSchema.plugin(taggable, {'path':'tags'});
+VendorSchema.plugin(taggable, {'path':'industryTags'});
 
 /**
  * Statics
@@ -210,55 +211,61 @@ VendorSchema.pre('save', function(next) {
     *
     */
     var vendor = this;
-    
-    var vendorTags = [];  // tags that are currently being passed from the vendor
-    
-    // create a unified array of current vendor tags
-    _.each(vendor.vendorTags, function(item) {
-        vendorTags.push(item.text);
-    });
-
-    var newTags = _.difference(vendorTags, vendor.tags);
-    var removeTags = _.difference(vendor.tags, vendorTags);
-        
-    _.each(newTags, function(item) {
-        vendor.addTag(item, function(err, addedTag) {
-            console.log('Added: ' + item);
-        });
-    });
-    
-    _.each(removeTags, function(item) {
-        vendor.removeTag(item, function(err, removedTag) {
-            console.log('Removed: ' + item);
-        });
-    });
-    
-    
-    /**
-    * A nice way to create a search string that we can use on the dealer locator
-    * --------------------------------
-    * 
-    * @todo refactor with fulltext mondules that @pickle was looking into
-    *       with a fultext search in place, we could just send tag searches as get queries
-    *       and let the server do all the work.
-    *
-    */
     vendor.searchString = '';
     
+    // the tags that are present on the vendor model
+    var tagTypes = {'tags' : 'vendorTags', 'industryTags' : 'vendorIndustryTags'};
     
-    // will be present when updating from dashboard
-    if(vendor.vendorTags) {
-        _.each(vendor.vendorTags, function(tag) {
-            vendor.searchString += tag.text + ' '; 
+    _.each(tagTypes, function(type, path) {
+
+        var vendorTags = [];  // tags that are currently being passed from the vendor
+        var newTags = [];
+        var removeTags = [];
+        
+        // create a unified array of current vendor tags
+        _.each(vendor[type], function(item) {
+            vendorTags.push(item.text);
+        });
+    
+        newTags = _.difference(vendorTags, vendor[path]);
+        removeTags = _.difference(vendor[path], vendorTags);
+            
+        _.each(newTags, function(item) {
+            vendor.addTag(path, item, function(err, addedTag) {
+                console.log('Added: ' + item);
+            });
         });
         
-    // on seed data
-    } else {
-        _.each(vendor.tags, function(tag) {
-            vendor.searchString += tag + ' '; 
+        _.each(removeTags, function(item) {
+            vendor.removeTag(path, item, function(err, removedTag) {
+                console.log('Removed: ' + item);
+            });
         });
-    }
-
+        
+        /**
+        * A nice way to create a search string that we can use on the dealer locator
+        * --------------------------------
+        * 
+        * @todo refactor with fulltext mondules that @pickle was looking into
+        *       with a fultext search in place, we could just send tag searches as get queries
+        *       and let the server do all the work.
+        *
+        */
+        
+        // will be present when updating from dashboard
+        if(vendor[type]) {
+        
+            _.each(vendor[type], function(tag) {
+                vendor.searchString += tag.text + ' '; 
+            });
+            
+        // on seed data
+        } else {
+            _.each(vendor[path], function(tag) {
+                vendor.searchString += tag + ' '; 
+            });
+        }
+    });
 
     /**
     * Standardize tool slugs
@@ -282,7 +289,6 @@ VendorSchema.statics = {
         }, function(err, result) {
             if (err) return cb(err);
             if (result && result._id) {
-                console.log(result);
                 return cb(null, result);
             } else {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));

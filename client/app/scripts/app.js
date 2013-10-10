@@ -90,8 +90,7 @@ angular
 
         // general routes
         .when('/login', {
-            controller: 'loginController',
-            templateUrl: 'app/templates/login.html'
+            templateUrl: 'app/templates/authenticate.html'
         })
 
         // general routes
@@ -101,8 +100,7 @@ angular
         })
 
         .when('/password_reset', {
-            controller: 'passwordResetController',
-            templateUrl: 'app/templates/password_reset.html'
+            templateUrl: 'app/templates/authenticate.html'
         })
 
 
@@ -286,6 +284,19 @@ angular
             } else {
                 return "";
             }
+        };
+        
+        
+        /**
+        * Function that returns true / false if location matches variable
+        * @note you must pass a full path, with a leading slash
+        *
+        * @example isPage('/login') === $location.url('/login')
+        * @example isPage('login') !== $location.url('/login')
+        *
+        */
+        $rootScope.isPage = function(slug) {
+            return $location.path() === slug;  
         };
 
         /**

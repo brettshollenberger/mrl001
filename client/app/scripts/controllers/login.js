@@ -9,6 +9,10 @@ angular
         '$routeParams',
         function($rootScope, $scope, $location, Auth, $timeout, $routeParams) {
 
+            // declare variables
+            $scope.email = '';
+            $scope.password = '';
+            
             // we use this to set credentials for demo on initial page screen
             $rootScope.demoCredentials = {
                 admin: {
@@ -47,6 +51,17 @@ angular
                 // go to daahboard
                 $location.url('/dashboard');
             }
+            
+             // sets message and removes after timeout
+            var setMessage = function(message) {
+                $scope.message = message;
+
+                // set timeout to clear our message after 2 seconds
+                $timeout(function() {
+                    $scope.message = null;
+                }, 2000);
+
+            };
 
 
             // used to provide a button specific activity spinner 
@@ -61,18 +76,14 @@ angular
                 Auth.login($scope.email, $scope.password).then(function(response) {
 
                     // @todo make this more robust! 
-                    var loginSuccess = response;
-
                     $scope.isProcessing = false;
-
-                    if (!loginSuccess) {
-                        $scope.message = 'Login failed, please try again';
-                    } else {
-                        loginSuccessCallback();
-                    }
+                    loginSuccessCallback();
 
                 }, function(err) {
+                    console.log(err);
+                    setMessage('There was a problem loggin you in. ');
                     $scope.isProcessing = false;
+                    
                 });
 
             };

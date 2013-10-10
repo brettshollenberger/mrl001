@@ -180,7 +180,12 @@ VendorSchema.pre('init', function(next, data) {
         });
         item.displayName = customName.length ? customName[0].displayName : null;
     });
-
+    
+    //If there is no vendor logo set default
+    if(!data.logo.original){
+        data.logo.original = "http://placekitten.com/520/390";   
+    }
+    
     next();
 });
 

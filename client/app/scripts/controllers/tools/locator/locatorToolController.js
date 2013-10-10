@@ -109,6 +109,7 @@ angular
             
             // empty search text
             $scope.searchText = '';
+            $scope.industrySearchText = '';
             var searchTags = [];
 
             // search button, user must click when they are done entering text
@@ -533,26 +534,25 @@ angular
             */
             function searchTextToArray() {
                
+                var originalSearch = '';
                 var vendorSearchTags = [];
                 var industrySearchTags = [];
                
                 if($scope.searchText !== '') {
                     // convert to lowercase and split at space
-                    var originalSearch = $scope.searchText.toLowerCase();
+                    originalSearch = $scope.searchText.toLowerCase();
                     vendorSearchTags = originalSearch.split(" ");
                     searchTags.push(originalSearch);   
                 }
                 
                 if($scope.industrySearchText !== '') {
                     // convert to lowercase and split at space
-                    var originalSearch = $scope.industrySearchText.toLowerCase();
+                    originalSearch = $scope.industrySearchText.toLowerCase();
                     industrySearchTags = originalSearch.split(" ");
                     searchTags.push(originalSearch);
                 }
                 
-                searchTags = _.union(vendorSearchTags, industrySearchTags);
-                
-                
+                searchTags = _.union(vendorSearchTags, industrySearchTags);  
             }
                         
         }

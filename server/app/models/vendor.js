@@ -147,7 +147,7 @@ var troop = require('mongoose-troop');
 VendorSchema.plugin(troop.merge);
 
 var taggable = require('mongoose-taggable');
-var test = VendorSchema.plugin(taggable, {'path':'tags'});
+VendorSchema.plugin(taggable, {'path':'tags'});
 VendorSchema.plugin(taggable, {'path':'industryTags'});
 
 /**

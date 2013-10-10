@@ -48,7 +48,6 @@ var data = [{
         "phone": "866-687-3778"
     },
     "industryTags" : ["retail", "insurance", "computer"],
-    "searchString" : "retail insurance computer",
     "salesRep": '51e71518ed32080ffc000016',
     "logo": {
         "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
@@ -213,7 +212,6 @@ var data = [{
         "zip": "93308-4919"
     },
     "industryTags" : ["retail", "air", "service"],
-    "searchString" : "retail air service",
     "tools": [{
         "name": "Locator Tool",
         "active": false

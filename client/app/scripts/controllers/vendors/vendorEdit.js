@@ -13,7 +13,8 @@ angular
         'googleMapsService',
         '$timeout',
         '$window',
-        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
+        'FormHelper',
+        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, FormHelper) {
 
             $scope.modelObject = Vendor;
             $scope.mapActive = false;
@@ -164,13 +165,31 @@ angular
                 $scope.formAction = 'Update';
             }
 
+            var formTabMap = [
+                'basicForm',
+                'MarlinRepForm',
+                'VendorSalesRepForm',
+                'rateForm',
+                'toolForm',
+                'locationForm',
+                'customizeForm'
+            ];
+
+            // Code to automatically make save updates
+            _.each(formTabMap, function(form) {
+                $scope.$watch('$scope.$$childTail[formTabMap[$scope.activeTab]]',
+                    function() {
+                        $timeout(function() {
+                            $scope.save(false);
+                        }, 5000, true);
+                    }, true);
+            });
+
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
-
                 // clear our variables
                 $scope.vendor.programs = []; // clear the program array
                 $scope.vendor.programCustomNames = []; // where we store custom displayName data
-
                 // process each program, checking if its active for the vendor
                 _.each($scope.programs, function(item, key) {
 
@@ -188,13 +207,16 @@ angular
                     // create new item
                     Vendor.add($scope.vendor).then(function(response) {
                         //console.log('VendorEdit Add Vendor');
-                        //console.log(response);
                         $scope.vendor = response;
                         vendorId = $scope.vendor._id;
                         //saveChangesPrompt.removeListener();
 
+                        // If successful, we either redirect or reset the form
+                        // to the pristine state
                         if (doRedirect) {
                             $location.url('/dashboard/vendors');
+                        } else {
+                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
                         }
 
                     });
@@ -206,7 +228,10 @@ angular
                     //saveChangesPrompt.removeListener();
 
                     // update existing item
-                    Vendor.update($scope.vendor);
+                    Vendor.update($scope.vendor).then(function(response) {
+                        $scope.vendor = response;
+                        FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
+                    });
 
                     if (doRedirect) {
                         $location.url('/dashboard/vendors');
@@ -214,6 +239,11 @@ angular
 
                 }
 
+                $scope.justSaved = true;
+
+                $timeout(function() {
+                    $scope.justSaved = false;
+                }, 5000);
             };
 
             $scope.toggleActive = function(item) {

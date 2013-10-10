@@ -232,7 +232,9 @@ angular
  *
  */
 .run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker',
-    function($rootScope, $location, Auth, $document, $http, promiseTracker) {
+        'FormHelper',
+    function($rootScope, $location, Auth, $document, $http, promiseTracker,
+        FormHelper) {
 
 
         // define our version
@@ -244,7 +246,7 @@ angular
         // @note this is related to experimental promisetracker module
         $rootScope.apiTracker = promiseTracker('api');
 
-
+        $rootScope.FormHelper = FormHelper;
         /**
          * Helper functions, which are accessiable anywhere in our app using $rootScope.functionName()
          *

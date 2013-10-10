@@ -78,6 +78,11 @@ var VendorSchema = new Schema({
         "default": '',
         trim: true
     },
+    "whiteLabel": {
+        type: Boolean,
+        "default": false,
+        trim: true
+    },
     "businessPhone": {
         type: String,
         "default": '',

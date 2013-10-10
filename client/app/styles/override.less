@@ -35,12 +35,21 @@ a[ng-click], button[ng-click], tr[ng-click] {
 a:hover{text-decoration: none;}
 .table{margin: 10px 0;}
 .container{margin-right: 0; margin-left: 0;}
-body.quoter .container, 
-body.login .container, 
-body.home .container, 
-body.application .container,
-body.locator .container{
-    margin-left: auto; margin-right: auto; margin-top: 90px;
+
+
+// Dashboard is left aligned, while rest of site is centered, so
+// we account for this here using margin: auto
+body.quoter, 
+body.login, 
+body.home, 
+body.application,
+body.password_reset,
+body.locator{
+    
+    .container {
+         margin-left: auto; margin-right: auto; margin-top: 90px;
+    }
+   
 }
 
 body.locator .container {
@@ -59,7 +68,7 @@ body.dashboard {
         border-right: 1px solid @niceTan;
         
         width: @gridRowWidth + 40px;
-        
+        min-height: 100%;
         .span10.offset2 {
             margin-left: (@gridColumnWidth * 2) + (@gridGutterWidth * 3) + 10px;
         }
@@ -179,6 +188,7 @@ label {
     
     h3 {
         border-bottom: 1px solid @gray;
+        text-transform: uppercase;
     }
 }
 
@@ -513,6 +523,3 @@ footer em {
     bottom: 12px;
     padding: 0 20px;
 }
-
-
-@import "./components/dashboard.less";

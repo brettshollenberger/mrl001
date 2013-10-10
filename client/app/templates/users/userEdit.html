@@ -14,7 +14,7 @@
                 </ul>
                 
                 <div class="actions">
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
+                    <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
                     <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty || usersVendors.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
                 </div>
             
@@ -60,16 +60,21 @@
             
             <div class="span10" can-do-action="changeRoles-users">
                 <h3>User Role</h3>
-                <span ng-show="!canChangeRole() && user.role == 'admin'">
-                    <p class="alert alert-error pull-left">You can't remove the admin role from yourself.</p>
-                    <br/><br/><br/>
-                </span>
-                <span ng-show="user._id">
-                    <select ng-disabled="!canChangeRole()" ng-model="user.role" ng-options="role.value as role.label for role in roles"></select>
-                </span>
-                <span ng-show="!user._id">
-                    <p class="alert alert-error pull-left">Please save this user before assigning a role.</p>
-                </span>
+                <div class="row">
+                    <div class="span3">
+                        <span ng-show="!canChangeRole() && user.role == 'admin'">
+                            <p class="alert alert-error pull-left">You can't remove the admin role from yourself.</p>
+                            <br/><br/><br/>
+                        </span>
+                        <span ng-show="user._id">
+                            <select ng-disabled="!canChangeRole()" ng-model="user.role" ng-options="role.value as role.label for role in roles"></select>
+                        </span>
+                        <span ng-show="!user._id">
+                            <p class="alert alert-error pull-left">Please save this user before assigning a role.</p>
+                        </span>
+                    </div>
+                </div>
+                
             </div>
             
         </form>

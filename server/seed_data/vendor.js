@@ -47,7 +47,8 @@ var data = [{
         "email": "jdelong@marlinfinance.com",
         "phone": "866-687-3778"
     },
-    "industryTags" : ["retail", "insurance", "computer"],
+    "industryTags" : ["retail", "insurance sector", "technology sector"],
+    "tags": ["office", "supplies", "printers"],
     "salesRep": '51e71518ed32080ffc000016',
     "logo": {
         "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"

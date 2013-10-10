@@ -14,7 +14,7 @@ angular
             $scope.password = '';
             
             // we use this to set credentials for demo on initial page screen
-            $rootScope.demoCredentials = {
+            var demoCredentials = {
                 admin: {
                     email: 'bwalsh@marlinfinance.com',
                     password: 'bwalsh'
@@ -44,9 +44,10 @@ angular
              *
              */
             if ($routeParams.demo) {
-                $scope.email = $rootScope.demoCredentials[$routeParams.demo].email;
-                $scope.password = $rootScope.demoCredentials[$routeParams.demo].password;
+                $scope.email = demoCredentials[$routeParams.demo].email;
+                $scope.password = demoCredentials[$routeParams.demo].password;
             }
+            
 
             /**
              * Runs on success, useful for redirecting etc.

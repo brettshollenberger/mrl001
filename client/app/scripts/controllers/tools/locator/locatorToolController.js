@@ -109,6 +109,7 @@ angular
             
             // empty search text
             $scope.searchText = '';
+            $scope.industrySearchText = '';
             var searchTags = [];
 
             // search button, user must click when they are done entering text
@@ -270,7 +271,7 @@ angular
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
                         // @todo this could be refactored to query api
-                        if ($scope.searchText && !checkForTagMatch(item)) {
+                        if (($scope.searchText || $scope.industrySearchText) && !checkForTagMatch(item)) {
                             return;
                         }
                         
@@ -508,9 +509,8 @@ angular
             function checkForTagMatch(item) {
                 
                 // check for no tags
-                if(!item.tags || !item.tags.length) return false;
+                if(!item.searchString || !item.searchString.length) return false;
                 
-                // console.log(item.searchString);
                 
                 // for each search tag that user has entered, check if 
                 // it exists in the items tags array.
@@ -520,7 +520,7 @@ angular
                 var isValid = false;                
                 
                 _.each(searchTags, function(tag) {
-                    if(item.searchString.indexOf(tag) !== -1) {
+                    if(item.searchString.toLowerCase().indexOf(tag) !== -1) {
                         isValid = true;
                     }
                 });
@@ -534,12 +534,25 @@ angular
             */
             function searchTextToArray() {
                
-                // convert to lowercase and split at space
-                var originalSearch = $scope.searchText.toLowerCase();
-                searchTags = originalSearch.split(" ");
+                var originalSearch = '';
+                var vendorSearchTags = [];
+                var industrySearchTags = [];
+               
+                if($scope.searchText !== '') {
+                    // convert to lowercase and split at space
+                    originalSearch = $scope.searchText.toLowerCase();
+                    vendorSearchTags = originalSearch.split(" ");
+                    searchTags.push(originalSearch);   
+                }
                 
-                // then push the original search term for good measure
-                searchTags.push(originalSearch);
+                if($scope.industrySearchText !== '') {
+                    // convert to lowercase and split at space
+                    originalSearch = $scope.industrySearchText.toLowerCase();
+                    industrySearchTags = originalSearch.split(" ");
+                    searchTags.push(originalSearch);
+                }
+                
+                searchTags = _.union(vendorSearchTags, industrySearchTags);  
             }
                         
         }

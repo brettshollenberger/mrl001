@@ -124,7 +124,7 @@ exports.all = function(req, res) {
         };
     } else {
         populate = '';
-        select = 'name _id logo customField geo tools tags searchString';
+        select = 'name _id logo customField geo tools tags searchString whiteLabel';
     }
 
     Vendor
@@ -230,7 +230,7 @@ exports.getAllNames = function(req, res) {
  *
  */
 exports.getDistinctTags = function(req, res) {
-    Vendor.distinct('tags', {}, function (err, result) {
+    Vendor.distinct(req.params.tagType, {}, function (err, result) {
         if (err) res.failure(err);
         res.ok(result);
     });

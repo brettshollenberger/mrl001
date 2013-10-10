@@ -68,7 +68,7 @@
     "virgen-acl": "latest",
     "moment": "~2.2.1",
     "format-number" : "latest",
-    "mongoose-taggable" : "latest"
+    "mongoose-taggable" : "https://github.com/aaronfrey/mongoose-taggable/archive/0.4.0-multiple-tags.tar.gz"
   },
   "devDependencies": {
     "supertest": "latest",

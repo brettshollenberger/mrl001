@@ -90,7 +90,7 @@ angular
 
                 }, function(err) {
                     console.log(err);
-                    setMessage('There was a problem loggin you in. ');
+                    setMessage('There was a problem logging you in.');
                     $scope.isProcessing = false;
                     
                 });

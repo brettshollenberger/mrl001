@@ -57,4 +57,19 @@ angular
                 });
             }
         };
+    })
+    .directive("defaultImage", function() {
+
+        return {
+            link: function(scope, element, attrs) {
+                                
+                attrs.$observe('ngSrc', function(item) {
+                    if(!item) {
+                        element.attr("src", attrs.defaultImage).addClass('default-image');
+                    } else {
+                        element.removeClass('default-image');
+                    }
+                });
+            }
+        };
     });

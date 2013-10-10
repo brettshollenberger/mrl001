@@ -31,7 +31,7 @@
                         <tr ng-click="editItem(item._id)" ng-repeat="item in vendors | filter: searchTerm">
                             <td class="text-center border-right">
                                 <div class="img-wrapper">
-                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" default-image="/img/default-vendor.png" />
                                 </div>
                                 <div class="placeholder" ng-show="!item.logo.original"/>
                             </td>

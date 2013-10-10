@@ -7,7 +7,7 @@
         <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
         
     </div>
-    <div class="span2">
+    <div class="span2" ng-hide="vendor.whiteLabel">
         <img class="pull-right poweredby" src="img/powered_by.png" />
     </div>
 </div>
@@ -17,7 +17,7 @@
     <div class="span8 offset1">
             
         <label>Choose your vendor</label>
-        <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors" >
+        <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors">
             <option value="">---- Choose Vendor ----</option>
         </select>
     </div>

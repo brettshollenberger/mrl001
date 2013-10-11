@@ -9,7 +9,8 @@ angular
         'userService',
         'vendorService',
         'FormHelper',
-        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, FormHelper) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, FormHelper, CommonInterface) {
 
             $scope.modelObject = User;
 
@@ -124,84 +125,33 @@ angular
 
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
-
-                if (!userId) {
-
-                    // create new item
-                    User.add($scope.user).then(function(response) {
-                        $scope.user = response;
-                        // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-                        userId = $scope.user._id;
-                        //saveChangesPrompt.removeListener();
-
-                        if (doRedirect) {
-                            $location.url('/dashboard/users');
-                        } else {
-                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
-                        }
-
-                    });
-
-                } else {
-
-
-                    if ($scope.initialRole !== $scope.user.role) {
-
-                        console.log('NEED TO update users vendors');
-
-                        if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
-
-                            _.each($scope.vendors, function(item, key) {
-                                // check if the user is currently the sales or vendor rep for this vendor
-
-                                if (item.active) {
-                                    if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
-                                    if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
-                                    item.active = false;
-                                }
-
-                                console.log(item);
-                                Vendor.update(item);
-                            });
-
-                            updateVendorRelationships();
-
-                            // update existing item
-                            User.update($scope.user);
-
-                            //saveChangesPrompt.removeListener();
-
-                            if (doRedirect) {
-                                $location.url('/dashboard/users');
-                            } else {
-                                FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
+                CommonInterface.save({
+                    Model: User,
+                    instance: $scope.user,
+                    id: userId,
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    redirectUrl: '/dashboard/users',
+                    doRedirect: doRedirect,
+                    strategy: function() {
+                        if ($scope.initialRole !== $scope.user.role) {
+                            console.log('NEED TO update users vendors');
+                            if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
+                                _.each($scope.vendors, function(item, key) {
+                                    // check if the user is currently the sales or vendor rep for this vendor
+                                    if (item.active) {
+                                        if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
+                                        if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
+                                        item.active = false;
+                                    }
+                                    console.log(item);
+                                    Vendor.update(item);
+                                });
                             }
-
                         }
-
-
-                    } else {
                         updateVendorRelationships();
-
-                        // update existing item
-                        User.update($scope.user);
-
-                        //saveChangesPrompt.removeListener();
-
-                        if (doRedirect) {
-                            $location.url('/dashboard/users');
-                        } else {
-                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
-                        }
                     }
-
-
-                }
-
-
+                });
             };
-
-
             // --------
 
             /**

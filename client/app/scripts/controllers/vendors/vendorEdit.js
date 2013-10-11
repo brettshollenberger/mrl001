@@ -13,8 +13,8 @@ angular
         'googleMapsService',
         '$timeout',
         '$window',
-        'FormHelper',
-        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, FormHelper) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, CommonInterface) {
 
             $scope.modelObject = Vendor;
             $scope.mapActive = false;
@@ -176,75 +176,46 @@ angular
             ];
 
             // Code to automatically make save updates
-            _.each(formTabMap, function(form) {
-                $scope.$watch('$scope.$$childTail[formTabMap[$scope.activeTab]]',
-                    function() {
-                        $timeout(function() {
-                            $scope.save(false);
-                        }, 5000, true);
-                    }, true);
-            });
+            // _.each(formTabMap, function(form) {
+            //     $scope.$watch(function() { return $scope.vendor; },
+            //         function() {
+            //             $timeout(function() {
+            //                 $scope.save(false);
+            //             }, 10000);
+            //         }, true);
+            // });
+
+            $scope.save = function(doRedirect) {
+                CommonInterface.save({
+                    Model: Vendor,
+                    instance: $scope.vendor,
+                    id: vendorId,
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    redirectUrl: '/dashboard/vendors',
+                    doRedirect: doRedirect,
+                    strategy: function() {
+                        // clear our variables
+                        $scope.vendor.programs = []; // clear the program array
+                        console.log($scope.vendor);
+                        $scope.vendor.programCustomNames = []; // where we store custom displayName data
+                
+                        // process each program, checking if its active for the vendor
+                        _.each($scope.programs, function(item, key) {
+
+                            // API saves an array of _ids
+                            if (item.active) $scope.vendor.programs.push(item._id);
+
+                            // if user has set a custom display name
+                            // we push the whole object, but API will only save the id and displayName
+                            if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
+
+                        });
+                    }
+                });
+            };
 
             // activated when user clicks the save button
-            $scope.save = function(doRedirect) {
-                // clear our variables
-                $scope.vendor.programs = []; // clear the program array
-                $scope.vendor.programCustomNames = []; // where we store custom displayName data
-                // process each program, checking if its active for the vendor
-                _.each($scope.programs, function(item, key) {
-
-                    // API saves an array of _ids
-                    if (item.active) $scope.vendor.programs.push(item._id);
-
-                    // if user has set a custom display name
-                    // we push the whole object, but API will only save the id and displayName
-                    if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
-
-                });
-
-                if (!vendorId) {
-
-                    // create new item
-                    Vendor.add($scope.vendor).then(function(response) {
-                        //console.log('VendorEdit Add Vendor');
-                        $scope.vendor = response;
-                        vendorId = $scope.vendor._id;
-                        //saveChangesPrompt.removeListener();
-
-                        // If successful, we either redirect or reset the form
-                        // to the pristine state
-                        if (doRedirect) {
-                            $location.url('/dashboard/vendors');
-                        } else {
-                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
-                        }
-
-                    });
-
-                } else {
-
-                    // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-
-                    //saveChangesPrompt.removeListener();
-
-                    // update existing item
-                    Vendor.update($scope.vendor).then(function(response) {
-                        $scope.vendor = response;
-                        FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
-                    });
-
-                    if (doRedirect) {
-                        $location.url('/dashboard/vendors');
-                    }
-
-                }
-
-                $scope.justSaved = true;
-
-                $timeout(function() {
-                    $scope.justSaved = false;
-                }, 5000);
-            };
+            // $scope.save = function(doRedirect) {
 
             $scope.toggleActive = function(item) {
                 item.active = item.active ? false : true;

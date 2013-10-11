@@ -8,7 +8,8 @@ angular
         'authService',
         'userService',
         'vendorService',
-        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor) {
+        'FormHelper',
+        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, FormHelper) {
 
             $scope.modelObject = User;
 
@@ -92,7 +93,7 @@ angular
             }
 
 
-            function udpateVendorRelationships() {
+            function updateVendorRelationships() {
                 // process each program, checking if its active for the vendor
                 _.each($scope.vendors, function(item, key) {
 
@@ -115,6 +116,12 @@ angular
                 });
             }
 
+            var formTabMap = [
+                'basicForm',
+                'usersVendors',
+                'passwordForm'
+            ];
+
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
 
@@ -129,6 +136,8 @@ angular
 
                         if (doRedirect) {
                             $location.url('/dashboard/users');
+                        } else {
+                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
                         }
 
                     });
@@ -155,7 +164,7 @@ angular
                                 Vendor.update(item);
                             });
 
-                            udpateVendorRelationships();
+                            updateVendorRelationships();
 
                             // update existing item
                             User.update($scope.user);
@@ -164,13 +173,15 @@ angular
 
                             if (doRedirect) {
                                 $location.url('/dashboard/users');
+                            } else {
+                                FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
                             }
 
                         }
 
 
                     } else {
-                        udpateVendorRelationships();
+                        updateVendorRelationships();
 
                         // update existing item
                         User.update($scope.user);
@@ -179,6 +190,8 @@ angular
 
                         if (doRedirect) {
                             $location.url('/dashboard/users');
+                        } else {
+                            FormHelper.setPristine($scope.$$childTail[formTabMap[$scope.activeTab]]);
                         }
                     }
 

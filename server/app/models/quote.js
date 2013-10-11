@@ -19,6 +19,10 @@ var QuoteSchema = new Schema({
         type: Number,
         required: true
     },
+    totalCostDisplay: {
+        type: String,
+        required: true
+    },
     status: {
         type: String,
         "default": 'Open',

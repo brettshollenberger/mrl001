@@ -23,6 +23,34 @@ exports.vendor = function(req, res, next, id) {
 };
 
 /**
+ * Find vendor by req.body.vendorId or req.params.vendorId
+ * @todo this should be able to piggy back on exports.vendor by checkig for params and body if
+ *    id doesn't exist ad the 4th param. However this was not working and causing errors.
+ *
+ */
+exports.findByBodyOrParams = function(req, res, next) {
+    
+    var id = null;
+
+    if(req.body && req.body.vendorId) {
+        id = req.body.vendorId;
+    } else if(req.params && req.params.vendorId) {
+        id = req.params.vendorId;
+    }
+    
+    if(!id) return res.failure('missing vendor id');
+
+    Vendor.load(id, function(err, vendor) {
+        if (err) return next(err);
+        if (!vendor) {
+            return res.failure('No results', 404);
+        }
+        req.vendor = vendor;
+        next();
+    });
+};
+
+/**
  * Create a vendor
  */
 exports.create = function(req, res) {

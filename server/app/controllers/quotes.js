@@ -37,9 +37,9 @@ exports.quote = function(req, res, next, id) {
 * ----------------------------------------
 * 
 */
-exports.validatePublicRequest = function(req, res, next) {
+exports.validateQuoteRequest = function(req, res, next) {
         
-    if(!req.body.totalCost) {
+    if(!req.body.totalCost || typeof req.body.totalCost !== 'string') {
         return res.failure("totalCost is required", 400);
     } 
     
@@ -103,9 +103,15 @@ var formatPayment = function(payment) {
 */
 var handleNoPrograms = function(req, res, next) {
     
-    var message = "We could't generate a quote for you based on this total cost. Please contact us to arrange special financing.";
+    var response = {};
     
-    res.failure(message, 200);
+    response.message = "We could't generate a quote for you based on this total cost. Please contact us to arrange special financing.";
+    
+    // @todo confirm with Brian that we can show contactPerson info, and not vendor phone
+    // which is what current system does. 
+    response.contact = req.vendor.contactPerson;
+    
+    res.failure(response, 200);
     
 };
 
@@ -115,7 +121,7 @@ var handleNoPrograms = function(req, res, next) {
  * Create a quote
  * ----------------------------------------
  */
-exports.create = function(req, res) {
+exports.createOrUpdate = function(req, res) {
     
     // shorthand for our request totalcost
     // @note we have alreay validated it exists
@@ -222,11 +228,13 @@ exports.create = function(req, res) {
        // @todo test that Marlin's formula works when multiplying by cents, not just dollars
        _.each(program.terms, function(term, key) {
            
-           var payment = applyRateToCost(totalCost, program.costs.rates[key]);
-           
            // if there is no payment info, ie there is no rate, 
            // don't include it. In some cases the rate will be '0' if not being used. 
-           if(payment === 0) return;
+           if(program.costs.rates[key] === 0 || program.costs.rates[key] === null || typeof program.costs.rates[key] !== 'number') {
+                return;
+           }
+           
+           var payment = applyRateToCost(totalCost, program.costs.rates[key]);
            
            termAndRates.push({
                
@@ -288,8 +296,15 @@ exports.create = function(req, res) {
     * 
     */    
     
-    // create a new quote from request body
-    var quote = new Quote(req.body);
+    // try to get quote from request 
+    var quote = req.quote || null;
+
+    // update or create a quote
+    if(quote) {
+        quote = _.extend(quote, req.body);
+    } else {
+        quote = new Quote(req.body);
+    }
     
     // add payments data to it
     // payments is {} in database, so we can efficiently store entire object here
@@ -297,6 +312,7 @@ exports.create = function(req, res) {
     
     // adjust totalCost so it's back to dollars
     quote.totalCost = quote.totalCost / 100;
+    quote.totalCostDisplay = formatPayment(quote.totalCost);
     
     // finally, save the quote  
     quote.save(function(err) {
@@ -321,9 +337,7 @@ exports.create = function(req, res) {
             .exec(function(err, result) {
                                     
                 if(err) return;
-                
-                console.log(result);
-                
+                                
                 emailer.newQuoteEndUser(req, result);
                 emailer.newQuoteSalesRep(req, result);
                 emailer.newQuoteVendorRep(req, result);

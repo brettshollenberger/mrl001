@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema,
-    _ = require('lodash');
+    _ = require('lodash'),
+    numeral = require('numeral');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
@@ -78,6 +79,7 @@ var VendorSchema = new Schema({
         "default": '',
         trim: true
     },
+    "range": {},
     "businessAddress": {
         "address1": {
             type: String,
@@ -218,8 +220,51 @@ VendorSchema.post('init', function() {
         this.tools.quoter.display = 'Quoter';
         this.tools.api.display = 'API';
     }
-      
+
 });
+
+
+/**
+* ----------------------------------------
+* Formats and rounds currecny
+* ----------------------------------------
+*/
+var formatPayment = function(payment) {
+
+    return numeral(payment).format('$0,0.00');
+    
+};
+
+// function that returns high and low program value given an array of program object
+// 
+var getProgramRange = function(programs) {
+        
+    var sheets = _.pluck(programs, 'rateSheet');
+    
+    var range = {};
+    response = {};
+    
+    _.each(sheets, function(item) {
+        _.each(item.buyoutOptions, function(item) {
+            var costs = item.costs;
+            range.min = _.min(_.pluck(costs, 'min'));
+            range.max = _.max(_.pluck(costs, 'max'));
+        });
+    });
+    
+    _.each(range, function(item, key) {
+        
+        response[key] = {
+            display: formatPayment(item / 100),
+            value: item / 100
+        };
+    
+    });
+        
+    return response;
+};
+
+
 
 VendorSchema.pre('save', function(next) {
     
@@ -302,13 +347,33 @@ VendorSchema.pre('save', function(next) {
     *
     */
     if(this.isModified('tools') && this.tools.api.enabled === true && !this.isNew) { 
-        console.log('API key needs to be generated');
         var key = require('node-uuid')();
         this.apiKey = key; 
     }
     
-
-    next();
+    
+    // find a range, min and max value, for this program
+    // we'll use this to quickly check if a quote value is within range
+    //
+    if(vendor.programs) {
+    
+        mongoose.models.Program
+            .find({_id: { $in: vendor.programs }})
+            .exec(function(err, data) {
+            
+                if(data) {
+                    vendor.range = getProgramRange(data); 
+                }
+                
+                next();
+               
+            });
+            
+    } else {
+        next();
+    }
+    
+    
 });
 
 VendorSchema.statics = {

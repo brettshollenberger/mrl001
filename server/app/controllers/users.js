@@ -2,10 +2,11 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    async = require('async'),
-    User = mongoose.model('User'),
-    _ = require('underscore');
-
+    async    = require('async'),
+    User     = mongoose.model('User'),
+    _        = require('underscore'),
+    pw       = require('../helpers/passwordGenerator/passwordGenerator'),
+    emailer  = require('./../emails/init');
 
 /**
  * Show login form
@@ -99,7 +100,6 @@ exports.show = function(req, res) {
 
 };
 
-
 /**
  * Send User
  */
@@ -154,7 +154,8 @@ exports.destroy = function(req, res) {
  * List of Users
  */
 exports.all = function(req, res) {
-    User.find().sort('-fullname').populate('programIds').exec(function(err, users) {
+    var query = req.query || {};
+    User.find(query).sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {
@@ -231,6 +232,23 @@ exports.updatePassword = function(req, res) {
         return res.failure('Current password is incorrect', 400);
     }
 
+};
+
+exports.resetPassword = function(req, res) {
+
+    var theUser       = req.theUser;
+
+    // Generate a 15-character random password
+    theUser.password  = pw.generate(15);
+
+    theUser.save(function(err, newUser) {
+        if (err) {
+            return res.failure(err);
+        } else {
+            emailer.resetPassword(req, res);
+            return res.ok(200);
+        }
+    });
 };
 
 

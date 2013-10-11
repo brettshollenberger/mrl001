@@ -53,7 +53,7 @@ exports.newQuoteEndUser = function(req, quote) {
         subject: 'Your ' + vendorName + ' Quote'          
     };
     
-    req.app.emailer.send('quotes/new-endUser', locals);            
+    req.app.emailer.send('quotes/new-endUser', locals);
     
 };
 
@@ -145,17 +145,69 @@ exports.newQuoteVendorRep = function(req, quote) {
 // ---------------------------------------
 
 exports.completeAppCredit = function(req, app) {
+    
+    // make a call to get the vendor
+    Vendor.findOne({_id:app.vendorId}).exec(function (err, vendor) {
+     
+        // send to the custom credit emaiil address if there is one set
+        var sendTo = (vendor.creditEmailAddress && vendor.creditEmailAddress !== '') ? vendor.creditEmailAddress : 'credit@marlinfinance.com';
+     
+        var locals = {
+            to: {
+                email: sendTo,
+                fullName: 'Marlin Finance'
+            },
+            variables: {
+                appCompanyName: app.leasee.fullLegalBusinessName,
+                appCompanyAddress1: app.leasee.businessAddress.address1,
+                appCompanyAddress2: app.leasee.businessAddress.address2,
+                appCompanyCity: app.leasee.businessAddress.city,
+                appCompanyState: app.leasee.businessAddress.state,
+                appCompanyZip: app.leasee.businessAddress.zip,
+    
+                appContactName: app.leasee.contactPerson.name,
+                appContactEmail: app.leasee.contactPerson.email,
+                appContactPhone: app.leasee.contactPerson.phone,
+                appContactMethod: app.leasee.contactPerson.contactMethod,
+                
+                appGuarantorName: app.guarantorInfo.name,
+                appGuarantorSocial: app.guarantorInfo.socialSecurityNumber,
+                
+                appGuarantorContactEmail: app.guarantorInfo.email,
+                appGuarantorContactPhone: app.guarantorInfo.phone,
+                appGuarantorContactAddress1: app.guarantorInfo.homeAddress.address1,
+                appGuarantorContactAddress2: app.guarantorInfo.homeAddress.address2,
+                appGuarantorContactCity: app.guarantorInfo.homeAddress.city,
+                appGuarantorContactState: app.guarantorInfo.homeAddress.state,
+                appGuarantorContactZip: app.guarantorInfo.homeAddress.zip
+            }   
+        };
+        
+        req.app.emailer.send('apps/complete-credit', locals);
+    
+    });
+    
+};
+
+// ---------------------------------------
+// 
+// RESET PASSWORD EMAIL
+//
+// ---------------------------------------
+exports.resetPassword = function(req, app) {
      
     var locals = {
         to: {
-            email: 'credit@marlinfinance.com',
-            fullName: 'Marlin Finance'
+            email: req.theUser.email,
+            fullName: req.theUser.fullname || req.theUser.name.first || "User"
         },
         variables: {
-            link: app.dashboardLink
-        }   
+            fullName: req.theUser.fullname || req.theUser.name.first || "User",
+            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
+            password: req.theUser.password
+        }
     };
     
-    req.app.emailer.send('apps/complete-credit', locals);            
+    req.app.emailer.send('password/password-reset', locals);
     
 };

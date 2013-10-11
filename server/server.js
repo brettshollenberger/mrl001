@@ -69,6 +69,7 @@ require('./config/routes')(app, passport, auth, config, acl, public_api);
 var port = process.env.PORT || 3000;
 config.port = port; // store for later because we cant get port fro req. object :(
 var ip = '127.0.0.1';
+//var ip = '10.1.10.48';
 //ip = '10.1.10.100';
 app.listen(port, ip);
 console.log('Express app started on port ' + port);

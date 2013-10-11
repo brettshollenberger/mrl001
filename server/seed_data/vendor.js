@@ -52,7 +52,8 @@ var data = [{
         }
     },
     "programs": ['522f4634cc2aadba4d000005', '522f4634cc2aadba4d000006'],
-    "apiKey" : '808f24a1-6c8a-482d-b395-69f064efb747'
+    "apiKey" : '808f24a1-6c8a-482d-b395-69f064efb747',
+    "creditEmailAddress": "aaron.frey@gmail"
 }, {
 
     "_id": '51e71518ed32080ffc000024',
@@ -62,6 +63,8 @@ var data = [{
         "email": "jdelong@marlinfinance.com",
         "phone": "866-687-3778"
     },
+    "industryTags" : ["retail", "insurance sector", "technology sector"],
+    "tags": ["office", "supplies", "printers"],
     "salesRep": '51e71518ed32080ffc000016',
     "logo": {
         "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
@@ -295,17 +298,6 @@ var data = [{
         "city": "Bakersfield",
         "zip": "93308-4919"
     },
-    "tools" : {
-        'locator': {
-            'enabled' : true
-        },
-        'quoter': {
-            'enabled' : false
-        },
-        'api': {
-            'enabled' : false
-        }
-    },
     "range" : {
         "max" : {
             "value" : 100000,
@@ -316,6 +308,14 @@ var data = [{
             "display" : "$1,000.00"
         }
     },
+    "tools": [{
+        "name": "Locator Tool",
+        "active": false
+    }, {
+        "name": "Quoter Tool",
+        "active": true
+    }],
+    "industryTags" : ["retail", "air", "service"],
     "contactPerson": {
         "phone": "(661)327-5336",
         "email": "tony_flores@praxair.com"

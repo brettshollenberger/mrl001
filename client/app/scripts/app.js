@@ -64,6 +64,7 @@ angular
     //base_url: 'http://localhost:3000/api/v1/'
     //base_url: 'http://0.0.0.0:3000/api/v1/'
     base_url: 'http://127.0.0.1:3000/api/v1/'
+    //base_url: 'http://10.1.10.48:3000/api/v1/'
 })
 
 /**
@@ -91,8 +92,7 @@ angular
 
         // general routes
         .when('/login', {
-            controller: 'loginController',
-            templateUrl: 'app/templates/login.html'
+            templateUrl: 'app/templates/authenticate.html'
         })
 
         // general routes
@@ -104,6 +104,10 @@ angular
         .when('/tools/api', {
             controller: 'apiController',
             templateUrl: 'app/templates/tools/api/documentation.html'
+        })
+
+        .when('/password_reset', {
+            templateUrl: 'app/templates/authenticate.html'
         })
 
         // Quoter tool!  
@@ -289,6 +293,19 @@ angular
             } else {
                 return "";
             }
+        };
+        
+        
+        /**
+        * Function that returns true / false if location matches variable
+        * @note you must pass a full path, with a leading slash
+        *
+        * @example isPage('/login') === $location.url('/login')
+        * @example isPage('login') !== $location.url('/login')
+        *
+        */
+        $rootScope.isPage = function(slug) {
+            return $location.path() === slug;  
         };
 
         /**

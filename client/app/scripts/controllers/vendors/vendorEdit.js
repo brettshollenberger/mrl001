@@ -59,9 +59,17 @@ angular
             // options for vendor tags
             //$scope.vendorTags = [{'id':'tag1', 'text':'tag1'}, {'id':'tag2', 'text':'tag2'}];
             
-            $scope.vendor.vendorTags = [];
+            // get all of the previosuly used vendor tags to populate auto suggest
             Vendor.getAllVendorTags().then(function(tags) {
                 $scope.vendorTagsOptions = {
+                    'tags': tags, // populate this with tag suggestions
+                    'width': 'element'
+                }; 
+            });
+            
+            // get all of the previosuly used vendor industry tags to populate auto suggest
+            Vendor.getAllVendorTags('industryTags').then(function(tags) {
+                $scope.vendorIndustryTagsOptions = {
                     'tags': tags, // populate this with tag suggestions
                     'width': 'element'
                 }; 
@@ -145,10 +153,12 @@ angular
 
                     // Convert tools to tabs
                     _.each($scope.vendor.tools, function(tool) {
+
                         $scope.tabs.push({
                             name : tool.display,
                             active: tool.enabled
                         });
+
                     });
                     
                     // assign a permission for each tab
@@ -156,11 +166,18 @@ angular
                     $scope.tabs[6].permission = 'changeQuoterOptions-vendor';
                     $scope.tabs[7].permission = 'changeLocationOptions-vendor';
                     
-                    
                     $scope.vendor.vendorTags = [];
+                    
                     _.each($scope.vendor.tags, function(tag) {
                         tag = tag.toLowerCase();
                         $scope.vendor.vendorTags.push({'id':tag, 'text':tag});
+                    });
+                    
+                    $scope.vendor.vendorIndustryTags = [];
+                    
+                    _.each($scope.vendor.industryTags, function(tag) {
+                        tag = tag.toLowerCase();
+                        $scope.vendor.vendorIndustryTags.push({'id':tag, 'text':tag});
                     });
 
                     updatePrograms();
@@ -534,7 +551,7 @@ angular
                     makeMarkerFromVendor();
 
                     // force our form to be dirty, showing the save button
-                    $scope.locationForm.$setDirty();
+                    $scope.$$childTail.basicForm.$setDirty();
 
                     $scope.$apply();
 

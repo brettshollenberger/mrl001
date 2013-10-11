@@ -8,9 +8,7 @@
             <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
             
         </div>
-        <div class="span2">
-            <img class="pull-right poweredby" src="img/powered_by.png" />
-        </div>
+
     </div>
 
     <div class="row area" ng-show="!didQuote">
@@ -23,7 +21,7 @@
             </select>
         </div>
         
-        <div class="span2" ng-show="!vendor._id">
+        <div class="span2" ng-hide="vendor.whiteLabel">
             <img class="pull-right poweredby" src="img/powered_by.png" />
         </div>
         

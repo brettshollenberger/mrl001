@@ -99,6 +99,7 @@ textarea,
 // Reset height since textareas have rows
 textarea {
   height: auto;
+  resize: none;
 }
 // Everything else
 textarea,
@@ -387,7 +388,11 @@ select.ng-valid.ng-dirty:focus {
 
 input.ng-invalid.ng-dirty,
 textarea.ng-invalid.ng-dirty,
-select.ng-invalid.ng-dirty {
+select.ng-invalid.ng-dirty,
+input:focus:invalid.ng-dirty,
+textarea:focus:invalid.ng-dirty,
+select:focus:invalid.ng-dirty {
+  color: @pink;
   border-color: @red;
 };
 
@@ -587,8 +592,6 @@ input.search-query {
 
 // Common properties
 // -----------------
-
-
 .form-search,
 .form-inline,
 .form-horizontal {

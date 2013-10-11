@@ -37,7 +37,8 @@ var data = [{
         "name": "Quoter Tool",
         "active": true
     }],
-    "programs": ['522f4634cc2aadba4d000005']
+    "programs": ['522f4634cc2aadba4d000005'],
+    "creditEmailAddress": "aaron.frey@gmail"
 }, {
 
     "_id": '51e71518ed32080ffc000024',

@@ -27,7 +27,7 @@
                 
                 <h3>Avatar</h3>
                 
-                <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" />
+                <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" default-image="user" />
                 
                 <br /><br />
                 <button ng-disabled="!user._id" ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Avatar</button>

@@ -145,6 +145,11 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "creditEmailAddress": {
+        type: String,
+        "default": '',
+        trim: true
     }
 });
 
@@ -186,7 +191,7 @@ VendorSchema.pre('init', function(next, data) {
         });
         item.displayName = customName.length ? customName[0].displayName : null;
     });
-
+    
     next();
 });
 

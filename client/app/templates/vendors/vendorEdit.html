@@ -36,7 +36,7 @@
                </div>
 
                     <label>Vendor Logo</label>
-                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
+                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" default-image="vendor" title="Logo" /><br/><br/>
                     <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
 
                     <br /><br />
@@ -95,7 +95,7 @@
                         <h3>Marlin Sales Rep</h3>
                     
                         <div ng-show="vendor.salesRep">
-                            <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
+                            <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original" default-image="user"/>
                             
                             <span class="pull-left manage-sales-rep">
                                 <a user-profile="vendor.salesRep"></a><br />
@@ -111,17 +111,16 @@
                             <p class="alert">This vendor has no Marlin Sales Reps</p>
                             
                             <label>Add sales rep by searching by name</label>
-                            <div class="input-append">
-                                <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
-                                <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                                <input name="vendorName" type="text" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
-                            </div>
+                            <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
+                            <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
+                            <input name="vendorName" type="text" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
+
                             
                             <!-- <pre>{{allReps}}</pre> -->
                             <ul class="unstyled salesReps">
                                 <li ng-repeat="item in allReps | filter: { role : 'salesRep', fullname: vendorName }">
                                     <p>
-                                        <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                        <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" default-image="user" />
                                         <a user-profile="item"></a>
                                         <button class="pull-right btn" ng-click="addSalesRep(item._id)">
                                             <i class="icon-plus"></i>
@@ -143,7 +142,7 @@
                     <div class="span10">
                         <h3>Vendor Sales Rep</h3>
                         <div ng-show="vendor.vendorRep">
-                            <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original"/>
+                            <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original" default-image="user"/>
                             
                             <span class="pull-left manage-vendor-rep">
                                 <a user-profile="vendor.vendorRep"></a><br />
@@ -153,13 +152,12 @@
                             </span>  
                         </div>
                     </div>
-                    
+            
                     <div class="span4">
                         <div ng-show="!vendor.vendorRep">
                             <p class="alert">This vendor has no Vendor Reps</p>
                             
                             <label>Add vendor rep by searching by name</label>
-                            <div class="input-append">
                                 <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                                 <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
                                 <input name="salesName" type="text" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
@@ -169,7 +167,7 @@
                             <ul class="unstyled vendorReps">
                                 <li ng-repeat="item in allReps | filter: { role : 'vendorRep', fullname : salesName }">
                                     <p>
-                                        <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                        <img class="img-circle img-tiny" ng-show="item.avatar.original" default-image="user" ng-src="{{item.avatar.original}}" />
                                         <a user-profile="item"></a>
                                         <button class="pull-right btn" ng-click="addVendorRep(item._id)">
                                             <i class="icon-plus"></i>
@@ -348,6 +346,16 @@
                 </div>
             
                 <div class="span10">       
+                    <hr />
+                </div>
+            </form><!-- row -->
+
+                <div class="span10">
+                    
+                    <h3>Custom Credit Email Address</h3>
+                    <p>The following field allows you to override the default email address applications get sent to upon completion</p>
+                    <input type="email" ng-model="vendor.creditEmailAddress">
+                    
                     <hr />
                 </div>
             </form><!-- row -->

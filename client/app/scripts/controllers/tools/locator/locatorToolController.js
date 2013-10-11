@@ -402,27 +402,6 @@ angular
                     trackOpenWindow(item);
                 }
             };
-
-
-            /**
-            * DEV
-            * --------------------------------------------
-            *
-            */
-            
-
-            /**
-            * Function fired by button that appears when the user drags the map
-            * prompting them to 'search in current location' ie: where they dragged map to
-            * 
-            * @note this function is not being used currently
-            *
-            */
-            $scope.searchHere = function() {
-                $scope.map.centerHasChanged = false;
-                filterMarkers();
-            };
-            
             
             /**
             * PRIVATE HELPER METHODS

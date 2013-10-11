@@ -1,4 +1,5 @@
 <div class="row">
+
      <div class="span12">
         <h3>Marlin Dealer Locator</h3>
      </div>
@@ -33,14 +34,9 @@
             <button class="btn btn-large" ng-click="searchByText()">Search</button>
             <button class="btn btn-large" ng-show="searchText" ng-click="clearText()">Clear</button>
         </div>
-        
-        <!--
-<div class="pull-left">
-            <label>&nbsp;</label>
-            <button class="btn btn-large" ng-show="centerHasChanged" ng-click="searchHere()">Search map location</button>
-        </div>
--->
-     </div>    
+
+     </div>
+     
 </div>
 
 <div class="row">
@@ -64,10 +60,12 @@
                 </tr>
             </table>
         </div>
+        
         <div ng-show="!markers.length">
             <h3>No Results</h3>
             <p class="alert">No Marlin Dealers were founds in your area!</p>
         </div>
+        
     </div>
     
     <div class="span8">
@@ -94,29 +92,6 @@
 					</div>
 				</windows>
 			</markers>
-            
-            <!--
-			<marker ng-repeat="m in map.markers" coords="m" icon="m.icon" click="onMarkerClicked(m)">
-				<window show="m.showWindow" closeClick="m.closeClick()">
-					<img ng-src="{{m.logo}}" class="img-medium"/>
-            		<p>{{m.name}}</p>
-            		<p ng-show="m.website != ''"><a target="_blank" ng-href="{{m.website}}">Visit Website</a></p>
-                    <p>{{m.businessPhone}}</p>
-                    <p>{{m.businessAddress.address1}}<br/>
-                    <p>{{m.businessAddress.address2}}</p>
-                    <p>{{m.businessAddress.city}}, {{m.businessAddress.state}} {{m.businessAddress.zip}}</p>
-            		<p ng-show="m.distance && hasLocation">{{m.distance| number:0}} miles away</p>
-            		<p><a target="_blank" ng-href="{{m.destAddress}}">Open in Google Maps</a></p>
-				</window>
-			</marker>
-			-->
-    		
-    		<!-- prefedined markers -->
-    		<!-- <marker ng-repeat="m in markers" coords="m" icon="m.icon" click="m.closeClick()" ></marker> -->
-
-			<!-- marker for clicked position -->
-
-            <!-- <window show="map.infoWindow.show" coords="map.infoWindow.coords" isIconVisibleOnClick="false">I should not be attached to a marker.</window> -->
 
 		</div>
           

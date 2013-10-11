@@ -31,7 +31,7 @@
                         <tr ng-click="editItem(item._id)" ng-repeat="item in vendors | filter: searchTerm">
                             <td class="text-center border-right">
                                 <div class="img-wrapper">
-                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
+                                    <img class="img-mediumBigger" ng-show="item.logo.original" ng-src="{{item.logo.original}}" default-image="vendor" />
                                 </div>
                                 <div class="placeholder" ng-show="!item.logo.original"/>
                             </td>
@@ -49,7 +49,7 @@
                                         'icon-map-marker' : tool.clug = 'location-tool'}"></i>
                             </td>
                             <td ng-show="item.salesRep" class="text-center">
-                                <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" ng-src="{{item.salesRep.avatar.original}}" />
+                                <img class="img-circle img-tiny" ng-show="item.salesRep.avatar.original" default-image="user" ng-src="{{item.salesRep.avatar.original}}" />
                                 <br />
                                 <a user-profile="item.salesRep"></a>
                                 <i class="icon icon-reveal icon-pencil"></i>

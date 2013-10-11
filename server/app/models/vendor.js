@@ -186,7 +186,7 @@ VendorSchema.pre('init', function(next, data) {
         });
         item.displayName = customName.length ? customName[0].displayName : null;
     });
-
+    
     next();
 });
 

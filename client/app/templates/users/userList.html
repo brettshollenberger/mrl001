@@ -33,7 +33,7 @@
             <tbody>
                 <tr ng-repeat="item in users | filter: { fullname : searchTerm, role : roleFilter }" ng-click="editItem(item._id)">
                     <td>
-                        <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                        <img class="img-circle img-medium" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" default-image="user"/>
                     </td>
                     <td class="userList"><span class="company-name">{{item.name.first}} {{item.name.last}}</span><br/>
                         <a mail-to="{{item.email}}"></a><br/>

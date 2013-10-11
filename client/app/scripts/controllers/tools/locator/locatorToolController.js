@@ -25,15 +25,20 @@ angular
             * --------------------------------------------
             * 
             */
+            
+            // set the active tab to show the intital page
+            $scope.activeTab = 1;
 
-            // markers will be vendors that match out serarch
+            // initialize vendors to empty array
+            $scope.vendors = [];
+
+            // markers will be vendors that match our search
             $scope.markers = [];
 
             // will be true any time there is a specific location search happening
             // ie: use has geolocated, or searched by text.
             // this allows us to show distance from, etc. 
-            $scope.hasLocation = false; 
-                        
+            $scope.hasLocation = false;         
 
             /**
             * Create our map object
@@ -79,18 +84,11 @@ angular
                 }
             };
             
-
-
             /**
             * Load our vendors
             * --------------------------------------------
             * 
             */
-
-            // get all vendors from API
-            Vendor.getAll().then(function(response) {
-                $scope.vendors = response;
-            });
             
             // perform the initial filter when vendors are loaded
             // @note this is needed because vendors are loaded async
@@ -98,6 +96,27 @@ angular
             // we can hook this into a tag / name search
             $scope.$watch('$scope.vendors', filterMarkers, true);
             
+            /**
+            * Load all of the Industry Tags
+            * --------------------------------------------
+            * 
+            */
+            
+            $scope.industries = [];
+            
+            Vendor.getIndustryCounts().then(function(industryCounts) {
+                $scope.industries = industryCounts; 
+            });
+            
+            $scope.setIndustry = function(industry) {
+            
+                Vendor.getVendorByIndustry(industry).then(function(response) {
+                    $scope.vendors = response;
+                    
+                    // set the active tab to show the filtered map results
+                    $scope.activeTab = 2;
+                });
+            };
             
             /**
             * TAG SEARCH
@@ -109,7 +128,6 @@ angular
             
             // empty search text
             $scope.searchText = '';
-            $scope.industrySearchText = '';
             var searchTags = [];
 
             // search button, user must click when they are done entering text
@@ -277,7 +295,7 @@ angular
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
                         // @todo this could be refactored to query api
-                        if (($scope.searchText || $scope.industrySearchText) && !checkForTagMatch(item)) {
+                        if ($scope.searchText && !checkForTagMatch(item)) {
                             return;
                         }
                         
@@ -525,25 +543,13 @@ angular
                
                 var originalSearch = '';
                 var vendorSearchTags = [];
-                var industrySearchTags = [];
                
                 if($scope.searchText !== '') {
                     // convert to lowercase and split at space
                     originalSearch = $scope.searchText.toLowerCase();
                     vendorSearchTags = originalSearch.split(" ");
                     searchTags.push(originalSearch);   
-                }
-                
-                if($scope.industrySearchText !== '') {
-                    // convert to lowercase and split at space
-                    originalSearch = $scope.industrySearchText.toLowerCase();
-                    industrySearchTags = originalSearch.split(" ");
-                    searchTags.push(originalSearch);
-                }
-                
-                searchTags = _.union(vendorSearchTags, industrySearchTags);  
-            }
-                        
+                } 
+            }           
         }
-    
     ]);

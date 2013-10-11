@@ -98,9 +98,7 @@ exports.allForSalesRep = function(req, res) {
                 res.ok(vendors);
             }
         });
-
 };
-
 
 /**
  * List of Vendors
@@ -206,7 +204,6 @@ exports.listNotForUser = function(req, res) {
 };
 
 
-
 /**
  * List of Vendors
  */
@@ -236,6 +233,32 @@ exports.getDistinctTags = function(req, res) {
     });
 };
 
+exports.getIndustryCounts = function(req, res) {
+    Vendor.aggregate([
+        { $match: { /* Query can go here, if you want to filter results. */ } } 
+      , { $project: { industryTags: 1 } } /* select the tokens field as something we want to "send" to the next command in the chain */
+      , { $unwind: '$industryTags' } /* this converts arrays into unique documents for counting */
+      , { $group: { /* execute 'grouping' */
+              _id: { token: '$industryTags' } /* using the 'token' value as the _id */
+            , count: { $sum: 1 } /* create a sum value */
+          }
+        }
+    ], function(err, result) {
+        if (err) res.failure(err);
+        res.ok(result);
+    });
+};
+
+exports.getVendorByIndustry = function(req, res) {
+
+    Vendor.find({industryTags:req.params.industry}).exec(function(err, vendors) {
+        if (err) {
+            res.failure(err);
+        } else {
+            res.ok(vendors);
+        }
+    });
+};
 
 /**
  * Get programs for a vendor

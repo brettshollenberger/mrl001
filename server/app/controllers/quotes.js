@@ -127,10 +127,11 @@ exports.create = function(req, res) {
     /**
     * ----------------------------------------
     * Main logic to iterate though programs and build a quote for the end user
-    * @note this logic creates one array of buyout options, even if a vednor has multiple programs
-    *       each option is saved with the program name as refence... so we can group them 
-    *       back before returning them to user. We do this because it makes it very easy to 
-    *       check if any options were returned. 
+    *
+    * @note this logic creates one array of buyout options, even if a vendor has multiple programs
+    *       each option is saved with the program name as reference... so we can group them 
+    *       by program before returning them to user. We do this because it makes it very easy to 
+    *       check if any options were returned, !filteredPrograms.length 
     * 
     * ----------------------------------------      
     */
@@ -258,7 +259,7 @@ exports.create = function(req, res) {
     
     /**
     * ----------------------------------------
-    * Sort by program name
+    * Group by program name
     * ----------------------------------------
     *
     */
@@ -269,7 +270,7 @@ exports.create = function(req, res) {
 
     /**
     * ----------------------------------------
-    * Quote is not within range
+    * Handle case where Quote is not within range
     * @todo capture these leads by sending email to sales and vendor rep 
     * ----------------------------------------
     *
@@ -291,7 +292,7 @@ exports.create = function(req, res) {
     var quote = new Quote(req.body);
     
     // add payments data to it
-    // payments is {} in database, so we can get away with storing whole object here
+    // payments is {} in database, so we can efficiently store entire object here
     quote.payments = returnQuote;
     
     // adjust totalCost so it's back to dollars
@@ -299,35 +300,36 @@ exports.create = function(req, res) {
     
     // finally, save the quote  
     quote.save(function(err) {
-        console.log(err);
-        if (err) {
-            return res.failure(err);
-        } else {
-            
-            // delete some things we dont want to be public
-            // @todo later we should all more robust access controll, since the "get" method needs this also
-            //delete quote.vendorId;
-            //delete quote.salesRep;
-            //delete quote.vendorRep;
         
-            res.ok(quote);
+        // handle error case
+        if (err) return res.failure(err);
             
-            Quote
-                .findOne({_id : quote._id})
-                .populate('vendorId vendorRep salesRep')
-                .exec(function(err, result) {
-                                        
-                    if(err) return;
-                    
-                    console.log(result);
-                    
-                    emailer.newQuoteEndUser(req, result);
-                    emailer.newQuoteSalesRep(req, result);
-                    emailer.newQuoteVendorRep(req, result);
-                    
-            });
-            
-        }
+        // delete some things we dont want to be public
+        // @todo later we should all more robust access controll, since the "get" method needs this also
+        //delete quote.vendorId;
+        //delete quote.salesRep;
+        //delete quote.vendorRep;
+    
+        // send result to user
+        res.ok(quote);
+        
+        // get the quote we just saved and trigger emails to end user
+        // @note this is async so it will not delay response to user
+        Quote
+            .findOne({_id : quote._id})
+            .populate('vendorId vendorRep salesRep')
+            .exec(function(err, result) {
+                                    
+                if(err) return;
+                
+                console.log(result);
+                
+                emailer.newQuoteEndUser(req, result);
+                emailer.newQuoteSalesRep(req, result);
+                emailer.newQuoteVendorRep(req, result);
+                
+        });
+        
     });
 
 };

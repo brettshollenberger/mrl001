@@ -246,6 +246,15 @@ if(!$scope.quote._id) {
             $scope.chooseRate = function(rateObject) {
             
                 console.log(rateObject);
+                
+                /*
+                payment: 516.5
+                paymentDisplay: "$516.50"
+                rate: 0.1033
+                term: "12 Months"
+                totalCost: 5000
+                totalCostDisplay: "$5,000.00"
+                */
 
                 // build new application from quote
                 var application = {
@@ -256,12 +265,12 @@ if(!$scope.quote._id) {
                     
                     // quote information
                     quote: {
-                        totalCost: $scope.quote.totalCost,
+                        totalCost: rateObject.totalCostDisplay,
                         description: $scope.quote.description,
-                        length: termLength,
-                        payment: periodPayment,
-                        period: termPeriod,
-                        option: termOption
+                        length: rateObject.term,
+                        payment: rateObject.paymentDisplay,
+                        period: '',
+                        option: ''
                     },
                     
                     // quote > company, which is stored as application > leasee

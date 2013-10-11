@@ -367,18 +367,34 @@ input[type="checkbox"][readonly] {
 
 // HTML5 invalid states
 // Shares styles with the .control-group.error above
+input:focus:invalid,
+textarea:focus:invalid,
+select:focus:invalid,
+input:focus.ng-invalid,
+textarea.ng-invalid:focus,
+select.ng-invalid:focus,
+input.ng-invalid:focus {
+  border-color: @blue;
+}
+
+input.ng-valid.ng-dirty,
+textarea.ng-valid.ng-dirty,
+select.ng-valid.ng-dirty,
+input.ng-valid.ng-dirty:focus,
+textarea.ng-valid.ng-dirty:focus,
+select.ng-valid.ng-dirty:focus {
+  border-color: @green;
+};
+
+input.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty,
+select.ng-invalid.ng-dirty,
 input:focus:invalid.ng-dirty,
 textarea:focus:invalid.ng-dirty,
 select:focus:invalid.ng-dirty {
   color: @pink;
   border-color: @red;
-  &:focus {
-    border-color: darken(@red, 10%);
-    @shadow: 0 0 6px lighten(@red, 20%);
-    .box-shadow(@shadow);
-  }
-}
-
+};
 
 
 // FORM ACTIONS
@@ -576,8 +592,6 @@ input.search-query {
 
 // Common properties
 // -----------------
-
-
 .form-search,
 .form-inline,
 .form-horizontal {
@@ -689,4 +703,19 @@ legend + .control-group {
   .form-actions {
     padding-left: @horizontalComponentOffset;
   }
+}
+
+.formGroupFinished:after {
+  font-family: 'FontAwesome';
+  position: relative;
+  left: 47%;
+  top: 5px;
+  font-size: 36px;
+  color: @blue;
+  content: "\f05d";
+}
+
+
+.lockedForm .formGroupFinished:after {
+    content: none;
 }

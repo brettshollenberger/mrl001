@@ -57,17 +57,18 @@
 
 <div class="row" ng-show="didQuote">
     <div class="span10 offset1">
-        <div ng-repeat="program in filteredPrograms">
-            <table class="table" ng-repeat="buyOutOption in program.rateSheet.buyoutOptions">
+
+        <div ng-repeat="(name, programs) in quote.payments">
+            <table class="table" ng-repeat="option in programs">
                 <thead>
-                    <th class="span3">{{buyOutOption.name}}</th>
-                    <th class="span1" ng-repeat="term in buyOutOption.terms">{{term.length}} {{program.rateSheet.termPeriod}}</th>
+                    <th class="span3">{{name}}</th>
+                    <th class="span1" ng-repeat="item in option.rates">{{item.term}}</th>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>${{quote.totalCost | number:2}}</td>
-                        <td ng-repeat="rate in buyOutOption.costs[0].rates" ng-show="rate.rate != '-'">
-                            ${{rate.rate *  quote.totalCost | number:2}}<br/>
+                        <td>{{quote.totalCostDisplay}}</td>
+                        <td ng-repeat="item in option.rates">
+                            {{item.paymentDisplay}}<br/>
                         </td>
                     </tr>
                 </tbody>

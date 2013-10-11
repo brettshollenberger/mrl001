@@ -16,9 +16,16 @@
                     </ul>
                     <div class="actions">
                         <a ng-show="isToolActive('quoter-tool')" class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
-                        <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
-                        <div class="btn" ng-show="justSaved">Saved!</div>
-                        <button type="submit" unsaved-warning-clear class="btn btn-success" id="save" ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</button>
+
+                        <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
+                        <button 
+                            type="submit" 
+                            unsaved-warning-clear 
+                            class="btn btn-success" 
+                            id="save" 
+                            ng-show="basicForm.$dirty || customizeForm.$dirty || locationForm.$dirty || rateForm.$dirty || toolForm.$dirty " 
+                            ng-disabled="basicForm.$invalid || customizeForm.$invalid || locationForm.$invalid " 
+                            ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</button>
                     </div>
                 </div>
             </div>
@@ -27,7 +34,7 @@
                <div class="span10 clearfix"> 
                     <h3>Basic Info</h3>
                </div>
-                <div class="span4">
+
                     <label>Vendor Logo</label>
                     <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
                     <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
@@ -35,11 +42,12 @@
                     <br /><br />
                     
                     <label>Vendor Name</label>
-                    <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name" class="input-block">
+
+                    <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name">
                     <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                     
                     <label>Website Url</label>
-                    <input name="vendor.website" type="text" class="large" placeholder="Website" class="input-block"ng-model="vendor.website">
+                    <input name="vendor.website" type="text" class="large" placeholder="Website" ng-model="vendor.website">
                     
                     <label>Business Phone Number</label>
                     <input name="vendor.buisnessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone">
@@ -47,22 +55,27 @@
                 
                 <div class="span5">            
                     <label>Address 1</label>
-                    <input name="vendor.businessAddress.address1" type="text" class="input-block" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
+
+                    <input name="vendor.businessAddress.address1" type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1">
                     
                     <label>Address 2</label>
-                    <input name="vendor.businessAddress.address2" type="text" class="input-block" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
+                    <input name="vendor.businessAddress.address2" type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
                     
                     <label>City</label>
                     <input name="vendor.businessAddress.city" type="text" placeholder="City" ng-model="vendor.businessAddress.city">
                     <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                     <label>State</label>
-                    <select name="vendor.businessAddress.state" class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+
+                    <select name="vendor.businessAddress.state" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                     
                     <label>Zip</label>
                     <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+
+                    <label>White Label Vendor</label>
+                    <input type="checkbox" ng-model="vendor.whiteLabel">
                 </div>
                 
-                <div class="span10 clearfix">  
+                <div class="span5">  
                     <h3>Primary Contact</h3>
                     <label>Name</label>
                     <input name="vendor.contactPerson.name" type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
@@ -101,7 +114,7 @@
                             <div class="input-append">
                                 <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                                 <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                                <input name="vendorName" type="text" class="input-large" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
+                                <input name="vendorName" type="text" placeholder="Sales Rep Name" ng-model="vendorName" id="salesName" />
                             </div>
                             
                             <!-- <pre>{{allReps}}</pre> -->
@@ -142,7 +155,6 @@
                     </div>
                     
                     <div class="span4">
-                        
                         <div ng-show="!vendor.vendorRep">
                             <p class="alert">This vendor has no Vendor Reps</p>
                             
@@ -150,7 +162,7 @@
                             <div class="input-append">
                                 <!-- <input type="text" class="input-large" placeholder="Sales Rep Name" ng-model="salesRepId" id="salesRepId" typeahead="rep._id as rep.fullname for rep in allReps | filter:$viewValue"/> -->
                                 <!-- <button class="btn" id="addSalesRep" ng-disabled="!salesRepId" ng-click="addSalesRep()">Add Sales Rep</button> -->
-                                <input name="salesName" type="text" class="input-large" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
+                                <input name="salesName" type="text" placeholder="Vendor Rep Name" ng-model="salesName" id="salesName" />
                             </div>
                             
                             <!-- <pre>{{allReps}}</pre> -->
@@ -167,7 +179,6 @@
                             </ul>
                             
                         </div>
-                    
                     </div>
 
                 </form>
@@ -255,10 +266,10 @@
                             <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                             
                             <label>State</label>
-                            <select class="medium" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                            <select ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                             
                             <label>Zip</label>
-                            <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                            <input type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip">
                         
                         </div>
                         
@@ -300,6 +311,15 @@
                         </div>
                         
                     </div><!-- .row -->
+                    
+                    <div class="row">
+                    
+                        <div class="span10">                        
+                            <label>Industry Tags</label>
+                            <input type="text" ui-select2="vendorIndustryTagsOptions" ng-model="vendor.vendorIndustryTags">
+                        </div>
+                        
+                    </div>
                     
                 </div><!-- .span -->
             

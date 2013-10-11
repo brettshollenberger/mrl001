@@ -1,4 +1,4 @@
-<div class="row has-title-bar" unsaved-warning-group>
+<div class="row has-title-bar has-no-tabs" unsaved-warning-group>
     
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     
@@ -15,7 +15,7 @@
                 <div class="actions">
                     <a class="btn btn-primary" target="_blank" ng-controller="quoterToolController" ng-click="download(quote._id)"><i class="icon icon-print"></i>Download PDF</a>
                     <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter/{{quote._id}}"><i class="icon icon-paste"></i>View Quote</a>
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
+                    <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
                     <a class="btn btn-success" unsaved-warning-clear id="save"ng-show="quoteForm.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
                 </div>
             

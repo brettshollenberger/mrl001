@@ -244,6 +244,8 @@ angular
             *
             */
             
+            $scope.letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
+            
             function filterMarkers() {
 
                 // close the currently open window, if any
@@ -258,6 +260,7 @@ angular
                 
                     $scope.markers = [];
                     $scope.tempMarkers = [];
+                    $scope.currentVendor = 0;
                     
                     // forces an apply which prevents sync issues with sidebar
                     // when a user updates their location text search
@@ -266,7 +269,10 @@ angular
                     // console.log('Filtering markers...');
                     // console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
 
-                    _.each($scope.vendors, function(item) {
+                    _.each($scope.vendors, function(item, index) {
+
+                        // if we have more results than letters in the alphabet
+                        if ($scope.currentVendor > 25) return false;
 
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
@@ -288,6 +294,7 @@ angular
 
                         // we need to create the marker from the vendor
                         var newMarker = {
+                            icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+ $scope.letters[$scope.currentVendor] +'|005DAB|EEEEEE',
                             latitude: item.geo.latitude,
                             longitude: item.geo.longitude,
                             label: item.name,
@@ -300,6 +307,9 @@ angular
                             showWindow: false,
                             destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
                         };
+                        
+                        // increment the current vendor count
+                        $scope.currentVendor = $scope.currentVendor + 1;
                         
                         // bind any marker functions
                         newMarker.closeClick = function() {

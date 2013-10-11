@@ -41,6 +41,16 @@ var data = [{
             'enabled' : true
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005', '522f4634cc2aadba4d000006'],
     "apiKey" : '808f24a1-6c8a-482d-b395-69f064efb747'
 }, {
@@ -75,6 +85,16 @@ var data = [{
         },
         'api': {
             'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
         }
     },
     "programs": ['522f4634cc2aadba4d000005']
@@ -112,6 +132,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005']
 }, {
 
@@ -147,6 +177,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005']
 }, {
 
@@ -170,6 +210,16 @@ var data = [{
         "city": "West Columbia",
         "state": "SC",
         "zip": "29045"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "programs": ['522f4634cc2aadba4d000005'],
     "tools" : {
@@ -213,6 +263,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "contactPerson": {
         "phone": "(480)816-1222"
     },
@@ -246,6 +306,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "contactPerson": {
         "phone": "(661)327-5336",
         "email": "tony_flores@praxair.com"
@@ -264,6 +334,16 @@ var data = [{
         "address2": "Ste 600",
         "city": "Los Angeles",
         "zip": "90067-1501"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "tools" : {
         'locator': {
@@ -297,6 +377,16 @@ var data = [{
     "contactPerson": {
         "phone": "(303)623-2530",
         "email": "wkim@meetingone.com"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "website": "www.meetingone.com",
     "tools" : {
@@ -361,6 +451,16 @@ var data = [{
     "contactPerson": {
         "phone": "(404)228-4951"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "tools" : {
         'locator': {
             'enabled' : true
@@ -392,6 +492,16 @@ var data = [{
     "contactPerson": {
         "phone": "(773)362-4803",
         "email": "desquivel@epaysystems.com"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "website": "http://www.epaysystems.com",
     "tools" : {
@@ -426,6 +536,16 @@ var data = [{
         "phone": "(800)222-5107",
         "email": "jeffn@centralrestaurant.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.centralrestaurant.com",
     "tools" : {
         'locator': {
@@ -459,6 +579,16 @@ var data = [{
     "contactPerson": {
         "phone": "(301)572-1901",
         "email": "tom.hightman@clarksecurity.com"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "website": "www.clarksecurity.com",
     "tools" : {
@@ -506,6 +636,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 35.1105564,
         "longitude": -80.71035319999999
@@ -537,6 +677,16 @@ var data = [{
         },
         'api': {
             'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
         }
     },
     "geo": {
@@ -573,6 +723,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 35.141915,
         "longitude": -90.05563999999998
@@ -604,6 +764,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 29.5516834,
         "longitude": -98.49522280000002
@@ -633,6 +803,16 @@ var data = [{
             'enabled' : false
         }
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 47.8486592,
         "longitude": -122.2199478
@@ -653,6 +833,16 @@ var data = [{
     "contactPerson": {
         "phone": "(304)232-1755",
         "email": "rthoburn@amasti.com"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "website": "http://www.amasti.com/index.html",
     "tools" : {
@@ -688,6 +878,16 @@ var data = [{
         "phone": "(713)869-6221",
         "email": "steve@warrenswrefrigeration.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.warrensouthwestrefrigera",
     "tools" : {
         'locator': {
@@ -721,6 +921,16 @@ var data = [{
         "phone": "(800)322-9919",
         "email": "jared@air-care.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.air-care.com",
     "tools" : {
         'locator': {
@@ -747,6 +957,16 @@ var data = [{
         "address1": "48 Eagle St",
         "city": "Pittsfield",
         "zip": "01201-4715"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "contactPerson": {
         "phone": "(413)442-0390",
@@ -780,6 +1000,16 @@ var data = [{
         "address1": "900 Blake St",
         "city": "Edwardsville",
         "zip": "66111-3820"
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "contactPerson": {
         "phone": "(913)422-3700",

@@ -157,10 +157,12 @@ angular
                         
             // uncomment to test
             
-            if(!$scope.quote._id) {
+            /*
+if(!$scope.quote._id) {
                  $scope.quote = {"company":{"businessAddress":{"state":"NJ","address1":"111 Tree Road","address2":"Apartment 3","city":"Absecon","zip":"19223"},"contactPerson":{"contactMethod":"email","name":"Matt Miller","email":"matt@facultycreative.com","phone":"6093354417"},"fullLegalBusinessName":"Company Name"},"description":"This is some equiptment","totalCost":"3000","vendorId":"51e71518ed32080ffc000023"};
             }
             
+*/
            
 
                 

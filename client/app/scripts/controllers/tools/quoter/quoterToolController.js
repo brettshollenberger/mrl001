@@ -182,35 +182,44 @@ if(!$scope.quote._id) {
             */
             $scope.generateQuote = function() {
                 
-                //$scope.quote.totalCost = $scope.quoteCost;
-                $scope.didQuote = false;
-                
-                console.log('$scope.quoteCost is %s', $scope.quote.totalCost);
-                
-                // save the custom Field with the quote 
-                // this allows the custom field to live on with the quote
-                // even if that gets changed later for this vendor
-                if ($scope.vendor && $scope.vendor.customField.enabled) {
-
-                    $scope.quote.customField = {};
-                    $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
-                }
-
-                if (!quoteId) {
-
-                    $rootScope.previewQuote = true;
-                    $scope.quote.vendorId = $scope.vendor._id;
-
-                    // create new item
-                    Quote.add($scope.quote).then(handleReponse);
-
+                if ($scope.QuoterToolForm.$valid) {
+                    successCallback();
                 } else {
-                    
-                    $rootScope.previewQuote = true;
-                    
-                    Quote.update($scope.quote).then(handleReponse);
-                    
+                    $rootScope.Validator.validateForm($scope.QuoterToolForm);
                 }
+
+                function successCallback() {
+                    //$scope.quote.totalCost = $scope.quoteCost;
+                    $scope.didQuote = false;
+                    
+                    console.log('$scope.quoteCost is %s', $scope.quote.totalCost);
+                    
+                    // save the custom Field with the quote 
+                    // this allows the custom field to live on with the quote
+                    // even if that gets changed later for this vendor
+                    if ($scope.vendor && $scope.vendor.customField.enabled) {
+
+                        $scope.quote.customField = {};
+                        $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
+                    }
+
+                    if (!quoteId) {
+
+                        $rootScope.previewQuote = true;
+                        $scope.quote.vendorId = $scope.vendor._id;
+
+                        // create new item
+                        Quote.add($scope.quote).then(handleReponse);
+
+                    } else {
+                        
+                        $rootScope.previewQuote = true;
+                        
+                        Quote.update($scope.quote).then(handleReponse);
+                        
+                    }
+                }
+                
             };
             
             // function to set error or quote on response from Quote api call

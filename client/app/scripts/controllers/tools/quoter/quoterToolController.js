@@ -75,7 +75,7 @@ angular
                 Vendor.getById(getId).then(function(response) {
 
                     $scope.vendor = response;
-
+                    
                     // not a valid vendor, redirect
                     if (!$scope.vendor) redirectAndClear();
 

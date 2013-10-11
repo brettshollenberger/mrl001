@@ -239,8 +239,8 @@ angular
  *       but include them in our app?
  *
  */
-.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', 'apiService', 
-    function($rootScope, $location, Auth, $document, $http, promiseTracker, api) {
+.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', 'apiService', 'Validator',
+    function($rootScope, $location, Auth, $document, $http, promiseTracker, api, Validator) {
         
         // PING the server to check for current status and get XSFR cookie
         // @todo this could be expanded to check for API down etc.
@@ -256,7 +256,7 @@ angular
         // @note this is related to experimental promisetracker module
         $rootScope.apiTracker = promiseTracker('api');
 
-
+        $rootScope.Validator = Validator;
         /**
          * Helper functions, which are accessiable anywhere in our app using $rootScope.functionName()
          *

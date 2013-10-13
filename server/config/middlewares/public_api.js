@@ -86,7 +86,7 @@ console.log(connection);
 Throttle.configure(connection);
 
 // current setting is 2 requests per minute
-var rateLimit = 5;
+var rateLimit = 60;
 var rateLimitMessage = 'Exceeded limit of 5 requests per minute, try again later';
 var rateSpan = 1 * 60 * 1000; // 1 minute
 var rateAccuracy = 1 * 60 * 1000; // 1 minute span should be divisible by accuracy

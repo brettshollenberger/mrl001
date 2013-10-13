@@ -54,11 +54,7 @@ angular
             $scope.saveApplication = function() {
                 Application.update($scope.application);
                 $scope.finished = true;
-            };
-
-            $scope.save = function() {
-
-
+                
                 if (!$scope.application.leasee) $scope.application.leasee = {};
                 if (!$scope.application.leasee.contactPerson) $scope.application.leasee.contactPerson = {};
 
@@ -66,8 +62,6 @@ angular
                 Application.update($scope.application);
 
                 $rootScope.fromQuote = false;
-
-                $location.url('/');
             };
 
 

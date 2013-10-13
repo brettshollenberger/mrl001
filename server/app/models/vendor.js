@@ -373,16 +373,11 @@ VendorSchema.pre('save', function(next) {
     // we'll use this to quickly check if a quote value is within range
     //
     
-    console.log('Generating ranges for vendor???');
-    console.log(vendor.programs);
     if(vendor.programs) {
     
-        console.log('Generating ranges for vendor');
         mongoose.models.Program
             .find({_id: { $in: vendor.programs }})
             .exec(function(err, data) {
-            
-                console.log(data);
             
                 if(data) {
                     vendor.range = getProgramRange(data); 
@@ -394,6 +389,14 @@ VendorSchema.pre('save', function(next) {
             
     } else {
         next();
+    }
+    
+    // check for http:// prefixed to website and if not add it
+    if(vendor.website) {
+        if (!vendor.website.match(/^[a-zA-Z]+:\/\//))
+        {
+            vendor.website = 'http://' + vendor.website;
+        }
     }
     
     

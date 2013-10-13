@@ -38,28 +38,50 @@ exports.quote = function(req, res, next, id) {
 * 
 */
 exports.validateQuoteRequest = function(req, res, next) {
-        
-    if(!req.body.totalCost || typeof req.body.totalCost !== 'string') {
-        return res.failure("totalCost is required", 400);
+    
+    // support instances of updating existing quote, PUT requests, where
+    // req.quote will be set instead of req.body
+    req.body.totalCost = req.body.totalCost || req.quote.totalCost;
+    req.body.description = req.body.description || req.quote.description;
+    
+    // message user for required totalCost   
+    if(!req.body.totalCost) {
+        return res.failure("totalCost is required", 400); 
     } 
     
+    // message user for required totalCost  
     if(!req.body.description) {
         return res.failure("description is required", 400);
     } 
     
-    var totalCost = req.body.totalCost;
+    // convert cost to string and save as variable for processing
+    var totalCost = req.body.totalCost.toString();
+    
+    // split to make sure there are max 2 parts, such as 000.00
     var splitNumber = totalCost.split('.');
     
     // check for proper decimal places and only 1 decimal place if any
-    if(splitNumber.length > 2 || splitNumber[1] && splitNumber[1].length !== 2) {
-       return res.failure("Invalid totalCost. Must be in for format 1000.00 or 1000", 400); 
+    if(splitNumber.length > 2 || splitNumber[1] && splitNumber[1].length > 2) {
+       return res.failure("Invalid totalCost. Must be in for format 1000.00 or 1000. Seiding one decimal place, such as 1000.1 is OK too and will be processed ad 1000.10.", 400); 
     } 
     
-    // strip commas and dollar signs
+    // strip non-number junk from our value
+    // this also strips trailing 0's, so we'll add them back on in the next step
     totalCost = numeral().unformat(totalCost);
+    //console.log('numeral().unformat(totalCost) = ', totalCost);
     
-    // convert to cents
-    totalCost = totalCost * 100;
+    // formats number with 2 decimal places, so 100.1 becomes 100.10
+    totalCost = numeral(totalCost).format('0.00').toString();
+    //console.log('numeral(totalCost).format() = ', totalCost);
+    
+    // replace the decimal, making the number in cents
+    // we do this instead of number * 100 because this can cause rounding issues
+    totalCost = totalCost.replace('.', '');
+    //console.log('Final totalCoast in cents ', totalCost);
+    
+    // convert back into number. There shouldn't be an issue with decimal places
+    // at this point because we'll have an integer and not a float
+    totalCost = parseInt(totalCost, 10);
     
     // lastly assign back to req.body.totalCost
     req.body.totalCost = totalCost;
@@ -76,7 +98,7 @@ exports.validateQuoteRequest = function(req, res, next) {
 */
 var applyRateToCost = function(totalCost, rate) {
     
-    // adjust rate for the fact we are doing all calculations in pennies
+    // adjust rate for the fact we are doing all calculations in cents
     rate = rate / 100;
     
     var payment = rate * totalCost;
@@ -168,6 +190,13 @@ exports.createOrUpdate = function(req, res) {
                 // in other words, we want to replace the array of perhaps 5 buyout options
                 // with just this one
                 //
+                
+                // @note since we only storing cost ranges to dolar value accurary, 
+                //       we need to account for the true range of this dollar value by 
+                //       adding 99 cents, so that 1000 - 5000 is actually 1000 - 5000.99
+                //       and this way a quote for 5000.80 doesn't get ignored
+                cost.max += 99;
+                
                 if (cost && totalCost >= cost.min && totalCost <= cost.max) {
                     
                     // replace the buyoutOption costs with THE cost
@@ -188,7 +217,9 @@ exports.createOrUpdate = function(req, res) {
                     // no longer a need to iterate though
                     return;
                 
-                } 
+                }  else {
+                    //console.log('%s is not within %s and %s', totalCost, cost.min, cost.max);
+                }
 
             });
             

@@ -139,8 +139,6 @@ angular
 
                 if ($rootScope.previewQuote !== true) $scope.canEdit = false;
 
-                // get programs from VendorID    
-
             } else {
 
                 //List states in dropdown menu
@@ -153,18 +151,14 @@ angular
                 if ($rootScope.previewQuote === true) $rootScope.previewQuote = false;
             }
             
-            
                         
             // uncomment to test
-            
-            /*
-if(!$scope.quote._id) {
-                 $scope.quote = {"company":{"businessAddress":{"state":"NJ","address1":"111 Tree Road","address2":"Apartment 3","city":"Absecon","zip":"19223"},"contactPerson":{"contactMethod":"email","name":"Matt Miller","email":"matt@facultycreative.com","phone":"6093354417"},"fullLegalBusinessName":"Company Name"},"description":"This is some equiptment","totalCost":"3000","vendorId":"51e71518ed32080ffc000023"};
+            // provides dummy valid quote info
+            //
+            if(!$scope.quote._id) {
+                //$scope.quote = {"company":{"businessAddress":{"state":"NJ","address1":"111 Tree Road","address2":"Apartment 3","city":"Absecon","zip":"19223"},"contactPerson":{"contactMethod":"email","name":"Matt Miller","email":"matt@facultycreative.com","phone":"6093354417"},"fullLegalBusinessName":"Company Name"},"description":"This is some equiptment","totalCost":"3000","vendorId":"51e71518ed32080ffc000023"};
             }
-            
-*/
-           
-
+        
                 
             /**
             * GENERATE A NEW QUOTE
@@ -182,6 +176,11 @@ if(!$scope.quote._id) {
             */
             $scope.generateQuote = function() {
                 
+                // check if form is valid
+                //   this will trigger any in-valid form items to show 
+                //   their validation messages
+                // if form is valid, then we call a function to save quote
+                //
                 if ($scope.QuoterToolForm.$valid) {
                     successCallback();
                 } else {
@@ -189,18 +188,22 @@ if(!$scope.quote._id) {
                 }
 
                 function successCallback() {
-                    //$scope.quote.totalCost = $scope.quoteCost;
+
                     $scope.didQuote = false;
-                    
-                    console.log('$scope.quoteCost is %s', $scope.quote.totalCost);
-                    
+                                        
                     // save the custom Field with the quote 
                     // this allows the custom field to live on with the quote
                     // even if that gets changed later for this vendor
                     if ($scope.vendor && $scope.vendor.customField.enabled) {
-
-                        $scope.quote.customField = {};
-                        $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
+                        
+                        // add empty customField object if not present
+                        if(!$scope.quote.customField) $scope.quote.customField = {};
+                        
+                        // set customField value and displayName
+                        $scope.quote.customField = {
+                            displayName: $scope.vendor.customField.displayName,
+                            value: $scope.quote.customField.value
+                        };
                     }
 
                     if (!quoteId) {
@@ -208,13 +211,14 @@ if(!$scope.quote._id) {
                         $rootScope.previewQuote = true;
                         $scope.quote.vendorId = $scope.vendor._id;
 
-                        // create new item
+                        // create new quote
                         Quote.add($scope.quote).then(handleReponse);
 
                     } else {
                         
                         $rootScope.previewQuote = true;
                         
+                        // update existing quote 
                         Quote.update($scope.quote).then(handleReponse);
                         
                     }

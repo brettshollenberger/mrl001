@@ -103,6 +103,7 @@ angular
             */
             
             $scope.industries = [];
+            $scope.currentIndustry = '';
             
             Vendor.getIndustryCounts().then(function(industryCounts) {
                 $scope.industries = industryCounts; 
@@ -110,12 +111,19 @@ angular
             
             $scope.setIndustry = function(industry) {
             
-                Vendor.getVendorByIndustry(industry).then(function(response) {
-                    $scope.vendors = response;
-                    
-                    // set the active tab to show the filtered map results
-                    $scope.activeTab = 2;
-                });
+                if(industry) {
+                    Vendor.getVendorByIndustry(industry).then(function(response) {
+                        $scope.vendors = response;
+                        $scope.currentIndustry = industry;
+                        
+                        // set the active tab to show the filtered map results
+                        $scope.activeTab = 2;
+                        filterMarkers();
+                    });   
+                } else {
+                    $scope.vendors = [];
+                    $scope.activeTab = 1;
+                }
             };
             
             /**
@@ -183,9 +191,7 @@ angular
                     // refilter the markers based on new center
                     filterMarkers();
                 });
-
             };
-
             
             /**
             * FILTER BY DISTANCE FROM USER LOCATION
@@ -197,7 +203,7 @@ angular
             $scope.distanceOptions = [100, 500, 1000, 2000, 'Any'];
 
             // input to set distance from user for results
-            $scope.distanceFrom = 2000;
+            $scope.distanceFrom = 'Any';
 
             // trigger the search
             $scope.setDistanceFrom = function(newDistance) {
@@ -288,7 +294,7 @@ angular
                     // console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
 
                     _.each($scope.vendors, function(item, index) {
-
+                        
                         // if we have more results than letters in the alphabet
                         if ($scope.currentVendor > 25) return false;
 
@@ -373,10 +379,7 @@ angular
                     */
 
                     }, 50);
-                    
             }
-            
-            
             
             /**
             * Tracks the open windows and closes the previous, ensuring only 1 is open per time

@@ -198,9 +198,15 @@ if(!$scope.quote._id) {
                     // this allows the custom field to live on with the quote
                     // even if that gets changed later for this vendor
                     if ($scope.vendor && $scope.vendor.customField.enabled) {
-
-                        $scope.quote.customField = {};
-                        $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
+                        
+                        // add empty customField object if not present
+                        if(!$scope.quote.customField) $scope.quote.customField = {};
+                        
+                        // set customField value and displayName
+                        $scope.quote.customField = {
+                            displayName: $scope.vendor.customField.displayName,
+                            value: $scope.quote.customField.value
+                        }
                     }
 
                     if (!quoteId) {

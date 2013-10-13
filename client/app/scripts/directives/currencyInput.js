@@ -20,6 +20,7 @@ String.prototype.splice = function(idx, rem, s) {
 angular
     .module('app')
     .directive('currencyInput', function() {
+        
     return {
         restrict: 'A',
         //scope: {
@@ -30,35 +31,33 @@ angular
         //template: '<span><input type="text" ng-model="field"></input>{{field}}</span>',
         link: function(scope, element, attrs) {
 
-            scope.field = 0;
-
-            $(element).bind('keyup', function(e) {
-                
+            var processValue = function() {
+        
+                scope.field = '0';
+        
                 scope.field = scope.$parent.$eval(attrs.ngModel);
                 
-                //var input = element.find('input');
-                //var inputVal = input.val();
-                
-                if(!scope.field) scope.field = '0';
+                // convery to string just in case we are working with number
+                scope.field = scope.field.toString();
                 
                 var inputVal = scope.field;
-
+        
                 //clearing left side zeros
                 while (scope.field.charAt(0) == '0') {
                     scope.field = scope.field.substr(1);
                 }
-
+        
                 scope.field = scope.field.replace(/[^\d.\',']/g, '');
-
+        
                 var point = scope.field.indexOf(".");
                 if (point >= 0) {
                     scope.field = scope.field.slice(0, point + 3);
                 }
-
+        
                 var decimalSplit = scope.field.split(".");
                 var intPart = decimalSplit[0];
                 var decPart = decimalSplit[1];
-
+        
                 intPart = intPart.replace(/[^\d]/g, '');
                 if (intPart.length > 3) {
                     var intDiv = Math.floor(intPart.length / 3);
@@ -67,14 +66,14 @@ angular
                         if (lastComma < 0) {
                             lastComma = intPart.length;
                         }
-
+        
                         if (lastComma - 3 > 0) {
                             intPart = intPart.splice(lastComma - 3, 0, ",");
                         }
                         intDiv--;
                     }
                 }
-
+        
                 if (decPart === undefined) {
                     decPart = "";
                 }
@@ -91,8 +90,15 @@ angular
                 // its one of 3 ways to set a model value, 
                 // and doesn't require an isolate scope
                 scope.$eval(attrs.ngModel + " = '" + scope.field + "'");
-
+                console.log(scope.field);
+            };
+            
+            // this requires a watch, which is the actual model value
+            attrs.$observe('currencyInputWatch', function(newValue) {
+                if(newValue) processValue();
             });
+            
+            $(element).bind('keyup', processValue);
 
         }
     };

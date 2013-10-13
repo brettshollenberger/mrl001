@@ -48,13 +48,13 @@
                         <input 
                             form-field 
                             type="text" 
-                            field="quote.totalCost"  
                             currency-input
                             id="cost" 
                             class="input-block dollarSign-prepend" 
                             ng-model="quote.totalCost"
                             placeholder=""
                             ng-disabled="!canEdit" 
+                            currency-input-watch="{{quote.totalCost}}"
                             name="cost" 
                             simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Cost must be a number'}}"
                             ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)"

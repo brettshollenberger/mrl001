@@ -42,17 +42,22 @@
                         <!-- ############################################################ -->
                         <!-- ########################### Cost ########################### -->
                         <!-- ############################################################ -->
+
                         <label>Total Cost</label>
                         <span class="dollarSign">$</span>
                         <input 
                             form-field 
                             type="text" 
+                            field="quote.totalCost"  
+                            currency-input
                             id="cost" 
                             class="input-block dollarSign-prepend" 
-                            placeholder="" 
-                            ng-model="quote.totalCost" 
+                            ng-model="quote.totalCost"
+                            placeholder=""
                             ng-disabled="!canEdit" 
                             name="cost" 
+                            simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Cost must be a number'}}"
+                            ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)"
                             required>
                              
                         <p ng-show="vendor._id && canEdit">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>

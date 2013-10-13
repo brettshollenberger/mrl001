@@ -15,8 +15,7 @@ angular
         'angulartics.google.analytics',
         'google-maps',
         'truncate',
-        'ui.select2',
-        'fiestah.money'
+        'ui.select2'
     ])
 
 /**

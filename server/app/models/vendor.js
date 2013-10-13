@@ -391,6 +391,14 @@ VendorSchema.pre('save', function(next) {
         next();
     }
     
+    // check for http:// prefixed to website and if not add it
+    if(vendor.website) {
+        if (!vendor.website.match(/^[a-zA-Z]+:\/\//))
+        {
+            vendor.website = 'http://' + vendor.website;
+        }
+    }
+    
     
 });
 

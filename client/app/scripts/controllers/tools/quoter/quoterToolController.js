@@ -203,7 +203,7 @@ angular
                         $scope.quote.customField = {
                             displayName: $scope.vendor.customField.displayName,
                             value: $scope.quote.customField.value
-                        }
+                        };
                     }
 
                     if (!quoteId) {

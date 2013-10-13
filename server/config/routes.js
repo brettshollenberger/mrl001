@@ -2,7 +2,7 @@ var async = require('async');
 var util = require('util');
 
 
-module.exports = function(app, passport, auth, config, acl) {
+module.exports = function(app, passport, auth, config, acl, public_api) {
 
     var vendors = require('../app/controllers/vendors');
 
@@ -100,12 +100,12 @@ module.exports = function(app, passport, auth, config, acl) {
     app.get('/api/v1/quotes', isUserAllowed('list', 'quotes'), quotes.all);
     app.post('/api/v1/quotes', isUserAllowed('create', 'quotes'), function(req, res, next) {
 
-        console.info('INTERNAL QUOTE API accessed');
+        console.info('INTERNAL QUOTE API accessed....');
         next();
         
-    }, quotes.create);
+    }, vendors.findByBodyOrParams, quotes.validateQuoteRequest, quotes.createOrUpdate);
     app.get('/api/v1/quotes/:quoteId', isUserAllowed('view', 'quotes'), quotes.show);
-    app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), quotes.update);
+    app.put('/api/v1/quotes/:quoteId', isUserAllowed('update', 'quotes'), vendors.findByBodyOrParams, quotes.validateQuoteRequest, quotes.createOrUpdate);
     app.del('/api/v1/quotes/:quoteId', isUserAllowed('delete', 'quotes'), quotes.destroy);
     
     app.post('/public_api/v1/quotes', function(req, res, next) {
@@ -113,7 +113,7 @@ module.exports = function(app, passport, auth, config, acl) {
         console.info('PUBLIC QUOTE API accessed');
         next();
         
-    }, quotes.create);
+    }, public_api.validateApiKey, public_api.throttle, quotes.validateQuoteRequest, quotes.createOrUpdate);
 
     var webshot = require('../app/controllers/webshot')(app, config);
 

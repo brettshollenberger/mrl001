@@ -38,20 +38,29 @@ exports.quote = function(req, res, next, id) {
 * 
 */
 exports.validateQuoteRequest = function(req, res, next) {
-        
-    if(!req.body.totalCost || typeof req.body.totalCost !== 'string') {
-        return res.failure("totalCost is required", 400);
+    
+    // support instances of updating existing quote, PUT requests, where
+    // req.quote will be set instead of req.body
+    req.body.totalCost = req.body.totalCost || req.quote.totalCost;
+    req.body.description = req.body.description || req.quote.description;
+    
+    // message user for required totalCost   
+    if(!req.body.totalCost) {
+        return res.failure("totalCost is required", 400); 
     } 
     
+    // message user for required totalCost  
     if(!req.body.description) {
         return res.failure("description is required", 400);
     } 
     
-    var totalCost = req.body.totalCost;
+    // convert cost to string and save as variable for processing
+    var totalCost = req.body.totalCost.toString();
+    
+    // split to make sure there are max 2 parts, such as 000.00
     var splitNumber = totalCost.split('.');
     
     // check for proper decimal places and only 1 decimal place if any
-    
     if(splitNumber.length > 2 || splitNumber[1] && splitNumber[1].length > 2) {
        return res.failure("Invalid totalCost. Must be in for format 1000.00 or 1000. Seiding one decimal place, such as 1000.1 is OK too and will be processed ad 1000.10.", 400); 
     } 

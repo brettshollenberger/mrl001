@@ -66,7 +66,6 @@
 <!--                         <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->
                         
                         <div ng-show="QuoterToolForm.FacultyErrors.cost" class="alert alert-error alert-tooltip">
-
                             {{QuoterToolForm.FacultyErrors.cost}}
                         </div>
                         <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
@@ -100,11 +99,35 @@
                             {{QuoterToolForm.FacultyErrors.description}}
                         </div>
                         
-                        <div ng-show="vendor.customField.enabled && canEdit">        
-                            <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
-                            <input ng-show="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
-                            <input ng-show="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
+                        <div ui-if="vendor.customField.enabled && canEdit && vendor.customField.required">        
+                            <label for="customFieldRequired">{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input 
+                                form-field 
+                                required
+                                name="customFieldRequired" 
+                                type="text" class="large" 
+                                ng-blur="Validator.validateField(QuoterToolForm.customFieldRequired, QuoterToolForm)"
+                                ng-model="quote.customField.value" />
+                            
+                            <div ng-show="QuoterToolForm.FacultyErrors.customFieldRequired" class="alert alert-error alert-tooltip">
+                                {{QuoterToolForm.FacultyErrors.customFieldRequired}}
+                            </div>
                         </div>
+                        
+                        <div ui-if="vendor.customField.enabled && canEdit && !vendor.customField.required">  
+                            <label for="customField">{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input 
+                                form-field 
+                                name="customField" 
+                                type="text" class="large" 
+                                ng-blur="Validator.validateField(QuoterToolForm.customField, QuoterToolForm)"
+                                ng-model="quote.customField.value" />
+                        
+                            <div ng-show="QuoterToolForm.FacultyErrors.customField" class="alert alert-error alert-tooltip">
+                                {{QuoterToolForm.FacultyErrors.customField}}
+                            </div>
+                        </div>
+                        
                         
                         <!-- Shown when user revisits the quote -->
                         <div ng-show="vendor.customField.enabled && !canEdit">        
@@ -185,7 +208,7 @@
                         <!-- ############################## Zip ######################### -->
                         <!-- ############################################################ -->
                         <label for="zip">Zip</label>
-                        <input form-field type="text" name="zip" id="zip" placeholder="" class="input-block" ng-model="quote.company.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(QuoterToolForm.zip, QuoterToolForm)" required>
+                        <input form-field type="text" name="zip" id="zip" placeholder="" class="input-block" ng-model="quote.company.businessAddress.zip" maxlength="5" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(QuoterToolForm.zip, QuoterToolForm)" required>
 
                         <div ng-show="QuoterToolForm.FacultyErrors.zip" class="alert alert-error alert-tooltip">
                             {{QuoterToolForm.FacultyErrors.zip}}
@@ -239,8 +262,8 @@
                         </div>
                     
                         <p>Preferred contact method</p>
-                        <a ng-init="quote.company.contactPerson.contactMethod = 'email'" ng-click="quote.company.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'email'}" required>Email</a>
-                        <a ng-click="quote.company.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'phone'}" required>Phone</a>
+                        <a ng-init="quote.company.contactPerson.contactMethod = 'email'" ng-click="quote.company.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'email'}">Email</a>
+                        <a ng-click="quote.company.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'phone'}">Phone</a>
                     </div>
                 </div>
             </div> <!-- End form group -->

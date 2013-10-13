@@ -33,20 +33,20 @@ angular
 
             var processValue = function() {
         
-                scope.field = '0';
-        
                 scope.field = scope.$parent.$eval(attrs.ngModel);
                 
-                // convery to string just in case we are working with number
+                // if model value is undefined, set as placeholder
+                if(!scope.field) scope.field = '0';
+                
+                // convert to string just in case we are working with number
                 scope.field = scope.field.toString();
                 
-                var inputVal = scope.field;
-        
                 //clearing left side zeros
                 while (scope.field.charAt(0) == '0') {
                     scope.field = scope.field.substr(1);
                 }
         
+                // replace commas
                 scope.field = scope.field.replace(/[^\d.\',']/g, '');
         
                 var point = scope.field.indexOf(".");

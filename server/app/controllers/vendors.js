@@ -142,7 +142,7 @@ exports.all = function(req, res) {
         };
     } else {
         populate = '';
-        select = 'name _id logo customField geo tools tags searchString whiteLabel';
+        select = 'name _id logo customField geo tools tags searchString whiteLabel range';
     }
 
     Vendor

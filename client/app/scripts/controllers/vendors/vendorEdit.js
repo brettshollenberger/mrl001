@@ -240,6 +240,11 @@ angular
 
             $scope.toggleActive = function(item) {
                 item.enabled = item.enabled ? false : true;
+                _.each($scope.tabs, function(tab) {
+                    if(tab.name === item.display) {
+                        tab.active = item.enabled;
+                    }
+                });
             };
 
             $scope.addProgram = function(program) {

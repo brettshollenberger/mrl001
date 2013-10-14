@@ -60,6 +60,15 @@ body.quoter .container, body.application .container {
     margin-top: 20px;
 }
 
+.nav-pills.statuses > li.active > a:hover{
+    background: @blue;
+    color: white;
+}
+.nav-pills.statuses > li > a:hover{
+    background: inherit;
+    color: @blueDark;
+}
+
 body.dashboard {
     background: white;
     
@@ -81,6 +90,12 @@ ul.unstyled li{min-height: 50px;}
 
 h2 {
     font-size: 22.5px; // this should be in 
+}
+
+.default-image {
+    display: inline !important;
+    .opacity(40);
+    
 }
 
 // ---------------------------------------------------
@@ -199,6 +214,7 @@ sup.required {
 label sup {
     margin-left: 5px;
 }
+
 
 // ---------------------------------------------------
 // 

@@ -39,7 +39,7 @@
                
                 <div class="span5">
                     <label>Vendor Logo</label>
-                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="Logo" /><br/><br/>
+                    <img class="img-rounded img-large" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" default-image="vendor" title="Logo" /><br/><br/>
                     <button ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Logo</button>
                     
                     <br /><br />
@@ -70,9 +70,6 @@
                     
                     <label>Zip</label>
                     <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
-
-                    <label>White Label Vendor</label>
-                    <input type="checkbox" ng-model="vendor.whiteLabel">
                 </div>
                 
                 <div class="span5">  
@@ -94,7 +91,7 @@
                     <h3>Marlin Sales Rep</h3>
                 
                     <div ng-show="vendor.salesRep">
-                        <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original"/>
+                        <img class="img-large img-circle pull-left" ng-src="{{vendor.salesRep.avatar.original}}" ng-show="vendor.salesRep.avatar.original" default-image="user"/>
                         
                         <span class="pull-left manage-sales-rep">
                             <a user-profile="vendor.salesRep"></a><br />
@@ -120,7 +117,7 @@
                         <ul class="unstyled salesReps">
                             <li ng-repeat="item in allReps | filter: { role : 'salesRep', fullname: vendorName }">
                                 <p>
-                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" default-image="user"/>
                                     <a user-profile="item"></a>
                                     <button class="pull-right btn" ng-click="addSalesRep(item._id)">
                                         <i class="icon-plus"></i>
@@ -140,7 +137,7 @@
                 <div class="span10">
                     <h3>Vendor Sales Rep</h3>
                     <div ng-show="vendor.vendorRep">
-                        <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original"/>
+                        <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original" default-image="user"/>
                         
                         <span class="pull-left manage-vendor-rep">
                             <a user-profile="vendor.vendorRep"></a><br />
@@ -167,7 +164,7 @@
                         <ul class="unstyled vendorReps">
                             <li ng-repeat="item in allReps | filter: { role : 'vendorRep', fullname : salesName }">
                                 <p>
-                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" ng-src="{{item.avatar.original}}" />
+                                    <img class="img-circle img-tiny" ng-show="item.avatar.original" default-image="user" ng-src="{{item.avatar.original}}" />
                                     <a user-profile="item"></a>
                                     <button class="pull-right btn" ng-click="addVendorRep(item._id)">
                                         <i class="icon-plus"></i>
@@ -229,15 +226,24 @@
                     
                     <ul class="unstyled">
                         <li ng-repeat="item in vendor.tools">
-                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
-                                <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
-                            </button>
-                            {{item.name}}
+                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.enabled}">
+                                <i class="icon " ng-class="{'icon-check' : item.enabled, 'icon-check-empty' : !item.enabled}"></i>
+                            </button> {{item.display}}
                         </li>
                     </ul>
                 </form>
                 
             </div>
+            
+            <form name="customizeForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form can-do-action="changeApiOptions-vendor">
+                <div class="span10">
+                    <h3>API</h3>
+                    <p>This key will provides access to the Marlin Quoter API. <a href="/#/tools/api" target="_blank">Click here</a> to learn more.</p>
+                    <h4>{{vendor.apiKey}}</h4>
+                          
+                    <hr />
+                </div>
+            </form><!-- row -->
             
             <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
@@ -259,14 +265,31 @@
                         <input type="text" class="input-x-large" ng-model="vendor.customField.displayName"></label>
                     </div>
                     
+                    <hr />
+                    
                 </div>
             
-                <div class="span10">       
+                <div class="span10">
+                    
+                    <h3>Custom Credit Email Address</h3>
+                    <p>The following field allows you to override the default email address applications get sent to upon completion</p>
+                    <input type="email" ng-model="vendor.creditEmailAddress">
+                    
                     <hr />
+                </div>
+                
+                <div class="span10">
+                    
+                    <h3>White Label Vendor</h3>
+                    <label>
+                        <input type="checkbox" ng-model="vendor.whiteLabel">
+                        White Label Vendor
+                    </label>
+                    
                 </div>
             </form><!-- row -->
             
-            <form name="locationForm" ui-if="isActiveTab(5)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
+            <form name="locationForm" ui-if="isActiveTab(7)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 
                 <div class="span10">
                     

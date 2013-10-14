@@ -1,3 +1,20 @@
+/**
+* The quoter tool controller provides a number of functionality around generating quotes
+* --------------------------------------
+*
+* GENERATE A NEW QUOTE, given a totalCost, description, and company information
+*
+* VIEW EXISTING QUOTE, given a quote ID
+* 
+* EDIT AN EXISTING QUOTE, if user is still in the generate quote process. This means re-visitng the 
+*     quote url will not allow for editing the quote, only viewing and printing. 
+*
+* PRINT EXISTING QUOTE AS PDF, given a quote ID
+*
+* START A NEW APPLICATION, by choosing a payment from an existing quote
+*
+*
+*/
 angular
     .module('app')
     .controller('quoterToolController', [
@@ -16,11 +33,12 @@ angular
             $scope.quote = {};
             $scope.vendor = {};
             $scope.vendors = [];
-
+        
             // define variables
             $scope.didQuote = false;
             $scope.buttonText = 'Get Quote';
             $scope.canEdit = true;
+            $scope.quoteCost = null;
 
             // define local store for quote
             var quote = {};
@@ -51,14 +69,13 @@ angular
 
             }
 
-
             // get a single vendor at set as global vendor
 
             function getInitialVendor(getId) {
                 Vendor.getById(getId).then(function(response) {
 
                     $scope.vendor = response;
-
+                    
                     // not a valid vendor, redirect
                     if (!$scope.vendor) redirectAndClear();
 
@@ -100,14 +117,14 @@ angular
             if (quoteId) {
                 // get the quote
                 Quote.getById(quoteId).then(function(response) {
+                
+                    console.log(response);
 
                     $scope.quote = response;
-                    $scope.quoteCost = $scope.quote.totalCost;
 
                     // get the vendor
                     Vendor.getById($scope.quote.vendorId).then(function(response) {
                         $scope.vendor = response;
-                        filterQuotesByTotalCost();
                     });
 
                 }, function(error) {
@@ -122,8 +139,6 @@ angular
 
                 if ($rootScope.previewQuote !== true) $scope.canEdit = false;
 
-                // get programs from VendorID    
-
             } else {
 
                 //List states in dropdown menu
@@ -135,110 +150,160 @@ angular
 
                 if ($rootScope.previewQuote === true) $rootScope.previewQuote = false;
             }
-
-            function filterQuotesByTotalCost() {
-
-                Program.getAllForVendorId($scope.vendor._id).then(function(response) {
-                    $scope.quote.programs = response;
-
-                    // ensures that custom displayNames appear if set
-                    _.merge($scope.quote.programs, $scope.vendor.programs);
-
-                    $scope.filteredPrograms = $scope.quote.programs;
-
-                    _.each($scope.filteredPrograms, function(program, $programIdx) {
-
-                        if (!program.rateSheet) program.rateSheet = {};
-
-                        _.each(program.rateSheet.buyoutOptions, function(buyOutOption, $buyOutIdx) {
-
-                            _.each(buyOutOption.costs, function(cost, $costIdx) {
-
-                                if (cost && $scope.quoteCost <= cost.min || cost && $scope.quoteCost >= cost.max) {
-                                    $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.splice($costIdx, 1);
-
-
-                                }
-
-                            });
-
-                            if ($scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions[$buyOutIdx].costs.length === 0) {
-                                $scope.filteredPrograms[$programIdx].rateSheet.buyoutOptions.splice($buyOutIdx, 1);
-                            }
-
-                        });
-                    });
-
-                });
-
+            
+                        
+            // uncomment to test
+            // provides dummy valid quote info
+            //
+            if(!$scope.quote._id) {
+                //$scope.quote = {"company":{"businessAddress":{"state":"NJ","address1":"111 Tree Road","address2":"Apartment 3","city":"Absecon","zip":"19223"},"contactPerson":{"contactMethod":"email","name":"Matt Miller","email":"matt@facultycreative.com","phone":"6093354417"},"fullLegalBusinessName":"Company Name"},"description":"This is some equiptment","totalCost":"3000","vendorId":"51e71518ed32080ffc000023"};
             }
-
-
+        
+                
+            /**
+            * GENERATE A NEW QUOTE
+            * --------------------------------------
+            * Generates a new quote for given:
+            * - totalCost
+            * - description 
+            * - company (not required by api but we provide it with quoter tool)
+            *
+            * This function works by passing the required info the to API, on success
+            * we then redirect user to a page which loads their quote by _id, ie: /tools/quoter/12345
+            * This page loads the quote a second time but provides in context editing and viewing 
+            * for thier quote as they review, print, and update it. 
+            *
+            */
             $scope.generateQuote = function() {
-
-                $scope.quote.totalCost = $scope.quoteCost;
-
-                // save the custom Field with the quote 
-                if ($scope.vendor && $scope.vendor.customField.enabled) {
-
-                    $scope.quote.customField = {};
-
-                    $scope.quote.customField.displayName = $scope.vendor.customField.displayName;
-                }
-
-                if (!quoteId) {
-
-                    $rootScope.previewQuote = true;
-                    $scope.quote.vendorId = $scope.vendor._id;
-
-                    // create new item
-                    Quote.add($scope.quote).then(function(response) {
-                        var newQuote = response;
-                        $location.url('/tools/quoter/' + newQuote._id);
-                    });
-
+                
+                // check if form is valid
+                //   this will trigger any in-valid form items to show 
+                //   their validation messages
+                // if form is valid, then we call a function to save quote
+                //
+                if ($scope.QuoterToolForm.$valid) {
+                    successCallback();
                 } else {
+                    $rootScope.Validator.validateForm($scope.QuoterToolForm);
+                }
 
-                    filterQuotesByTotalCost();
+                function successCallback() {
 
-                    Quote.update($scope.quote).then(function(response) {
-                        // do nothing, successful update
-                    });
+                    $scope.didQuote = false;
+                                        
+                    // save the custom Field with the quote 
+                    // this allows the custom field to live on with the quote
+                    // even if that gets changed later for this vendor
+                    if ($scope.vendor && $scope.vendor.customField.enabled) {
+                        
+                        // add empty customField object if not present
+                        if(!$scope.quote.customField) $scope.quote.customField = {};
+                        
+                        // set customField value and displayName
+                        $scope.quote.customField = {
+                            displayName: $scope.vendor.customField.displayName,
+                            value: $scope.quote.customField.value
+                        };
+                    }
 
+                    if (!quoteId) {
+
+                        $rootScope.previewQuote = true;
+                        $scope.quote.vendorId = $scope.vendor._id;
+
+                        // create new quote
+                        Quote.add($scope.quote).then(handleReponse);
+
+                    } else {
+                        
+                        $rootScope.previewQuote = true;
+                        
+                        // update existing quote 
+                        Quote.update($scope.quote).then(handleReponse);
+                        
+                    }
+                }
+                
+            };
+            
+            // function to set error or quote on response from Quote api call
+            var handleReponse = function(response) {
+                // if a quote was generated
+                if(response._id) {
+                    
+                    $scope.quote = response;
+                    
+                    $location.url('/tools/quoter/' + response._id);
+                    $scope.didQuote = true;
+                
+                // no quote was genereated
+                } else {
+                    
+                    $scope.quoteError = response.meta.message;
+                    $scope.didQuote = true;
+                    
                 }
             };
 
-            $scope.getTermLength = function(item) {
 
-                //$scope.maxTerms = Program[]  
-            };
+            /**
+            * START A NEW APPLICATION
+            * --------------------------------------
+            * Function which allows user to start application by selectiong a payment
+            * when viewing an existing quote. 
+            * 
+            * Works by generating a new application, saving specific data from the quote, and then
+            * redirecting user to this new application page. 
+            *
+            */
+            $scope.chooseRate = function(rateObject) {
+            
+                console.log(rateObject);
+                
+                /*
+                payment: 516.5
+                paymentDisplay: "$516.50"
+                rate: 0.1033
+                term: "12 Months"
+                totalCost: 5000
+                totalCostDisplay: "$5,000.00"
+                */
 
-
-            $scope.chooseRate = function(termOption, termLength, termPeriod, periodPayment) {
-
-                // build the application for us to save
+                // build new application from quote
                 var application = {
+                    
+                    // quote and vendor id
                     quoteId: $scope.quote._id,
                     vendorId: $scope.vendor._id,
+                    
+                    // quote information
                     quote: {
-                        totalCost: $scope.quote.totalCost,
+                        totalCost: rateObject.totalCostDisplay,
                         description: $scope.quote.description,
-                        length: termLength,
-                        payment: periodPayment,
-                        period: termPeriod,
-                        option: termOption
+                        length: rateObject.term,
+                        payment: rateObject.paymentDisplay,
+                        period: '',
+                        option: ''
                     },
+                    
+                    // quote > company, which is stored as application > leasee
+                    // @todo we might consider standardizing this across quote and applications
                     leasee: $scope.quote.company
+                    
                 };
 
+                // flag user as comin from a quote
+                // if this variable is not true, the application tool currecntly redirects
+                // users back home
+                // @todo remove this if we open the application tool with "Marlin" as vendor
+                //
                 $rootScope.fromQuote = true;
 
-                // create new item
+                // create new application and redirect on success
+                //
                 Application.add(application).then(function(response) {
 
-                    var newApplication = response;
-
-                    $location.url('/tools/application/' + newApplication._id);
+                    $location.url('/tools/application/' + response._id);
 
                 });
 
@@ -246,43 +311,58 @@ angular
 
 
             /**
-             * Download as pdf
+             * PRINT EXISTING QUOTE AS PDF
+             * --------------------------------------
+             * Given a quote id, makes a call to the API which generates a pdf, saves it locally, 
+             * returns the url of the pdf, and prompts a file download in a cross browser way. 
+             * 
+             * @todo If we decide to send the pdf by email, we'd need to refactor this
+             *       so that a pdf is generated on quote creation, rather then in this instance.  
              *
              */
-
+             
             // default message
             $scope.downloadMessage = "Download as a PDF";
 
             // function called on ng-click
             $scope.download = function(id) {
 
+                // why are we providing this? 
                 id = id || quoteId;
 
+                // message user
                 $scope.downloading = true;
                 $scope.downloadMessage = "Please wait while we generate your PDF";
 
                 // once the generation is complete, we'll put the download url 
                 // here. Users can click to download the file
                 $scope.downloadURL = null;
+                
+                console.log(quoteId);
 
                 //window.open('api/v1/quote/'+quoteId+'/download');
 
                 Quote.generatePDF(quoteId).then(function(response) {
+                    
+                    // message user
                     $scope.downloading = false;
                     $scope.downloadMessage = "Download Complete";
 
+                    // handle success and failure
                     if (response.status === 'OK') {
                         SaveToDisk(response.file, 'Quote');
                     } else {
-                        $scope.downloadMessage = "Something Went Wrong! Please Try Again Later";
+                        $scope.downloadMessage = "Something went wrong. Please try again later.";
                     }
 
                 });
 
             };
 
+            // cross browser open file in new window prompting download
+            // 
             // @see http://muaz-khan.blogspot.com/2012/10/save-files-on-disk-using-javascript-or.html
-
+            //
             function SaveToDisk(fileURL, fileName) {
                 // for non-IE
                 if (!window.ActiveXObject) {

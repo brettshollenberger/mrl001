@@ -4,9 +4,30 @@ module.exports = {
         // Subject of the message
         subject: 'This Application is Complete',
     
-        // Variables 
+        // variables 
         variables: {
-            link: ''
+            appCompanyName: '',
+            appCompanyAddress1: '',
+            appCompanyAddress2: '',
+            appCompanyCity: '',
+            appCompanyState: '',
+            appCompanyZip: '',
+            
+            appContactName: '',
+            appContactEmail: '',
+            appContactPhone: '',
+            appContactMethod: '',
+            
+            appGuarantorName: '',
+            appGuarantorSocial: '',
+            
+            appGuarantorContactEmail: '',
+            appGuarantorContactPhone: '',
+            appGuarantorContactAddress1: '',
+            appGuarantorContactAddress2: '',
+            appGuarantorContactCity: '',
+            appGuarantorContactState: '',
+            appGuarantorContactZip: ''
         }
     }
 };

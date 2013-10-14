@@ -52,7 +52,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             'edit-vendors',
             'edit-users',
             'changePassword-users',
-            'changeAvatar'
+            'changeAvatar',
+            'changeApiOptions-vendor'
         ];
 
         // define Vendor Sales Rep actions
@@ -65,7 +66,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             'view-vendors',
             'edit-vendors',
             'edit-users',
-            'changePassword-users'
+            'changePassword-users',
+            'changeApiOptions-vendor'
         ];
 
         /**

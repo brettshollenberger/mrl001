@@ -128,9 +128,7 @@ angular
                         rate: ''
                     });
                 });
-
-
-
+                
             };
 
             $scope.addColumnToOption = function(theProgram) {

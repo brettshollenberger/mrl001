@@ -1,0 +1,102 @@
+<div class="row area">
+    <div class="span10 offset1" ng-init="documentationPage()">
+    
+        <h1>We have an api!</h1>
+        
+        <h3>Introduction</h3>
+        <h4>Authentication</h4>
+        <p>The API requires a key for all requests. To view your key, login to your vendor portal. To signup for a key, email <a>admin@marlinleasing.com</a></p>
+        
+        <h4>Rate Limit</h4>
+        <p>The API is currently limited to 5 requests per minute. Please throttle accordingly.</p>
+        
+        <hr />
+                        
+        <h3>METHOD: Generate A Quote</h3>
+        <p>Participating vendors can generate quotes using the API. This allows the vendor to integrate Marlin Finance options with their online shopping cart experience.</p>
+        
+        <h4>Endpoint</h4>
+        <p><code>POST {{api_base}}quotes</code></p>
+        
+        <h4>Authentication</h4>
+        <p>This request requires authentication. Add the following to your request header</p>
+        <p><code> Marlin-API-Key: 'YOUR_API_KEY'</code></p>
+        
+        <h4>Parameters:</h4>
+        <p>The only required parameters are totalCost and description. Your vendor ID is determined automatically based on your API key.</p>         
+        <p><code>REQUIRED totalCost: total cost of quote. If you include a decimal, you must have 2 decimal places, for example: 100.90 and not 100.9. Comas and dollar signs will be removed.</code></p>
+        
+        <p><code>REQUIRED description: description of equipment to be leased.</code></p>
+        
+        <p><code>OPTIONAL company: Company object containing information about requesting party. May be used to contact said party.</code></p>
+<pre>
+"company": {
+    "businessAddress": {
+        "zip": "...",
+        "state": "...",
+        "city": "...",
+        "address2": "...",
+        "address1": "..."
+    },
+    "contactPerson": {
+        "contactMethod": "... [phone|email]",
+        "phone": "...",
+        "email": "...",
+        "name": "..."
+    },
+    "fullLegalBusinessName": "..."
+}
+</pre> 
+         
+          
+        <h4>Response Format</h4>
+        <p>Response will be JSON format. An example of a successful call is: </p>
+        <pre>
+{
+    'meta': {                                   
+        'code': 200                             // code indicating success status
+        'message': 'this is a message for you!' // message to developer, if any
+    },   
+    "result": {
+        "payments": {
+            "Custom Rate Sheet": [{             // Rate program name, may be multiple programs
+                    "rates": [{                 // rates for this program based on buyout option
+                        "totalCostDisplay": "$50,001.00",
+                        "totalCost": 50001,
+                        "paymentDisplay": "$4,095.08",
+                        "payment": 4095.0818999999997,  // testing data only
+                        "rate": 0.0819,                 // testing data only
+                        "term": "12 Months"
+                    },
+                    {
+                        "totalCostDisplay": "$50,001.00",
+                        "totalCost": 50001,
+                        "paymentDisplay": "$2,145.04",
+                        "payment": 2145.0429,
+                        "rate": 0.0429,
+                        "term": "24 Months"
+                    }]
+                }]
+            }
+        }
+    }
+    
+}
+        </pre>
+ 
+        <p>An failed response will look like this:</p>
+        <pre>
+{
+    'meta': {                                   
+        'code': 500                             // code, typically the same as http status code
+        'message': 'this is a message for you!' // message to developer, if any
+    }
+}
+        </pre>       
+        
+                
+        <hr />
+
+    
+    </div>
+</div>

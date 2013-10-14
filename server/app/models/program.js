@@ -4,34 +4,12 @@
 var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema; 
 
-
-
-// Buyout Options Schema
-var buyoutOptionsSchema = new Schema({
-    name: {
-        type: String,
-        "default": ''
-    },
-    terms: [{}],
-    costs: [costsSchema]
-});
-
-// Costs Schema
-var costsSchema = new Schema({
-    min: {
-        type: Number,
-        "default": ''
-    },
-    max: {
-        type: Number,
-        "default": ''
-    },
-    rates: [{}]
-});
-
-
+// Will add the Currency type to the Mongoose Schema types
+//require('mongoose-currency').loadType(mongoose);
+require('mongoose-currency').loadType(mongoose);
+var Currency = mongoose.Types.Currency;
 
 /**
  * Program Schema
@@ -51,7 +29,24 @@ var ProgramSchema = new Schema({
             type: String,
             "default": ''
         },
-        buyoutOptions: [buyoutOptionsSchema]
+        buyoutOptions: [{
+            name: {
+                type: String,
+                "default": ''
+            },
+            terms: [],
+            costs: [{
+                min: {
+                    type: Currency,
+                    "default": 0
+                },
+                max: {
+                    type: Currency,
+                    "default": 0
+                },
+                rates: []
+            }]
+        }]
     }
 });
 
@@ -67,11 +62,7 @@ ProgramSchema.statics = {
 };
 
 ProgramSchema.pre('init', function(next, data) {
-
-    //console.log('DATA IS...');
-    //console.log(data);
-
     next();
 });
-
+    
 mongoose.model('Program', ProgramSchema);

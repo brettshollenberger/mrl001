@@ -115,6 +115,7 @@ exports.show = function(req, res) {
 exports.all = function(req, res) {
 
     var where = {};
+    var select = '';
 
     // limit quotes to sales rep only. 
     if (req.userHasRole('salesRep')) {
@@ -125,10 +126,13 @@ exports.all = function(req, res) {
         where = {
             vendorRep: req.user._id
         };
+        
+        select = '-guarantorInfo';
     }
 
     Application
         .find(where)
+        .select(select)
         .sort('-status -created')
         .exec(function(err, applications) {
             if (err) {

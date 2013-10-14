@@ -58,24 +58,18 @@ angular
 
                     $scope.vendor = $scope.application.vendorId;
                     
-                    // set states
-                    // state is most likely set from quoter tool, so we need to check for it
-                    // find the index of state in states array
-                    //
-                    var stateIndex = _.findIndex($scope.states1, function(item) {
-                        return item.abbreviation == $scope.application.company.businessAddress.state;
-                    });
-                    
-                    // if we have a match, use this
-                    // we should always have a match, this is just a fallback check
-                    if(stateIndex) {
-                        $scope.application.company.businessAddress.state = $scope.states1[stateIndex].abbreviation;
-                    } else {
-                        $scope.application.company.businessAddress.state = $scope.states1[0].abbreviation;
+                    // if no state is set, set default 
+                    if(!$scope.application.company.businessAddress.state) {
+                        $scope.application.company.businessAddress.state = $scope.states1[0].abbreviation; 
                     }
-                    // guarantor state will always be null since its not carried over from quoter tool
-                    $scope.application.guarantor.homeAddress.state = $scope.states2[0].abbreviation;
+                    
+                    if(!$scope.application.guarantor.homeAddress.state) {
+                        $scope.application.guarantor.homeAddress.state = $scope.states2[0].abbreviation;
+                    }
 
+                }, function() {
+                    // redirect on no application found
+                    $location.url('/tools/quoter');
                 });
 
             }

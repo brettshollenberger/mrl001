@@ -177,14 +177,4 @@
     
 </div>  
 
-<div class="row" ng-show="!finished">
-        
-    <div class="span10 offset1">
-        <br /><br />
-        <legend>Terms</legend>
-        <div id="legalTerms">{{vendor.legalTerms}}</div>
-    </div>
-
-</div>
-    
-
+<div class="row" ng-show="!finished" ng-include="'app/templates/tools/shared/terms.html'"></div>

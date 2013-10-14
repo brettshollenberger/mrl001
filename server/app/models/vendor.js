@@ -34,6 +34,11 @@ var VendorSchema = new Schema({
         "default": '',
         trim: true
     },
+    "slug": {
+        type: String,
+        "default": '',
+        trim: true 
+    },
     "contactPerson": {
         "name": {
             type: String,
@@ -404,7 +409,15 @@ VendorSchema.pre('save', function(next) {
         }
     }
     
+    // generate a slug from the vendor name
+    // we use this to create unique URL for their dealer locator
+    //
+    if(!vendor.slug) vendor.slug = vendor.name;
     
+    // sluggify it! 
+    vendor.slug = convertToSlug(vendor.slug);
+    
+   
 });
 
 VendorSchema.statics = {

@@ -245,7 +245,6 @@ angular
         // @todo this could be expanded to check for API down etc.
         api.ping().then(function() {});
 
-
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
@@ -304,7 +303,7 @@ angular
         *
         */
         $rootScope.isPage = function(slug) {
-            return $location.path() === slug;  
+            return $location.path() === slug;
         };
 
         /**

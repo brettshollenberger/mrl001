@@ -133,7 +133,7 @@ ApplicationSchema.statics = {
     load: function(id, cb) {
         this.findOne({
             _id: id
-        }).exec(cb);
+        }).populate('vendorId').exec(cb);
     }
 };
 

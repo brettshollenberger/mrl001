@@ -193,7 +193,7 @@
                 <div class="span5 offset1">
                                 
                     <label>Personal Guarantor Name</label>
-                    <input type="text" class="input-block" placeholder="" ng-model="application.guarantorInfo.name">
+                    <input type="text" class="input-block" placeholder="" ng-model="application.guarantor.contactPerson.name">
         
                 </div>
                  
@@ -253,7 +253,7 @@
                     <!-- ################ GuarantorZip Email ######################## -->
                     <!-- ############################################################ -->
                     <label for="contactEmailGuarantor">Email</label>
-                    <input form-field type="email" name="contactEmailGuarantor" id="contactEmailGuarantor" class="input-block" placeholder="" ng-model="application.company.contactPerson.emailGuarantor" ng-blur="Validator.validateField(ApplicationToolForm.contactEmailGuarantor, ApplicationToolForm)">
+                    <input form-field type="email" name="contactEmailGuarantor" id="contactEmailGuarantor" class="input-block" placeholder="" ng-model="application.guarantor.contactPerson.email" ng-blur="Validator.validateField(ApplicationToolForm.contactEmailGuarantor, ApplicationToolForm)">
         
                     <div ng-show="ApplicationToolForm.FacultyErrors.contactEmailGuarantor" class="alert alert-error alert-tooltip">
                         {{ApplicationToolForm.FacultyErrors.contactEmailGuarantor}}
@@ -263,7 +263,7 @@
                     <!-- ################ GuarantorZip Phone ######################## -->
                     <!-- ############################################################ -->
                     <label for="contactPhoneGuarantor">Phone</label>
-                    <input form-field type="text" name="contactPhoneGuarantor" id="contactPhoneGuarantor" class="input-block" placeholder="" ng-model="application.company.contactPerson.phoneGuarantor" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(ApplicationToolForm.contactPhoneGuarantor, ApplicationToolForm)">
+                    <input form-field type="text" name="contactPhoneGuarantor" id="contactPhoneGuarantor" class="input-block" placeholder="" ng-model="application.guarantor.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(ApplicationToolForm.contactPhoneGuarantor, ApplicationToolForm)">
         
                     <div ng-show="ApplicationToolForm.FacultyErrors.contactPhoneGuarantor" class="alert alert-error alert-tooltip">
                         {{ApplicationToolForm.FacultyErrors.contactPhoneGuarantor}}

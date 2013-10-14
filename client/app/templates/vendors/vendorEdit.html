@@ -191,10 +191,10 @@
                         <thead>
                             <th></th>
                             <th>Rate Sheet</th>
-                            <th>Custom Display Name</th>
+                            <th>Display Name</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in programs | orderBy:'active':true">
+                            <tr ng-repeat="item in programs">
                                 <td>
                                     <button
                                         ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();"
@@ -213,7 +213,7 @@
                                         class="input-block"
                                         value="{{item.displayName}}"
                                         ng-model="item.displayName"
-                                        placeholder="Custom Display Name" />
+                                        placeholder="{{item.name}}" />
                                 </td>
                             </tr>
                         </tbody>

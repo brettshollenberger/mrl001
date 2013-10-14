@@ -70,9 +70,6 @@
                     
                     <label>Zip</label>
                     <input type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
-
-                    <label>White Label Vendor</label>
-                    <input type="checkbox" ng-model="vendor.whiteLabel">
                 </div>
                 
                 <div class="span5">  
@@ -197,7 +194,7 @@
                             <tr ng-repeat="item in programs">
                                 <td>
                                     <button
-                                        ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();"
+                                        ng-click="toggleActiveRateSheet(item); item.displayName = '';rateForm.$setDirty();"
                                         class="btn"
                                         ng-class="{'btn-success' : item.active}">
                                         <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
@@ -279,6 +276,16 @@
                     <input type="email" ng-model="vendor.creditEmailAddress">
                     
                     <hr />
+                </div>
+                
+                <div class="span10">
+                    
+                    <h3>White Label Vendor</h3>
+                    <label>
+                        <input type="checkbox" ng-model="vendor.whiteLabel">
+                        White Label Vendor
+                    </label>
+                    
                 </div>
             </form><!-- row -->
             

@@ -42,6 +42,23 @@ angular
                 Program.getById(programId).then(function(response) {
                     $scope.program = response;
                     $scope.termLength = $scope.program.rateSheet.termLength;
+
+                    // Map the rates on each buyoutOption to an object.
+                    // Since our intent is to loop through each buyoutOption using
+                    // ng-repeat, we need objects in order to maintain proper
+                    // parent-child update flow. In Javascript's prototypal inheritance,
+                    // primitive types are value data, not reference data. They
+                    // do not maintain a single pointer to a value on the heap,
+                    // they perform a copy of the primitive data, and refer to different
+                    // values entirely. Without mapping to an object, the parent scope
+                    // would not update when the child is typed into. 
+                    $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                        opt.costs.forEach(function(cost) {
+                            cost.rates = cost.rates.map(function(rate) {
+                                return {value: rate};
+                            });
+                        });
+                    });
                 });
 
                 $scope.formAction = 'Update';
@@ -54,12 +71,30 @@ angular
             */
             $scope.save = function() {
 
+                // Map the rates back to a string val to save to the db, since that's
+                // what we have in the model. In the future, we should straight up
+                // change the model to use an object. 
+                $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                    opt.costs.forEach(function(cost) {
+                        cost.rates = cost.rates.map(function(rate) {
+                            return rate.value;
+                        });
+                    });
+                });
+
                 if ($scope.$$childTail.ProgramEditForm.$valid) {
                     successCallback();
                     console.log('Valid form!');
                 } else {
                     $rootScope.Validator.validateForm($scope.$$childTail.BasicEditForm);
                     $rootScope.Validator.validateForm($scope.$$childTail.ProgramEditForm);
+                    $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                        opt.costs.forEach(function(cost) {
+                            cost.rates = cost.rates.map(function(rate) {
+                                return {value: rate};
+                            });
+                        });
+                    });
                     console.log('In Valid form!');
                 }
                 
@@ -77,7 +112,7 @@ angular
                         Program.update($scope.program);
                         //saveChangesPrompt.removeListener();
                         $location.url('/dashboard/programs');
-                    } 
+                    }
                     
                 }
 

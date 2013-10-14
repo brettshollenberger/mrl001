@@ -42,8 +42,8 @@ exports.validateQuoteRequest = function(req, res, next) {
     
     // support instances of updating existing quote, PUT requests, where
     // req.quote will be set instead of req.body
-    req.body.totalCost = req.body.totalCost || req.quote.totalCost;
-    req.body.description = req.body.description || req.quote.description;
+    req.body.totalCost = req.body.totalCost || req.quote && req.quote.totalCost || null;
+    req.body.description = req.body.description || req.quote && req.quote.description || null;
     
     // message user for required totalCost   
     if(!req.body.totalCost) {

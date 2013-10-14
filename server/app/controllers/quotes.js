@@ -255,7 +255,11 @@ exports.createOrUpdate = function(req, res) {
                
                // totalCost thus far is in cents, lets convert back
                totalCost: totalCost / 100, 
-               totalCostDisplay: formatPayment(totalCost / 100)
+               totalCostDisplay: formatPayment(totalCost / 100),
+               
+               programName: program.programName,
+               buyoutOption: program.name
+               
            });
            
        });

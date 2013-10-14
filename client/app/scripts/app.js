@@ -78,8 +78,50 @@ angular
  *       is to set routes in the controllers as needed.
  *
  */
-.config(['$routeProvider',
-    function($router) {
+.config(['$routeProvider', 'MARLINAPI_CONFIG',
+    function($router, MARLINAPI_CONFIG) {
+
+        // find the base url, without any subdomains
+        baseUrl = function() {
+            return MARLINAPI_CONFIG.base_url.replace('api/v1/', '');
+        };
+    
+    
+        // this is a controller. It doesn't do much besides provide a namespace for the resolve method below
+        function MyCtrl($scope, datasets) {
+            
+            // each key from resolve {} will be available to inject as key name
+            // for example, if we had a ctrl.resolve = {item1: function() {}, item2: function() {}}
+            // we could access these resolved items in our controller by injecting item1 and item2
+            // just like we inject $location, $rootScope, etc. 
+            // @note that because our datasets are all promise objects, we'll wait for all
+            // of them to resolve before returning
+            $scope.datasets = datasets;
+        }
+
+        MyCtrl.resolve = {
+            resolvedVendor: function ($q, $route, vendorService, $rootScope, $location) {
+
+                var deferred = $q.defer();
+
+                // called on success by lookup()
+                var successCb = function (result) {
+                    if (!result) {
+                        deferred.reject("Vendor Lookup Failed");
+                        
+                        window.location = baseUrl(); 
+                        
+                    } else {
+                        deferred.resolve(result);
+                    }
+                };
+
+                // checks for vendorName, or preforms api query if not set
+                vendorService.lookup(successCb);
+
+                return deferred.promise;
+            }
+        };
 
         $router
 
@@ -117,26 +159,31 @@ angular
         // Quoter tool!  
         .when('/tools/quoter', {
             controller: 'quoterToolController',
-            templateUrl: 'app/templates/tools/quoter/quoterTool.html'
+            templateUrl: 'app/templates/tools/quoter/quoterTool.html',
+            resolve: MyCtrl.resolve
         })
             .when('/tools/quoter/:id/print', {
                 controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html'
+                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html',
+                resolve: MyCtrl.resolve
             })
             .when('/tools/quoter/:id', {
                 controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterTool.html'
+                templateUrl: 'app/templates/tools/quoter/quoterTool.html',
+                resolve: MyCtrl.resolve
             })
             
 
         // Application tool! 
         .when('/tools/application', {
             controller: 'applicationToolController',
-            templateUrl: 'app/templates/tools/application/applicationTool.html'
+            templateUrl: 'app/templates/tools/application/applicationTool.html',
+            resolve: MyCtrl.resolve
         })
             .when('/tools/application/:id', {
                 controller: 'applicationToolController',
-                templateUrl: 'app/templates/tools/application/applicationTool.html'
+                templateUrl: 'app/templates/tools/application/applicationTool.html',
+                resolve: MyCtrl.resolve
             })
 
         // Locator tool! 

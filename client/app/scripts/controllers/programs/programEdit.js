@@ -64,27 +64,22 @@ angular
                 }
                 
                 function successCallback() {
-                    
-                }
-
-                // @todo call validator
-
-                /*
-                if (!programId) {
-
-                    // create new item
-                    Program.add($scope.program).then(function(response) {
+                    if (!programId) {
+    
+                        // create new item
+                        Program.add($scope.program).then(function(response) {
+                            //saveChangesPrompt.removeListener();
+                            $location.url('/dashboard/programs');
+                        });
+    
+                    } else {
+                        // update existing item
+                        Program.update($scope.program);
                         //saveChangesPrompt.removeListener();
                         $location.url('/dashboard/programs');
-                    });
-
-                } else {
-                    // update existing item
-                    Program.update($scope.program);
-                    //saveChangesPrompt.removeListener();
-                    $location.url('/dashboard/programs');
+                    } 
+                    
                 }
-                */
 
             };
 

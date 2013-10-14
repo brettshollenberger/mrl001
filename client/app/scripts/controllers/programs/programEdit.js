@@ -7,7 +7,8 @@ angular
         '$routeParams',
         'authService',
         'programService',
-        function($rootScope, $scope, $location, $routeParams, Auth, Program) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, Program, CommonInterface) {
 
             $scope.modelObject = Program;
 
@@ -60,24 +61,17 @@ angular
             }
 
             // activated when user clicks the save button
-            $scope.save = function() {
+            $scope.save = function(doRedirect) {
 
-                if (!programId) {
-
-                    // create new item
-                    Program.add($scope.program).then(function(response) {
-                        //saveChangesPrompt.removeListener();
-                        $location.url('/dashboard/programs');
-                    });
-
-                } else {
-                    // update existing item
-                    Program.update($scope.program);
-                    //saveChangesPrompt.removeListener();
-                    $location.url('/dashboard/programs');
-                }
-
-
+                CommonInterface.save({
+                    Model: Program,
+                    instance: $scope.program,
+                    id: programId,
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    redirectUrl: '/dashboard/programs',
+                    doRedirect: doRedirect,
+                    strategy: function() {}
+                });
 
             };
 

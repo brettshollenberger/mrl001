@@ -6,6 +6,18 @@ module.exports = {
     
         // variables 
         variables: {
+            
+            appTotalCost: '',
+            appDesc: '',
+            
+            appCustomFieldName: '',
+            appCustomFieldValue: '',
+            
+            appPaymentTerm: '',
+            appParment: '',
+            appBuyoutOption: '',
+            appBuyoutProgramName: '',
+            
             appCompanyName: '',
             appCompanyAddress1: '',
             appCompanyAddress2: '',
@@ -13,13 +25,15 @@ module.exports = {
             appCompanyState: '',
             appCompanyZip: '',
             
+            appCompanySoleProp: '',
+            appCompanyYearsInBusiness: '',
+            
             appContactName: '',
             appContactEmail: '',
             appContactPhone: '',
             appContactMethod: '',
-            
+
             appGuarantorName: '',
-            appGuarantorSocial: '',
             
             appGuarantorContactEmail: '',
             appGuarantorContactPhone: '',

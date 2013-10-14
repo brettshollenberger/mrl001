@@ -147,7 +147,6 @@ angular
                 
                 // filter markers
                 filterMarkers();
-                
             };
             
             // clears the text, thus 
@@ -301,6 +300,7 @@ angular
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
                         // @todo this could be refactored to query api
+                        
                         if ($scope.searchText && !checkForTagMatch(item)) {
                             return;
                         }
@@ -322,6 +322,8 @@ angular
                             latitude: item.geo.latitude,
                             longitude: item.geo.longitude,
                             label: item.name,
+                            email: item.contactPerson.email,
+                            phone: item.contactPerson.phone,
                             website: item.website,
                             distance: item.geo.distance, // gets miles
                             logo: item.logo.original,

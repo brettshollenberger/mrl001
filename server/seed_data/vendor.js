@@ -316,7 +316,8 @@ var data = [{
     "industryTags" : [ 
         "retail", 
         "air", 
-        "service"
+        "service",
+        "aaron"
     ],
     "legalTerms" : "Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.",
     "logo" : {
@@ -326,7 +327,7 @@ var data = [{
     "programCustomNames" : [],
     "programs" : [],
     "range" : {},
-    "searchString" : "retail air service ",
+    "searchString" : "retail air service aaron ",
     "tags" : [],
     "tools" : {
         "api" : {

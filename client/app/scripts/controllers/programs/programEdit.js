@@ -12,6 +12,7 @@ angular
 
             var program = {};
             var programId = $routeParams.id;
+            var formTabMap;
             
             // basic auth protection for this route
             // @todo can we create a global route change auth service? 
@@ -35,6 +36,17 @@ angular
             $scope.cancel = function() {
                 $location.url('/dashboard/programs');
             };
+
+            function prepareRateSheetView() {
+                $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                    opt.terms = opt.terms.map(function(term) { return {value: term}; });
+                    opt.costs.forEach(function(cost) {
+                        cost.rates = cost.rates.map(function(rate) {
+                            return {value: rate};
+                        });
+                    });
+                });
+            }
             
 
             // get and store the program 
@@ -53,13 +65,14 @@ angular
                     // they perform a copy of the primitive data, and refer to different
                     // values entirely. Without mapping to an object, the parent scope
                     // would not update when the child is typed into. 
-                    $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
-                        opt.costs.forEach(function(cost) {
-                            cost.rates = cost.rates.map(function(rate) {
-                                return {value: rate};
-                            });
-                        });
-                    });
+
+                    prepareRateSheetView();
+
+                    formTabMap = [
+                        $scope.$$childTail.basicForm,
+                        $scope.$$childTail.formBuyoutOptions,
+                        $scope.$$childTail.newOptionForm
+                    ];
                 });
 
                 $scope.formAction = 'Update';
@@ -72,7 +85,7 @@ angular
                     Model: Program,
                     instance: $scope.program,
                     id: programId,
-                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    form: formTabMap,
                     redirectUrl: '/dashboard/programs',
                     doRedirect: doRedirect,
                     strategy: function() {
@@ -80,6 +93,7 @@ angular
                         // what we have in the model. In the future, we should straight up
                         // change the model to use an object. 
                         $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                            opt.terms = opt.terms.map(function(term) { return term.value; });
                             opt.costs.forEach(function(cost) {
                                 cost.rates = cost.rates.map(function(rate) {
                                     return rate.value;
@@ -88,6 +102,8 @@ angular
                         });
                     }
                 });
+
+                prepareRateSheetView();
             };
 
 
@@ -145,7 +161,7 @@ angular
                 //console.log(_.last(theProgram.costs));
 
                 _.each(theProgram.terms, function(item) {
-                    _.last(theProgram.costs).rates.push(0);
+                    _.last(theProgram.costs).rates.push({value : 0});
                 });
                 
             };
@@ -157,10 +173,10 @@ angular
             */
             $scope.addColumnToOption = function(theProgram) {
                 
-                theProgram.terms.push(0);
+                theProgram.terms.push({value: 0});
 
                 _.each(theProgram.costs, function(item) {
-                    item.rates.push(0);
+                    item.rates.push({value: 0});
                 });
             };
 
@@ -215,7 +231,7 @@ angular
                     newBuyOut.costs[0].min = $scope.newOption.minCost;
     
                     for (var i = 0; i < $scope.newOption.columns; i++) {
-                        newBuyOut.terms.push(0);
+                        newBuyOut.terms.push({value: 0});
                     }
     
                     for (i = 0; i < $scope.newOption.rows - 1; i++) {
@@ -228,7 +244,7 @@ angular
     
                     _.each(newBuyOut.costs, function(cost) {
                         _.each(newBuyOut.terms, function() {
-                            cost.rates.push(0);
+                            cost.rates.push({value: 0});
                         });
                         console.log('new cost');
                     });

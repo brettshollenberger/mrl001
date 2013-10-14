@@ -59,7 +59,7 @@
                             ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)"
                             required>
                              
-                        <p ng-show="vendor._id && canEdit">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
+                        <p ng-show="vendor._id && canEdit && vendor.range">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
                         
                         <!-- Shown when user revisits the quote -->
 <!--                         <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->

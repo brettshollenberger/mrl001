@@ -118,8 +118,6 @@ angular
                 // get the quote
                 Quote.getById(quoteId).then(function(response) {
                 
-                    console.log(response);
-
                     $scope.quote = response;
 
                     // get the vendor
@@ -257,9 +255,7 @@ angular
             *
             */
             $scope.chooseRate = function(rateObject) {
-            
-                console.log(rateObject);
-                
+                            
                 /*
                 payment: 516.5
                 paymentDisplay: "$516.50"
@@ -269,30 +265,18 @@ angular
                 totalCostDisplay: "$5,000.00"
                 */
 
-                // build new application from quote
-                var application = {
-                    
-                    // quote and vendor id
-                    quoteId: $scope.quote._id,
-                    vendorId: $scope.vendor._id,
-                    
-                    // quote information
-                    quote: {
-                        totalCost: rateObject.totalCostDisplay,
-                        description: $scope.quote.description,
-                        length: rateObject.term,
-                        payment: rateObject.paymentDisplay,
-                        period: '',
-                        option: ''
-                    },
-                    
-                    // quote > company, which is stored as application > leasee
-                    // @todo we might consider standardizing this across quote and applications
-                    leasee: $scope.quote.company
-                    
-                };
-
-                // flag user as comin from a quote
+                var application = _.clone($scope.quote);
+                
+                // clear the application id, which will be the quote id because of clone
+                delete application._id;
+                
+                // save reference to quote id
+                application.quoteId = $scope.quote._id;
+                
+                // save the rate object as the selected "payment" 
+                application.payment = rateObject;
+                
+                // flag user as coming from a quote
                 // if this variable is not true, the application tool currecntly redirects
                 // users back home
                 // @todo remove this if we open the application tool with "Marlin" as vendor
@@ -302,7 +286,8 @@ angular
                 // create new application and redirect on success
                 //
                 Application.add(application).then(function(response) {
-
+                    
+                    // redirec to application tool, which will handle loading the application
                     $location.url('/tools/application/' + response._id);
 
                 });
@@ -338,8 +323,6 @@ angular
                 // here. Users can click to download the file
                 $scope.downloadURL = null;
                 
-                console.log(quoteId);
-
                 //window.open('api/v1/quote/'+quoteId+'/download');
 
                 Quote.generatePDF(quoteId).then(function(response) {

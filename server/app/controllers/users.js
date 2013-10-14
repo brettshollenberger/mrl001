@@ -175,7 +175,7 @@ exports.update = function(req, res) {
     // note we should also remove other things here, like password, etc. 
 
     // prevents non admin users from deleting role
-    if (req.userHasRole('admin')) {
+    if (!req.userHasRole('admin')) {
         delete req.body.role;
     }
 

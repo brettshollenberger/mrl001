@@ -139,8 +139,8 @@ exports.all = function(req, res) {
             vendorRep: req.user._id
         };
     } else {
-        populate = '';
-        select = 'name _id logo customField geo tools tags searchString whiteLabel range website';
+        populate = 'vendorRep';
+        select = 'name _id logo customField geo tools tags searchString whiteLabel range website vendorRep legalTerms';
     }
 
     Vendor
@@ -228,7 +228,7 @@ exports.listNotForUser = function(req, res) {
 exports.getAllNames = function(req, res) {
     Vendor
         .find()
-        .select('_id name')
+        .select('_id name legalTerms')
         .sort('-created')
         .populate('programIds salesRep programs')
         .exec(function(err, vendors) {

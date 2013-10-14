@@ -59,7 +59,7 @@
                             ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)"
                             required>
                              
-                        <p ng-show="vendor._id && canEdit">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
+                        <p ng-show="vendor._id && canEdit && vendor.range">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
                         
                         <!-- Shown when user revisits the quote -->
 <!--                         <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->
@@ -336,15 +336,8 @@
        
         </div>
     </div>
-
-    <div class="row" ng-show="vendor.legalTerms">        
-        <div class="span10 offset1">
-            <br /><br />
-            <h3>Terms</h3>
-            <div id="legalTerms"><small>{{vendor.legalTerms}}</small></div>
-            <br />
-            <p><small>Quotes expire after 30 (Thirty) days.</small></p>
-        </div>
-    </div>
+    
+    <div class="row" ng-show="vendor.legalTerms" ng-include="'app/templates/tools/shared/terms.html'"></div>
+    
 </form>
 

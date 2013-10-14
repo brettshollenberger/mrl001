@@ -13,6 +13,8 @@ var customNameSchema = new Schema({
     displayName: String
 });
 
+var defaultTerms = 'Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.';
+
 
 /**
  * Vendor Schema
@@ -231,6 +233,10 @@ VendorSchema.post('init', function() {
         this.tools.quoter.display = 'Quoter';
         this.tools.api.display = 'API';
     }
+    
+    if (!this.legalTerms || this.legalTerms === '') {
+        this.legalTerms = defaultTerms;
+    }
 
 });
 
@@ -278,8 +284,7 @@ var getProgramRange = function(programs) {
 
 
 VendorSchema.pre('save', function(next) {
-    
-    
+ 
     /**
     * Process tags from dashboard
     * --------------------------------

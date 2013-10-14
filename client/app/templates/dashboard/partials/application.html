@@ -5,14 +5,14 @@
 </div>
 <div class="pull-left">
     <span class="label">{{application.status}}</span>
-    <p class="capitalize">{{application.leasee.contactPerson.name}}</p>
-    <span ng-show="application.leasee.contactPerson.contactMethod == 'phone'">
-        <a call-to="{{application.leasee.contactPerson.phone}}"></a>
+    <p class="capitalize">{{application.company.contactPerson.name}}</p>
+    <span ng-show="application.company.contactPerson.contactMethod == 'phone'">
+        <a call-to="{{application.company.contactPerson.phone}}"></a>
     </span>
-    <span ng-show="application.leasee.contactPerson.contactMethod == 'email'">
-        <a mail-to="{{application.leasee.contactPerson.email}}"></a>
+    <span ng-show="application.company.contactPerson.contactMethod == 'email'">
+        <a mail-to="{{application.company.contactPerson.email}}"></a>
     </span>
-    <p>{{application.leasee.fullLegalBusinessName}} / 
+    <p>{{application.company.fullLegalBusinessName}} / 
         <a ng-click='goTo("dashboard/vendors/" + application.vendorId._id)'><i class="icon-briefcase"></i> {{application.vendorId.name}}</a>
     </p>
 </div>

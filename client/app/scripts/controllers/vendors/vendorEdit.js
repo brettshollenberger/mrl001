@@ -238,6 +238,11 @@ angular
 
             };
 
+
+            $scope.toggleActiveRateSheet = function(item) {
+                item.active = item.active ? false : true;
+            };
+            
             $scope.toggleActive = function(item) {
                 item.enabled = item.enabled ? false : true;
                 _.each($scope.tabs, function(tab) {

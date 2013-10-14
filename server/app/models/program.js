@@ -23,6 +23,8 @@ var ProgramSchema = new Schema({
         type: String,
         "default": ''
     },
+    publicNotes: String,
+    privateNotes: String,
     displayName: String,
     rateSheet: {
         termPeriod: {

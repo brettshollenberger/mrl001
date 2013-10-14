@@ -230,6 +230,6 @@ exports.resetPassword = function(req, app) {
         }
     };
     
-    req.app.emailer.send('password/password-reset', locals);
+    req.app.emailer.send('account/password-reset', locals);
     
 };

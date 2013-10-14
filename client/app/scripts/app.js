@@ -254,8 +254,6 @@ angular
         // @note this is related to experimental promisetracker module
         $rootScope.apiTracker = promiseTracker('api');
 
-        $rootScope.FormHelper = FormHelper;
-
         $rootScope.Validator = Validator;
         /**
          * Helper functions, which are accessiable anywhere in our app using $rootScope.functionName()

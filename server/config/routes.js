@@ -155,6 +155,8 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
     app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
 
     app.get('/api/v1/vendors/tags/:tagType', vendors.getDistinctTags);
+    app.get('/api/v1/vendors/industryCounts', vendors.getIndustryCounts);
+    app.get('/api/v1/vendors/getVendorByIndustry/:industry', vendors.getVendorByIndustry);
 
     // @todo this technically works for now, but needs to be locked down with different show functions per role
     app.get('/api/v1/vendors/:vendorId', isUserAllowed('view', 'vendors'), vendors.show);

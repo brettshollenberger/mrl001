@@ -30,6 +30,7 @@ var data = [{
         "longitude": -75.15735110000003
     },
     "tags": ["bear", "computers", "intercom"],
+    "industryTags" : ["retail", "insurance sector", "technology sector"],
     "tools" : {
         'locator': {
             'enabled' : true
@@ -63,7 +64,6 @@ var data = [{
         "email": "jdelong@marlinfinance.com",
         "phone": "866-687-3778"
     },
-    "industryTags" : ["retail", "insurance sector", "technology sector"],
     "tags": ["office", "supplies", "printers"],
     "salesRep": '51e71518ed32080ffc000016',
     "logo": {
@@ -266,6 +266,7 @@ var data = [{
             'enabled' : false
         }
     },
+    "industryTags" : ["retail", "air", "service"],
     "range" : {
         "max" : {
             "value" : 100000,
@@ -288,39 +289,62 @@ var data = [{
 }, {
 
     "_id": '51e71518ed32080ffc000029',
-    "logo": {
-        "original": "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
+    "apiKey" : null,
+    "businessAddress" : {
+        "zip" : "93308-4919",
+        "state" : "",
+        "city" : "Bakersfield",
+        "address2" : "",
+        "address1" : "3505 Buck Owens Blvd"
     },
-    "state": false,
-    "name": "Praxair Inc",
-    "businessAddress": {
-        "address1": "3505 Buck Owens Blvd",
-        "city": "Bakersfield",
-        "zip": "93308-4919"
+    "businessPhone" : "",
+    "contactPerson" : {
+        "phone" : "(661)327-5336",
+        "email" : "tony_flores@praxair.com",
+        "name" : ""
     },
-    "range" : {
-        "max" : {
-            "value" : 100000,
-            "display" : "$100,000.00"
+    "creditEmailAddress" : "",
+    "customField" : {
+        "displayName" : "",
+        "enabled" : false,
+        "required" : false
+    },
+    "geo" : {
+        "latitude" : 35.391024,
+        "longitude" : -119.043766
+    },
+    "industryTags" : [ 
+        "retail", 
+        "air", 
+        "service",
+        "aaron"
+    ],
+    "legalTerms" : "Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.",
+    "logo" : {
+        "original" : "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
+    },
+    "name" : "Praxair Inc",
+    "programCustomNames" : [],
+    "programs" : [],
+    "range" : {},
+    "searchString" : "retail air service aaron ",
+    "tags" : [],
+    "tools" : {
+        "api" : {
+            "display" : "API",
+            "enabled" : false
         },
-        "min" : {
-            "value" : 1000,
-            "display" : "$1,000.00"
+        "quoter" : {
+            "display" : "Quoter",
+            "enabled" : false
+        },
+        "locator" : {
+            "display" : "Vendor Locator",
+            "enabled" : true
         }
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
-    "industryTags" : ["retail", "air", "service"],
-    "contactPerson": {
-        "phone": "(661)327-5336",
-        "email": "tony_flores@praxair.com"
-    },
-    "website": "www.praxair.com"
+    "website" : "www.praxair.com",
+    "whiteLabel" : false
 }, {
 
     "_id": '51e71518ed32080ffc000030',

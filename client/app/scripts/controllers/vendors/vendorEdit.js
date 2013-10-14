@@ -193,6 +193,7 @@ angular
                 'VendorSalesRepForm',
                 'rateForm',
                 'toolForm',
+                'apiForm',
                 'locationForm',
                 'customizeForm'
             ];
@@ -421,7 +422,7 @@ angular
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {
 
                 // only make map if user is switching to tab 4, and there is no map made
-                if (newValue === 7) {
+                if (newValue === 6) {
                     $scope.mapActive = true;
                     if (!$scope.isMapMade) makeMap();
                 } else {
@@ -432,7 +433,7 @@ angular
             var removeFunction = $scope.$on('$locationChangeStart', function(event, next, current) {
                
                // removes the map
-               $scope.mapActive = false; 
+               $scope.mapActive = false;
                
                // remove watchers for page
                removeFunction();
@@ -644,17 +645,19 @@ angular
 
             }
 
-
             /**
              * Checks if tool is active given a specific tool slug.
+             * @note be careful there's a lot of enabled vs. active going on in this controller
              *
              */
             $scope.isToolActive = function(slug) {
-                var isActive = _.where($scope.vendor.tools, {
-                    slug: slug,
-                    active: true
-                });
-                return isActive.length ? true : false;
+                var isActive = false;
+                // this is an easy way to prevent errors before scope.vendors is defined. 
+                // instead of having to check each level of the object, we just do a try / catch block
+                try {
+                    isActive = $scope.vendor.tools[slug].enabled;
+                } catch(err) {}
+                return isActive;
             };
 
 

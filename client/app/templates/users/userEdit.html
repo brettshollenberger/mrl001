@@ -77,6 +77,18 @@
             
             </div>
             
+            
+            <div class="span10" can-do-action="welcomeEmail-users">
+                <h3>Send Welcome Email</h3>
+                <div class="row">
+                    <div class="span4">
+                        <button class="btn btn-primary" ng-click="welcomeEmail()"><i class="icon-envelope"></i>&nbsp;{{buttonText}}<i class='icon icon-spinner icon-spin' ng-show="processing"></i></button>
+                        <br /><br />
+                        <p>This will send a welcome email to {{user.fullname}} containing his email and a link to login to the dashboard.</p>
+                    </div>
+                </div>
+            </div>
+            
         </form>
         
         

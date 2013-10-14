@@ -13,6 +13,12 @@ angular
         function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, FormHelper, CommonInterface) {
 
             $scope.modelObject = User;
+            $scope.buttonText = '';
+            
+            var watch = $scope.$watch('user._id', function(newValue) {
+                $scope.buttonText = 'Send Welcome Email To ' + $scope.user.fullname;
+                //watch();
+            });
 
             Auth.canUserDoAction('edit-users');
 
@@ -34,6 +40,22 @@ angular
                 } else {
                     return true;
                 }
+            };
+            
+            /**
+            * SENDS A WELCOME EMAIL TO USER
+            *
+            */
+            $scope.welcomeEmail = function() {
+                
+                $scope.processing = true;
+                
+                User.sendWelcomeEmail($scope.user._id).then(function(response) {
+                    $scope.processing = false;
+                    $scope.buttonText = 'Email sent!';
+                }, function() {
+                    $scope.processing = false;
+                });
             };
 
             $scope.canDeleteUser = function() {

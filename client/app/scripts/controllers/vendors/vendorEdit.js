@@ -239,7 +239,7 @@ angular
             };
 
             $scope.toggleActive = function(item) {
-                item.enabled = item.enabled ? false : true;
+                item.active = item.active ? false : true;
             };
 
             $scope.addProgram = function(program) {

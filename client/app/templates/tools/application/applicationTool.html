@@ -25,6 +25,32 @@
 </div>
 
 <form name="ApplicationToolForm" ng-show="!finished" novalidate>
+    
+    <div class="row area"> 
+        <div class="span10 offset1">
+            <h3>Payment Information</h3>
+        </div>  
+        <div class="span10 offset1">            
+            <strong>{{application.payment.programName}}</strong>
+            <table class="table">
+                <thead>
+                    <th class="span3">{{application.payment.buyoutOption}}</th>
+                    <th class="span1">{{application.payment.term}}</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{application.payment.totalCostDisplay}}</td>
+                        <td>
+                            {{application.payment.paymentDisplay}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>Description:</strong>&nbsp;{{application.description}}</p>
+        </div>
+    </div>
+
 
     <div class="row area">   
         <div class="span10 offset1">

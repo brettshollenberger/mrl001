@@ -43,7 +43,7 @@ module.exports = function(app, config, passport, standardReponse) {
     app.use(cacheBuster);
 
     // @todo this might break local network testing on IE... 
-    // app.use(allowCrossDomain);
+    app.use(allowCrossDomain);
 
     app.use(standardReponse.middleware());
 

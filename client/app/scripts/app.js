@@ -66,6 +66,11 @@ angular
     //base_url: 'http://10.1.10.48:3000/api/v1/'
 })
 
+
+.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}])
 /**
  * Define routes
  *

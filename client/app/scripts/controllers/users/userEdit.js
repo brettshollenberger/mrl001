@@ -135,10 +135,9 @@ angular
 
                 } else {
 
-
                     if ($scope.initialRole !== $scope.user.role) {
 
-                        console.log('NEED TO update users vendors');
+                        // @todo refactor this to move to backend
 
                         if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
 
@@ -151,7 +150,6 @@ angular
                                     item.active = false;
                                 }
 
-                                console.log(item);
                                 Vendor.update(item);
                             });
 

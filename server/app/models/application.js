@@ -38,7 +38,7 @@ var ApplicationSchema = new Schema({
     },
     status: {
         type: String,
-        "default": 'open',
+        "default": 'new',
         trim: true
     },
     vendorId: {

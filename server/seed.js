@@ -36,8 +36,8 @@ var models = {};
 models.Quote = mongoose.model('Quote');
 models.Application = mongoose.model('Application');
 models.User = mongoose.model('User');
-models.Vendor = mongoose.model('Vendor');
 models.Program = mongoose.model('Program');
+models.Vendor = mongoose.model('Vendor');
 
 
 /**
@@ -51,8 +51,8 @@ models.Program = mongoose.model('Program');
  */
 var resources = {};
 resources.User = require('./seed_data/user').seed();
-resources.Vendor = require('./seed_data/vendor').seed();
 resources.Program = require('./seed_data/program').seed();
+resources.Vendor = require('./seed_data/vendor').seed();
 resources.Application = require('./seed_data/application').seed();
 resources.Quote = require('./seed_data/quote').seed();
 

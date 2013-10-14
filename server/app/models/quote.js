@@ -17,7 +17,11 @@ var QuoteSchema = new Schema({
     },
     totalCost: {
         type: Number,
-        "default": 0
+        required: true
+    },
+    totalCostDisplay: {
+        type: String,
+        required: true
     },
     status: {
         type: String,
@@ -26,7 +30,8 @@ var QuoteSchema = new Schema({
     },
     vendorId: {
         type: Schema.ObjectId,
-        ref: 'Vendor'
+        ref: 'Vendor',
+        required: true
     },
     "salesRep": {
         type: Schema.ObjectId,
@@ -41,6 +46,7 @@ var QuoteSchema = new Schema({
         "default": '',
         trim: true
     },
+    payments: {},
     company: {
         fullLegalBusinessName: {type: String, "default": '', trim: true},
         contactPerson: {
@@ -54,12 +60,13 @@ var QuoteSchema = new Schema({
           "address2": {type: String, "default": '', trim: true},
           "city": {type: String, "default": '', trim: true},
           "state": {type: String, "default": '', trim: true},
-          "zip": {type: Number}
+          "zip": {type: String, "default": '', trim: true}
         }
     },
     customField: {
         displayName: String,
-        value: String
+        value: String,
+        "default": ""
     }
 });
 
@@ -95,13 +102,15 @@ QuoteSchema.pre('save', function(next, something) {
 
             //next(new Error(self.vendorId + ' Not a valid vendor'));
         } else {
+                
             self.salesRep = result.salesRep;
             self.vendorRep = result.vendorRep;
-            self.vendorId = self.vendorId;
+            self.vendorId = result._id;
             next();
         }
     });
 });
+
 /**
  * Statics
  */

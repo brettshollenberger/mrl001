@@ -69,6 +69,7 @@
                     <select name="vendor.businessAddress.state" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                     
                     <label>Zip</label>
+
                     <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
 
                     <label>White Label Vendor</label>
@@ -192,13 +193,13 @@
                         <thead>
                             <th></th>
                             <th>Rate Sheet</th>
-                            <th>Custom Display Name</th>
+                            <th>Display Name</th>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in programs | orderBy:'active':true">
+                            <tr ng-repeat="item in programs">
                                 <td>
                                     <button
-                                        ng-click="toggleActive(item); item.displayName = '';rateForm.$setDirty();"
+                                        ng-click="toggleActiveRateSheet(item); item.displayName = '';rateForm.$setDirty();"
                                         class="btn"
                                         ng-class="{'btn-success' : item.active}">
                                         <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
@@ -215,7 +216,7 @@
                                         class="input-block"
                                         value="{{item.displayName}}"
                                         ng-model="item.displayName"
-                                        placeholder="Custom Display Name" />
+                                        placeholder="{{item.name}}" />
                                 </td>
                             </tr>
                         </tbody>
@@ -231,18 +232,26 @@
                     
                     <ul class="unstyled">
                         <li ng-repeat="item in vendor.tools">
-                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
-                                <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
-                            </button>
-                            {{item.name}}
+                            <button ng-click="toggleActive(item); toolForm.$setDirty();" class="btn" ng-class="{'btn-success' : item.enabled}">
+                                <i class="icon " ng-class="{'icon-check' : item.enabled, 'icon-check-empty' : !item.enabled}"></i>
+                            </button> {{item.display}}
                         </li>
                     </ul>
                 </form>
                 
             </div>
 
-            <form name="locationForm" ui-if="isActiveTab(5)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
-                
+            <form name="apiForm" class="row" ng-show="isActiveTab(5)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+                <div class="span10">
+                    <h3>API</h3>
+                    <p>This key will provides access to the Marlin Quoter API. <a href="/#/tools/api" target="_blank">Click here</a> to learn more.</p>
+                    <h4>{{vendor.apiKey}}</h4>
+                          
+                    <hr />
+                </div>
+            </form><!-- row -->
+
+            <form name="locationForm" ui-if="isActiveTab(6)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
                 <div class="span10">
                     
                     <div class="row">
@@ -320,36 +329,32 @@
                     </div>
                     
                 </div><!-- .span -->
-            
             </form>
             
-            <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+            <form name="customizeForm" class="row" ng-show="isActiveTab(7)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
                 <div class="span10">
                     <h3>Custom Terms</h3>
                     
                     <label>Terms which display on application</label>
-                    <textarea name="vendor.legalTerms" class='legalTerms' ng-model="vendor.legalTerms"></textarea>
+                    <textarea class='legalTerms' ng-model="vendor.legalTerms"></textarea>
                     
                     <h3>Custom Field</h3>
                     <p>The following allows you to add a custom field to this vendors quoter tool</p>
                     <label class="checkbox">Custom Field Enabled?
-                    <input name="vendor.customField.enabled" type="checkbox" ng-model="vendor.customField.enabled"></label>
+                    <input type="checkbox" ng-model="vendor.customField.enabled"></label>
                     
                     <div ng-show="vendor.customField.enabled">
                         <label class="checkbox">Required?
-                        <input name="vendor.customField.required" type="checkbox" ng-model="vendor.customField.required"></label> 
+                        <input type="checkbox" ng-model="vendor.customField.required"></label> 
                         
                         <label>Display Name</label>
-                        <input name="vendor.customField.displayName" type="text" class="input-x-large" ng-model="vendor.customField.displayName"></label>
+                        <input type="text" class="input-x-large" ng-model="vendor.customField.displayName"></label>
                     </div>
+                    
+                    <hr />
                     
                 </div>
             
-                <div class="span10">       
-                    <hr />
-                </div>
-            </form><!-- row -->
-
                 <div class="span10">
                     
                     <h3>Custom Credit Email Address</h3>
@@ -357,6 +362,16 @@
                     <input type="email" ng-model="vendor.creditEmailAddress">
                     
                     <hr />
+                </div>
+                
+                <div class="span10">
+                    
+                    <h3>White Label Vendor</h3>
+                    <label>
+                        <input type="checkbox" ng-model="vendor.whiteLabel">
+                        White Label Vendor
+                    </label>
+                    
                 </div>
             </form><!-- row -->
             

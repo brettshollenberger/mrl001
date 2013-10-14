@@ -5,18 +5,16 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema,
-    _ = require('lodash');
+    _ = require('lodash'),
+    numeral = require('numeral');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
     displayName: String
 });
 
-var toolEnabledSchema = new Schema({
-    "name": String,
-    "active": Boolean,
-    "slug": String
-});
+var defaultTerms = 'Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.';
+
 
 /**
  * Vendor Schema
@@ -88,6 +86,7 @@ var VendorSchema = new Schema({
         "default": '',
         trim: true
     },
+    "range": {},
     "businessAddress": {
         "address1": {
             type: String,
@@ -125,7 +124,20 @@ var VendorSchema = new Schema({
             "default": null
         }
     },
-    "tools": [toolEnabledSchema],
+    "tools": {
+        'locator': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'quoter': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'api': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        }
+    },
     "programs": [{
         type: Schema.ObjectId,
         ref: 'Program'
@@ -145,6 +157,10 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "apiKey" : {
+        type: String,
+        "default": null
     },
     "creditEmailAddress": {
         type: String,
@@ -202,9 +218,73 @@ function convertToSlug(Text) {
         .replace(/[^\w\-]+/g, '');
 }
 
+/**
+ * Runs similar to "after get" callback
+ *
+ */
+VendorSchema.post('init', function() {
+    
+    // set display name for tools
+    // seems silly to save this within the vendor
+    // however the model objects needs these props anyway for it to work
+    // so its redundent then to set here. 
+    if(this.tools) {
+        this.tools.locator.display = 'Vendor Locator';
+        this.tools.quoter.display = 'Quoter';
+        this.tools.api.display = 'API';
+    }
+    
+    if (!this.legalTerms || this.legalTerms === '') {
+        this.legalTerms = defaultTerms;
+    }
+
+});
+
+
+/**
+* ----------------------------------------
+* Formats and rounds currecny
+* ----------------------------------------
+*/
+var formatPayment = function(payment) {
+
+    return numeral(payment).format('$0,0.00');
+    
+};
+
+// function that returns high and low program value given an array of program object
+// 
+var getProgramRange = function(programs) {
+        
+    var sheets = _.pluck(programs, 'rateSheet');
+    
+    var range = {};
+    response = {};
+    
+    _.each(sheets, function(item) {
+        _.each(item.buyoutOptions, function(item) {
+            var costs = item.costs;
+            range.min = _.min(_.pluck(costs, 'min'));
+            range.max = _.max(_.pluck(costs, 'max'));
+        });
+    });
+    
+    _.each(range, function(item, key) {
+        
+        response[key] = {
+            display: formatPayment(item / 100),
+            value: item / 100
+        };
+    
+    });
+        
+    return response;
+};
+
+
+
 VendorSchema.pre('save', function(next) {
-    
-    
+ 
     /**
     * Process tags from dashboard
     * --------------------------------
@@ -276,11 +356,55 @@ VendorSchema.pre('save', function(next) {
     * Standardize tool slugs
     *
     */
+/*
     _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
+*/
 
-    next();
+    /**
+    * Generate API key if api tool is enabled and no key exists
+    *
+    * @note to change the API key enable and then disable
+    *
+    */
+    if(this.isModified('tools') && this.tools.api.enabled === true && !this.isNew) { 
+        var key = require('node-uuid')();
+        this.apiKey = key; 
+    }
+    
+    
+    // find a range, min and max value, for this program
+    // we'll use this to quickly check if a quote value is within range
+    //
+    
+    if(vendor.programs) {
+    
+        mongoose.models.Program
+            .find({_id: { $in: vendor.programs }})
+            .exec(function(err, data) {
+            
+                if(data) {
+                    vendor.range = getProgramRange(data); 
+                }
+                
+                next();
+               
+            });
+            
+    } else {
+        next();
+    }
+    
+    // check for http:// prefixed to website and if not add it
+    if(vendor.website) {
+        if (!vendor.website.match(/^[a-zA-Z]+:\/\//))
+        {
+            vendor.website = 'http://' + vendor.website;
+        }
+    }
+    
+    
 });
 
 VendorSchema.statics = {
@@ -291,7 +415,7 @@ VendorSchema.statics = {
         // for easy geting from the database 
         return this.findOne({
             _id: vendorId
-        }, function(err, result) {
+        }).populate('vendorRep').exec(function(err, result) {
             if (err) return cb(err);
             if (result && result._id) {
                 return cb(null, result);

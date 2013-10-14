@@ -40,28 +40,39 @@ angular
 
                 strategy();
 
-                // ********* Perform Model.add ********* //
-                // ******** if not on show page ******** //
-
-                if (!id) {
-
-                    Model.add(instance).then(function(response) {
-                        instance = response;
-                        id       = instance._id;
-                        postSaveLogic();
-                    });
-
-                // ******* Perform Model.update ******** //
-                // ********* if on show page ********** //
-
+                // ********* Validate the form ********* //
+                // ********* Save the model if ********* //
+                // ********* Valid, or display ********* //
+                // *************** errors ************** //
+                if (form.$valid) {
+                    successCallback();
                 } else {
-
-                    Model.update(instance).then(function(response) {
-                        instance = response;
-                        postSaveLogic();
-                    });
-
+                    $rootScope.Validator.validateForm(form);
                 }
+
+                function successCallback() {
+                    // ********* Perform Model.add ********* //
+                    // ******** if not on show page ******** //
+                    if (!id) {
+                        Model.add(instance).then(function(response) {
+                            instance = response;
+                            id       = instance._id;
+                            postSaveLogic();
+                        });
+
+                    // ******* Perform Model.update ******** //
+                    // ********* if on show page ********** //
+
+                    } else {
+
+                        Model.update(instance).then(function(response) {
+                            instance = response;
+                            postSaveLogic();
+                        });
+
+                    }
+                }
+                
             }
         };
     });

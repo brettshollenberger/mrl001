@@ -4,6 +4,7 @@ angular
         'unsavedNew',
         'uiHelpers',
         'ui.validate',
+        'ui.mask',
         'ui.if',
         'ui.bootstrap',
         'ngCookies',
@@ -83,7 +84,6 @@ angular
             templateUrl: 'app/templates/home.html'
         })
 
-
         .when('/changelog', {
             controller: 'changelogController',
             templateUrl: 'app/templates/changelog.html'
@@ -100,10 +100,14 @@ angular
             templateUrl: 'app/templates/logout.html'
         })
 
+        .when('/tools/api', {
+            controller: 'apiController',
+            templateUrl: 'app/templates/tools/api/documentation.html'
+        })
+
         .when('/password_reset', {
             templateUrl: 'app/templates/authenticate.html'
         })
-
 
         // Quoter tool!  
         .when('/tools/quoter', {
@@ -119,7 +123,6 @@ angular
                 templateUrl: 'app/templates/tools/quoter/quoterTool.html'
             })
             
-
 
         // Application tool! 
         .when('/tools/application', {
@@ -235,11 +238,12 @@ angular
  *       but include them in our app?
  *
  */
-.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker',
-        'FormHelper',
-    function($rootScope, $location, Auth, $document, $http, promiseTracker,
-        FormHelper) {
-
+.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', 'apiService', 'Validator',
+    function($rootScope, $location, Auth, $document, $http, promiseTracker, api, Validator) {
+        
+        // PING the server to check for current status and get XSFR cookie
+        // @todo this could be expanded to check for API down etc.
+        api.ping().then(function() {});
 
         // define our version
         // @todo this should be set in package.json, and an api call should be made
@@ -251,6 +255,8 @@ angular
         $rootScope.apiTracker = promiseTracker('api');
 
         $rootScope.FormHelper = FormHelper;
+
+        $rootScope.Validator = Validator;
         /**
          * Helper functions, which are accessiable anywhere in our app using $rootScope.functionName()
          *
@@ -299,7 +305,7 @@ angular
         *
         */
         $rootScope.isPage = function(slug) {
-            return $location.path() === slug;  
+            return $location.path() === slug;
         };
 
         /**

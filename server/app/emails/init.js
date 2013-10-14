@@ -10,6 +10,7 @@
 var mongoose = require('mongoose'),
     Quote = mongoose.model('Quote'),
     Vendor = mongoose.model('Vendor'),
+    Application = mongoose.model('Application'),
     User = mongoose.model('User'),
     moment = require('moment'),
     formatFactory = require('format-number')
@@ -147,10 +148,13 @@ exports.newQuoteVendorRep = function(req, quote) {
 exports.completeAppCredit = function(req, app) {
     
     // make a call to get the vendor
-    Vendor.findOne({_id:app.vendorId}).exec(function (err, vendor) {
-     
+    Application.findOne({_id:app._id}).populate('vendorId salesRep vendorRep').exec(function (err, app) {
+          
         // send to the custom credit emaiil address if there is one set
-        var sendTo = (vendor.creditEmailAddress && vendor.creditEmailAddress !== '') ? vendor.creditEmailAddress : 'credit@marlinfinance.com';
+        var sendTo = (app.vendorId.creditEmailAddress && app.vendorId.creditEmailAddress !== '') ?
+            app.vendorId.creditEmailAddress : 
+            'credit@marlinfinance.com';
+     
      
         var locals = {
             to: {
@@ -158,28 +162,46 @@ exports.completeAppCredit = function(req, app) {
                 fullName: 'Marlin Finance'
             },
             variables: {
-                appCompanyName: app.leasee.fullLegalBusinessName,
-                appCompanyAddress1: app.leasee.businessAddress.address1,
-                appCompanyAddress2: app.leasee.businessAddress.address2,
-                appCompanyCity: app.leasee.businessAddress.city,
-                appCompanyState: app.leasee.businessAddress.state,
-                appCompanyZip: app.leasee.businessAddress.zip,
+                
+                appVendorName: app.vendorId.name,
+                appSalesRep: app.salesRep.fullname,
+                appVendorRep: app.vendorRep.fullname,
+                
+                appTotalCost: app.totalCostDisplay,
+                appDesc: app.description,
+                
+                appCustomFieldName: app.customField.displayName,
+                appCustomFieldValue: app.customField.value,
+                
+                appPaymentTerm: app.payment.term,
+                appPayment: app.payment.paymentDisplay,
+                appBuyoutOption: app.payment.buyoutOption,
+                appBuyoutProgramName: app.payment.programName,
+                
+                appCompanyName: app.company.fullLegalBusinessName,
+                appCompanyAddress1: app.company.businessAddress.address1,
+                appCompanyAddress2: app.company.businessAddress.address2,
+                appCompanyCity: app.company.businessAddress.city,
+                appCompanyState: app.company.businessAddress.state,
+                appCompanyZip: app.company.businessAddress.zip,
+                
+                appCompanySoleProp: app.soleProp,
+                appCompanyYearsInBusiness: app.yearsInBusiness,
     
-                appContactName: app.leasee.contactPerson.name,
-                appContactEmail: app.leasee.contactPerson.email,
-                appContactPhone: app.leasee.contactPerson.phone,
-                appContactMethod: app.leasee.contactPerson.contactMethod,
+                appContactName: app.company.contactPerson.name,
+                appContactEmail: app.company.contactPerson.email,
+                appContactPhone: app.company.contactPerson.phone,
+                appContactMethod: app.company.contactPerson.contactMethod,
                 
-                appGuarantorName: app.guarantorInfo.name,
-                appGuarantorSocial: app.guarantorInfo.socialSecurityNumber,
+                appGuarantorName: app.guarantor.contactPerson.name,
                 
-                appGuarantorContactEmail: app.guarantorInfo.email,
-                appGuarantorContactPhone: app.guarantorInfo.phone,
-                appGuarantorContactAddress1: app.guarantorInfo.homeAddress.address1,
-                appGuarantorContactAddress2: app.guarantorInfo.homeAddress.address2,
-                appGuarantorContactCity: app.guarantorInfo.homeAddress.city,
-                appGuarantorContactState: app.guarantorInfo.homeAddress.state,
-                appGuarantorContactZip: app.guarantorInfo.homeAddress.zip
+                appGuarantorContactEmail: app.guarantor.contactPerson.email,
+                appGuarantorContactPhone: app.guarantor.contactPerson.phone,
+                appGuarantorContactAddress1: app.guarantor.homeAddress.address1,
+                appGuarantorContactAddress2: app.guarantor.homeAddress.address2,
+                appGuarantorContactCity: app.guarantor.homeAddress.city,
+                appGuarantorContactState: app.guarantor.homeAddress.state,
+                appGuarantorContactZip: app.guarantor.homeAddress.zip
             }   
         };
         

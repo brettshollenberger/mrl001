@@ -134,7 +134,6 @@ angular
                     doRedirect: doRedirect,
                     strategy: function() {
                         if ($scope.initialRole !== $scope.user.role) {
-                            console.log('NEED TO update users vendors');
                             if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
                                 _.each($scope.vendors, function(item, key) {
                                     // check if the user is currently the sales or vendor rep for this vendor
@@ -143,16 +142,14 @@ angular
                                         if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
                                         item.active = false;
                                     }
-                                    console.log(item);
                                     Vendor.update(item);
                                 });
+                                updateVendorRelationships();
                             }
                         }
-                        updateVendorRelationships();
                     }
                 });
             };
-            // --------
 
             /**
              * Gets all the programs, making two calls and merging the results

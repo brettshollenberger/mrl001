@@ -27,7 +27,8 @@ angular
         'vendorService',
         'stateService',
         'applicationService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
+        '$anchorScroll',
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application, $anchorScroll) {
 
             // define empty objects
             $scope.quote = {};
@@ -239,6 +240,7 @@ angular
                     
                     $scope.quoteError = response.meta.message;
                     $scope.didQuote = true;
+                    $anchorScroll();
                     
                 }
             };
@@ -275,6 +277,10 @@ angular
                 
                 // save the rate object as the selected "payment" 
                 application.payment = rateObject;
+                
+                // quotes have an 'Open' status by default while apps have 'new'
+                // @todo refactor to make consistant 
+                application.status = 'new';
                 
                 // flag user as coming from a quote
                 // if this variable is not true, the application tool currecntly redirects

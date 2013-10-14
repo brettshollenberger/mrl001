@@ -226,7 +226,7 @@ exports.createOrUpdate = function(req, res) {
        var termAndRates = [];
        
        // pluralize our term period
-       program.termPeriod = nounInflector.pluralize(program.termPeriod);
+       program.termPeriodPlural = nounInflector.pluralize(program.termPeriod);
        
        // iterate thorugh terms, check if a rate for this term exists and is not 0
        // in some cases rates will be 0 if its not a supported term. 
@@ -244,7 +244,8 @@ exports.createOrUpdate = function(req, res) {
            termAndRates.push({
                
                // term + plurized version of term length
-               term: term + ' ' + program.termPeriod,
+               term: term + ' ' + program.termPeriodPlural,
+               termPeriod: program.termPeriod,
                
                // rate for testing @todo remove for production
                rate: program.costs.rates[key],

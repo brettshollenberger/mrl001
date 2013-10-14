@@ -3,23 +3,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         var url = MARLINAPI_CONFIG.base_url;
 
-        /**
-         * Set default terms for vendor if no custom terms are set
-         * @todo move to API where it's more robust?
-         *
-         */
-        var defaultTerms = 'Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.';
-
-        var setLegalTerms = function(item) {
-
-            if (!item.legalTerms || item.legalTerms === '') {
-                item.legalTerms = defaultTerms;
-            }
-
-            return item;
-        };
-
-
 
         // create and expose service methods
         var exports = {};
@@ -27,11 +10,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         // get all items
         exports.getAll = function() {
             return $http.get(url + 'vendors').then(function(response) {
-
-                _.each(response.data, function(item) {
-                    item = setLegalTerms(item);
-                });
-
                 return response.data;
             });
         };
@@ -39,9 +17,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         // get one item by id
         exports.getById = function(id) {
             return $http.get(url + 'vendors/' + id).then(function(response) {
-
-                response.data = setLegalTerms(response.data);
-
                 return response.data;
             });
         };

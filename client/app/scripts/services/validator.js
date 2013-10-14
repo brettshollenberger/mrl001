@@ -64,7 +64,8 @@ angular
         zip: "A five or nine digit zip code is required.",
         email: "Please enter a valid email address.",
         mask: "Please enter a valid phone number",
-        phone: "Please enter a valid phone number."
+        phone: "Please enter a valid phone number.",
+        agree: "Please agree to the terms and conditions."
       },
 
       addValidationMessage: function(key, value) {
@@ -116,9 +117,21 @@ angular
       },
 
       validateZip: function(zip) {
+      
+        // in some cases zip may be blank, and if its not required this is OK,
+        // we need to be careful we are not setting fields error if they dont pass but are not required
+        if(!zip) return true;
         if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip)) return true;
         return false;
       },
+      
+      // works almost like required, except allows us to easily set custom message
+      // optionally we could set a date agreeded, or something else
+      validateAgree: function(checked) {
+        if(checked) return true;
+        return false;
+      },
+
 
       validateState: function(state) {
         if (/^(A[LKSZRAEP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY])$/.test(state)) return true;

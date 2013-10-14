@@ -121,7 +121,7 @@
                                 </tr> 
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cost in buyoutOptions.costs" >
+                                <tr ng-repeat="cost in buyoutOptions.costs" ng-init="row = $index">
                                     <td colspan="2" class="cost-range">
                                         <button class="btn" ng-click="remove('row', $index, buyoutOptions)"><icon class="icon icon-minus-sign"></icon></button>
                                         <input 
@@ -146,14 +146,16 @@
                                     </td>
                                     
                                     <td colspan="1" ng-repeat="rate in cost.rates" class="">
+
                                         <input 
                                             form-field 
+                                            number-only
                                             required 
                                             class="span1"
                                             name="rate" 
                                             type="text"
                                             ng-blur="Validator.validateField(ProgramEditForm.rate, ProgramEditForm)" 
-                                            ng-model="cost.rates[$index]"/>  
+                                            ng-model="cost.rates[$index].value"/>  
                                     </td>
                                     <td colspan="{{8 - buyoutOptions.terms.length}}" class="td-pad">&nbsp;</td>
                                 </tr>

@@ -234,7 +234,6 @@ VendorSchema.post('init', function() {
         this.tools.api.display = 'API';
     }
     
-    console.log(this.legalTerms);
     if (!this.legalTerms || this.legalTerms === '') {
         this.legalTerms = defaultTerms;
     }

@@ -90,7 +90,6 @@ angular
                 // its one of 3 ways to set a model value, 
                 // and doesn't require an isolate scope
                 scope.$eval(attrs.ngModel + " = '" + scope.field + "'");
-                console.log(scope.field);
             };
             
             // this requires a watch, which is the actual model value

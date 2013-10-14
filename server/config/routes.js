@@ -82,6 +82,8 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
     // update user password
     app.put('/api/v1/users/:userId/password', isUserAllowed('updatePassword', 'users'), users.updatePassword);
     app.put('/api/v1/users/:userId/reset_password', users.resetPassword);
+    
+    app.get('/api/v1/users/:userId/welcome_user', isUserAllowed('sendWelcomeEmail', 'users'), users.welcomeUser);
 
     // get users vendors
     app.get('/api/v1/users/:userId/vendors', isUserAllowed('list', 'vendors'), vendors.listForUser);

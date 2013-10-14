@@ -78,7 +78,7 @@ exports.errorResponse = function() {
             return next();
         }
 
-        res.failure('Error! ' + err);
+        //return res.failure('Error! ' + err);
 
         next(); // needed or the calls after will never happen
     };

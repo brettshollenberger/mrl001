@@ -278,6 +278,10 @@ angular
                 // save the rate object as the selected "payment" 
                 application.payment = rateObject;
                 
+                // quotes have an 'Open' status by default while apps have 'new'
+                // @todo refactor to make consistant 
+                application.status = 'new';
+                
                 // flag user as coming from a quote
                 // if this variable is not true, the application tool currecntly redirects
                 // users back home

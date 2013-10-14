@@ -27,7 +27,8 @@ angular
         'vendorService',
         'stateService',
         'applicationService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application) {
+        '$anchorScroll',
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application, $anchorScroll) {
 
             // define empty objects
             $scope.quote = {};
@@ -239,6 +240,7 @@ angular
                     
                     $scope.quoteError = response.meta.message;
                     $scope.didQuote = true;
+                    $anchorScroll();
                     
                 }
             };

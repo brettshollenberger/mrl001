@@ -1,6 +1,6 @@
 angular
     .module('app')
-    .factory('CommonInterface', function($location, FormHelper) {
+    .factory('CommonInterface', function($location, FormHelper, $rootScope) {
         return {
             save: function(options) {
                 // Strategy pattern; hand in an object to perform local
@@ -26,6 +26,8 @@ angular
                 // to pristine and stay on the same page. 
                 var doRedirect  = options.doRedirect || false;
 
+                if (!form) return;
+
                 // ********** Private Methods ************ //
 
                 function postSaveLogic() {
@@ -44,12 +46,21 @@ angular
                 // ********* Save the model if ********* //
                 // ********* Valid, or display ********* //
                 // *************** errors ************** //
-                if (form.$valid) {
-                    successCallback();
+
+                if (Object.prototype.toString.call(form) == '[object Array]') {
+                    form.forEach(function(f) { processForm(f); });
                 } else {
-                    $rootScope.Validator.validateForm(form);
+                    processForm(form);
                 }
 
+                function processForm(f) {
+                    if (f.$valid) {
+                        successCallback();
+                    } else {
+                        $rootScope.Validator.validateForm(f);
+                    }
+                }
+                
                 function successCallback() {
                     // ********* Perform Model.add ********* //
                     // ******** if not on show page ******** //

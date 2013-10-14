@@ -1,11 +1,21 @@
-angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'userService',
-    function($http, MARLINAPI_CONFIG, User) {
+angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'userService', '$location',
+    function($http, MARLINAPI_CONFIG, User, $location) {
 
         var url = MARLINAPI_CONFIG.base_url;
 
 
         // create and expose service methods
         var exports = {};
+        
+        // Generic find functionality
+        exports.find = function(query) {
+
+            query = JSON.stringify(query);
+
+            return $http.post(url + 'vendors/find', query).then(function(response) {
+                return response.data;
+            });
+        };
 
         // get all items
         exports.getAll = function() {
@@ -53,6 +63,34 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             return $http.get(url + 'vendors/' + vendorId + '/salesRep').then(function(response) {
                 return response.data;
             });
+        };
+        
+        exports.lookup = function(callback) {
+          
+            var vendorSlug = $location.host().split('.')[0];
+            console.log("vendorSlug is: ", vendorSlug);  
+            
+            // Private function that will execute callback if its valid
+            function doCallback(result) {
+                result = result || null;
+                if(callback && typeof callback === 'function') {
+                    callback(result);
+                }
+            }
+            
+            // attempt to find vendor by slug
+            exports.find({ 'slug' : vendorSlug }).then(function(response) {
+                
+                if(response && response.length === 1) {
+                    callback(response[0]);
+                } else {
+                    callback();
+                }           
+                
+            });
+            
+            
+            
         };
 
         /**

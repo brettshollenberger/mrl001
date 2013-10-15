@@ -84,7 +84,7 @@ angular
                     width: 600,
                     height: 600,
                     quality: 100
-                }
+                };
             
                 filepicker.pick(function(InkBlob) {
                     filepicker.convert(InkBlob, options, function(new_InkBlob) {

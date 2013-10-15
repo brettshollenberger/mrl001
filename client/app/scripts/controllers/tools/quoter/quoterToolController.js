@@ -28,7 +28,8 @@ angular
         'stateService',
         'applicationService',
         '$anchorScroll',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application, $anchorScroll) {
+        'resolvedVendor',
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, States, Application, $anchorScroll, resolvedVendor) {
 
             // define empty objects
             $scope.quote = {};
@@ -54,7 +55,7 @@ angular
 
             // if we don't already have a quote, we need to figure out the vendor
             // lets do some logic to figure this out 
-            if (!quoteId && vendorId) {
+            if (!quoteId && vendorId && !resolvedVendor) {
 
                 // we have a vendor, so hide the dropdown
                 // if its not valid, we'll handle that later
@@ -63,6 +64,10 @@ angular
                 // get the vendor from API
                 getInitialVendor(vendorId);
 
+            } else if(resolvedVendor) {
+                                
+                $scope.vendor = resolvedVendor;
+            
             } else if (!quoteId) {
 
                 // gets all the vendors so our user can select one!

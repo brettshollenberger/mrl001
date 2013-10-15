@@ -1,32 +1,36 @@
 <form name="QuoterToolForm" novalidate ng-submit="generateQuote()">
-    <div class="row vendorSection area" ng-show="vendor._id">
-        <div class="span8 offset1">
-            <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
-            <a ng-show="vendor.website" href="{{vendor.website}}" target="_blank">
-                <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
-            </a>
-            <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
+    
+    <div class="stretch">
+    
+        <div class="row vendorSection area" ng-show="vendor._id">
+            <div class="span8 offset1">
+                <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
+                <a ng-show="vendor.website" href="{{vendor.website}}" target="_blank">
+                    <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
+                </a>
+                <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
+            </div>
+            
+                    
+            <div class="span2" ng-hide="vendor.whiteLabel">
+                <img class="pull-right poweredby" src="img/powered_by.png" />
+            </div>
+    
         </div>
-        
-                
-        <div class="span2" ng-hide="vendor.whiteLabel">
-            <img class="pull-right poweredby" src="img/powered_by.png" />
+    
+        <div class="row area" ng-show="!didQuote && !vendor._id">
+    
+            <div class="span8 offset1">
+                    
+                <label>Choose your vendor</label>
+                <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors">
+                    <option value="">---- Choose Vendor ----</option>
+                </select>
+            </div>
+            
         </div>
 
     </div>
-
-    <div class="row area" ng-show="!didQuote && !vendor._id">
-
-        <div class="span8 offset1">
-                
-            <label>Choose your vendor</label>
-            <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors">
-                <option value="">---- Choose Vendor ----</option>
-            </select>
-        </div>
-        
-    </div>
-
 
     <div class="row area-dark area">
         <div class="span10 offset1">
@@ -63,7 +67,7 @@
                         <p ng-show="vendor._id && canEdit && vendor.range">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
                         
                         <!-- Shown when user revisits the quote -->
-<!--                         <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->
+                        <!-- <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->
                         
                         <div ng-show="QuoterToolForm.FacultyErrors.cost" class="alert alert-error alert-tooltip">
                             {{QuoterToolForm.FacultyErrors.cost}}
@@ -341,4 +345,3 @@
     <div class="row" ng-show="vendor.legalTerms" ng-include="'app/templates/tools/shared/terms.html'"></div>
     
 </form>
-

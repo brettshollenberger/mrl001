@@ -942,7 +942,7 @@ var data = [{
         "zip": "89120-3963"
     },
     "contactPerson": {
-        "email": "jared@air-care.com"
+        "email": "jared@air-care.com",
         "phone": "8003229919",
     },
     "range" : {

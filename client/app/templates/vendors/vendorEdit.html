@@ -258,7 +258,7 @@
             </div>
         </form>
 
-        <form name="locationForm" ui-if="isActiveTab(6)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
+        <form name="locationForm" ui-if="isActiveTab(7)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
             <div class="span9 clearfix alert alert-error" ng-show="$$childTail.locationForm.FacultyErrors && showGlobalErrorMsg($$childTail.locationForm.FacultyErrors)">
                 Form not saved. Please address the errors below.
             </div>
@@ -329,7 +329,7 @@
             </div>    
         </form>
         
-        <form name="customizeForm" class="row" ng-show="isActiveTab(7)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+        <form name="customizeForm" class="row" ng-show="isActiveTab(6)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
             <div class="span9 clearfix alert alert-error" ng-show="customizeForm.FacultyErrors && showGlobalErrorMsg(customizeForm.FacultyErrors)">Form not saved. Please address the errors below.</div>
             <div class="span10">
                 <h3>Custom Terms</h3>
@@ -382,3 +382,7 @@
     </div><!-- span10 -->
         
 </div>
+
+        
+        
+        

@@ -449,7 +449,7 @@ angular
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {
 
                 // only make map if user is switching to tab 4, and there is no map made
-                if (newValue === 6) {
+                if (newValue === 7) {
                     $scope.mapActive = true;
                     if (!$scope.isMapMade) makeMap();
                 } else {

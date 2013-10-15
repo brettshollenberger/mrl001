@@ -30,12 +30,22 @@ angular
 
                 // ********** Private Methods ************ //
 
-                function postSaveLogic() {
-                    if (doRedirect) {
-                        $location.url(redirectUrl);
-                    } else {
-                        FormHelper.setPristine(form);
-                    }
+                function postSaveLogic(resourceId) {
+                    redirectToNewResource(resourceId);
+                    handleRedirectOverride();
+                    setPristine();
+                }
+
+                function handleRedirectOverride() {
+                    if (doRedirect) { $location.url(redirectUrl); }
+                }
+
+                function redirectToNewResource(resourceId) {
+                    if (resourceId) { $location.url(redirectUrl + '/' + id); }
+                }
+
+                function setPristine(resourceId) {
+                    if (!resourceId) { FormHelper.setPristine(form); }
                 }
 
                 // ******** Execute the Strategy ******** //
@@ -68,7 +78,7 @@ angular
                         Model.add(instance).then(function(response) {
                             instance = response;
                             id       = instance._id;
-                            postSaveLogic();
+                            postSaveLogic(id);
                         });
 
                     // ******* Perform Model.update ******** //

@@ -303,7 +303,7 @@ VendorSchema.pre('save', function(next) {
     
     _.each(tagTypes, function(type, path) {
 
-        var vendorTags = [];  // tags that are currently being passed from the vendor
+        var vendorTags = [];
         var newTags = [];
         var removeTags = [];
         
@@ -314,17 +314,17 @@ VendorSchema.pre('save', function(next) {
     
         newTags = _.difference(vendorTags, vendor[path]);
         removeTags = _.difference(vendor[path], vendorTags);
-            
-        _.each(newTags, function(item) {
-            vendor.addTag(path, item, function(err, addedTag) {
-                console.log('Added: ' + item);
-            });
-        });
         
         _.each(removeTags, function(item) {
-            vendor.removeTag(path, item, function(err, removedTag) {
-                console.log('Removed: ' + item);
-            });
+            vendor[path] = _.chain(vendor[path]).map(function(tag) {
+                if (!_.contains(removeTags, tag)) {
+                    return tag;
+                }
+            }).compact().value();
+        });
+
+        _.each(newTags, function(item) {
+            vendor[path].push(item);
         });
         
         /**
@@ -385,7 +385,7 @@ VendorSchema.pre('save', function(next) {
             .exec(function(err, data) {
             
                 if(data) {
-                    vendor.range = getProgramRange(data); 
+                    vendor.range = getProgramRange(data);
                 }
                 
                 next();

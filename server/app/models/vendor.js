@@ -313,9 +313,22 @@ VendorSchema.pre('save', function(next) {
         var removeTags = [];
         
         // create a unified array of current vendor tags
-        _.each(vendor[type], function(item) {
-            vendorTags.push(item.text);
-        });
+        // from dashboard
+        if(vendor[type]) {
+            
+            _.each(vendor[type], function(item) {
+                vendorTags.push(item.text);
+            });
+        
+        // from seed data
+        } else {
+            
+            _.each(vendor[path], function(item) {
+                vendorTags.push(item);
+            });
+            
+        }
+        
     
         newTags = _.difference(vendorTags, vendor[path]);
         removeTags = _.difference(vendor[path], vendorTags);
@@ -344,7 +357,6 @@ VendorSchema.pre('save', function(next) {
         
         // will be present when updating from dashboard
         if(vendor[type]) {
-        
             _.each(vendor[type], function(tag) {
                 vendor.searchString += tag.text + ' '; 
             });

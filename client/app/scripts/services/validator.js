@@ -64,7 +64,7 @@ angular
         zip: "A five or nine digit zip code is required.",
         email: "Please enter a valid email address.",
         mask: "Please enter a valid phone number",
-        phone: "Please enter a valid phone number.",
+        phone: "Please enter a valid phone number",
         agree: "Please agree to the terms and conditions."
       },
 
@@ -124,6 +124,13 @@ angular
         if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip)) return true;
         return false;
       },
+
+      validatePhone: function(phone) {
+        if(!phone) return true;
+
+        if (/(^\d{10}$)/.test(phone)) return true;
+        return false;
+      },
       
       // works almost like required, except allows us to easily set custom message
       // optionally we could set a date agreeded, or something else
@@ -157,12 +164,14 @@ angular
 
       validateField: function(field, form) {
         var errors = form.FacultyErrors = form.FacultyErrors || {};
-        
         // @note checking for $pristine will prevent errors from being displayed if user
         // has NOT entered any content in the field
         //if(field.$pristine) return;
         
         this.setErrors(field, errors);
+        if (!nullValues(errors)) {
+          form.FacultyErrors = errors;
+        }
       },
 
       validateForm: function(form) {

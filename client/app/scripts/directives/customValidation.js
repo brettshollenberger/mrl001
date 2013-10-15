@@ -94,4 +94,39 @@ angular
             }
         };
 
-    });
+    })
+    .directive('isUser', function(userService, Validator) {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input, form;
+
+                    if (!ctrl) return;
+
+                    form = scope.$eval(ele[0].form.name);
+
+                    // force truthy in case we are on non-input el
+                    attrs.isUser = true;
+
+                    var validator = function(value) {
+                        userService.find({email: value || undefined}).then(function(response, err) {
+                            if (response.data && response.data[0] && response.data[0].email) {
+                                ctrl.$setValidity('isUser', true);
+                            } else {
+                                ctrl.$setValidity('isUser', false);
+                            }
+                            Validator.validateField(form.email, form);
+                        });
+                    };
+
+                    $(ele).on('blur', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                }
+            };
+
+        });
+
+
+                

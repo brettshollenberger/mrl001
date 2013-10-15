@@ -11,7 +11,7 @@
                     <li ng-repeat="tab in tabs" 
                       ng-class="{active: isActiveTab($index), disabled: !vendor._id && $index != 0}"
                       can-do-action="{{tab.permission}}">
-                      <a ng-show="tab.active" ng-click="changeTab($index)">{{tab.name}}</a>
+                      <a ng-show="tab.active" ng-click="changeTab($index, tab.name)">{{tab.name}}</a>
                     </li>
                 </ul>
                 <div class="actions">
@@ -22,13 +22,15 @@
                         type="submit" 
                         class="btn btn-success" 
                         id="save" 
-                        ng-show="basicForm.$dirty || MarlinRepForm.$dirty || VendorSalesRepForm.$dirty || rateForm.$dirty || toolForm.$dirty || apiForm.$dirty || locationForm.$dirty || customizeForm.$dirty"
+                        ng-show="basicForm.$dirty || MarlinRepForm.$dirty || VendorSalesRepForm.$dirty || rateForm.$dirty || toolForm.$dirty || apiForm.$dirty || $$childTail.locationForm.$dirty || customizeForm.$dirty"
                         ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</button>
                 </div>
             </div>
         </div>
 
         <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-warning-form>
+            <div class="span9 clearfix alert alert-error" ng-show="basicForm.FacultyErrors && showGlobalErrorMsg(basicForm.FacultyErrors)">Form not saved. Please address the errors below.</div>
+            
             <div class="span10 clearfix"> 
                 <h3>Basic Info</h3>
             </div>
@@ -42,14 +44,21 @@
                 
                 <label>Vendor Name</label>
 
-                <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name">
+                <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name" required ng-blur="Validator.validateField(basicForm['vendor.name'], basicForm)" >
+
+                <div ng-show="basicForm.FacultyErrors['vendor.name']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['vendor.name']}}
+                </div>
                 <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                 
                 <label>Website Url</label>
                 <input name="vendor.website" type="text" class="large" placeholder="Website" ng-model="vendor.website">
                 
                 <label>Business Phone Number</label>
-                <input name="vendor.buisnessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone">
+                <input name="vendor.buisnessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" >
+
+                 <div ng-show="basicForm.FacultyErrors['vendor.businessPhone']" class="alert alert-error alert-tooltip">                   {{basicForm.FacultyErrors['vendor.businessPhone']}}
+                </div>
             </div>
             
             <div class="span5">            
@@ -69,22 +78,28 @@
                 
                 <label>Zip</label>
 
-                <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(basicForm['vendor.businessAddress.zip'], basicForm)">
+
+                <div ng-show="basicForm.FacultyErrors['vendor.businessAddress.zip']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.businessAddress.zip']}}</div>
 
                 <label>White Label Vendor</label>
                 <input type="checkbox" ng-model="vendor.whiteLabel">
             </div>
             
-            <div class="span5">  
+            <div class="span5" style="float:none;">  
                 <h3>Primary Contact</h3>
                 <label>Name</label>
                 <input name="vendor.contactPerson.name" type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
                 
                 <label>Email</label>
-                <input name="vendor.contactPerson.email" type="text" placeholder="Email" ng-model="vendor.contactPerson.email">
+                <input name="vendor.contactPerson.email" type="email" placeholder="Email" ng-model="vendor.contactPerson.email" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.email'], basicForm)">
+
+                <div ng-show="basicForm.FacultyErrors['vendor.contactPerson.email']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.contactPerson.email']}}</div>
                 
                 <label>Phone</label>
-                <input name="vendor.contactPerson.phone" type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone">
+                <input name="vendor.contactPerson.phone" type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.phone'], basicForm)" ui-validate="{phone: 'Validator.validatePhone($value)'}" >
+
+                 <div ng-show="basicForm.FacultyErrors['vendor.contactPerson.phone']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.contactPerson.phone']}}</div>
             </div>   
         </form>
         
@@ -233,6 +248,7 @@
         </form>
 
         <form ng-show="isActiveTab(5)" name="apiForm" class="row"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+             <div class="span9 clearfix alert alert-error" ng-hide="vendor.apiKey">Warning: API Tool has not been saved for the user. Please return to the Tools tab and click save to generate an API Key.</div>
             <div class="span10">
                 <h3>API</h3>
                 <p>This key will provides access to the Marlin Quoter API. <a href="/#/tools/api" target="_blank">Click here</a> to learn more.</p>
@@ -243,6 +259,9 @@
         </form>
 
         <form name="locationForm" ui-if="isActiveTab(6)" class="row" unsaved-warning-form can-do-action="changeLocationOptions-vendors">
+            <div class="span9 clearfix alert alert-error" ng-show="$$childTail.locationForm.FacultyErrors && showGlobalErrorMsg($$childTail.locationForm.FacultyErrors)">
+                Form not saved. Please address the errors below.
+            </div>
             <div class="span4">
                 
                 <p class="alert alert-error" ng-show="message.map">{{message.map}}</p>
@@ -250,20 +269,25 @@
                 <button ng-click="findMyLocation()" class="btn" >Update Location</button>
                 
                 <label>Address 1</label>
-                <input name="vendor.businessAddress.address1" type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1" required>
+                <input name="vendor.businessAddress.address1" type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1" required ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.address1'], $$childTail.locationForm)">
+
+                <div ng-show="$$childTail.locationForm.FacultyErrors['vendor.businessAddress.address1']" class="alert alert-error alert-tooltip">
+                    {{$$childTail.locationForm.FacultyErrors['vendor.businessAddress.address1']}}
+                </div>
                 
                 <label>Address 2</label>
                 <input name="vendor.businessAddress.address2" type="text" placeholder="Address 2" ng-model="vendor.businessAddress.address2">
                 
                 <label>City</label>
                 <input name="vendor.businessAddress.city" type="text" placeholder="City" ng-model="vendor.businessAddress.city">
-                <!-- <input type="text" placeholder="State" ng-model="vendor.state"> -->
                 
                 <label>State</label>
                 <select name="vendor.businessAddress.state" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                 
                 <label>Zip</label>
-                <input name="vendor.businessAddress.zip" type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip">
+                <input name="vendor.businessAddress.zip" type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.zip'], $$childTail.locationForm)">
+
+                <div ng-show="$$childTail.locationForm.FacultyErrors['vendor.businessAddress.zip']" class="alert alert-error alert-tooltip">{{$$childTail.locationForm.FacultyErrors['vendor.businessAddress.zip']}}</div>
                     
             </div>
                     
@@ -293,20 +317,20 @@
             
             </div>
                 
-                
             <div class="span10">                        
                 <label>Tags</label>
-                <input type="text" ui-select2="vendorTagsOptions" ng-model="vendor.vendorTags">
+                <input name="vendor.vendorTags" type="text" ui-select2="vendorTagsOptions" ng-model="vendor.vendorTags">
             </div>
                 
             
             <div class="span10">                        
                 <label>Industry Tags</label>
                 <input type="text" ui-select2="vendorIndustryTagsOptions" ng-model="vendor.vendorIndustryTags">
-            </div>       
+            </div>    
         </form>
         
         <form name="customizeForm" class="row" ng-show="isActiveTab(7)"  unsaved-warning-form can-do-action="changeQuoterOptions-vendors">
+            <div class="span9 clearfix alert alert-error" ng-show="customizeForm.FacultyErrors && showGlobalErrorMsg(customizeForm.FacultyErrors)">Form not saved. Please address the errors below.</div>
             <div class="span10">
                 <h3>Custom Terms</h3>
                 
@@ -334,7 +358,11 @@
                 
                 <h3>Custom Credit Email Address</h3>
                 <p>The following field allows you to override the default email address applications get sent to upon completion</p>
-                <input type="email" ng-model="vendor.creditEmailAddress">
+                <input type="email" ng-model="vendor.creditEmailAddress" name="vendor.creditEmailAddress" ng-blur="Validator.validateField(customizeForm['vendor.creditEmailAddress'], customizeForm)">
+
+                <div ng-show="customizeForm.FacultyErrors['vendor.creditEmailAddress']" class="alert alert-error alert-tooltip">
+                    {{customizeForm.FacultyErrors['vendor.creditEmailAddress']}}
+                </div>
                 
                 <hr />
             </div>

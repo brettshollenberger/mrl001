@@ -8,11 +8,14 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         var exports = {};
         
         // Generic find functionality
-        exports.find = function(query) {
+        exports.find = function(str) {
 
-            query = JSON.stringify(query);
+            
+            var params = {
+                query: JSON.stringify(str)
+            };
 
-            return $http.post(url + 'vendors/find', query).then(function(response) {
+            return $http.get(url + 'vendors/find', {params: params}).then(function(response) {
                 return response.data;
             });
         };

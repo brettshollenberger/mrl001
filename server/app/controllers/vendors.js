@@ -22,7 +22,7 @@ var mongoose = require('mongoose'),
 exports.find = function(req, res, next) {
 
     // currently query is just request body
-    var query = req.body;
+    var query = JSON.parse(req.query.query);
 
 /*
     if (req.userHasRole('salesRep')) {

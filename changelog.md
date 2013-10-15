@@ -3,15 +3,69 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.6 (current)
+Release 0.3.7-pre-release (October 15th, 2013)
+--------
+This is a pre-release of the sofware. This was a BIGGG release, with a lot of refactoring, features, and bugs. For a complete list view 
+
+**Features**
+
+- **[FEATURE] Refactor Quoter tool and Application tools.**
+ - Show payment information on application tool
+ - More robust validation on both tools
+ - Message user if quote is out of range of rate sheet.  
+- **[FEATURE] API for generating quotes.**  
+ - Admin can enabled API tool for vendors. Each vendor has a unique API key that only allows access to their vendor quoter. Toggling the tool on and off will generate a new key. 
+ - API is sandboxed from rest of app with a public api endpoint for security.
+ - Provide API documentation at [tools/api](tools/api). 
+ - API is rate limited to 1 request per second which improves app security.
+- [FEATURE] Close button on dashboard edit pages now goes to previous page, instead of resource listing.  
+- [FEATURE] Admin can now send users their login information (link & password). Useful when creating new user accounts. 
+- [FEATURE] Enhanced validation on login form, including live email validation against known users.
+- [FEATURE] Added password reset to logn form. This emails the user a new password.  
+- [FEATURE] Add industry tags to vendor edit pages.
+- [FEATURE] Admin can set vendors as "white-labeled" which removes the Marlin Quoter logo from quoter tool.
+
+
+**Bugs**
+
+- [BUG] Redirect to show page after new resource is intially saved
+- [BUG] Fix missing select2 dependency
+- [BUG] Zip valdiator now accepts 5 or 9 digit zip code with or without hyphen
+- [BUG] Fix inconsistant validation across vendor edit tabs on admin dashboard. 
+- [BUG] Fix issue where deleteThis directive throws error in IE8.
+- [BUG] Fix missing data on display of applications and quotes.
+- [BUG] Fix for instance where on initial app visit close button doesn't work.
+- [BUG] Fix bug saving user roles
+- [BUG] Fix issue where custom legal terms didn't always display for a vendor. 
+- [BUG] Fix issue on quoter tool where logo didn't always link to vendor website. 
+- [BUG] Fix issue where websites saved without 'http://' would try to open within the app.
+- [BUG] Fix issue where IE/ Windows users can't see selected state in dropdowns.
+- [BUG] Fix issue where rates of '0' displayd to end user on quoter tool. 
+- [BUG] Fix issue where payments don't appear when generating PDF's  
+
+**Chores**
+
+- [CHORE] Add robots.txt file 
+- [CHORE] Refactor how quotes are calculated and saved to database.
+- [CHORE] More consistant display of currency across the app (commas and $$$) 
+- [CHORE] Hide guarantor info for non-admin users. 
+- [CHORE] Add CSRF protection (Cross Site Request Forgery)
+
+**Styles**
+
+- [STYLE] Make alert style more consistent.
+- [STYLE] Redesign Dealer Locator style and interface. 
+- [STYLE] Display default images for users and vendors
+- [STYLE] Improved display of input forms site wide. 
+
+
+Release 0.3.6
 --------
 
 - [FEATURE] Send email to the credit department when an application is completed
-
 - [CHORE] Add cache buster to fix IE8 issue with caching.
 - [CHORE] Refactor dealer locator tool, fixing many issues and improving overall stability.
 - [CHORE] Add CSRF protection to app (cross site resource forgery) 
-
 - [BUG] Fix issue in IE8 where closing vendor edit tab threw map errors.
 - [BUG] Fix issue where closing form presented user with multiple "unsaved changes" messages
 
@@ -42,15 +96,12 @@ Release 0.3.3
 - [FEATURE] If user is a vendorRep, customize sidebar to include vendor logo and link to vendor profile.
 - [FEATURE] Add link to "view" and "print" quotes from dashboard/quotes/id.
 - [FEAUTRE] Add link to "view" application from dashboard/applications/id.
- 
-- [CHORE] Vendor and Marlin Sales Rep shouldn't see user roles. Only admin role can see this area. 
+ - [CHORE] Vendor and Marlin Sales Rep shouldn't see user roles. Only admin role can see this area. 
 - [CHORE] Move Extra Field on quoter tool to equiptment options area.
 - [CHORE] Hide delete button on all content for non-admins
-
 - [BUG] Fix bug in IE8 where buttons were not legiable because of black on blue color.
 - [BUG] Fix issue on quoter tool where vendor was incorrectly set from dropdown. 
 - [BUG] Fixed bug where admin could delete themselves.
-
 - [STYLE] Change location and size of terms on quote page.
 
 
@@ -64,11 +115,8 @@ Release 0.3.2
 - [FEATURE] Allow sorting by user role on user listing page. 
 - [FEATURE] Enhance style and function of the users edit -> manage vendors tab. 
 - [FEATURE] Chaning a users role removes their current vendor relationships, prompts user with warning. 
-
 - [CHORE] When adding users to a vendor, filter by role. This means only vendorReps appear on add vendor rep tab, and only salesReps appear on add sales rep tab. 
 - [CHORE] Add 10 rate sheet and remove testing rate sheets.
-
-
 - [BUG] Fix bug with quoter tool that could cause it to fail in some instances when user clicked "add quote"
 - [BUG] Fix bug causing vendor to sales rep realting to break
 - [BUG] Fix bug where quoter tool was incorrectly setting the vendorId

@@ -55,9 +55,9 @@
                 <input name="vendor.website" type="text" class="large" placeholder="Website" ng-model="vendor.website">
                 
                 <label>Business Phone Number</label>
-                <input name="vendor.buisnessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" >
+                <input name="vendor.businessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" >
 
-                 <div ng-show="basicForm.FacultyErrors['vendor.businessPhone']" class="alert alert-error alert-tooltip">                   {{basicForm.FacultyErrors['vendor.businessPhone']}}
+                <div ng-show="basicForm.FacultyErrors['vendor.businessPhone']" class="alert alert-error alert-tooltip">                   {{basicForm.FacultyErrors['vendor.businessPhone']}}
                 </div>
             </div>
             

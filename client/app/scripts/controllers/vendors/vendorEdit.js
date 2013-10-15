@@ -65,7 +65,7 @@ angular
                 $scope.vendorTagsOptions = {
                     'tags': tags, // populate this with tag suggestions
                     'width': 'element'
-                }; 
+                };
             });
             
             // get all of the previosuly used vendor industry tags to populate auto suggest
@@ -73,7 +73,7 @@ angular
                 $scope.vendorIndustryTagsOptions = {
                     'tags': tags, // populate this with tag suggestions
                     'width': 'element'
-                }; 
+                };
             });
             
             // get all the reps
@@ -141,7 +141,15 @@ angular
             var vendorId = $routeParams.id;
             $scope.formAction = 'Add';
 
-            // get and store the vendor 
+            // get and store the vendor
+            $scope.loadVendor = function() {
+                if (vendorId) {
+                    Vendor.getById(vendorId).then(function(response) {
+                        $scope.vendor = response;
+                    });
+                }
+            };
+
             if (vendorId) {
 
                 // get the vendor
@@ -208,18 +216,33 @@ angular
             //         }, true);
             // });
 
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
+            };
+
             $scope.save = function(doRedirect) {
+                var form;
+                if (formTabMap[$scope.activeTab] == 'locationForm') {
+                    form = $scope.$$childTail.$$childTail.locationForm;
+                } else {
+                    form = $scope.$$childTail[formTabMap[$scope.activeTab]];
+                }
                 CommonInterface.save({
                     Model: Vendor,
                     instance: $scope.vendor,
                     id: vendorId,
-                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    form: form,
                     redirectUrl: '/dashboard/vendors',
                     doRedirect: doRedirect,
                     strategy: function() {
                         // clear our variables
                         $scope.vendor.programs = []; // clear the program array
-                        console.log($scope.vendor);
                         $scope.vendor.programCustomNames = []; // where we store custom displayName data
                 
                         // process each program, checking if its active for the vendor
@@ -407,7 +430,7 @@ angular
             };
 
             // used to set active tab
-            $scope.changeTab = function(tab) {
+            $scope.changeTab = function(tab, name) {
 
                 // @todo, this will need to be more generic if we make into a directive. 
                 if (!$scope.vendor._id) return false;
@@ -416,6 +439,10 @@ angular
                 $scope.activeTab = tab;
 
                 $scope.tabs[$scope.activeTab].selected = true;
+
+                if (name == "API") {
+                    $scope.loadVendor();
+                }
 
             };
 
@@ -453,7 +480,7 @@ angular
                *  that happens by wrapping it in $timeout()
                *
                */
-               event.preventDefault();               
+               event.preventDefault();         
 
                $timeout(function() { 
                    $location.url(relativeUrl(next));

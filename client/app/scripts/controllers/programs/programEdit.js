@@ -38,16 +38,23 @@ angular
             };
 
             function prepareRateSheetView() {
+                if ($scope.program.rateSheet.buyoutOptions) { transformBuyoutOptions(); }
+            }
+
+            function transformBuyoutOptions() {
                 $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
-                    opt.terms = opt.terms.map(function(term) { return {value: term}; });
-                    opt.costs.forEach(function(cost) {
-                        cost.rates = cost.rates.map(function(rate) {
-                            return {value: rate};
-                        });
-                    });
+                    transformBuyoutOption(opt);
                 });
             }
-            
+
+            function transformBuyoutOption(opt) {
+                opt.terms = objectify(opt.terms);
+                opt.costs.forEach(function(cost) { cost.rates = objectify(cost.rates); });
+            }
+
+            function objectify(array) {
+                return array.map(function(str) { return {value: str}; });
+            }
 
             // get and store the program 
             if (programId) {

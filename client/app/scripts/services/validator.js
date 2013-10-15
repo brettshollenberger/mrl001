@@ -95,7 +95,7 @@ angular
         for (var i in form) {
           var field = form[i];
           if (field.$name) {
-              field.$dirty    = false;
+            field.$dirty    = false;
               field.$pristine = true;
               $('[name="'+field.$name+'"]')
                   .removeClass('ng-dirty')
@@ -162,7 +162,7 @@ angular
       },
 
       setErrors: function(field, errors) {
-        if (typeof field.$error === 'object') {
+        if (field && typeof field.$error === 'object') {
           for (var key in field.$error) {
             if (field.$error[key] === true) {
               if (this.validationMessages[key]) {

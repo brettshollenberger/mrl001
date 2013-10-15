@@ -138,17 +138,21 @@ module.exports = function(app, config, passport, standardReponse) {
         }
         
         function csrfCookieSetter(req, res, next) { 
-            if(req.csrfToken && typeof req.csrfToken === 'function') {
+            //if(req.csrfToken && typeof req.csrfToken === 'function') {
                 res.cookie('XSRF-TOKEN', req.csrfToken());    
-            }
+            //}
             next();
         }
         
         // attach csrf protection to all of our api endpoints
         //if(process.env.NODE_ENV !== 'development') {
+        /*
         app.all('*', csrfHandler, csrfCookieSetter, function(req, res, next) {
             next();
-        });
+        }); 
+        */
+        
+        //app.use(express.csrf());
 
         // routes should be at the last
         app.use(app.router);

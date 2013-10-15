@@ -74,17 +74,23 @@ angular
             // @todo move to global config
             filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');
 
-
-            // pick logo function
-            // simple callback assigans to user logo when complete
+            // pick avatar function
+            // simple callback assigns to user logo when complete
             $scope.pickImage = function() {
-                filepicker.pick(function(FPFile) {
-                    console.log(FPFile.url);
-                    if (!$scope.user.avatar) {
-                        $scope.user.avatar = {};
-                    }
-                    $scope.user.avatar.original = FPFile.url;
-                    $scope.$apply();
+            
+                // set default options
+                var options = {
+                    fit: 'crop',
+                    width: 600,
+                    height: 600,
+                    quality: 100
+                }
+            
+                filepicker.pick(function(InkBlob) {
+                    filepicker.convert(InkBlob, options, function(new_InkBlob) {
+                        $scope.user.avatar.original = new_InkBlob.url;
+                        $scope.$apply();
+                    });
                 });
             };
 

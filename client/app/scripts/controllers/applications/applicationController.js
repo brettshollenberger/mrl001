@@ -8,11 +8,16 @@ angular
         'authService',
         'applicationService',
         'vendorService',
-        function($rootScope, $scope, $location, $routeParams, Auth, Application, Vendor) {
+        'stateService',
+        function($rootScope, $scope, $location, $routeParams, Auth, Application, Vendor, States) {
 
             var applicationId;
             $scope.application = {};
             $scope.applications = [];
+            
+            // get states arrays for forms
+            $scope.states1 = States.states();
+            $scope.states2 = States.states();
 
             // Define possible statuses for our application.
             // Note this is not the most robust, and can 
@@ -111,6 +116,15 @@ angular
                         if($scope.application.status === 'new') {
                             $scope.application.status = 'inProgress';
                             Application.update($scope.application);
+                        }
+                        
+                        // if no state is set, set default 
+                        if(!$scope.application.company.businessAddress.state) {
+                            $scope.application.company.businessAddress.state = $scope.states1[0].abbreviation; 
+                        }
+                        
+                        if(!$scope.application.guarantor.homeAddress.state) {
+                            $scope.application.guarantor.homeAddress.state = $scope.states2[0].abbreviation;
                         }
                         
                     });

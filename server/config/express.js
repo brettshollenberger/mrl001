@@ -22,6 +22,13 @@ module.exports = function(app, config, passport, standardReponse) {
     }));
 
     // Basic CORS middleware example
+    // @todo make this more robust. We should only allow POST and PUT for subdomains
+    // and allow all for out private api requests. 
+    //
+    // @note we needed to add this to allow quoter subdomains to work, 
+    // such as: http://bearcom-operating-llc.127.0.0.1:3000/
+    // because technically this is on another domain (the subdomain part) 
+    //
     var allowCrossDomain = function(req, res, next) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -130,16 +137,17 @@ module.exports = function(app, config, passport, standardReponse) {
         }
         
         function csrfCookieSetter(req, res, next) { 
-            res.cookie('XSRF-TOKEN', req.csrfToken()); 
+            if(req.csrfToken && typeof req.csrfToken === 'function') {
+                res.cookie('XSRF-TOKEN', req.csrfToken());    
+            }
             next();
         }
         
         // attach csrf protection to all of our api endpoints
         //if(process.env.NODE_ENV !== 'development') {
-        app.all('/api*', csrfHandler, csrfCookieSetter, function(req, res, next) {
+        app.all('*', csrfHandler, csrfCookieSetter, function(req, res, next) {
             next();
         });
-   
 
         // routes should be at the last
         app.use(app.router);

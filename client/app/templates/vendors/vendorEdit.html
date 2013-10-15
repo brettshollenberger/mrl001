@@ -82,8 +82,6 @@
 
                 <div ng-show="basicForm.FacultyErrors['vendor.businessAddress.zip']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.businessAddress.zip']}}</div>
 
-                <label>White Label Vendor</label>
-                <input type="checkbox" ng-model="vendor.whiteLabel">
             </div>
             
             <div class="span5" style="float:none;">  
@@ -100,7 +98,11 @@
                 <input name="vendor.contactPerson.phone" type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.phone'], basicForm)" ui-validate="{phone: 'Validator.validatePhone($value)'}" >
 
                  <div ng-show="basicForm.FacultyErrors['vendor.contactPerson.phone']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.contactPerson.phone']}}</div>
-            </div>   
+            </div>
+            
+            <div class="span10">
+                <button can-do-action="delete-vendors" can-do-action='delete-anything' delete-this id="vendor._id" redirect="/dashboard/vendors" type="Vendor" model="modelObject"></button>
+            </div>
         </form>
         
         <form name="MarlinRepForm" class="row" ng-show="isActiveTab(1)" can-do-action="changeSalesRep-vendors" unsaved-warning-form>
@@ -378,11 +380,6 @@
             </div>
         </form><!-- row -->
         
-        <button can-do-action="delete-vendors" can-do-action='delete-anything' delete-this id="vendor._id" redirect="/dashboard/vendors" model="modelObject"></button>
     </div><!-- span10 -->
         
 </div>
-
-        
-        
-        

@@ -141,15 +141,6 @@ angular
             var vendorId = $routeParams.id;
             $scope.formAction = 'Add';
 
-            // get and store the vendor
-            $scope.loadVendor = function() {
-                if (vendorId) {
-                    Vendor.getById(vendorId).then(function(response) {
-                        $scope.vendor = response;
-                    });
-                }
-            };
-
             if (vendorId) {
 
                 // get the vendor
@@ -431,19 +422,11 @@ angular
 
             // used to set active tab
             $scope.changeTab = function(tab, name) {
-
                 // @todo, this will need to be more generic if we make into a directive. 
                 if (!$scope.vendor._id) return false;
                 $scope.tabs[$scope.activeTab].selected = false;
-
                 $scope.activeTab = tab;
-
                 $scope.tabs[$scope.activeTab].selected = true;
-
-                if (name == "API") {
-                    $scope.loadVendor();
-                }
-
             };
 
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {

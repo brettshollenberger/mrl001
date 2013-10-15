@@ -101,7 +101,7 @@ var handleNoPrograms = function(req, res, next) {
     
     var response = {};
     
-    response.message = "We could't generate a quote for you based on this total cost. Please contact us to arrange special financing.";
+    response.message = "We couldn't generate a quote for you based on this total cost. Please contact us to arrange special financing.";
     
     // @todo confirm with Brian that we can show contactPerson info, and not vendor phone
     // which is what current system does. 

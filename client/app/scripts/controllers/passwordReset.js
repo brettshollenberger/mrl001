@@ -13,8 +13,8 @@ angular
                 $scope.isProcessing = true;
 
                 User.find({email: $scope.email}).then(function(response) {
-                    user = response;
-                    if (user && user !== null && user.email) {
+                    user = response.data[0];
+                    if (user && user.email) {
                         $http({
                             method: 'PUT',
                             url: '/api/v1/users/' + user._id + '/reset_password'

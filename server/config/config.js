@@ -72,8 +72,8 @@ module.exports = {
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
             from: {
-                fullName: 'Marlin Admin',
-                email: 'matt@facultycreative.com'
+                fullName: 'Marlin Marketing',
+                email: 'marketing@marlinfinance.com'
             },
             testingEmails: 'matt@facultycreative.com, matt@facultycreative.com'
         },
@@ -123,8 +123,8 @@ module.exports = {
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
             from: {
-                fullName: 'Marlin Admin',
-                email: 'matt@facultycreative.com'
+                fullName: 'Marlin Marketing',
+                email: 'marketing@marlinfinance.com'
             }
         },
         app: {

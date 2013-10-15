@@ -77,6 +77,16 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 return response.data;
             });
         };
+        
+        // update one item by item 
+        // @note we figure out id from item
+        exports.sendWelcomeEmail = function(id) {
+            return $http.get(url + 'users/' + id + '/welcome_user').then(function(response) {
+                return response.data;
+            });
+        };
+        
+        
 
         // --------
 

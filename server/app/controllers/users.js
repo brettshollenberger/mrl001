@@ -19,7 +19,7 @@ exports.signin = function(req, res, next, passport) {
             return next(err);
         }
         if (!user) {
-            return res.failure('Problem logging you in: ' + info.message, 401);
+            return res.failure(info.message, 401);
         }
         req.logIn(user, function(err) {
             if (err) {
@@ -178,7 +178,14 @@ exports.destroy = function(req, res) {
  */
 exports.all = function(req, res) {
     var query = req.query || {};
-    User.find(query).sort('-fullname').populate('programIds').exec(function(err, users) {
+    var select = '';
+    
+    // limit quotes to sales rep only. 
+    if (req.userHasRole('guest')) {
+        select = 'email';
+    }
+    
+    User.find(query).select(select).sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {

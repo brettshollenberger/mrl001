@@ -56,6 +56,10 @@ module.exports = function(app, config, passport, acl) {
     acl.allow("guest", "applications", ["view", "create", "update"]);
     // @todo restrict this when quote calculation is done on the API site
     acl.allow("guest", "programs", ["view"]);
+    
+    // @todo we need this for email checking to work, but we need to refactor this 
+    // because guest should not be able to list all users
+    acl.allow("guest", "users", ["list"]);
 
 
     /*

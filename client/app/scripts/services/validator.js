@@ -65,7 +65,8 @@ angular
         email: "Please enter a valid email address.",
         mask: "Please enter a valid phone number",
         phone: "Please enter a valid phone number.",
-        agree: "Please agree to the terms and conditions."
+        agree: "Please agree to the terms and conditions.",
+        isUser: "Email not found. Please register or try again."
       },
 
       addValidationMessage: function(key, value) {
@@ -74,29 +75,44 @@ angular
 
       setDirty: function(form) {
         for (var i in form) {
-          var input = form[i];
-          if (input.$pristine) {
-            input.$pristine = false;
-            input.$dirty = true;
+          var field = form[i];
+          if (field.$name) {
+              field.$dirty    = true;
+              field.$pristine = false;
+              $('[name="'+field.$name+'"]')
+                  .removeClass('ng-pristine')
+                  .addClass('ng-dirty');
           }
         }
+        $('[name="'+form.$name+'"]')
+            .removeClass('ng-pristine')
+            .addClass('ng-dirty');
+        form.$dirty = true;
+        form.$pristine = false;
+      },
+
+      setPristine: function(form) {
+        for (var i in form) {
+          var field = form[i];
+          if (field.$name) {
+              field.$dirty    = false;
+              field.$pristine = true;
+              $('[name="'+field.$name+'"]')
+                  .removeClass('ng-dirty')
+                  .addClass('ng-pristine');
+          }
+        }
+        $('[name="'+form.$name+'"]')
+            .removeClass('ng-dirty')
+            .addClass('ng-pristine');
+        form.$dirty = false;
+        form.$pristine = true;
       },
 
       setDirtyField: function(input) {
         if (input.$pristine) {
           input.$pristine = false;
           input.$dirty = true;
-        }
-      },
-
-      // The same issue exists with form.setPristine().
-      setPristine: function(form) {
-        for (var i in form) {
-          var input = form[i];
-          if (input.$dirty) {
-            input.$pristine = true;
-            input.$dirty = false;
-          }
         }
       },
 
@@ -180,7 +196,7 @@ angular
           // the missed fields will be revealed.
           // $location.hash(Object.keys(errors)[0]);
           $anchorScroll();
-          form.$setDirty();
+          this.setDirty(form);
           return false;
         }
         return true;

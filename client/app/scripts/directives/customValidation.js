@@ -94,4 +94,82 @@ angular
             }
         };
 
-    });
+    })
+    .directive('isUser', function(userService, Validator) {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input, form;
+
+                    if (!ctrl) return;
+
+                    form = scope.$eval(ele[0].form.name);
+
+                    // force truthy in case we are on non-input el
+                    attrs.isUser = true;
+
+                    var validator = function(value) {
+                        
+                        if(!value) return;
+                    
+                        userService.find({email: value || undefined}).then(function(response, err) {
+                            if (response.data && response.data[0] && response.data[0].email) {
+                                ctrl.$setValidity('isUser', true);
+                            } else {
+                                ctrl.$setValidity('isUser', false);
+                            }
+                            Validator.validateField(form.email, form);
+                        });
+                    };
+
+                    $(ele).on('blur', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                }
+            };
+
+        })
+        .directive('integerOnly', function() {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input;
+
+                    if (!ctrl) return;
+
+                    // force truthy in case we are on non-input el
+                    attrs.numberOnly = true;
+
+                    var validator = function(value) {
+                        if (attrs.numberOnly && (notInt(value) || value === false)) {
+                            ctrl.$setValidity('integer', true);
+                        } else {
+                            ctrl.$setValidity('integer', false);
+                        }
+                        return value;
+                    };
+
+                    ctrl.$formatters.push(validator);
+                    ctrl.$parsers.unshift(validator);
+
+                    attrs.$observe('integerOnly', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                    function notInt(value) {
+                        if (value) {
+
+                            matcher       = value.toString().match(/\d{0,}/);
+                            matchedString = matcher[0];
+                            input         = matcher.input;
+                            return !!(value && matchedString == input);
+                        } else {
+                            return false;
+                        }
+                        
+                    }
+                }
+            };
+
+        });

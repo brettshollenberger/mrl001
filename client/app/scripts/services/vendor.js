@@ -216,12 +216,34 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         };
         
+        /**
+         * Returns a list of all unique tags used across all vendors
+         *
+         * tagType will be the DB field name of the tags field
+         *
+         */
         exports.getAllVendorTags = function(tagType) {
         
             var type = tagType || 'tags';
         
             return $http.get(url + 'vendors/tags/' + type).then(function(response) {
                 return _.sortBy(response.data);
+            });
+        };
+        
+        /**
+         * Returns an array of industry/counts for all industry tags used
+         *
+         */
+        exports.getIndustryCounts = function() {
+            return $http.get(url + 'vendors/industryCounts').then(function(response) {
+                return response.data;
+            });
+        };
+        
+        exports.getVendorByIndustry = function(industry) {
+            return $http.get(url + 'vendors/getVendorByIndustry/' + industry).then(function(response) {
+                return response.data;
             });
         };
         

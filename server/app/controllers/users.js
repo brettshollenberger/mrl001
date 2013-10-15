@@ -19,7 +19,7 @@ exports.signin = function(req, res, next, passport) {
             return next(err);
         }
         if (!user) {
-            return res.failure('Problem logging you in: ' + info.message, 401);
+            return res.failure(info.message, 401);
         }
         req.logIn(user, function(err) {
             if (err) {
@@ -51,7 +51,8 @@ exports.create = function(req, res) {
 
     var theUser = new User(req.body);
 
-    theUser.password = theUser.name.first.charAt(0).toLowerCase() + theUser.name.last;
+    // generates a new random password
+    theUser.password = pw.generate(15);
 
     theUser.save(function(err) {
 
@@ -59,6 +60,28 @@ exports.create = function(req, res) {
             res.failure(err);
         } else {
             res.ok(theUser);
+        }
+    });
+
+};
+
+/**
+ * Welcome a user with an email containing their password
+ * @note this is exactly the same as reset password but with a different email sent
+ */
+exports.welcomeUser = function(req, res) {
+
+    var theUser       = req.theUser;
+
+    // Generate a 15-character random password
+    theUser.password  = pw.generate(15);
+
+    theUser.save(function(err, newUser) {
+        if (err) {
+            return res.failure(err);
+        } else {
+            emailer.sendWelcome(req, res);
+            return res.ok(200);
         }
     });
 
@@ -155,7 +178,14 @@ exports.destroy = function(req, res) {
  */
 exports.all = function(req, res) {
     var query = req.query || {};
-    User.find(query).sort('-fullname').populate('programIds').exec(function(err, users) {
+    var select = '';
+    
+    // limit quotes to sales rep only. 
+    if (req.userHasRole('guest')) {
+        select = 'email';
+    }
+    
+    User.find(query).select(select).sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {

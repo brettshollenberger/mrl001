@@ -13,7 +13,8 @@ angular
         'googleMapsService',
         '$timeout',
         '$window',
-        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, Vendor, Program, States, User, googleMaps, $timeout, $window, CommonInterface) {
 
             $scope.modelObject = Vendor;
             $scope.mapActive = false;
@@ -64,7 +65,7 @@ angular
                 $scope.vendorTagsOptions = {
                     'tags': tags, // populate this with tag suggestions
                     'width': 'element'
-                }; 
+                };
             });
             
             // get all of the previosuly used vendor industry tags to populate auto suggest
@@ -72,7 +73,7 @@ angular
                 $scope.vendorIndustryTagsOptions = {
                     'tags': tags, // populate this with tag suggestions
                     'width': 'element'
-                }; 
+                };
             });
             
             // get all the reps
@@ -140,7 +141,6 @@ angular
             var vendorId = $routeParams.id;
             $scope.formAction = 'Add';
 
-            // get and store the vendor 
             if (vendorId) {
 
                 // get the vendor
@@ -186,59 +186,73 @@ angular
                 $scope.formAction = 'Update';
             }
 
-            // activated when user clicks the save button
-            $scope.save = function(doRedirect) {
+            var formTabMap = [
+                'basicForm',
+                'MarlinRepForm',
+                'VendorSalesRepForm',
+                'rateForm',
+                'toolForm',
+                'apiForm',
+                'locationForm',
+                'customizeForm'
+            ];
 
-                // clear our variables
-                $scope.vendor.programs = []; // clear the program array
-                $scope.vendor.programCustomNames = []; // where we store custom displayName data
+            // Code to automatically make save updates
+            // _.each(formTabMap, function(form) {
+            //     $scope.$watch(function() { return $scope.vendor; },
+            //         function() {
+            //             $timeout(function() {
+            //                 $scope.save(false);
+            //             }, 10000);
+            //         }, true);
+            // });
 
-                // process each program, checking if its active for the vendor
-                _.each($scope.programs, function(item, key) {
-
-                    // API saves an array of _ids
-                    if (item.active) $scope.vendor.programs.push(item._id);
-
-                    // if user has set a custom display name
-                    // we push the whole object, but API will only save the id and displayName
-                    if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
-
-                });
-
-                if (!vendorId) {
-
-                    // create new item
-                    Vendor.add($scope.vendor).then(function(response) {
-                        //console.log('VendorEdit Add Vendor');
-                        //console.log(response);
-                        $scope.vendor = response;
-                        vendorId = $scope.vendor._id;
-                        //saveChangesPrompt.removeListener();
-
-                        if (doRedirect) {
-                            $location.url('/dashboard/vendors');
-                        }
-
-                    });
-
-                } else {
-
-                    // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-
-                    //saveChangesPrompt.removeListener();
-
-                    // update existing item
-                    Vendor.update($scope.vendor);
-
-                    if (doRedirect) {
-                        $location.url('/dashboard/vendors');
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
                     }
-
-                }
-
+                });
+                return showError;
             };
 
+            $scope.save = function(doRedirect) {
+                var form;
+                if (formTabMap[$scope.activeTab] == 'locationForm') {
+                    form = $scope.$$childTail.$$childTail.locationForm;
+                } else {
+                    form = $scope.$$childTail[formTabMap[$scope.activeTab]];
+                }
+                CommonInterface.save({
+                    Model: Vendor,
+                    instance: $scope.vendor,
+                    id: vendorId,
+                    form: form,
+                    redirectUrl: '/dashboard/vendors',
+                    doRedirect: doRedirect,
+                    strategy: function() {
+                        // clear our variables
+                        $scope.vendor.programs = []; // clear the program array
+                        $scope.vendor.programCustomNames = []; // where we store custom displayName data
+                
+                        // process each program, checking if its active for the vendor
+                        _.each($scope.programs, function(item, key) {
 
+                            // API saves an array of _ids
+                            if (item.active) $scope.vendor.programs.push(item._id);
+
+                            // if user has set a custom display name
+                            // we push the whole object, but API will only save the id and displayName
+                            if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
+
+                        });
+                    }
+                });
+            };
+
+            // activated when user clicks the save button
+            // $scope.save = function(doRedirect) {
             $scope.toggleActiveRateSheet = function(item) {
                 item.active = item.active ? false : true;
             };
@@ -407,16 +421,12 @@ angular
             };
 
             // used to set active tab
-            $scope.changeTab = function(tab) {
-
+            $scope.changeTab = function(tab, name) {
                 // @todo, this will need to be more generic if we make into a directive. 
                 if (!$scope.vendor._id) return false;
                 $scope.tabs[$scope.activeTab].selected = false;
-
                 $scope.activeTab = tab;
-
                 $scope.tabs[$scope.activeTab].selected = true;
-
             };
 
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {
@@ -433,7 +443,7 @@ angular
             var removeFunction = $scope.$on('$locationChangeStart', function(event, next, current) {
                
                // removes the map
-               $scope.mapActive = false; 
+               $scope.mapActive = false;
                
                // remove watchers for page
                removeFunction();
@@ -453,7 +463,7 @@ angular
                *  that happens by wrapping it in $timeout()
                *
                */
-               event.preventDefault();               
+               event.preventDefault();         
 
                $timeout(function() { 
                    $location.url(relativeUrl(next));
@@ -541,11 +551,9 @@ angular
              *
              */
             var listener = $rootScope.$on('event:geo-location-success', function(event, data, type) {
+                
                 // update center based on search 
                 if (type && type === 'locationSearch') {
-
-                    console.log('RETURN GEO DATA IS: ');
-                    console.log(data);
 
                     $scope.map.center = {
                         latitude: data.lat,
@@ -564,7 +572,6 @@ angular
                     $scope.$$childTail.basicForm.$setDirty();
 
                     $scope.$apply();
-
                 }
             });
 
@@ -611,6 +618,8 @@ angular
 
             function makeMarkerFromVendor() {
 
+                $scope.mapActive = false;
+
                 // build marker object from vendor info
                 // @note this is duplicate code from locator tool, move to service? 
                 // we need to create the marker from the vendor
@@ -632,30 +641,25 @@ angular
 
                 $scope.vendorMarker = [newMarker];
 
-                //console.log('VENDOR MARKER is...');
-                //console.log($scope.vendorMarker);
-
-                // doesnt seem to be needed
-                // was an attempt to get the map to re render
-                //
-                //var win = angular.element(window);
-                //$timeout(function() {
-                //    win.triggerHandler('Resize');
-                //});
-
+                // reshow the map so the new marker is displayed
+                $timeout(function() {
+                    $scope.mapActive = true;
+                });
             }
-
 
             /**
              * Checks if tool is active given a specific tool slug.
+             * @note be careful there's a lot of enabled vs. active going on in this controller
              *
              */
             $scope.isToolActive = function(slug) {
-                var isActive = _.where($scope.vendor.tools, {
-                    slug: slug,
-                    active: true
-                });
-                return isActive.length ? true : false;
+                var isActive = false;
+                // this is an easy way to prevent errors before scope.vendors is defined. 
+                // instead of having to check each level of the object, we just do a try / catch block
+                try {
+                    isActive = $scope.vendor.tools[slug].enabled;
+                } catch(err) {}
+                return isActive;
             };
 
 

@@ -77,9 +77,20 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
                 return response.data;
             });
         };
+        
+        // update one item by item 
+        // @note we figure out id from item
+        exports.sendWelcomeEmail = function(id) {
+            return $http.get(url + 'users/' + id + '/welcome_user').then(function(response) {
+                return response.data;
+            });
+        };
+        
+        
 
         // --------
 
+        // @todo are we using this, if not remove.
         exports.getOneBy = function(key, value) {
             var str = {};
             str[key] = value;
@@ -95,9 +106,15 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
             });
         };
 
+        // @todo this is used to validate users email as existing, 
+        // we need to refactor this so it's only checking one email for true / false, 
+        // instead of returning a whole list
+        //
         exports.find = function(obj) {
-            return $http.get(url + 'users', {params: obj}).then(function(response) {
-                return response.data[0];
+            return $http.get(url + 'users', {params: obj}).success(function(response) {
+                return response[0];
+            }).error(function(response) {
+                return response.data;
             });
         };
 

@@ -25,15 +25,20 @@ angular
             * --------------------------------------------
             * 
             */
+            
+            // set the active tab to show the intital page
+            $scope.activeTab = 1;
 
-            // markers will be vendors that match out serarch
+            // initialize vendors to empty array
+            $scope.vendors = [];
+
+            // markers will be vendors that match our search
             $scope.markers = [];
 
             // will be true any time there is a specific location search happening
             // ie: use has geolocated, or searched by text.
             // this allows us to show distance from, etc. 
-            $scope.hasLocation = false; 
-                        
+            $scope.hasLocation = false;         
 
             /**
             * Create our map object
@@ -79,18 +84,11 @@ angular
                 }
             };
             
-
-
             /**
             * Load our vendors
             * --------------------------------------------
             * 
             */
-
-            // get all vendors from API
-            Vendor.getAll().then(function(response) {
-                $scope.vendors = response;
-            });
             
             // perform the initial filter when vendors are loaded
             // @note this is needed because vendors are loaded async
@@ -98,6 +96,35 @@ angular
             // we can hook this into a tag / name search
             $scope.$watch('$scope.vendors', filterMarkers, true);
             
+            /**
+            * Load all of the Industry Tags
+            * --------------------------------------------
+            * 
+            */
+            
+            $scope.industries = [];
+            $scope.currentIndustry = '';
+            
+            Vendor.getIndustryCounts().then(function(industryCounts) {
+                $scope.industries = industryCounts; 
+            });
+            
+            $scope.setIndustry = function(industry) {
+            
+                if(industry) {
+                    Vendor.getVendorByIndustry(industry).then(function(response) {
+                        $scope.vendors = response;
+                        $scope.currentIndustry = industry;
+                        
+                        // set the active tab to show the filtered map results
+                        $scope.activeTab = 2;
+                        filterMarkers();
+                    });   
+                } else {
+                    $scope.vendors = [];
+                    $scope.activeTab = 1;
+                }
+            };
             
             /**
             * TAG SEARCH
@@ -109,7 +136,6 @@ angular
             
             // empty search text
             $scope.searchText = '';
-            $scope.industrySearchText = '';
             var searchTags = [];
 
             // search button, user must click when they are done entering text
@@ -121,7 +147,6 @@ angular
                 
                 // filter markers
                 filterMarkers();
-                
             };
             
             // clears the text, thus 
@@ -165,9 +190,7 @@ angular
                     // refilter the markers based on new center
                     filterMarkers();
                 });
-
             };
-
             
             /**
             * FILTER BY DISTANCE FROM USER LOCATION
@@ -179,7 +202,7 @@ angular
             $scope.distanceOptions = [100, 500, 1000, 2000, 'Any'];
 
             // input to set distance from user for results
-            $scope.distanceFrom = 2000;
+            $scope.distanceFrom = 'Any';
 
             // trigger the search
             $scope.setDistanceFrom = function(newDistance) {
@@ -244,6 +267,8 @@ angular
             *
             */
             
+            $scope.letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',];
+            
             function filterMarkers() {
 
                 // close the currently open window, if any
@@ -258,6 +283,7 @@ angular
                 
                     $scope.markers = [];
                     $scope.tempMarkers = [];
+                    $scope.currentVendor = 0;
                     
                     // forces an apply which prevents sync issues with sidebar
                     // when a user updates their location text search
@@ -266,12 +292,16 @@ angular
                     // console.log('Filtering markers...');
                     // console.log('Filtering markers..., there are ' + $scope.vendors.length + ' vendors');
 
-                    _.each($scope.vendors, function(item) {
+                    _.each($scope.vendors, function(item, index) {
+                        
+                        // if we have more results than letters in the alphabet
+                        if ($scope.currentVendor > 25) return false;
 
                         // first check for text based search
                         // if this doesn't match, we dont care how close the vendor is!
                         // @todo this could be refactored to query api
-                        if (($scope.searchText || $scope.industrySearchText) && !checkForTagMatch(item)) {
+                        
+                        if ($scope.searchText && !checkForTagMatch(item)) {
                             return;
                         }
                         
@@ -288,9 +318,12 @@ angular
 
                         // we need to create the marker from the vendor
                         var newMarker = {
+                            icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+ $scope.letters[$scope.currentVendor] +'|005DAB|EEEEEE',
                             latitude: item.geo.latitude,
                             longitude: item.geo.longitude,
                             label: item.name,
+                            email: item.contactPerson.email,
+                            phone: item.contactPerson.phone,
                             website: item.website,
                             distance: item.geo.distance, // gets miles
                             logo: item.logo.original,
@@ -300,6 +333,9 @@ angular
                             showWindow: false,
                             destAddress: 'http://maps.google.com/maps?q=' + genereateSingleLineAddress(item.businessAddress)
                         };
+                        
+                        // increment the current vendor count
+                        $scope.currentVendor = $scope.currentVendor + 1;
                         
                         // bind any marker functions
                         newMarker.closeClick = function() {
@@ -345,10 +381,7 @@ angular
                     */
 
                     }, 50);
-                    
             }
-            
-            
             
             /**
             * Tracks the open windows and closes the previous, ensuring only 1 is open per time
@@ -402,27 +435,6 @@ angular
                     trackOpenWindow(item);
                 }
             };
-
-
-            /**
-            * DEV
-            * --------------------------------------------
-            *
-            */
-            
-
-            /**
-            * Function fired by button that appears when the user drags the map
-            * prompting them to 'search in current location' ie: where they dragged map to
-            * 
-            * @note this function is not being used currently
-            *
-            */
-            $scope.searchHere = function() {
-                $scope.map.centerHasChanged = false;
-                filterMarkers();
-            };
-            
             
             /**
             * PRIVATE HELPER METHODS
@@ -536,25 +548,13 @@ angular
                
                 var originalSearch = '';
                 var vendorSearchTags = [];
-                var industrySearchTags = [];
                
                 if($scope.searchText !== '') {
                     // convert to lowercase and split at space
                     originalSearch = $scope.searchText.toLowerCase();
                     vendorSearchTags = originalSearch.split(" ");
                     searchTags.push(originalSearch);   
-                }
-                
-                if($scope.industrySearchText !== '') {
-                    // convert to lowercase and split at space
-                    originalSearch = $scope.industrySearchText.toLowerCase();
-                    industrySearchTags = originalSearch.split(" ");
-                    searchTags.push(originalSearch);
-                }
-                
-                searchTags = _.union(vendorSearchTags, industrySearchTags);  
-            }
-                        
+                } 
+            }           
         }
-    
     ]);

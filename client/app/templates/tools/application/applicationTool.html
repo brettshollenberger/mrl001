@@ -48,6 +48,10 @@
             </table>
             
             <p><strong>Description:</strong>&nbsp;{{application.description}}</p>
+            
+            <p ng-show="application.customField">
+                <strong>{{application.customField.displayName}}:</strong> {{application.customField.value}}
+            </p>
         </div>
     </div>
 

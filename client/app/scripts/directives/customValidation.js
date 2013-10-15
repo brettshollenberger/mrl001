@@ -109,6 +109,9 @@ angular
                     attrs.isUser = true;
 
                     var validator = function(value) {
+                        
+                        if(!value) return;
+                    
                         userService.find({email: value || undefined}).then(function(response, err) {
                             if (response.data && response.data[0] && response.data[0].email) {
                                 ctrl.$setValidity('isUser', true);

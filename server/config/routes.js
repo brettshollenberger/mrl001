@@ -155,6 +155,7 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
     // show all vendors, or just users vendors based on role
     app.get('/api/v1/vendors', isUserAllowed('list', 'vendors'), vendors.all);
     app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
+    app.get('/api/v1/vendors/find', vendors.find);
 
     app.get('/api/v1/vendors/tags/:tagType', vendors.getDistinctTags);
     app.get('/api/v1/vendors/industryCounts', vendors.getIndustryCounts);

@@ -8,7 +8,8 @@ var express = require('express'),
     path = require('path'),
     helpers = require('view-helpers'),
     env = process.env.NODE_ENV || 'development',
-    fs = require('fs');
+    fs = require('fs'),
+    cors = require('cors');
     
 module.exports = function(app, config, passport, standardReponse) {
     app.set('showStackError', true);
@@ -20,7 +21,7 @@ module.exports = function(app, config, passport, standardReponse) {
         },
         level: 9
     }));
-    
+
     var requireHTTPS = function(req, res, next){
         if (!req.secure) {
             if(req.get('host')==='www.leaserep.com' || req.get('host') ==='leaserep.com'){
@@ -31,17 +32,10 @@ module.exports = function(app, config, passport, standardReponse) {
     };
     
     app.use(requireHTTPS);
-
-    // Basic CORS middleware example
-    var allowCrossDomain = function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-        //res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-        next();
-    };
     
+    // cache buster! 
+    // @todo this would typically be inplimented with eTag, which would check for new versions of content
+    // else serve the cached content. 
     var cacheBuster = function(req, res, next){
     
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -52,10 +46,23 @@ module.exports = function(app, config, passport, standardReponse) {
     
     // @todo isolate to api routes...
     app.use(cacheBuster);
+    
+    
+    // Basic CORS middleware example
+    // @todo make this more robust. We should only allow POST and PUT for subdomains
+    // and allow all for out private api requests. 
+    //
+    // @note we needed to add this to allow quoter subdomains to work, 
+    // such as: http://bearcom-operating-llc.127.0.0.1:3000/
+    // because technically this is on another domain (the subdomain part) 
+    //
+    var corsOptions = {
+        origin: '*'
+    };
+    
+    app.use(cors(corsOptions));
 
-    // @todo this might break local network testing on IE... 
-    // app.use(allowCrossDomain);
-
+    // standardize our API response with meta, result json. 
     app.use(standardReponse.middleware());
 
     //Setting the fav icon and static folder
@@ -142,16 +149,21 @@ module.exports = function(app, config, passport, standardReponse) {
         }
         
         function csrfCookieSetter(req, res, next) { 
-            res.cookie('XSRF-TOKEN', req.csrfToken()); 
+            //if(req.csrfToken && typeof req.csrfToken === 'function') {
+                res.cookie('XSRF-TOKEN', req.csrfToken());    
+            //}
             next();
         }
         
         // attach csrf protection to all of our api endpoints
         //if(process.env.NODE_ENV !== 'development') {
-        app.all('/api*', csrfHandler, csrfCookieSetter, function(req, res, next) {
+        /*
+        app.all('*', csrfHandler, csrfCookieSetter, function(req, res, next) {
             next();
-        });
-   
+        }); 
+        */
+        
+        //app.use(express.csrf());
 
         // routes should be at the last
         app.use(app.router);

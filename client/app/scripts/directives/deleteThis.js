@@ -4,8 +4,7 @@ angular
         function($location) {
             return {
                 replace: true,
-                template: '<button class="pull-right btn btn-link link-danger" ng-click="deleteItem()">Delete This</button>',
-                controller: "spinner",
+                template: '<button class="pull-right btn btn-link link-danger" ng-click="deleteItem();">Delete This</button>',
                 scope: {
                     id: '&',
                     model: '&',

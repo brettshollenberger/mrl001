@@ -178,7 +178,14 @@ exports.destroy = function(req, res) {
  */
 exports.all = function(req, res) {
     var query = req.query || {};
-    User.find(query).sort('-fullname').populate('programIds').exec(function(err, users) {
+    var select = '';
+    
+    // limit quotes to sales rep only. 
+    if (req.userHasRole('guest')) {
+        select = 'email';
+    }
+    
+    User.find(query).select(select).sort('-fullname').populate('programIds').exec(function(err, users) {
         if (err) {
             res.failure(err);
         } else {

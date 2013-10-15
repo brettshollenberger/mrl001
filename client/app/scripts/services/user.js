@@ -96,8 +96,10 @@ angular.module('app').factory('userService', ['$http', 'MARLINAPI_CONFIG',
         };
 
         exports.find = function(obj) {
-            return $http.get(url + 'users', {params: obj}).then(function(response) {
-                return response.data[0];
+            return $http.get(url + 'users', {params: obj}).success(function(response) {
+                return response[0];
+            }).error(function(response) {
+                return response.data;
             });
         };
 

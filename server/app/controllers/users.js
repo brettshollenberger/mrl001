@@ -19,7 +19,7 @@ exports.signin = function(req, res, next, passport) {
             return next(err);
         }
         if (!user) {
-            return res.failure('Problem logging you in: ' + info.message, 401);
+            return res.failure(info.message, 401);
         }
         req.logIn(user, function(err) {
             if (err) {

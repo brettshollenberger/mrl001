@@ -137,7 +137,7 @@ angular
         // in some cases zip may be blank, and if its not required this is OK,
         // we need to be careful we are not setting fields error if they dont pass but are not required
         if(!zip) return true;
-        if (/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip)) return true;
+        if (/(^\d{5}$)|(^\d{5}-{0,1}\d{4}$)/.test(zip)) return true;
         return false;
       },
 

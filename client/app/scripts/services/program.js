@@ -161,6 +161,23 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
             return _.clone(returnItems, true);
         };
 
+        exports.new = function() {
+            return {
+                name: "",
+                termPeriod: "Month",
+                rateSheet: {
+                    buyoutOptions: [{
+                        costs: [{
+                            rates: [0, 0, 0],
+                            max: "",
+                            min: ""
+                        }],
+                        terms: [0, 0, 0],
+                        name: "Fair Market Value"
+                    }]
+                }
+            };
+        };
 
         return exports;
 

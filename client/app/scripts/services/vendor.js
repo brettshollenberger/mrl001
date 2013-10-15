@@ -68,11 +68,8 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             });
         };
         
-        exports.lookup = function(callback) {
-          
-            var vendorSlug = $location.host().split('.')[0];
-            console.log("vendorSlug is: ", vendorSlug);  
-            
+        exports.lookupBySlug = function(slug, callback) {
+                      
             // Private function that will execute callback if its valid
             function doCallback(result) {
                 result = result || null;
@@ -82,7 +79,7 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             }
             
             // attempt to find vendor by slug
-            exports.find({ 'slug' : vendorSlug }).then(function(response) {
+            exports.find({ 'slug' : slug }).then(function(response) {
                 
                 if(response && response.length === 1) {
                     callback(response[0]);

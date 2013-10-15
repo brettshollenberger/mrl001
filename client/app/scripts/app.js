@@ -100,24 +100,36 @@ angular
         }
 
         MyCtrl.resolve = {
-            resolvedVendor: function ($q, $route, vendorService, $rootScope, $location) {
+            resolvedVendor: function ($q, $route, vendorService, $rootScope, $location, authService) {
 
                 var deferred = $q.defer();
 
                 // called on success by lookup()
-                var successCb = function (result) {
+                var lookupVendorCb = function (result) {
                     if (!result) {
                         deferred.reject("Vendor Lookup Failed");
                         
-                        window.location = baseUrl(); 
+                        if(authService.isAuthenticated()) {
+                            window.location = baseUrl(); 
+                        } else {
+                            window.location = baseUrl();
+                        }                        
                         
                     } else {
                         deferred.resolve(result);
                     }
                 };
-
-                // checks for vendorName, or preforms api query if not set
-                vendorService.lookup(successCb);
+                
+                // get slug from $location
+                var slug = $location.host().split('.')[0];
+                console.log("vendorSlug is: ", slug);  
+                
+                if(slug) {
+                    // checks for vendorName, or preforms api query if not set
+                    vendorService.lookupBySlug(slug, lookupVendorCb); 
+                } else {
+                    window.location = baseUrl() + 'tools/quoter';
+                }
 
                 return deferred.promise;
             }

@@ -7,7 +7,8 @@ angular
         'authService',
         '$timeout',
         '$routeParams',
-        function($rootScope, $scope, $location, Auth, $timeout, $routeParams) {
+        'userService',
+        function($rootScope, $scope, $location, Auth, $timeout, $routeParams, User) {
 
             // declare variables
             $scope.email = '';
@@ -28,7 +29,6 @@ angular
                     password: 'vrep'
                 }
             };
-            
             
             /**
             * Check for email which will be present in reset password links
@@ -64,12 +64,6 @@ angular
              // sets message and removes after timeout
             var setMessage = function(message) {
                 $scope.message = message;
-
-                // set timeout to clear our message after 2 seconds
-                $timeout(function() {
-                    $scope.message = null;
-                }, 2000);
-
             };
 
 
@@ -88,9 +82,9 @@ angular
                     $scope.isProcessing = false;
                     loginSuccessCallback();
 
-                }, function(err) {
-                    console.log(err);
-                    setMessage('There was a problem logging you in.');
+                }, function(err, message) {
+                    setMessage("There was an error logging you in: " + err.data.message + ".");
+                    $rootScope.Validator.validateForm($scope.loginForm);
                     $scope.isProcessing = false;
                     
                 });

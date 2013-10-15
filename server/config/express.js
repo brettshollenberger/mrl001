@@ -21,6 +21,17 @@ module.exports = function(app, config, passport, standardReponse) {
         },
         level: 9
     }));
+
+    var requireHTTPS = function(req, res, next){
+        if (!req.secure) {
+            if(req.get('host')==='www.leaserep.com' || req.get('host') ==='leaserep.com'){
+                return res.redirect('https://' + req.get('host') + req.url);
+            }
+        }
+        next();
+    };
+    
+    app.use(requireHTTPS);
     
     // cache buster! 
     // @todo this would typically be inplimented with eTag, which would check for new versions of content

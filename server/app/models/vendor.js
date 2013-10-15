@@ -363,12 +363,12 @@ VendorSchema.pre('save', function(next) {
 */
 
     /**
-    * Generate API key if api tool is enabled and no key exists
+    * Always generate an API key even if a vendor is not using it currently
     *
-    * @note to change the API key enable and then disable
+    * @todo in the future we should have a function to recreate an API key if admin needs to
     *
     */
-    if(this.isModified('tools') && this.tools.api.enabled === true && !this.isNew) { 
+    if(this.isNew) { 
         var key = require('node-uuid')();
         this.apiKey = key; 
     }

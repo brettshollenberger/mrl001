@@ -8,7 +8,7 @@ var data = [{
     "contactPerson": {
         "name": "Jenn Delong",
         "email": "jdelong@marlinfinance.com",
-        "phone": "888-479-9111 Ext. 5015"
+        "phone": "8884799111 Ext. 5015"
     },
     "salesRep": '51e71518ed32080ffc000016',
     "vendorRep": '51e71518ed32080ffc000030',
@@ -62,7 +62,7 @@ var data = [{
     "contactPerson": {
         "name": "Jennifer DeLong-Giefer",
         "email": "jdelong@marlinfinance.com",
-        "phone": "866-687-3778"
+        "phone": "8666873778"
     },
     "tags": ["office", "supplies", "printers"],
     "salesRep": '51e71518ed32080ffc000016',
@@ -153,7 +153,7 @@ var data = [{
     "contactPerson": {
         "name": "Union Bank Financing Consultant",
         "email": "ubapps@marlinfinance.com",
-        "phone": "877-307-6756"
+        "phone": "8773076756"
     },
     "salesRep": '51e71518ed32080ffc000015',
     "logo": {
@@ -198,7 +198,7 @@ var data = [{
     "contactPerson": {
         "name": "Grady Martin",
         "email": "leasing@southeasternequipment.net",
-        "phone": "803-454-3656"
+        "phone": "8034543656"
     },
     "salesRep": '51e71518ed32080ffc000009',
     "logo": {
@@ -278,7 +278,7 @@ var data = [{
         }
     },
     "contactPerson": {
-        "phone": "(480)816-1222"
+        "phone": "4808161222"
     },
     "businessPhone": "",
     "website": "http://www.absinc-sw.com/",
@@ -381,7 +381,7 @@ var data = [{
         }
     },
     "contactPerson": {
-        "phone": "(800)273-5033",
+        "phone": "8002735033",
         "email": "vpsales@ez2000software.com"
     },
     "website": "www.ez2000software.com"
@@ -399,7 +399,7 @@ var data = [{
         "zip": "80246-1327"
     },
     "contactPerson": {
-        "phone": "(303)623-2530",
+        "phone": "3036232530",
         "email": "wkim@meetingone.com"
     },
     "range" : {
@@ -438,7 +438,7 @@ var data = [{
         "zip": "32115-1671"
     },
     "contactPerson": {
-        "phone": "(386)238-1177",
+        "phone": "3862381177",
         "email": "Jshearer@capofficeproducts.com"
     },
     "website": "www.capofficeproducts.com",
@@ -473,7 +473,7 @@ var data = [{
         "zip": "30076"
     },
     "contactPerson": {
-        "phone": "(404)228-4951"
+        "phone": "4042284951"
     },
     "range" : {
         "max" : {
@@ -514,7 +514,7 @@ var data = [{
         "zip": "60631-3479"
     },
     "contactPerson": {
-        "phone": "(773)362-4803",
+        "phone": "7733624803",
         "email": "desquivel@epaysystems.com"
     },
     "range" : {
@@ -557,7 +557,7 @@ var data = [{
         "zip": "46268"
     },
     "contactPerson": {
-        "phone": "(800)222-5107",
+        "phone": "8002225107",
         "email": "jeffn@centralrestaurant.com"
     },
     "range" : {
@@ -601,7 +601,7 @@ var data = [{
         "zip": "20904-7857"
     },
     "contactPerson": {
-        "phone": "(301)572-1901",
+        "phone": "3015721901",
         "email": "tom.hightman@clarksecurity.com"
     },
     "range" : {
@@ -645,7 +645,7 @@ var data = [{
         "zip": "28105"
     },
     "contactPerson": {
-        "phone": "(704)574-4800",
+        "phone": "7045744800",
         "email": "rhendrix@hendrixbusiness.com"
     },
     "website": "www.hendrixbusiness.com",
@@ -688,7 +688,7 @@ var data = [{
         "zip": "10001-3546"
     },
     "contactPerson": {
-        "phone": "(212)779-0800",
+        "phone": "2127790800",
         "email": "SHawkins@1strun.com"
     },
     "website": "http://www.1strun.net",
@@ -732,7 +732,7 @@ var data = [{
         "zip": "38101-2198"
     },
     "contactPerson": {
-        "phone": "(901)495-6500",
+        "phone": "9014956500",
         "email": "tim.mcauliff@autozone.com"
     },
     "website": "www.autozone.com",
@@ -774,7 +774,7 @@ var data = [{
         "zip": "78216-2621"
     },
     "contactPerson": {
-        "phone": "(210)349-9026"
+        "phone": "2103499026"
     },
     "website": "http://www.americantypewritertx.com/",
     "tools" : {
@@ -814,7 +814,7 @@ var data = [{
         "zip": "98012-6385"
     },
     "contactPerson": {
-        "phone": "(866)344-8144"
+        "phone": "8663448144"
     },
     "tools" : {
         'locator': {
@@ -855,7 +855,7 @@ var data = [{
         "zip": "26003"
     },
     "contactPerson": {
-        "phone": "(304)232-1755",
+        "phone": "3042321755",
         "email": "rthoburn@amasti.com"
     },
     "range" : {
@@ -899,7 +899,7 @@ var data = [{
         "zip": "77041-4713"
     },
     "contactPerson": {
-        "phone": "(713)869-6221",
+        "phone": "7138696221",
         "email": "steve@warrenswrefrigeration.com"
     },
     "range" : {
@@ -942,8 +942,8 @@ var data = [{
         "zip": "89120-3963"
     },
     "contactPerson": {
-        "phone": "(800)322-9919",
-        "email": "jared@air-care.com"
+        "email": "jared@air-care.com",
+        "phone": "8003229919",
     },
     "range" : {
         "max" : {
@@ -993,7 +993,7 @@ var data = [{
         }
     },
     "contactPerson": {
-        "phone": "(413)442-0390",
+        "phone": "4134420390",
         "email": "bob@bgrestsupply.com"
     },
     "website": "www.bgrestsupply.com",
@@ -1036,7 +1036,7 @@ var data = [{
         }
     },
     "contactPerson": {
-        "phone": "(913)422-3700",
+        "phone": "913422-3700",
         "email": "djohnson@pfgc.com"
     },
     "website": "www.americandish.com",

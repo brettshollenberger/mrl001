@@ -551,11 +551,9 @@ angular
              *
              */
             var listener = $rootScope.$on('event:geo-location-success', function(event, data, type) {
+                
                 // update center based on search 
                 if (type && type === 'locationSearch') {
-
-                    console.log('RETURN GEO DATA IS: ');
-                    console.log(data);
 
                     $scope.map.center = {
                         latitude: data.lat,
@@ -574,7 +572,6 @@ angular
                     $scope.$$childTail.basicForm.$setDirty();
 
                     $scope.$apply();
-
                 }
             });
 
@@ -621,6 +618,8 @@ angular
 
             function makeMarkerFromVendor() {
 
+                $scope.mapActive = false;
+
                 // build marker object from vendor info
                 // @note this is duplicate code from locator tool, move to service? 
                 // we need to create the marker from the vendor
@@ -642,17 +641,10 @@ angular
 
                 $scope.vendorMarker = [newMarker];
 
-                //console.log('VENDOR MARKER is...');
-                //console.log($scope.vendorMarker);
-
-                // doesnt seem to be needed
-                // was an attempt to get the map to re render
-                //
-                //var win = angular.element(window);
-                //$timeout(function() {
-                //    win.triggerHandler('Resize');
-                //});
-
+                // reshow the map so the new marker is displayed
+                $timeout(function() {
+                    $scope.mapActive = true;
+                });
             }
 
             /**

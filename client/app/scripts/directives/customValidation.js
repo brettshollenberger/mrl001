@@ -126,7 +126,47 @@ angular
                 }
             };
 
+        })
+        .directive('integerOnly', function() {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input;
+
+                    if (!ctrl) return;
+
+                    // force truthy in case we are on non-input el
+                    attrs.numberOnly = true;
+
+                    var validator = function(value) {
+                        if (attrs.numberOnly && (notInt(value) || value === false)) {
+                            ctrl.$setValidity('integer', true);
+                        } else {
+                            ctrl.$setValidity('integer', false);
+                        }
+                        return value;
+                    };
+
+                    ctrl.$formatters.push(validator);
+                    ctrl.$parsers.unshift(validator);
+
+                    attrs.$observe('integerOnly', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                    function notInt(value) {
+                        if (value) {
+
+                            matcher       = value.toString().match(/\d{0,}/);
+                            matchedString = matcher[0];
+                            input         = matcher.input;
+                            return !!(value && matchedString == input);
+                        } else {
+                            return false;
+                        }
+                        
+                    }
+                }
+            };
+
         });
-
-
-                

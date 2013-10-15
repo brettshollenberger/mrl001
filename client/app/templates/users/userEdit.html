@@ -15,7 +15,7 @@
                 
                 <div class="actions">
                     <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
-                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty || usersVendors.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save" ng-show="basicForm.$dirty || usersVendors.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>
                 </div>
             
             </div>
@@ -30,7 +30,7 @@
                 <img class="img-circle img-large" ng-src="{{user.avatar.original}}" ng-show="user.avatar.original" title="Logo" default-image="user" />
                 
                 <br /><br />
-                <button  ng-disabled="!user._id" ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Avatar</button>
+                <button ng-disabled="!user._id" ng-click="pickImage(); basicForm.$setDirty();" class="btn btn-primary">Pick Avatar</button>
                
             </div>
 
@@ -39,10 +39,10 @@
                 <h3>Name</h3>
                 
                 <label>First Name</label>
-                <input type="text" placeholder="" ng-model="user.name.first">
+                <input name="user.name.first" type="text" placeholder="" ng-model="user.name.first">
                 
                 <label>Last Name</label>
-                <input type="text" placeholder="" ng-model="user.name.last">
+                <input name="user.name.last" type="text" placeholder="" ng-model="user.name.last">
                 
             </div>
 
@@ -51,10 +51,10 @@
                 <h3>Contact</h3>
                 
                 <label>Email</label>
-                <input type="text" placeholder="" ng-model="user.email">
+                <input name="user.email" type="text" placeholder="" ng-model="user.email">
                 
                 <label>Phone</label>
-                <input type="text" placeholder="" ng-model="user.phoneNumber">
+                <input name="user.phoneNumber" type="text" placeholder="" ng-model="user.phoneNumber">
                 
             </div>
             
@@ -74,14 +74,26 @@
                         </span>
                     </div>
                 </div>
-                
+            
+            </div>
+            
+            
+            <div class="span10" can-do-action="welcomeEmail-users">
+                <h3>Send Welcome Email</h3>
+                <div class="row">
+                    <div class="span4">
+                        <button class="btn btn-primary" ng-click="welcomeEmail()"><i class="icon-envelope"></i>&nbsp;{{buttonText}}<i class='icon icon-spinner icon-spin' ng-show="processing"></i></button>
+                        <br /><br />
+                        <p>This will send a welcome email to {{user.fullname}} containing his email and a link to login to the dashboard.</p>
+                    </div>
+                </div>
             </div>
             
         </form>
         
         
         
-        <form class="row" name="usersVendors" ng-show="isActiveTab(1)" unsaved-warning-form can-do-action="changeVendors-users"> 
+        <form name="usersVendors" class="row" ng-show="isActiveTab(1)" unsaved-warning-form can-do-action="changeVendors-users"> 
             
             <h3>Manage Vendors for this user</h3>
             <table class="table table-rate-sheets">
@@ -124,14 +136,14 @@
                 <p class="alert" ng-class="{ 'alert-success': changestatus == true, 'alert-error': changestatus == false}" ng-show="changeMessage">{{changeMessage}}</p>
                 
                 <label>Current Password</label>
-                <input type="password" placeholder="" required name="current_password" ng-model="current_password">
+                <input name="current_password" type="password" placeholder="" required name="current_password" ng-model="current_password">
                 
                 <p class="alert alert-error" ng-show="passwordForm.current_password.$dirty && !!passwordForm.current_password.$error.required">
                 Current password is required
                 </p>
                 
                 <label>New Password</label>
-                <input type="password" required placeholder="" name="new_password" ng-model="new_password">
+                <input name="new_password" type="password" required placeholder="" name="new_password" ng-model="new_password">
                 
                 <p class="alert alert-error" ng-show="passwordForm.new_password.$dirty && !!passwordForm.new_password.$error.required">
                 New password is required
@@ -175,7 +187,7 @@
         </form>
         
         <span ng-show="canDeleteUser()">
-            <button delete-this  can-do-action='delete-anything' id="user._id" redirect="/dashboard/users" model="modelObject"></button>
+            <button delete-this can-do-action='delete-anything' id="user._id" redirect="/dashboard/users" model="modelObject"></button>
         </span>
         
     </div>

@@ -8,9 +8,17 @@ angular
         'authService',
         'userService',
         'vendorService',
-        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor) {
+        'FormHelper',
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, User, Vendor, FormHelper, CommonInterface) {
 
             $scope.modelObject = User;
+            $scope.buttonText = '';
+            
+            var watch = $scope.$watch('user._id', function(newValue) {
+                $scope.buttonText = 'Send Welcome Email To ' + $scope.user.fullname;
+                //watch();
+            });
 
             Auth.canUserDoAction('edit-users');
 
@@ -32,6 +40,22 @@ angular
                 } else {
                     return true;
                 }
+            };
+            
+            /**
+            * SENDS A WELCOME EMAIL TO USER
+            *
+            */
+            $scope.welcomeEmail = function() {
+                
+                $scope.processing = true;
+                
+                User.sendWelcomeEmail($scope.user._id).then(function(response) {
+                    $scope.processing = false;
+                    $scope.buttonText = 'Email sent!';
+                }, function() {
+                    $scope.processing = false;
+                });
             };
 
             $scope.canDeleteUser = function() {
@@ -92,7 +116,7 @@ angular
             }
 
 
-            function udpateVendorRelationships() {
+            function updateVendorRelationships() {
                 // process each program, checking if its active for the vendor
                 _.each($scope.vendors, function(item, key) {
 
@@ -115,79 +139,39 @@ angular
                 });
             }
 
+            var formTabMap = [
+                'basicForm',
+                'usersVendors',
+                'passwordForm'
+            ];
+
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
-
-                if (!userId) {
-
-                    // create new item
-                    User.add($scope.user).then(function(response) {
-                        $scope.user = response;
-                        // this ensures that on the next save, vendorId is set and the previous if() doesnt run
-                        userId = $scope.user._id;
-                        //saveChangesPrompt.removeListener();
-
-                        if (doRedirect) {
-                            $location.url('/dashboard/users');
-                        }
-
-                    });
-
-                } else {
-
-                    if ($scope.initialRole !== $scope.user.role) {
-
-                        // @todo refactor this to move to backend
-
-                        if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
-
-                            _.each($scope.vendors, function(item, key) {
-                                // check if the user is currently the sales or vendor rep for this vendor
-
-                                if (item.active) {
-                                    if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
-                                    if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
-                                    item.active = false;
-                                }
-
-                                Vendor.update(item);
-                            });
-
-                            udpateVendorRelationships();
-
-                            // update existing item
-                            User.update($scope.user);
-
-                            //saveChangesPrompt.removeListener();
-
-                            if (doRedirect) {
-                                $location.url('/dashboard/users');
+                CommonInterface.save({
+                    Model: User,
+                    instance: $scope.user,
+                    id: userId,
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]],
+                    redirectUrl: '/dashboard/users',
+                    doRedirect: doRedirect,
+                    strategy: function() {
+                        if ($scope.initialRole !== $scope.user.role) {
+                            if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
+                                _.each($scope.vendors, function(item, key) {
+                                    // check if the user is currently the sales or vendor rep for this vendor
+                                    if (item.active) {
+                                        if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
+                                        if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
+                                        item.active = false;
+                                    }
+                                    Vendor.update(item);
+                                });
+                                updateVendorRelationships();
                             }
-
-                        }
-
-
-                    } else {
-                        udpateVendorRelationships();
-
-                        // update existing item
-                        User.update($scope.user);
-
-                        //saveChangesPrompt.removeListener();
-
-                        if (doRedirect) {
-                            $location.url('/dashboard/users');
                         }
                     }
-
-
-                }
-
-
+                });
             };
-
-
-            // --------
 
             /**
              * Gets all the programs, making two calls and merging the results

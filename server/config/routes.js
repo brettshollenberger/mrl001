@@ -82,6 +82,8 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
     // update user password
     app.put('/api/v1/users/:userId/password', isUserAllowed('updatePassword', 'users'), users.updatePassword);
     app.put('/api/v1/users/:userId/reset_password', users.resetPassword);
+    
+    app.get('/api/v1/users/:userId/welcome_user', isUserAllowed('sendWelcomeEmail', 'users'), users.welcomeUser);
 
     // get users vendors
     app.get('/api/v1/users/:userId/vendors', isUserAllowed('list', 'vendors'), vendors.listForUser);
@@ -155,6 +157,8 @@ module.exports = function(app, passport, auth, config, acl, public_api) {
     app.post('/api/v1/vendors', isUserAllowed('create', 'vendors'), vendors.create);
 
     app.get('/api/v1/vendors/tags/:tagType', vendors.getDistinctTags);
+    app.get('/api/v1/vendors/industryCounts', vendors.getIndustryCounts);
+    app.get('/api/v1/vendors/getVendorByIndustry/:industry', vendors.getVendorByIndustry);
 
     // @todo this technically works for now, but needs to be locked down with different show functions per role
     app.get('/api/v1/vendors/:vendorId', isUserAllowed('view', 'vendors'), vendors.show);

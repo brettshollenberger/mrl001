@@ -12,6 +12,10 @@
  * - Resource-action based permission strategy
  * - Controller method for checking permissions
  * - Direcitve for showing / hiding elements based on permissions
+ 
+ * @note we should consider specifiying a "resource" path for the service to call to refrech 
+ * data and then having it call this reosurce when we call refreshUser() method.
+ * this would eliminate the need to always call updateCurrentUser() in controllers. 
  *
  */
 
@@ -35,7 +39,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
          * @todo this needs to be signifigantly refactored to clean up inconsistancies. Mainly:
          *       - follow resource-action pattern
          *       - avoid overlap / duplication of code from API by returning allowed actions with user?
-         *
+         * 
          */
 
         // define inital object
@@ -66,6 +70,7 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             'view-vendors',
             'edit-vendors',
             'edit-users',
+            'changeAvatar',
             'changePassword-users',
             'changeApiOptions-vendor'
         ];
@@ -73,7 +78,8 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         /**
          * Provide Auth service methods, mainly login and logout.
          *
-         * @note these leverage the User service to perform the user relaated actions of login and logout,
+         * @note these leverage the User service to perform the user relaated 
+         *       actions of login and logout,
          *       while adding additional functionality such as storing user in cookie,
          *       clearing user, granting permissions, getting current user, etc.
          *
@@ -102,10 +108,14 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
                 if (!attemptingUser) return false;
 
                 // we have a user, store the data
+                // these props can be updated with updateUser() method
                 userData.currentUser = attemptingUser;
+                userData.authLevel = attemptingUser.role;
+                
+                // these items should not change even if user updates their info
                 userData.userId = attemptingUser._id;
                 userData.isAuth = true;
-                userData.authLevel = attemptingUser.role;
+                
 
                 // store in cookie
                 $cookieStore.put('userData', userData);
@@ -160,6 +170,22 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             }
 
             return userData.currentUser;
+        };
+        
+        
+        /**
+        * Method to update a logged user, can be called by outside controllers
+        * @note currently this replaces the entire logged in user, rather then extending it. 
+        *
+        *
+        */
+        exports.updateCurrentUser = function(newUser) {
+                        
+            userData.currentUser = newUser;
+            userData.authLevel = newUser.role;
+            
+            // update cookie
+            $cookieStore.put('userData', userData);
         };
 
         /**

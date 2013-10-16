@@ -247,16 +247,25 @@ angular
                 // get current user from auth service
                 var theUser = Auth.getCurrentUser();
                 
-                // reset the vendor to be an object
-                // sometimes is appears as an array? 
-                theUser.vendor = {};
+                // check if the user is a vendor
+                // for vendor reps, we store the vendor with the user obejct
+                // for easy return from the api to populate the sitebar
+                // @todo refactor this logic and the sidebar logic completely 
+                //       the vendor object should never be stored in the user
+                //       Instead provide a directive that retrieves information
+                //       for a particular resource given a path and then display it
+                if(theUser.role === 'vendorRep') {
+                    // reset the vendor to be an object
+                    // sometimes is appears as an array? 
+                    theUser.vendor = {};
 
-                // we only need certain information
-                // so grab this from our vendor
-                // @note if we try to save the whole vendor we run out of cookie room! 
-                theUser.vendor._id  = $scope.vendor._id;
-                theUser.vendor.logo = $scope.vendor.logo;
-                theUser.vendor.name = $scope.vendor.name;
+                    // we only need certain information
+                    // so grab this from our vendor
+                    // @note if we try to save the whole vendor we run out of cookie room! 
+                    theUser.vendor._id  = $scope.vendor._id;
+                    theUser.vendor.logo = $scope.vendor.logo;
+                    theUser.vendor.name = $scope.vendor.name; 
+                }
                 
                 // save the update
                 Auth.updateCurrentUser(theUser);

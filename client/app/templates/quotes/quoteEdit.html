@@ -14,7 +14,7 @@
                     
                     <div class="actions">
                         <a class="btn btn-primary" target="_blank" ng-click="download(quote._id)"><i class="icon icon-print"></i>Download PDF</a>
-                        <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter/{{quote._id}}"><i class="icon icon-paste"></i>View Quote</a>
+                        <a class="btn btn-primary" target="_blank" ng-href="{{linkToTool(quote.vendorId.slug, 'quoter', quote._id)}}"><i class="icon icon-paste"></i>View Quote</a>
                         <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
                         <a class="btn btn-success" unsaved-warning-clear id="save"ng-show="quoteForm.$dirty" ng-click="save(false)"><i class="icon icon-ok-sign"></i>Save</a>
                     </div>

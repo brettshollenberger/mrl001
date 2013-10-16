@@ -329,6 +329,27 @@ angular
         };
 
         /**
+        * Returns a link to a slugified vendor tool
+        *
+        */
+        $rootScope.linkToTool = function(slug, tool, itemId) {
+            
+            // get the base url by replacing the current absolute url with the current path
+            var base = $location.absUrl().replace($location.path(), '');
+            
+            // remove http 
+            base = base.replace('https://', '').replace('http://', '');    
+            
+            // build base url to tool
+            var url = window.location.protocol + '//' + slug + '.' + base + '/tools/' + tool; 
+
+            // append item id if we have it
+            if(itemId) url += '/' + itemId;
+                        
+            return url;
+        };
+
+        /**
          * Sets active class on a link based on current url / location
          *
          * @example <a ng-class="getClass('/path')" href="/path">Path</a> // adds active class

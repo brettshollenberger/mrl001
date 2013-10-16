@@ -6,7 +6,7 @@
                 <h2><i class="icon icon-file-text-alt"></i>{{!application._id && 'New' || 'Edit'}} Application</h2>
                 
                 <div class="actions">
-                    <a class="btn btn-primary" target="_blank" ng-href="#/tools/application/{{application._id}}">
+                    <a class="btn btn-primary" target="_blank" ng-href="{{linkToTool(application.vendorId.slug, 'application', application._id)}}">
                         <i class="icon icon-paste"></i>View Application
                     </a>
                     <a class="btn btn-primary" id="cancel" history-back>

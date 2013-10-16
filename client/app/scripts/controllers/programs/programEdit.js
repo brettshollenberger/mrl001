@@ -315,12 +315,13 @@ angular
              */
             $scope.remove = function(type, index, options) {
 
-                console.log(options);
+                //console.log(options);
+                //console.log(type);
 
-                if (type === 'column') {
+                if (type === 'column' && options.terms.length > 1) {
 
-                    console.log(options.terms[index]);
-                    console.log(options);
+                    //console.log(options.terms[index]);
+                    //console.log(options);
 
                     // remove costs at this index
                     _.each(options.costs, function(item) {
@@ -330,7 +331,7 @@ angular
                     // remove label
                     options.terms.splice(index, 1);
 
-                } else if (type === 'row') {
+                } else if (type === 'row' && options.costs.length > 1) {
 
                     // remove costs at this index
                     options.costs.splice(index, 1);

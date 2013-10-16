@@ -187,6 +187,8 @@ angular
                 var newMin;
                 if (_.last(theProgram.costs).max) {
                     newMin = parseInt(_.last(theProgram.costs).max, 10) + 1;
+                    // parse this back to a string so it will be properly converted to currency on the server
+                    newMin = newMin.toString();
                 } else {
                     newMin = '';
                 }

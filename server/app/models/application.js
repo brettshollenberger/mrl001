@@ -23,27 +23,28 @@ var noteSchema = new Schema({
  * Application Schema
  */
 var ApplicationSchema = new Schema({
-    "created": {
+    
+    created: {
         type: Date,
         "default": Date.now
     },
-    name: {
+    totalCost: {
+        type: Number,
+        required: true
+    },
+    totalCostDisplay: {
         type: String,
-        "default": '',
-        trim: true
+        required: true
     },
     status: {
         type: String,
         "default": 'new',
         trim: true
     },
-    quoteId: {
-        type: Schema.ObjectId,
-        ref: 'Quote'
-    },
     vendorId: {
         type: Schema.ObjectId,
-        ref: 'Vendor'
+        ref: 'Vendor',
+        required: true
     },
     "salesRep": {
         type: Schema.ObjectId,
@@ -53,117 +54,76 @@ var ApplicationSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
-    vendor: {},
-    quote: {},
-    leasee: {
-        fullLegalBusinessName: {
-            type: String,
-            "default": '',
-            trim: true
-        },
+    description: {
+        type: String,
+        "default": '',
+        trim: true
+    },
+    payments: {},
+    company: {
+        fullLegalBusinessName: {type: String, "default": '', trim: true},
         contactPerson: {
-            name: {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            email: {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            phone: {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            contactMethod: {
-                type: String,
-                "default": '',
-                trim: true
-            }
+            name: {type: String, "default": '', trim: true},
+            email: {type: String, "default": '', trim: true},
+            phone: {type: String, "default": '', trim: true},
+            contactMethod:{type: String, "default": '', trim: true}
         },
         businessAddress: {
-            "address1": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "address2": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "city": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "state": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "zip": {
-                type: Number
-            }
-        },
-        yearsInBusiness: {
-            type: Number
-        },
-        soleProp: {
-            type: Boolean,
-            "default": false
+          "address1": {type: String, "default": '', trim: true},
+          "address2": {type: String, "default": '', trim: true},
+          "city": {type: String, "default": '', trim: true},
+          "state": {type: String, "default": '', trim: true},
+          "zip": {type: String, "default": '', trim: true}
         }
     },
-    guarantorInfo: {
-        name: {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        email: {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        phone: {
-            type: String,
-            "default": '',
-            trim: true
-        },
-        socialSecurityNumber: {
-            type: String,
-            "default": '',
-            trim: true
+    customField: {
+        displayName: String,
+        value: String,
+        "default": ""
+    },
+
+
+    // before this is direct copy of quote
+    //   after this is unique to application
+    //   we only copy over for posterarity
+    //   in case the quote is ever deleted or 
+    //   updated after the application is cretaed
+    //
+    // @note which status matches quote?
+    // @todo change this in email too 
+    yearsInBusiness: {
+        type: Number
+    },
+    soleProp: {
+        type: Boolean,
+        "default": false
+    },
+    payment: {},
+    quoteId: {
+        type: Schema.ObjectId,
+        ref: 'Quote'
+    },
+    notes: [noteSchema],
+    agreeToTerms: {
+        type: Boolean,
+        "default": false
+    },
+    guarantor: {
+        contactPerson: {
+            name: {type: String, "default": '', trim: true},
+            email: {type: String, "default": '', trim: true},
+            phone: {type: String, "default": '', trim: true},
+            contactMethod:{type: String, "default": '', trim: true}
         },
         homeAddress: {
-            "address1": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "address2": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "city": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "state": {
-                type: String,
-                "default": '',
-                trim: true
-            },
-            "zip": {
-                type: Number
-            }
+            "address1": {type: String, "default": '', trim: true},
+            "address2": {type: String, "default": '', trim: true},
+            "city": {type: String, "default": '', trim: true},
+            "state": {type: String, "default": '', trim: true},
+            "zip": {type: String, "default": '', trim: true}
         }
-    },
-    notes: [noteSchema]
+    }
+    
 });
 
 /**
@@ -173,7 +133,7 @@ ApplicationSchema.statics = {
     load: function(id, cb) {
         this.findOne({
             _id: id
-        }).exec(cb);
+        }).populate('vendorId').exec(cb);
     }
 };
 

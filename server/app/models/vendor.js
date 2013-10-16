@@ -5,18 +5,16 @@ var mongoose = require('mongoose'),
     env = process.env.NODE_ENV || 'development',
     config = require('../../config/config')[env],
     Schema = mongoose.Schema,
-    _ = require('lodash');
+    _ = require('lodash'),
+    numeral = require('numeral');
 
 var customNameSchema = new Schema({
     type: Schema.ObjectId,
     displayName: String
 });
 
-var toolEnabledSchema = new Schema({
-    "name": String,
-    "active": Boolean,
-    "slug": String
-});
+var defaultTerms = 'Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.';
+
 
 /**
  * Vendor Schema
@@ -35,6 +33,11 @@ var VendorSchema = new Schema({
         type: String,
         "default": '',
         trim: true
+    },
+    "slug": {
+        type: String,
+        "default": '',
+        trim: true 
     },
     "contactPerson": {
         "name": {
@@ -78,11 +81,17 @@ var VendorSchema = new Schema({
         "default": '',
         trim: true
     },
+    "whiteLabel": {
+        type: Boolean,
+        "default": false,
+        trim: true
+    },
     "businessPhone": {
         type: String,
         "default": '',
         trim: true
     },
+    "range": {},
     "businessAddress": {
         "address1": {
             type: String,
@@ -120,7 +129,20 @@ var VendorSchema = new Schema({
             "default": null
         }
     },
-    "tools": [toolEnabledSchema],
+    "tools": {
+        'locator': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'quoter': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        },
+        'api': {
+            'enabled' : { type: Boolean, "default" : false },
+            'display' : String
+        }
+    },
     "programs": [{
         type: Schema.ObjectId,
         ref: 'Program'
@@ -140,6 +162,15 @@ var VendorSchema = new Schema({
             "default": '',
             trim: true
         }
+    },
+    "apiKey" : {
+        type: String,
+        "default": null
+    },
+    "creditEmailAddress": {
+        type: String,
+        "default": '',
+        trim: true
     }
 });
 
@@ -148,6 +179,7 @@ VendorSchema.plugin(troop.merge);
 
 var taggable = require('mongoose-taggable');
 VendorSchema.plugin(taggable, {'path':'tags'});
+VendorSchema.plugin(taggable, {'path':'industryTags'});
 
 /**
  * Statics
@@ -180,7 +212,7 @@ VendorSchema.pre('init', function(next, data) {
         });
         item.displayName = customName.length ? customName[0].displayName : null;
     });
-
+    
     next();
 });
 
@@ -191,9 +223,73 @@ function convertToSlug(Text) {
         .replace(/[^\w\-]+/g, '');
 }
 
+/**
+ * Runs similar to "after get" callback
+ *
+ */
+VendorSchema.post('init', function() {
+    
+    // set display name for tools
+    // seems silly to save this within the vendor
+    // however the model objects needs these props anyway for it to work
+    // so its redundent then to set here. 
+    if(this.tools) {
+        this.tools.locator.display = 'Vendor Locator';
+        this.tools.quoter.display = 'Quoter';
+        this.tools.api.display = 'API';
+    }
+    
+    if (!this.legalTerms || this.legalTerms === '') {
+        this.legalTerms = defaultTerms;
+    }
+
+});
+
+
+/**
+* ----------------------------------------
+* Formats and rounds currecny
+* ----------------------------------------
+*/
+var formatPayment = function(payment) {
+
+    return numeral(payment).format('$0,0.00');
+    
+};
+
+// function that returns high and low program value given an array of program object
+// 
+var getProgramRange = function(programs) {
+        
+    var sheets = _.pluck(programs, 'rateSheet');
+    
+    var range = {};
+    response = {};
+    
+    _.each(sheets, function(item) {
+        _.each(item.buyoutOptions, function(item) {
+            var costs = item.costs;
+            range.min = _.min(_.pluck(costs, 'min'));
+            range.max = _.max(_.pluck(costs, 'max'));
+        });
+    });
+    
+    _.each(range, function(item, key) {
+        
+        response[key] = {
+            display: formatPayment(item / 100),
+            value: item / 100
+        };
+    
+    });
+        
+    return response;
+};
+
+
+
 VendorSchema.pre('save', function(next) {
-    
-    
+ 
     /**
     * Process tags from dashboard
     * --------------------------------
@@ -205,65 +301,135 @@ VendorSchema.pre('save', function(next) {
     *
     */
     var vendor = this;
-    
-    var vendorTags = [];  // tags that are currently being passed from the vendor
-    
-    // create a unified array of current vendor tags
-    _.each(vendor.vendorTags, function(item) {
-        vendorTags.push(item.text);
-    });
-
-    var newTags = _.difference(vendorTags, vendor.tags);
-    var removeTags = _.difference(vendor.tags, vendorTags);
-        
-    _.each(newTags, function(item) {
-        vendor.addTag(item, function(err, addedTag) {
-            console.log('Added: ' + item);
-        });
-    });
-    
-    _.each(removeTags, function(item) {
-        vendor.removeTag(item, function(err, removedTag) {
-            console.log('Removed: ' + item);
-        });
-    });
-    
-    
-    /**
-    * A nice way to create a search string that we can use on the dealer locator
-    * --------------------------------
-    * 
-    * @todo refactor with fulltext mondules that @pickle was looking into
-    *       with a fultext search in place, we could just send tag searches as get queries
-    *       and let the server do all the work.
-    *
-    */
     vendor.searchString = '';
     
+    // the tags that are present on the vendor model
+    var tagTypes = {'tags' : 'vendorTags', 'industryTags' : 'vendorIndustryTags'};
     
-    // will be present when updating from dashboard
-    if(vendor.vendorTags) {
-        _.each(vendor.vendorTags, function(tag) {
-            vendor.searchString += tag.text + ' '; 
+    _.each(tagTypes, function(type, path) {
+
+        var vendorTags = [];
+        var newTags = [];
+        var removeTags = [];
+        
+        // create a unified array of current vendor tags
+        // from dashboard
+        if(vendor[type]) {
+            
+            _.each(vendor[type], function(item) {
+                vendorTags.push(item.text);
+            });
+        
+        // from seed data
+        } else {
+            
+            _.each(vendor[path], function(item) {
+                vendorTags.push(item);
+            });
+            
+        }
+        
+    
+        newTags = _.difference(vendorTags, vendor[path]);
+        removeTags = _.difference(vendor[path], vendorTags);
+        
+        _.each(removeTags, function(item) {
+            vendor[path] = _.chain(vendor[path]).map(function(tag) {
+                if (!_.contains(removeTags, tag)) {
+                    return tag;
+                }
+            }).compact().value();
+        });
+
+        _.each(newTags, function(item) {
+            vendor[path].push(item);
         });
         
-    // on seed data
-    } else {
-        _.each(vendor.tags, function(tag) {
-            vendor.searchString += tag + ' '; 
-        });
-    }
-
+        /**
+        * A nice way to create a search string that we can use on the dealer locator
+        * --------------------------------
+        * 
+        * @todo refactor with fulltext mondules that @pickle was looking into
+        *       with a fultext search in place, we could just send tag searches as get queries
+        *       and let the server do all the work.
+        *
+        */
+        
+        // will be present when updating from dashboard
+        if(vendor[type]) {
+            _.each(vendor[type], function(tag) {
+                vendor.searchString += tag.text + ' '; 
+            });
+            
+        // on seed data
+        } else {
+            _.each(vendor[path], function(tag) {
+                vendor.searchString += tag + ' '; 
+            });
+        }
+    });
 
     /**
     * Standardize tool slugs
     *
     */
+/*
     _.each(vendor.tools, function(item) {
         item.slug = convertToSlug(item.name);
     });
+*/
 
-    next();
+    /**
+    * Always generate an API key even if a vendor is not using it currently
+    *
+    * @todo in the future we should have a function to recreate an API key if admin needs to
+    *
+    */
+    if(this.isNew) { 
+        var key = require('node-uuid')();
+        this.apiKey = key; 
+    }
+    
+    
+    // find a range, min and max value, for this program
+    // we'll use this to quickly check if a quote value is within range
+    //
+    
+    if(vendor.programs) {
+    
+        mongoose.models.Program
+            .find({_id: { $in: vendor.programs }})
+            .exec(function(err, data) {
+            
+                if(data) {
+                    vendor.range = getProgramRange(data);
+                }
+                
+                next();
+               
+            });
+            
+    } else {
+        next();
+    }
+    
+    // check for http:// prefixed to website and if not add it
+    if(vendor.website) {
+        if (!vendor.website.match(/^[a-zA-Z]+:\/\//))
+        {
+            vendor.website = 'http://' + vendor.website;
+        }
+    }
+    
+    // generate a slug from the vendor name
+    // we use this to create unique URL for their dealer locator
+    //
+    if(!vendor.slug) vendor.slug = vendor.name;
+    
+    // sluggify it! 
+    vendor.slug = convertToSlug(vendor.slug);
+    
+   
 });
 
 VendorSchema.statics = {
@@ -274,10 +440,9 @@ VendorSchema.statics = {
         // for easy geting from the database 
         return this.findOne({
             _id: vendorId
-        }, function(err, result) {
+        }).populate('vendorRep').exec(function(err, result) {
             if (err) return cb(err);
             if (result && result._id) {
-                console.log(result);
                 return cb(null, result);
             } else {
                 return cb(new Error(vendorId + ' is Not a valid vendor id'));

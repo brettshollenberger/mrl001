@@ -10,6 +10,7 @@
 var mongoose = require('mongoose'),
     Quote = mongoose.model('Quote'),
     Vendor = mongoose.model('Vendor'),
+    Application = mongoose.model('Application'),
     User = mongoose.model('User'),
     moment = require('moment'),
     formatFactory = require('format-number')
@@ -53,7 +54,7 @@ exports.newQuoteEndUser = function(req, quote) {
         subject: 'Your ' + vendorName + ' Quote'          
     };
     
-    req.app.emailer.send('quotes/new-endUser', locals);            
+    req.app.emailer.send('quotes/new-endUser', locals);
     
 };
 
@@ -145,17 +146,118 @@ exports.newQuoteVendorRep = function(req, quote) {
 // ---------------------------------------
 
 exports.completeAppCredit = function(req, app) {
+    
+    // make a call to get the vendor
+    Application.findOne({_id:app._id}).populate('vendorId salesRep vendorRep').exec(function (err, app) {
+          
+        // send to the custom credit emaiil address if there is one set
+        var sendTo = (app.vendorId.creditEmailAddress && app.vendorId.creditEmailAddress !== '') ?
+            app.vendorId.creditEmailAddress : 
+            'credit@marlinfinance.com';
+     
+        var appSalesRepLocal = app.salesRep ? app.salesRep.fullname : '';
+        var appVendorRepLocal = app.vendorRep ? app.vendorRep.fullname : '';
+     
+        var locals = {
+            to: {
+                email: sendTo,
+                fullName: 'Marlin Finance'
+            },
+            variables: {
+                
+                appVendorName: app.vendorId.name,
+                appSalesRep: appSalesRepLocal,
+                appVendorRep: appVendorRepLocal,
+                
+                appTotalCost: app.totalCostDisplay,
+                appDesc: app.description,
+                
+                appCustomFieldName: app.customField.displayName,
+                appCustomFieldValue: app.customField.value,
+                
+                appPaymentTerm: app.payment.term,
+                appPayment: app.payment.paymentDisplay,
+                appBuyoutOption: app.payment.buyoutOption,
+                appBuyoutProgramName: app.payment.programName,
+                
+                appCompanyName: app.company.fullLegalBusinessName,
+                appCompanyAddress1: app.company.businessAddress.address1,
+                appCompanyAddress2: app.company.businessAddress.address2,
+                appCompanyCity: app.company.businessAddress.city,
+                appCompanyState: app.company.businessAddress.state,
+                appCompanyZip: app.company.businessAddress.zip,
+                
+                appCompanySoleProp: app.soleProp,
+                appCompanyYearsInBusiness: app.yearsInBusiness,
+    
+                appContactName: app.company.contactPerson.name,
+                appContactEmail: app.company.contactPerson.email,
+                appContactPhone: app.company.contactPerson.phone,
+                appContactMethod: app.company.contactPerson.contactMethod,
+                
+                appGuarantorName: app.guarantor.contactPerson.name,
+                
+                appGuarantorContactEmail: app.guarantor.contactPerson.email,
+                appGuarantorContactPhone: app.guarantor.contactPerson.phone,
+                appGuarantorContactAddress1: app.guarantor.homeAddress.address1,
+                appGuarantorContactAddress2: app.guarantor.homeAddress.address2,
+                appGuarantorContactCity: app.guarantor.homeAddress.city,
+                appGuarantorContactState: app.guarantor.homeAddress.state,
+                appGuarantorContactZip: app.guarantor.homeAddress.zip
+            }   
+        };
+        
+        req.app.emailer.send('apps/complete-credit', locals);
+    
+    });
+    
+};
+
+// ---------------------------------------
+// 
+// RESET PASSWORD EMAIL
+//
+// ---------------------------------------
+exports.resetPassword = function(req, app) {
      
     var locals = {
         to: {
-            email: 'credit@marlinfinance.com',
-            fullName: 'Marlin Finance'
+            email: req.theUser.email,
+            fullName: req.theUser.fullname || req.theUser.name.first || "User"
         },
         variables: {
-            link: app.dashboardLink
-        }   
+            fullName: req.theUser.fullname || req.theUser.name.first || "User",
+            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
+            password: req.theUser.password
+        }
     };
     
-    req.app.emailer.send('apps/complete-credit', locals);            
+    req.app.emailer.send('account/password-reset', locals);
     
 };
+
+
+
+// ---------------------------------------
+// 
+// SEND WELCOME EMAIL TO USER
+//
+// ---------------------------------------
+exports.sendWelcome = function(req, app) {
+     
+    var locals = {
+        to: {
+            email: req.theUser.email,
+            fullName: req.theUser.fullname || req.theUser.name.first || "User"
+        },
+        variables: {
+            fullName: req.theUser.fullname || req.theUser.name.first || "User",
+            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
+            password: req.theUser.password
+        }
+    };
+        
+    req.app.emailer.send('account/welcome-user', locals);
+    
+};
+

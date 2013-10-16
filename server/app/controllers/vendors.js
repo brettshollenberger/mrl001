@@ -8,9 +8,73 @@ var mongoose = require('mongoose'),
 
 
 /**
+ * Find / query function, allows us to pass a mongodb style query over rest
+ *
+ * @todo change to GET!!! might require querystring module and will def require modifying angular service
+ * @todo add to remaining controllers, currently only in application controller.
+ *
+ * @example { 'status' : 'open' } // gets all with status open
+ * @example { 'status' : { '$nin' : ['open', 'archived', 'denied'] } } // gets all where status not in array
+ *
+ * @note these must be passed through JSON.stringify on the angular app side
+ *
+ */
+exports.find = function(req, res, next) {
+
+    // currently query is just request body
+    var query = JSON.parse(req.query.query);
+
+/*
+    if (req.userHasRole('salesRep')) {
+        query.salesRep = req.user._id;
+    } else if (req.userHasRole('vendorRep')) {
+        query.vendorRep = req.user._id;
+    }
+*/
+
+    Vendor
+        .find(query)
+        .exec(function(err, vendors) {
+            if (err) {
+                res.failure(err);
+            } else {
+                res.ok(vendors);
+            }
+        });
+};
+
+/**
  * Find vendor by id
  */
 exports.vendor = function(req, res, next, id) {
+
+    Vendor.load(id, function(err, vendor) {
+        if (err) return next(err);
+        if (!vendor) {
+            return res.failure('No results', 404);
+        }
+        req.vendor = vendor;
+        next();
+    });
+};
+
+/**
+ * Find vendor by req.body.vendorId or req.params.vendorId
+ * @todo this should be able to piggy back on exports.vendor by checkig for params and body if
+ *    id doesn't exist ad the 4th param. However this was not working and causing errors.
+ *
+ */
+exports.findByBodyOrParams = function(req, res, next) {
+    
+    var id = null;
+
+    if(req.body && req.body.vendorId) {
+        id = req.body.vendorId;
+    } else if(req.params && req.params.vendorId) {
+        id = req.params.vendorId;
+    }
+    
+    if(!id) return res.failure('missing vendor id');
 
     Vendor.load(id, function(err, vendor) {
         if (err) return next(err);
@@ -27,16 +91,6 @@ exports.vendor = function(req, res, next, id) {
  */
 exports.create = function(req, res) {
     var vendor = new Vendor(req.body);
-
-    // set default tools
-    // @todo move to pre save in model
-    vendor.tools = [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": false
-    }];
 
     vendor.save();
     res.ok(vendor);
@@ -98,9 +152,7 @@ exports.allForSalesRep = function(req, res) {
                 res.ok(vendors);
             }
         });
-
 };
-
 
 /**
  * List of Vendors
@@ -123,8 +175,8 @@ exports.all = function(req, res) {
             vendorRep: req.user._id
         };
     } else {
-        populate = '';
-        select = 'name _id logo customField geo tools tags searchString';
+        populate = 'vendorRep';
+        select = 'name _id logo customField geo tools tags searchString whiteLabel range website vendorRep legalTerms';
     }
 
     Vendor
@@ -206,14 +258,13 @@ exports.listNotForUser = function(req, res) {
 };
 
 
-
 /**
  * List of Vendors
  */
 exports.getAllNames = function(req, res) {
     Vendor
         .find()
-        .select('_id name')
+        .select('_id name legalTerms')
         .sort('-created')
         .populate('programIds salesRep programs')
         .exec(function(err, vendors) {
@@ -230,12 +281,38 @@ exports.getAllNames = function(req, res) {
  *
  */
 exports.getDistinctTags = function(req, res) {
-    Vendor.distinct('tags', {}, function (err, result) {
+    Vendor.distinct(req.params.tagType, {}, function (err, result) {
         if (err) res.failure(err);
         res.ok(result);
     });
 };
 
+exports.getIndustryCounts = function(req, res) {
+    Vendor.aggregate([
+        { $match: { /* Query can go here, if you want to filter results. */ } } 
+      , { $project: { industryTags: 1 } } /* select the tokens field as something we want to "send" to the next command in the chain */
+      , { $unwind: '$industryTags' } /* this converts arrays into unique documents for counting */
+      , { $group: { /* execute 'grouping' */
+              _id: { token: '$industryTags' } /* using the 'token' value as the _id */
+            , count: { $sum: 1 } /* create a sum value */
+          }
+        }
+    ], function(err, result) {
+        if (err) res.failure(err);
+        res.ok(result);
+    });
+};
+
+exports.getVendorByIndustry = function(req, res) {
+
+    Vendor.find({industryTags:req.params.industry}).exec(function(err, vendors) {
+        if (err) {
+            res.failure(err);
+        } else {
+            res.ok(vendors);
+        }
+    });
+};
 
 /**
  * Get programs for a vendor

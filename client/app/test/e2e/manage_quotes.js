@@ -75,7 +75,7 @@ describe('Quote management', function() {
         
         it('Clicking save quote should redirect user back to quotes table', function() {
             element('#save').click();
-            expect(browser().location().url()).toEqual('/dashboard/quotes');
+            expect(browser().location().url()).toEqual('/dashboard/quotes'); 
         });
         
         it('Should have one additional quote in the table', function() {
@@ -99,7 +99,7 @@ describe('Quote management', function() {
         });
 
         it('Should have editable fields', function() {
-            input('quote.description').enter('Something new to buy equiptment for');
+            input('quote.description').enter('Something new to buy equipment for');
             input('quote.totalCost').enter(122);
         });
 

@@ -1,200 +1,347 @@
-<div class="row vendorSection area" ng-show="vendor._id">
-    <div class="span8 offset1">
-        <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
-        <a ng-show="vendor.website" href="{{vendor.website}}">
-            <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
-        </a>
-        <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
-        
-    </div>
-    <div class="span2">
-        <img class="pull-right poweredby" src="img/powered_by.png" />
-    </div>
-</div>
-
-<div class="row area" ng-show="!didQuote">
-
-    <div class="span8 offset1">
-            
-        <label>Choose your vendor</label>
-        <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors" >
-            <option value="">---- Choose Vendor ----</option>
-        </select>
-    </div>
+<form name="QuoterToolForm" novalidate ng-submit="generateQuote()">
     
-    <div class="span2" ng-show="!vendor._id">
-        <img class="pull-right poweredby" src="img/powered_by.png" />
-    </div>
+    <div class="stretch">
     
-</div>
-
-
-<div class="row area-dark area">
-    <div class="span10 offset1">
-        <div class="row">
-            <div class="span10">
-                <h3>Equipment Information</h3>
+        <div class="row vendorSection area" ng-show="vendor._id">
+            <div class="span8 offset1">
+                <h1 ng-show="!vendor.logo">{{vendor.name}}</h1>
+                <a ng-show="vendor.website" href="{{vendor.website}}" target="_blank">
+                    <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original" title="{{vendor.name}}" />
+                </a>
+                <img class="img-rounded img-large vendor-logo" ng-src="{{vendor.logo.original}}" ng-show="vendor.logo.original && !vendor.website" title="{{vendor.name}}" />
             </div>
-        </div>
-    
-        <div class="row area-equiptment area">
-            <div class="span5">
-                <label>Total Cost</label>
-                <span class="dollarSign">$</span><input type="text" class="input-xlarge dollarSign-prepend" placeholder="" ng-model="quoteCost" ng-disabled="!canEdit">
-                <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
-                
-                <a  class="btn btn-primary" 
-                    id="re-generateQuote"
-                    analytics-on="click" 
-                    analytics-event="ReCalcuate Quote"
-                    analytics-category="Tools : Quoter" 
-                    ng-disabled="" 
-                    ng-click="generateQuote()" 
-                    ng-show="didQuote && canEdit">{{buttonText}}</a>
+            
                     
-                <p ng-show="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
-            
+            <div class="span2" ng-hide="vendor.whiteLabel">
+                <img class="pull-right poweredby" src="img/powered_by.png" />
             </div>
-            <div class="span5">
-                <label>Description of Equipment</label>
-                <textarea type="text" class="large" ng-model="quote.description" ng-disabled="!canEdit"></textarea>
-                
-                <div ng-show="vendor.customField.enabled">        
-                    <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
-                    <input ng-show="vendor.customField.required" type="text" class="large" required ng-model="quote.customField.value" />
-                    <input ng-show="!vendor.customField.required" type="text" class="large" ng-model="quote.customField.value" />
+    
+        </div>
+    
+        <div class="row area" ng-show="!didQuote && !vendor._id">
+    
+            <div class="span8 offset1">
+                    
+                <label>Choose your vendor</label>
+                <select ng-show="!didQuote && !haveVendor" id="vendorName" ng-model="vendor" ng-options="value as value.name for (key, value) in vendors">
+                    <option value="">---- Choose Vendor ----</option>
+                </select>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div class="row area-dark area">
+        <div class="span10 offset1">
+            <div class="row">
+                <div class="span10">
+                    <h3>Equipment Information</h3>
                 </div>
+            </div>
+            <div form-group form="QuoterToolForm" ng-class="{'lockedForm' : !canEdit}">
+                
+                <div class="row area-equiptment area">
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ########################### Cost ########################### -->
+                        <!-- ############################################################ -->
+
+                        <label>Total Cost</label>
+                        <span class="dollarSign">$</span>
+                        <input 
+                            form-field 
+                            type="text" 
+                            currency-input
+                            id="cost" 
+                            class="input-block dollarSign-prepend" 
+                            ng-model="quote.totalCost"
+                            placeholder=""
+                            ng-disabled="!canEdit" 
+                            currency-input-watch="{{quote.totalCost}}"
+                            name="cost" 
+                            simple-validate="{numericality: {exp: 'Validator.validateCash($value, QuoterToolForm.cost)', message: 'Cost must be a number'}}"
+                            ng-blur="Validator.validateField(QuoterToolForm.cost, QuoterToolForm)"
+                            required>
+                             
+                        <p ng-show="vendor._id && canEdit && vendor.range">Suggested range is {{vendor.range.min.display}} to {{vendor.range.max.display}}. For quotes above this range, please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a></p>
+                        
+                        <!-- Shown when user revisits the quote -->
+                        <!-- <input form-field type="text" id="cost" class="input-block dollarSign-prepend" ng-disabled="!canEdit" name="cost" value="{{ quoteCost | currency:' ' }}"> -->
+                        
+                        <div ng-show="QuoterToolForm.FacultyErrors.cost" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.cost}}
+                        </div>
+                        <p class="alert alert-info" ng-hide="!didQuote || !canEdit">You can change the amount and click re-calculate quote.</p>
+
+                        <!-- ############################################################ -->
+                        <!-- #################### Generate Quote Button ################# -->
+                        <!-- ############################################################ -->
+                        <a  class="btn btn-primary" 
+                            id="re-generateQuote"
+                            analytics-on="click" 
+                            analytics-event="ReCalcuate Quote"
+                            analytics-category="Tools : Quoter" 
+                            ng-disabled="" 
+                            ng-click="generateQuote()" 
+                            ng-show="didQuote && canEdit">{{buttonText}}</a>
+                            
+                        <p ng-show="didQuote && canEdit">Or, get a <a href="#/tools/quoter">new quote</a></p>
+                    
+                    </div>
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ########################### Description #################### -->
+                        <!-- ############################################################ -->
+                        <label for="description">Description of Equipment</label>
+                        <textarea  ng-show="canEdit" form-field name="description" id="description" type="text" class="textarea-block" ng-model="quote.description" ng-disabled="!canEdit" ng-blur="Validator.validateField(QuoterToolForm.description, QuoterToolForm)" required></textarea>
+
+                        <!-- Shown when user revisits the quote -->
+                        <textarea ng-show="!canEdit" disabled name="description" id="description" type="text" class="textarea-block">{{quote.description}}</textarea>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.description" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.description}}
+                        </div>
+                        
+                        <div ui-if="vendor.customField.enabled && canEdit && vendor.customField.required">        
+                            <label for="customFieldRequired">{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input 
+                                form-field 
+                                required
+                                name="customFieldRequired" 
+                                type="text" class="large" 
+                                ng-blur="Validator.validateField(QuoterToolForm.customFieldRequired, QuoterToolForm)"
+                                ng-model="quote.customField.value" />
+                            
+                            <div ng-show="QuoterToolForm.FacultyErrors.customFieldRequired" class="alert alert-error alert-tooltip">
+                                {{QuoterToolForm.FacultyErrors.customFieldRequired}}
+                            </div>
+                        </div>
+                        
+                        <div ui-if="vendor.customField.enabled && canEdit && !vendor.customField.required">  
+                            <label for="customField">{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input 
+                                form-field 
+                                name="customField" 
+                                type="text" class="large" 
+                                ng-blur="Validator.validateField(QuoterToolForm.customField, QuoterToolForm)"
+                                ng-model="quote.customField.value" />
+                        
+                            <div ng-show="QuoterToolForm.FacultyErrors.customField" class="alert alert-error alert-tooltip">
+                                {{QuoterToolForm.FacultyErrors.customField}}
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- Shown when user revisits the quote -->
+                        <div ng-show="vendor.customField.enabled && !canEdit">        
+                            <label>{{quote.customField.displayName || vendor.customField.displayName}}</label>
+                            <input disabled type="text" class="large" value="quote.customField.value" />
+                        </div>
+                    
+                    </div>
+                </div>
+            </div> <!-- End form group -->
+        </div>
+    </div>
+
+    <div class="row area" ng-hide="didQuote">   
+        <div class="span10 offset1">
+            <div class="row">
+                <div class="span10">
+                    <h3>Company Info</h3>
+                </div>
+            </div>
+            <div form-group form="QuoterToolForm">
+                <div class="row area">
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ######################## Company Name ###################### -->
+                        <!-- ############################################################ -->
+                        <label for="companyName">Company Name</label>
+                        <input form-field type="text" name="companyName" id="companyName" class="input-block" placeholder="" ng-model="quote.company.fullLegalBusinessName"
+                        ng-blur="Validator.validateField(QuoterToolForm.companyName, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.companyName" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.companyName}}
+                        </div>
+
+                    </div>
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ######################## Address One ####################### -->
+                        <!-- ############################################################ -->
+                        <label for="addressOne">Address 1</label>
+                        <input form-field type="text" name="addressOne" id="addressOne" class="input-block" placeholder="" ng-model="quote.company.businessAddress.address1" ng-blur="Validator.validateField(QuoterToolForm.addressOne, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.addressOne" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.addressOne}}
+                        </div>
+                        
+                        <!-- ############################################################ -->
+                        <!-- ######################## Address Two ####################### -->
+                        <!-- ############################################################ -->
+                        <label for="addressTwo">Address 2</label>
+                        <input form-field type="text" name="addressTwo" id="addressTwo" class="input-block" placeholder="" ng-model="quote.company.businessAddress.address2" ng-blur="Validator.validateField(QuoterToolForm.addressTwo, QuoterToolForm)">
+
+                         <div ng-show="QuoterToolForm.FacultyErrors.addressTwo" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.addressTwo}}
+                        </div>
+
+                        <!-- ############################################################ -->
+                        <!-- ############################ City ########################## -->
+                        <!-- ############################################################ -->
+                        <label for="city">City</label>
+                        <input form-field type="text" name="city" id="city" placeholder="" class="input-block" ng-model="quote.company.businessAddress.city" ng-blur="Validator.validateField(QuoterToolForm.city, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.city" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.city}}
+                        </div>
+                        
+                        <!-- ############################################################ -->
+                        <!-- ############################ State ######################### -->
+                        <!-- ############################################################ -->
+                        <label for="state">State</label>
+                        <select form-field class="input-block" name="state" id="state" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states" ng-blur="Validator.validateField(QuoterToolForm.state, QuoterToolForm)" required></select>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.state" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.state}}
+                        </div>
+                        
+                        <!-- ############################################################ -->
+                        <!-- ############################## Zip ######################### -->
+                        <!-- ############################################################ -->
+                        <label for="zip">Zip</label>
+                        <input form-field type="text" name="zip" id="zip" placeholder="" class="input-block" ng-model="quote.company.businessAddress.zip" maxlength="5" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(QuoterToolForm.zip, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.zip" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.zip}}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End form group -->
+        </div>
+    </div>
+
+    <div class="row area area-dark" ng-hide="didQuote">   
+        <div class="span10 offset1">
+
+            <div class="row">
+                <div class="span10">
+                    <h3>Contact Info</h3>
+                </div>
+            </div>
+            <div form-group form="QuoterToolForm">
+                <div class="row area">
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ####################### Contact Name ####################### -->
+                        <!-- ############################################################ -->
+                        <label for="contactName">Contact Name</label>
+                        <input form-field type="text" class="input-block" id="contactName" placeholder="" ng-model="quote.company.contactPerson.name" name="contactName" ng-blur="Validator.validateField(QuoterToolForm.contactName, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.contactName" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.contactName}}
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <!-- ############################################################ -->
+                        <!-- ############################# Email ######################## -->
+                        <!-- ############################################################ -->
+                        <label for="contactEmail">Email</label>
+                        <input form-field type="email" name="contactEmail" id="contactEmail" class="input-block" placeholder="" ng-model="quote.company.contactPerson.email" ng-blur="Validator.validateField(QuoterToolForm.contactEmail, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.contactEmail" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.contactEmail}}
+                        </div>
+
+                        <!-- ############################################################ -->
+                        <!-- ############################# Phone ######################## -->
+                        <!-- ############################################################ -->
+                        <label for="contactPhone">Phone</label>
+                        <input form-field type="text" name="contactPhone" id="contactPhone" class="input-block" placeholder="" ng-model="quote.company.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(QuoterToolForm.contactPhone, QuoterToolForm)" required>
+
+                        <div ng-show="QuoterToolForm.FacultyErrors.contactPhone" class="alert alert-error alert-tooltip">
+                            {{QuoterToolForm.FacultyErrors.contactPhone}}
+                        </div>
+                    
+                        <p>Preferred contact method</p>
+                        <a ng-init="quote.company.contactPerson.contactMethod = 'email'" ng-click="quote.company.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'email'}">Email</a>
+                        <a ng-click="quote.company.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'phone'}">Phone</a>
+                    </div>
+                </div>
+            </div> <!-- End form group -->
+        </div>
+    </div>
+
+
+    <div class="row" ng-show="didQuote && !quoteError">
+
+        <div class="span10 offset1">
             
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row area" ng-hide="didQuote">   
-    <div class="span10 offset1">
-        <div class="row">
-            <div class="span10">
-                <h3>Company Info</h3>
-            </div>
-        </div>
-    
-        <div class="row area">
-            <div class="span5">
-                <label>Company Name</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.fullLegalBusinessName">
-            </div>
-            <div class="span5">
-                <label>Address 1</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.businessAddress.address1">
-                
-                <label>Address 2</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.businessAddress.address2">
-                
-                <label>City</label>
-                <input type="text" placeholder="" class="input-xlarge" ng-model="quote.company.businessAddress.city">
-                
-                <label>State</label>
-                <select class="input-medium" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
-        
-                <label>Zip</label>
-                <input type="text" placeholder="" class="input-medium" ng-model="quote.company.businessAddress.zip">
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row area area-dark" ng-hide="didQuote">   
-    <div class="span10 offset1">
-        <div class="row">
-            <div class="span10">
-                <h3>Contact Info</h3>
-            </div>
-        </div>
-    
-        <div class="row area">
-            <div class="span5">
-                <label>Contact Name</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.contactPerson.name">
-            </div>
-            <div class="span5">
-                <label>Email</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.contactPerson.email">
-                
-                <label>Phone</label>
-                <input type="text" class="input-xlarge" placeholder="" ng-model="quote.company.contactPerson.phone">
+            <h3>Leasing Options</h3>
             
-                <p>Preferred contact method</p>
-                <a ng-click="quote.company.contactPerson.contactMethod = 'email'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'email'}">Email</a>
-                <a ng-click="quote.company.contactPerson.contactMethod = 'phone'" class="btn contact-method" ng-class="{active: quote.company.contactPerson.contactMethod == 'phone'}">Phone</a>
+            <div ng-repeat="(name, programs) in quote.payments">
+                <h4>{{name}}</h4>
+                <table class="table" ng-repeat="option in programs">
+                    <thead>
+                        <th class="span3">{{option.name}}</th>
+                        <th class="span1" ng-repeat="item in option.rates">{{item.term}}</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{quote.totalCostDisplay}}</td>
+                            <td ng-repeat="item in option.rates">
+                                {{item.paymentDisplay}}<br/>
+                                <a ng-click="chooseRate(item)"  class="btn btn-primary btn-select-term">Select</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
+    
+    <div class="row" ng-show="didQuote && quoteError">
 
-
-<div class="row" ng-show="didQuote">
-
-    <div class="span10 offset1">
-        
-        <h3>Leasing Options</h3>
-        
-        <div ng-repeat="program in filteredPrograms">
-            <h4>{{program.displayName || program.name}}</h4>
-            <table class="table" ng-repeat="buyOutOption in program.rateSheet.buyoutOptions">
-                <thead>
-                    <th class="span3">{{buyOutOption.name}}</th>
-                    <th class="span1" ng-repeat="term in buyOutOption.terms">{{term.length}} {{program.rateSheet.termPeriod}}</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>${{quote.totalCost | number:2}}</td>
-                        <td ng-repeat="rate in buyOutOption.costs[0].rates" ng-show="rate.rate != '-'">
-                           
-                            ${{rate.rate *  quote.totalCost | number:2}}<br/>
-                            <a ng-click="chooseRate(option.name, program.rateSheet.termLength[$index].length, program.rateSheet.termPeriod, rate.periodPayment)"  class="btn btn-primary btn-select-term">Select</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="span10 offset1">
+            
+            <h3>{{quoteError}}<br />
+            Please contact {{vendor.contactPerson.name}} at <a call-to="{{vendor.contactPerson.phone}}"></a>
+            </h3>
+            
         </div>
-    </div>
-</div>
     
-<div class="row" ng-show="canEdit && !didQuote">
+    </div>
         
-    <div class="span10 offset1 text-center">
-        <hr />
-        <button type="submit" class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="!vendor._id" ng-click="generateQuote()">{{buttonText}}</button>
-        <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
+    <div class="row" ng-show="canEdit && !didQuote">
+            
+        <div class="span10 offset1 text-center">
+            <hr />
+            <button type="submit" class="btn btn-primary btn-mega" id="generateQuote" ng-disabled="!vendor._id">{{buttonText}}</button>
+            <p ng-show="didQuote">Or, get a <a href="#/tools/quoter">new quote</a></p>
+        </div>
+
     </div>
 
-</div>
+    <div class="row" ng-show="didQuote && !quoteError">        
+        <div class="span10 offset1">
+        
+        <h3>Share</h3>
 
-<div class="row" ng-show="didQuote">        
-    <div class="span10 offset1">
-    
-    <h3>Share</h3>
-
-    <label>Send this link to share this quote!</label>
-    <input type="text" id="permalink" value="{{permalink}}" class="input-xxxlarge" />
-    
-    <br />
-    <button class="btn btn-primary"
-        analytics-on="click" 
-        analytics-event="Download quote as PDF"
-        analytics-category="Tools : Quoter"  
-        ng-click="download()">{{downloadMessage}} <i ng-show="downloading" class="icon icon-spinner icon-spin"></i></button>
-   
-    </div>
-</div>
-
-<div class="row" ng-show="vendor.legalTerms">        
-    <div class="span10 offset1">
-        <br /><br />
-        <h3>Terms</h3>
-        <div id="legalTerms"><small>{{vendor.legalTerms}}</small></div>
+        <label>Send this link to share this quote!</label>
+        <input type="text" id="permalink" value="{{permalink}}" class="input-xxxlarge" />
+        
         <br />
-        <p><small>Quotes expire after 30 (Thirty) days.</small></p>
+        <a class="btn btn-primary"
+            analytics-on="click" 
+            analytics-event="Download quote as PDF"
+            analytics-category="Tools : Quoter"  
+            ng-click="download()">{{downloadMessage}} <i ng-show="downloading" class="icon icon-spinner icon-spin"></i></a>
+       
+        </div>
     </div>
-</div>
-
+    
+    <div class="row" ng-show="vendor.legalTerms" ng-include="'app/templates/tools/shared/terms.html'"></div>
+    
+</form>

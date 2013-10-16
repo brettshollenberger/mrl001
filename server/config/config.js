@@ -7,6 +7,11 @@ module.exports = {
         root: rootPath,
         whitelist: ['*'],
         siteUrl: 'http://127.0.0.1:3000',
+        redis : {
+            port: 17789,
+            auth_pass : 'Vxv9soUqzmxBEUWD',
+            host: 'pub-redis-17789.us-east-1-4.2.ec2.garantiadata.com'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
@@ -50,6 +55,11 @@ module.exports = {
         root: rootPath,
         whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
+        redis : {
+            port: 6379,
+            auth_pass : 'Vxv9soUqzmxBEUWD',
+            host: 'pub-redis-17789.us-east-1-4.2.ec2.garantiadata.com'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
@@ -62,8 +72,8 @@ module.exports = {
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
             from: {
-                fullName: 'Marlin Admin',
-                email: 'matt@facultycreative.com'
+                fullName: 'Marlin Marketing',
+                email: 'marketing@marlinfinance.com'
             },
             testingEmails: 'matt@facultycreative.com, matt@facultycreative.com'
         },
@@ -96,6 +106,11 @@ module.exports = {
         root: rootPath,
         whitelist: ['http://marlinquoter.herokuapp.com', 'http://marlin-dev.herokuapp.com'],
         siteUrl: 'http://marlinquoter.herokuapp.com',
+        redis : {
+            port: 6379,
+            auth_pass : 'Vxv9soUqzmxBEUWD',
+            host: 'pub-redis-17789.us-east-1-4.2.ec2.garantiadata.com'
+        },
         email: {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
@@ -108,8 +123,8 @@ module.exports = {
             },
             templatesDir : path.join(rootPath, 'app/emails/'),
             from: {
-                fullName: 'Marlin Admin',
-                email: 'matt@facultycreative.com'
+                fullName: 'Marlin Marketing',
+                email: 'marketing@marlinfinance.com'
             }
         },
         app: {

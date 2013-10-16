@@ -8,7 +8,7 @@ var data = [{
     "contactPerson": {
         "name": "Jenn Delong",
         "email": "jdelong@marlinfinance.com",
-        "phone": "888-479-9111 Ext. 5015"
+        "phone": "8884799111 Ext. 5015"
     },
     "salesRep": '51e71518ed32080ffc000016',
     "vendorRep": '51e71518ed32080ffc000030',
@@ -30,14 +30,31 @@ var data = [{
         "longitude": -75.15735110000003
     },
     "tags": ["bear", "computers", "intercom"],
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
-    "programs": ['522f4634cc2aadba4d000005']
+    "industryTags" : ["retail", "insurance sector", "technology sector"],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : true
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
+    "programs": ['522f4634cc2aadba4d000005', '522f4634cc2aadba4d000006'],
+    "apiKey" : '808f24a1-6c8a-482d-b395-69f064efb747',
+    "creditEmailAddress": "aaron.frey@gmail"
 }, {
 
     "_id": '51e71518ed32080ffc000024',
@@ -45,8 +62,9 @@ var data = [{
     "contactPerson": {
         "name": "Jennifer DeLong-Giefer",
         "email": "jdelong@marlinfinance.com",
-        "phone": "866-687-3778"
+        "phone": "8666873778"
     },
+    "tags": ["office", "supplies", "printers"],
     "salesRep": '51e71518ed32080ffc000016',
     "logo": {
         "original": "https://www.filepicker.io/api/file/ZxTd0qV0QA2ek9HHSmu3"
@@ -61,13 +79,27 @@ var data = [{
         "state": "",
         "zip": ""
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : false
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005']
 }, {
 
@@ -92,13 +124,27 @@ var data = [{
         "state": "",
         "zip": ""
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": false
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : false
+        },
+        'quoter': {
+            'enabled' : false
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005']
 }, {
 
@@ -107,7 +153,7 @@ var data = [{
     "contactPerson": {
         "name": "Union Bank Financing Consultant",
         "email": "ubapps@marlinfinance.com",
-        "phone": "877-307-6756"
+        "phone": "8773076756"
     },
     "salesRep": '51e71518ed32080ffc000015',
     "logo": {
@@ -123,13 +169,27 @@ var data = [{
         "state": "",
         "zip": ""
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005']
 }, {
 
@@ -138,7 +198,7 @@ var data = [{
     "contactPerson": {
         "name": "Grady Martin",
         "email": "leasing@southeasternequipment.net",
-        "phone": "803-454-3656"
+        "phone": "8034543656"
     },
     "salesRep": '51e71518ed32080ffc000009',
     "logo": {
@@ -154,14 +214,28 @@ var data = [{
         "state": "SC",
         "zip": "29045"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "programs": ['522f4634cc2aadba4d000005'],
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 33.9379091,
         "longitude": -81.0891279
@@ -181,15 +255,30 @@ var data = [{
         "state": "AZ",
         "zip": "85268-4202"
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "industryTags" : ["retail", "air", "service"],
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "contactPerson": {
-        "phone": "(480)816-1222"
+        "phone": "4808161222"
     },
     "businessPhone": "",
     "website": "http://www.absinc-sw.com/",
@@ -200,28 +289,62 @@ var data = [{
 }, {
 
     "_id": '51e71518ed32080ffc000029',
-    "logo": {
-        "original": "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
+    "apiKey" : null,
+    "businessAddress" : {
+        "zip" : "93308-4919",
+        "state" : "",
+        "city" : "Bakersfield",
+        "address2" : "",
+        "address1" : "3505 Buck Owens Blvd"
     },
-    "state": false,
-    "name": "Praxair Inc",
-    "businessAddress": {
-        "address1": "3505 Buck Owens Blvd",
-        "city": "Bakersfield",
-        "zip": "93308-4919"
+    "businessPhone" : "",
+    "contactPerson" : {
+        "phone" : "(661)327-5336",
+        "email" : "tony_flores@praxair.com",
+        "name" : ""
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
-    "contactPerson": {
-        "phone": "(661)327-5336",
-        "email": "tony_flores@praxair.com"
+    "creditEmailAddress" : "",
+    "customField" : {
+        "displayName" : "",
+        "enabled" : false,
+        "required" : false
     },
-    "website": "www.praxair.com"
+    "geo" : {
+        "latitude" : 35.391024,
+        "longitude" : -119.043766
+    },
+    "industryTags" : [ 
+        "retail", 
+        "air", 
+        "service",
+        "aaron"
+    ],
+    "legalTerms" : "Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.",
+    "logo" : {
+        "original" : "https://www.filepicker.io/api/file/zhgBhDtsRDuxgsg3Qw49"
+    },
+    "name" : "Praxair Inc",
+    "programCustomNames" : [],
+    "programs" : [],
+    "range" : {},
+    "searchString" : "retail air service aaron ",
+    "tags" : [],
+    "tools" : {
+        "api" : {
+            "display" : "API",
+            "enabled" : false
+        },
+        "quoter" : {
+            "display" : "Quoter",
+            "enabled" : false
+        },
+        "locator" : {
+            "display" : "Vendor Locator",
+            "enabled" : true
+        }
+    },
+    "website" : "www.praxair.com",
+    "whiteLabel" : false
 }, {
 
     "_id": '51e71518ed32080ffc000030',
@@ -236,15 +359,29 @@ var data = [{
         "city": "Los Angeles",
         "zip": "90067-1501"
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : false
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "contactPerson": {
-        "phone": "(800)273-5033",
+        "phone": "8002735033",
         "email": "vpsales@ez2000software.com"
     },
     "website": "www.ez2000software.com"
@@ -262,17 +399,31 @@ var data = [{
         "zip": "80246-1327"
     },
     "contactPerson": {
-        "phone": "(303)623-2530",
+        "phone": "3036232530",
         "email": "wkim@meetingone.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "www.meetingone.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": false
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }]
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : false
+        },
+        'api': {
+            'enabled' : false
+        }
+    }
 }, {
 
     "_id": '51e71518ed32080ffc000032',
@@ -287,17 +438,21 @@ var data = [{
         "zip": "32115-1671"
     },
     "contactPerson": {
-        "phone": "(386)238-1177",
+        "phone": "3862381177",
         "email": "Jshearer@capofficeproducts.com"
     },
     "website": "www.capofficeproducts.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "tags": ["office", "supplies", "printers", "computers", "iPads"],
     "geo": {
         "latitude": 29.22700799999999,
@@ -318,15 +473,29 @@ var data = [{
         "zip": "30076"
     },
     "contactPerson": {
-        "phone": "(404)228-4951"
+        "phone": "4042284951"
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 34.0645391,
         "longitude": -84.32442960000003
@@ -345,17 +514,31 @@ var data = [{
         "zip": "60631-3479"
     },
     "contactPerson": {
-        "phone": "(773)362-4803",
+        "phone": "7733624803",
         "email": "desquivel@epaysystems.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.epaysystems.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 41.993029,
         "longitude": -87.81075609999999
@@ -374,17 +557,31 @@ var data = [{
         "zip": "46268"
     },
     "contactPerson": {
-        "phone": "(800)222-5107",
+        "phone": "8002225107",
         "email": "jeffn@centralrestaurant.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.centralrestaurant.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "tags": ["freezers", "kitchens", "Restaurant supply", "diners", "drive ins", "dives"],
     "geo": {
         "latitude": 39.8998074,
@@ -404,17 +601,31 @@ var data = [{
         "zip": "20904-7857"
     },
     "contactPerson": {
-        "phone": "(301)572-1901",
+        "phone": "3015721901",
         "email": "tom.hightman@clarksecurity.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "www.clarksecurity.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 39.0533891,
         "longitude": -76.97582740000001
@@ -434,17 +645,31 @@ var data = [{
         "zip": "28105"
     },
     "contactPerson": {
-        "phone": "(704)574-4800",
+        "phone": "7045744800",
         "email": "rhendrix@hendrixbusiness.com"
     },
     "website": "www.hendrixbusiness.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 35.1105564,
         "longitude": -80.71035319999999
@@ -463,17 +688,31 @@ var data = [{
         "zip": "10001-3546"
     },
     "contactPerson": {
-        "phone": "(212)779-0800",
+        "phone": "2127790800",
         "email": "SHawkins@1strun.com"
     },
     "website": "http://www.1strun.net",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 40.75368539999999,
         "longitude": -73.9991637
@@ -493,17 +732,31 @@ var data = [{
         "zip": "38101-2198"
     },
     "contactPerson": {
-        "phone": "(901)495-6500",
+        "phone": "9014956500",
         "email": "tim.mcauliff@autozone.com"
     },
     "website": "www.autozone.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 35.141915,
         "longitude": -90.05563999999998
@@ -521,16 +774,30 @@ var data = [{
         "zip": "78216-2621"
     },
     "contactPerson": {
-        "phone": "(210)349-9026"
+        "phone": "2103499026"
     },
     "website": "http://www.americantypewritertx.com/",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 29.5516834,
         "longitude": -98.49522280000002
@@ -547,15 +814,29 @@ var data = [{
         "zip": "98012-6385"
     },
     "contactPerson": {
-        "phone": "(866)344-8144"
+        "phone": "8663448144"
     },
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "geo": {
         "latitude": 47.8486592,
         "longitude": -122.2199478
@@ -574,17 +855,31 @@ var data = [{
         "zip": "26003"
     },
     "contactPerson": {
-        "phone": "(304)232-1755",
+        "phone": "3042321755",
         "email": "rthoburn@amasti.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.amasti.com/index.html",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 40.056981,
         "longitude": -80.72520600000001
@@ -604,17 +899,31 @@ var data = [{
         "zip": "77041-4713"
     },
     "contactPerson": {
-        "phone": "(713)869-6221",
+        "phone": "7138696221",
         "email": "steve@warrenswrefrigeration.com"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "website": "http://www.warrensouthwestrefrigera",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 29.86738769999999,
         "longitude": -95.59323899999998
@@ -633,17 +942,31 @@ var data = [{
         "zip": "89120-3963"
     },
     "contactPerson": {
-        "phone": "(800)322-9919",
-        "email": "jared@air-care.com"
+        "email": "jared@air-care.com",
+        "phone": "8003229919",
+    },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
     },
     "website": "http://www.air-care.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 36.0833352,
         "longitude": -115.09997529999998
@@ -659,18 +982,32 @@ var data = [{
         "city": "Pittsfield",
         "zip": "01201-4715"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "contactPerson": {
-        "phone": "(413)442-0390",
+        "phone": "4134420390",
         "email": "bob@bgrestsupply.com"
     },
     "website": "www.bgrestsupply.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 42.46345030000001,
         "longitude": -73.3001233
@@ -688,18 +1025,32 @@ var data = [{
         "city": "Edwardsville",
         "zip": "66111-3820"
     },
+    "range" : {
+        "max" : {
+            "value" : 100000,
+            "display" : "$100,000.00"
+        },
+        "min" : {
+            "value" : 1000,
+            "display" : "$1,000.00"
+        }
+    },
     "contactPerson": {
-        "phone": "(913)422-3700",
+        "phone": "913422-3700",
         "email": "djohnson@pfgc.com"
     },
     "website": "www.americandish.com",
-    "tools": [{
-        "name": "Locator Tool",
-        "active": true
-    }, {
-        "name": "Quoter Tool",
-        "active": true
-    }],
+    "tools" : {
+        'locator': {
+            'enabled' : true
+        },
+        'quoter': {
+            'enabled' : true
+        },
+        'api': {
+            'enabled' : false
+        }
+    },
     "geo": {
         "latitude": 39.0870168,
         "longitude": -94.8002333

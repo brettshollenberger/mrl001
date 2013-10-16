@@ -15,8 +15,8 @@ var myApp = angular.module('unsavedNew', [])
 
                 // messages. Change here is you need 
                 var messages = {
-                    navigate: "You will loose unsaved changes if you leave this page",
-                    reload: "You will loose unsaved changes if you reload this page"
+                    navigate: "You will lose unsaved changes if you leave this page",
+                    reload: "You will lose unsaved changes if you reload this page"
                 };
 
                 // Checks all forms, if any one is dirty will return true

@@ -7,7 +7,9 @@ var express = require('express'),
     flash = require('connect-flash'),
     path = require('path'),
     helpers = require('view-helpers'),
-    fs = require('fs');
+    env = process.env.NODE_ENV || 'development',
+    fs = require('fs'),
+    cors = require('cors');
     
 module.exports = function(app, config, passport, standardReponse) {
     app.set('showStackError', true);
@@ -20,16 +22,20 @@ module.exports = function(app, config, passport, standardReponse) {
         level: 9
     }));
 
-    // Basic CORS middleware example
-    var allowCrossDomain = function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-        res.header('Access-Control-Allow-Headers', 'Content-Type');
-        //res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
+    var requireHTTPS = function(req, res, next){
+        if (!req.secure) {
+            if(req.get('host')==='www.leaserep.com' || req.get('host') ==='leaserep.com'){
+                return res.redirect('https://' + req.get('host') + req.url);
+            }
+        }
         next();
     };
     
+    app.use(requireHTTPS);
+    
+    // cache buster! 
+    // @todo this would typically be inplimented with eTag, which would check for new versions of content
+    // else serve the cached content. 
     var cacheBuster = function(req, res, next){
     
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -40,10 +46,23 @@ module.exports = function(app, config, passport, standardReponse) {
     
     // @todo isolate to api routes...
     app.use(cacheBuster);
+    
+    
+    // Basic CORS middleware example
+    // @todo make this more robust. We should only allow POST and PUT for subdomains
+    // and allow all for out private api requests. 
+    //
+    // @note we needed to add this to allow quoter subdomains to work, 
+    // such as: http://bearcom-operating-llc.127.0.0.1:3000/
+    // because technically this is on another domain (the subdomain part) 
+    //
+    var corsOptions = {
+        origin: '*'
+    };
+    
+    app.use(cors(corsOptions));
 
-    // @todo this might break local network testing on IE... 
-    // app.use(allowCrossDomain);
-
+    // standardize our API response with meta, result json. 
     app.use(standardReponse.middleware());
 
     //Setting the fav icon and static folder
@@ -122,109 +141,29 @@ module.exports = function(app, config, passport, standardReponse) {
         *       but throws errors otherwise.  
         * 
         */ 
-        
-        // custom csrf grabbing function, 
-        // which works with angulars native method of sending the token in header
-        var csrfValue = function(req) {
-          var token = (req.body && req.body._csrf) || 
-                      (req.query && req.query._csrf) || 
-                      (req.headers['x-csrf-token']) || 
-                      (req.headers['x-xsrf-token']);
-          return token;
-        };
-        
-        // reference express.csrf() method as variable
-        var csrfMiddleware = express.csrf({value: csrfValue});
+        var csrfMiddleware = express.csrf();
         
         // define our middleware
         function csrfHandler(req, res, next) { 
             csrfMiddleware(req, res, next);
-            
-            // check for instances where req.csrfToken() is not a function
-            // which would otherwise throw error
-            if(req.csrfToken && typeof req.csrfToken === 'function') {
-                res.cookie('XSRF-TOKEN', req.csrfToken());   
-            }
+        }
+        
+        function csrfCookieSetter(req, res, next) { 
+            //if(req.csrfToken && typeof req.csrfToken === 'function') {
+                res.cookie('XSRF-TOKEN', req.csrfToken());    
+            //}
+            next();
         }
         
         // attach csrf protection to all of our api endpoints
-        
-        app.all('/api*', csrfHandler, function(req, res, next) {
-            next();
-        });
-        
-        
-        /**
-        * end nice fix
-        * -------------------------
-        */
-        
-        
-        
-        /**
-        * -------------------------
-        *
-        * This middleware prevents outside requests to internal api endpoints
-        * Many of these endpoints don't require auth, for example list vendors, but we 
-        * still don't want people to hit these from a curl request and access the data.
-        * 
-        * This is basically CORS for the server
-        * @note there might be a fine replacement for this in NPM, but I couldn't fine anything! 
-        *       typical fors solutions only work for browser requests.  
-        *
-        * @todo make this async!
-        *
-        * Headers examples:
-        * --------
-        *
-        * Example from within the site (on heroku) @note heroku doesn't use IP's
-        *  origin: 'http://marlin-dev.herokuapp.com'
-        *  host: 'marlin-dev.herokuapp.com'
-        *
-        * Example from external request
-        *  origin: 'chrome-extension://fdmmgilgnpjigdojojpjoooidkmcomcm'
-        *  host: 'marlin-dev.herokuapp.com'
-        *
-        * Example Internal request, locally
-        *  origin: 'http://127.0.0.1:3000'
-        *  host: '127.0.0.1:3000',
-        * 
-        */
-        
-        //var cors = require('./middlewares/cors');
-        
+        //if(process.env.NODE_ENV !== 'development') {
         /*
-var cors = require('cors');
-        
-        var internalApiCORS = {
-            origin: false,
-            methods: "GET"
-        };
-        
-        var publicApiCORS = {
-            origin: false
-        };
-        
-        var corsOptions = {
-          origin: 'http://example.com'
-        };
-        
-        //var cors = require('./config/middlewares/cors')(config);
-                    
-        app.all('/api*', cors(corsOptions), function(req, res, next) {
-            res.json({msg: 'This is CORS-enabled for only example.com.'});
-            //next();
-        });
-        
-        app.all('/public_api*', cors(publicApiCORS), function(req, res, next) {
-            //next();
-            res.ok('See');
-        });
-*/
-        
-        /**
-        * -------------------------
+        app.all('*', csrfHandler, csrfCookieSetter, function(req, res, next) {
+            next();
+        }); 
         */
+        
+        //app.use(express.csrf());
 
         // routes should be at the last
         app.use(app.router);
@@ -232,6 +171,10 @@ var cors = require('cors');
         // welcome message for API
         app.all('/api', function(req, res, next) {
             res.ok('Hello world!');
+        });
+        
+        app.all('/api/ping', function(req, res, next) {
+            res.ok('PONG');
         });
 
         // get changelog

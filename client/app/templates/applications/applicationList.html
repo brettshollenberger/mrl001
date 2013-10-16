@@ -12,12 +12,15 @@
         
         <div class="row">
             <div class="span10">            
-                <div class="form-inline">
-        	        <label>Search Business
-        	        <input type="text" placeholder="Business" ng-model="searchBusiness"></label>
-        	        
-        	        <label>Search Vendor
-        	        <input type="text" placeholder="Vendor" ng-model="searchVendor"></label>
+                <div class="row form-inline">
+        	        <div class="span4">
+            	        <label>Search Business</label>
+            	        <input type="text" placeholder="Business" ng-model="searchBusiness">
+        	        </div>
+        	        <div class="span4">
+            	        <label>Search Vendor</label>
+            	        <input type="text" placeholder="Vendor" ng-model="searchVendor">
+        	        </div>
                 </div>
                 <table class="table">
                     <thead>
@@ -29,12 +32,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-click="editItem(item._id)" ng-repeat="item in applications | filter: {leasee.fullLegalBusinessName: searchBusiness, vendor.name: searchVendor}">
+                        <tr ng-click="editItem(item._id)" ng-repeat="item in applications | filter: {company.fullLegalBusinessName: searchBusiness, vendor.name: searchVendor}">
                         
-                            <td>{{item.leasee.fullLegalBusinessName}}</td>
-                            <td>{{item.vendor.name}}</td>
+                            <td>{{item.company.fullLegalBusinessName}}</td>
+                            <td>
+                                <img class="img-tiny" src="{{item.vendor.logo.original}}"/> &nbsp;
+                                {{item.vendor.name}}
+                            </td>
                             <td>{{formatStatus(item.status)}}</td>
-                            <td>${{item.quote.totalCost | number}}</td>
+                            <td>{{item.totalCostDisplay}}</td>
                         </tr>
                     </tbody>
                 </table>

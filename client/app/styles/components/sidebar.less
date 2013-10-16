@@ -20,8 +20,27 @@
         
     }
     
+    ul.nav li.vendors{
+        a{
+            padding: 16px 0;
+
+        }
+        
+        i.icon-briefcase{
+            font-size: 23px;
+            margin-bottom: 3px;
+        }  
+        span{
+            position: relative;
+            top: 2px;
+        }
+    }
+
     .legal {
         line-height: 16px;
+        position: relative;
+        bottom: 0;
+        top: 10px;
     }
     
     // note this is not correct for all widths
@@ -48,12 +67,13 @@
         
         margin: 0;
         padding: 0;
+        overflow: auto;
     
         li {
             list-style: none;  
         }
         
-        li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);}
+        /* li.active a i{text-shadow: -1px 0px 17px rgba(255, 255, 255, 1);} */
     
         &.nav {
             li {

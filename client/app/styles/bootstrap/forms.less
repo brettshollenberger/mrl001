@@ -99,6 +99,7 @@ textarea,
 // Reset height since textareas have rows
 textarea {
   height: auto;
+  resize: none;
 }
 // Everything else
 textarea,
@@ -368,16 +369,29 @@ input[type="checkbox"][readonly] {
 // Shares styles with the .control-group.error above
 input:focus:invalid,
 textarea:focus:invalid,
-select:focus:invalid {
-  color: @pink;
-  border-color: @red;
-  &:focus {
-    border-color: darken(@red, 10%);
-    @shadow: 0 0 6px lighten(@red, 20%);
-    .box-shadow(@shadow);
-  }
+select:focus:invalid,
+input:focus.ng-invalid,
+textarea.ng-invalid:focus,
+select.ng-invalid:focus,
+input.ng-invalid:focus {
+  border-color: @blue;
 }
 
+input.ng-valid.ng-dirty:focus,
+textarea.ng-valid.ng-dirty:focus,
+select.ng-valid.ng-dirty:focus {
+  border-color: @green;
+};
+
+input.ng-invalid.ng-dirty:not(:focus),
+textarea.ng-invalid.ng-dirty:not(:focus),
+select.ng-invalid.ng-dirty:not(:focus),
+input:focus:invalid.ng-dirty:not(:focus),
+textarea:focus:invalid.ng-dirty:not(:focus),
+select:focus:invalid.ng-dirty:not(:focus) {
+  //color: @red;
+  border-color: @red;
+};
 
 
 // FORM ACTIONS
@@ -575,8 +589,6 @@ input.search-query {
 
 // Common properties
 // -----------------
-
-
 .form-search,
 .form-inline,
 .form-horizontal {
@@ -688,4 +700,20 @@ legend + .control-group {
   .form-actions {
     padding-left: @horizontalComponentOffset;
   }
+}
+
+.formGroupFinished:after {
+  font-family: 'FontAwesome';
+  position: relative;
+  left: 50%;
+  top: 5px;
+  font-size: 36px;
+  color: @blue;
+  content: "\f05d";
+  margin-left: -15px;
+}
+
+
+.lockedForm .formGroupFinished:after {
+    content: none;
 }

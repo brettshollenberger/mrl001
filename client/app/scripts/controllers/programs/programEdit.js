@@ -7,34 +7,65 @@ angular
         '$routeParams',
         'authService',
         'programService',
-        function($rootScope, $scope, $location, $routeParams, Auth, Program) {
+        'CommonInterface',
+        '$anchorScroll',
+        function($rootScope, $scope, $location, $routeParams, Auth, Program, CommonInterface, $anchorScroll) {
 
-            $scope.modelObject = Program;
+            var program = {};
+            var programId = $routeParams.id;
+            var formTabMap;
 
+            ////////////////////////////////////////////////////////////////
+            /// Logic to handle Rate Sheet Serialization/Deserialization ///
+            ////////////////////////////////////////////////////////////////
+
+            var SerializationStrategies = {
+                deserialize: function(array) {
+                    return array.map(function(str) { return {value: str}; });
+                },
+                serialize: function(object) {
+                    return object.map(function(obj) { return obj.value; });
+                }
+            };
+
+            function prepareRateSheetView() {
+                if (rateSheetExists())  { transformBuyoutOptions("deserialize"); }
+            }
+
+            function prepareRateSheetModel() {
+                if (rateSheetExists()) { transformBuyoutOptions("serialize"); }
+            }
+
+            function rateSheetExists() {
+                return $scope.program.rateSheet !== undefined &&
+                    $scope.program.rateSheet.buyoutOptions;
+            }
+
+            function transformBuyoutOptions(strategy) {
+                $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                    opt.terms = SerializationStrategies[strategy](opt.terms);
+                    opt.costs.forEach(function(cost) { cost.rates = SerializationStrategies[strategy](cost.rates); });
+                });
+            }
+            
+            // basic auth protection for this route
+            // @todo can we create a global route change auth service? 
             Auth.canUserDoAction('edit-programs');
-
+            
+            // available term options
             $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
 
             // empty program object
-            $scope.program = {};
+            $scope.program = Program.new();
+            prepareRateSheetView();
+
             $scope.newOption = {};
-            var program = {};
-            // empty logo object, or filepicker gets mad :)
-            $scope.program.logo = {};
-
-            // filepicker settings
-            // @todo move to global config
-            filepicker.setKey('AJNc7mfA3SCxs3gRjg7EBz');
-
-            // pick logo function
-            // simple callback assigans to program logo when complete
-            $scope.pickImage = function() {
-                filepicker.pick(function(FPFile) {
-                    //console.log(FPFile.url);
-                    $scope.program.logo.original = FPFile.url;
-                    $scope.$apply();
-                });
-            };
+            
+            // button text
+            $scope.formAction = 'Add';
+            
+            // needed for form unsaves changes? 
+            $scope.modelObject = Program;
 
             // utility function to go back to the program list
             // @todo this function is used in many places, find a way to streamline it
@@ -42,10 +73,22 @@ angular
                 $location.url('/dashboard/programs');
             };
 
-            // get program ID for edit pages
-            var programId = $routeParams.id;
-            $scope.formAction = 'Add';
+            ////////////////////////////////////////////////////////////////
+            //// Logic to handle showing/hiding messages on form save  /////
+            ////////////////////////////////////////////////////////////////
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
+            };
 
+            ////////////////////////////////////////////////////////////////
+            ///////////// Logic to handle initial page setup ///////////////
+            ////////////////////////////////////////////////////////////////
 
             // get and store the program 
             if (programId) {
@@ -53,35 +96,59 @@ angular
                 Program.getById(programId).then(function(response) {
                     $scope.program = response;
                     $scope.termLength = $scope.program.rateSheet.termLength;
+
+                    // Map the rates on each buyoutOption to an object.
+                    // Since our intent is to loop through each buyoutOption using
+                    // ng-repeat, we need objects in order to maintain proper
+                    // parent-child update flow. In Javascript's prototypal inheritance,
+                    // primitive types are value data, not reference data. They
+                    // do not maintain a single pointer to a value on the heap,
+                    // they perform a copy of the primitive data, and refer to different
+                    // values entirely. Without mapping to an object, the parent scope
+                    // would not update when the child is typed into. 
+
+                    prepareRateSheetView();
                 });
 
-                //console.log($scope.program);
                 $scope.formAction = 'Update';
             }
 
             // activated when user clicks the save button
-            $scope.save = function() {
+            $scope.save = function(doRedirect) {
 
-                if (!programId) {
+                formTabMap = [
+                    $scope.$$childTail.basicForm,
+                    $scope.$$childTail.formBuyoutOptions
+                ];
 
-                    // create new item
-                    Program.add($scope.program).then(function(response) {
-                        //saveChangesPrompt.removeListener();
-                        $location.url('/dashboard/programs');
-                    });
-
-                } else {
-                    // update existing item
-                    Program.update($scope.program);
-                    //saveChangesPrompt.removeListener();
-                    $location.url('/dashboard/programs');
-                }
-
-
-
+                CommonInterface.save({
+                    Model: Program,
+                    instance: $scope.program,
+                    id: programId,
+                    form: formTabMap,
+                    redirectUrl: '/dashboard/programs',
+                    doRedirect: doRedirect,
+                    preSaveHook: function() {
+                        // Map the rates back to a string val to save to the db, since that's
+                        // what we have in the model. In the future, we should straight up
+                        // change the model to use an object. 
+                        prepareRateSheetModel();
+                        $scope.saveAlert = true;
+                    },
+                    postSaveHook: function() {
+                        $scope.saveAlert = false;
+                    }
+                });
+                $anchorScroll();
+                prepareRateSheetView();
             };
 
 
+            /**
+            * TABBY
+            * --------------------------------------
+            *
+            */
             $scope.tabs = ['Basic Information'];
 
             /**
@@ -99,13 +166,20 @@ angular
             // used to set active tab
             $scope.changeTab = function(tab) {
 
-                //console.log(tab);
-
                 if (!$scope.user._id) return false;
 
                 $scope.activeTab = tab;
             };
 
+
+            /**
+            * ADDS A COST BUCKET ROW TO OPTION
+            * --------------------------------------
+            * by finding last cash max, and incrementing it by 1 dollar. So if the previous 
+            *  range was 1000 - 5000, this would create a new cost range (and blank row 
+            *  of rates) with a min of 5001. 
+            *
+            */
             $scope.addRowToOption = function(theProgram) {
 
                 var newMin;
@@ -124,111 +198,113 @@ angular
                 //console.log(_.last(theProgram.costs));
 
                 _.each(theProgram.terms, function(item) {
-                    _.last(theProgram.costs).rates.push({
-                        rate: ''
-                    });
+                    _.last(theProgram.costs).rates.push({value : 0});
                 });
-
-
-
+                
             };
 
+            /**
+            * ADD column to rate sheet
+            * --------------------------------------
+            *
+            */
             $scope.addColumnToOption = function(theProgram) {
-                theProgram.terms.push({
-                    length: ''
-                });
-                //console.log(theProgram.costs); 
+                
+                theProgram.terms.push({value: 0});
 
                 _.each(theProgram.costs, function(item) {
-                    console.log(item.rates);
-                    item.rates.push({
-                        rate: ''
-                    });
+                    item.rates.push({value: 0});
                 });
-            };
-
-
-            $scope.adjustValues = function($program, $value, $currentIndex) {
-                /*
-                console.log('Changing!');
-                console.log($value);
-                console.log($currentIndex);
-            */
-
-                //console.log($program);
-
-                if ($program.costs[$currentIndex + 1]) {
-                    $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1;
-                }
-
-
-            };
-
-
-            $scope.makeNewOption = function() {
-                //terms: [{length: 1}, {length: 2}, {length: 3}, {length: 4}],
-                //rates: [{rate: 0.96}, {rate: 0.80}, {rate: 0.75}, {rate: 0.75}]
-
-                console.log($scope.newOption);
-
-                $scope.newOption.columns = 3;
-
-                var newBuyOut = {
-                    name: '',
-                    terms: [],
-                    costs: [{
-                        min: '',
-                        max: '',
-                        rates: []
-
-                    }]
-                };
-
-
-                newBuyOut.name = $scope.newOption.name;
-                newBuyOut.costs[0].min = $scope.newOption.minCost;
-
-                for (var i = 0; i < $scope.newOption.columns; i++) {
-                    newBuyOut.terms.push({
-                        length: ''
-                    });
-                }
-
-                for (i = 0; i < $scope.newOption.rows - 1; i++) {
-                    newBuyOut.costs.push({
-                        min: '',
-                        max: '',
-                        rates: []
-                    });
-                }
-
-                _.each(newBuyOut.costs, function(cost) {
-                    _.each(newBuyOut.terms, function() {
-                        cost.rates.push({
-                            rate: ''
-                        });
-                    });
-                    console.log('new cost');
-                });
-
-                // needed when creating new rate sheet. 
-                if (!$scope.program.rateSheet) $scope.program.rateSheet = {
-                    buyoutOptions: []
-                };
-                // @todo, this can be removed when the API is mongoose. 
-                if (!$scope.program.rateSheet.buyoutOptions) $scope.program.rateSheet.buyoutOptions = [];
-                $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
-                $scope.newOption = {};
-
-                // force the form to be dirty, which triggers our unsavedChanges module
-                // this will cause a check if the user navigates away from this page             
-                //$scope.formBuyoutOptions.$setDirty();
-
             };
 
 
             /**
-             * Deletes a row or column from the rate sheet
+            * ???
+            * --------------------------------------
+            *
+            */
+            $scope.adjustValues = function($program, $value, $currentIndex) {
+                if ($program.costs[$currentIndex + 1]) {
+                    $program.costs[$currentIndex + 1].min = parseInt($value, 10) + 1;
+                }
+            };
+            
+
+            /**
+            * ADDS A NEW OPTION TO A RATE SHEET
+            * --------------------------------------
+            *
+            */
+            $scope.makeNewOption = function() {
+                
+                if ($scope.$$childTail.newOptionForm.$valid) {
+                    successCallback();
+                } else {
+                    $rootScope.Validator.validateForm($scope.$$childTail.newOptionForm);
+                }
+                
+                function successCallback() {
+
+                    $rootScope.Validator.setPristine($scope.$$childTail.newOptionForm);
+                    $rootScope.Validator.setDirty($scope.$$childTail.formBuyoutOptions);
+                    
+                    $scope.newOption.columns = 3;
+    
+                    var newBuyOut = {
+                        name: '',
+                        terms: [],
+                        costs: [{
+                            min: '',
+                            max: '',
+                            rates: []
+    
+                        }]
+                    };
+    
+    
+                    newBuyOut.name = $scope.newOption.name;
+                    newBuyOut.costs[0].min = $scope.newOption.minCost;
+    
+                    for (var i = 0; i < $scope.newOption.columns; i++) {
+                        newBuyOut.terms.push({value: 0});
+                    }
+    
+                    for (i = 0; i < $scope.newOption.rows - 1; i++) {
+                        newBuyOut.costs.push({
+                            min: '',
+                            max: '',
+                            rates: []
+                        });
+                    }
+    
+                    _.each(newBuyOut.costs, function(cost) {
+                        _.each(newBuyOut.terms, function() {
+                            cost.rates.push({value: 0});
+                        });
+                        console.log('new cost');
+                    });
+    
+                    // needed when creating new rate sheet. 
+                    if (!$scope.program.rateSheet) $scope.program.rateSheet = {
+                        buyoutOptions: []
+                    };
+                    // @todo, this can be removed when the API is mongoose. 
+                    if (!$scope.program.rateSheet.buyoutOptions) $scope.program.rateSheet.buyoutOptions = [];
+                    $scope.program.rateSheet.buyoutOptions.push(newBuyOut);
+                    $scope.newOption = {};
+    
+                    // force the form to be dirty, which triggers our unsavedChanges module
+                    // this will cause a check if the user navigates away from this page             
+                    //$scope.formBuyoutOptions.$setDirty();
+
+                }
+                
+            };
+
+
+            /**
+             * DELETE A ROW OR COLUMN FROM RATE SHEET
+             * --------------------------------------
              *
              * @param {type} String, Either row|column to indicate if we are removing a row or column!
              * @param {index} Int, Index from the ngRepeat
@@ -264,6 +340,8 @@ angular
 
             /**
              * Remove an entire buyout option from program
+             * --------------------------------------
+             *
              * @param {option} Buyout option to remove
              *
              */

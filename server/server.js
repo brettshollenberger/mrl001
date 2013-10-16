@@ -17,7 +17,6 @@ var express = require('express'),
 //if test env, load example file
 var env = process.env.NODE_ENV || 'development',
     config = require('./config/config')[env],
-    auth = require('./config/middlewares/authorization'),
     standardReponse = require('./config/middlewares/response'),
     mongoose = require('mongoose');
 
@@ -54,6 +53,9 @@ app.emailer = emailer;
 //       But, saving app.locals.siteName = 'Site' is OK>
 app.locals.config = config;
 
+var auth = require('./config/middlewares/authorization');
+var public_api = require('./config/middlewares/public_api');
+
 //Define user roles
 require('./config/acl_roles')(app, config, passport, acl);
 
@@ -61,12 +63,13 @@ require('./config/acl_roles')(app, config, passport, acl);
 require('./config/express')(app, config, passport, standardReponse);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth, config, acl);
+require('./config/routes')(app, passport, auth, config, acl, public_api);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || 3000;
 config.port = port; // store for later because we cant get port fro req. object :(
 var ip = '127.0.0.1';
+//var ip = '10.1.10.48';
 //ip = '10.1.10.100';
 app.listen(port, ip);
 console.log('Express app started on port ' + port);

@@ -1,4 +1,4 @@
-<div class="row has-title-bar" unsaved-warning-group>
+<div class="row has-title-bar has-no-tabs" unsaved-warning-group>
     
     <div class="span2 sidebar" ng-include="'app/templates/nav.html'"></div>
     
@@ -15,8 +15,8 @@
                 <div class="actions">
                     <a class="btn btn-primary" target="_blank" ng-controller="quoterToolController" ng-click="download(quote._id)"><i class="icon icon-print"></i>Download PDF</a>
                     <a class="btn btn-primary" target="_blank" ng-href="#/tools/quoter/{{quote._id}}"><i class="icon icon-paste"></i>View Quote</a>
-                    <a class="btn btn-primary" id="cancel" ng-click="cancel()"><i class="icon icon-remove-sign"></i>Close</a>
-                    <a class="btn btn-success" unsaved-warning-clear id="save"ng-show="quoteForm.$dirty" ng-click="save()"><i class="icon icon-ok-sign"></i>Save</a>
+                    <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
+                    <a class="btn btn-success" unsaved-warning-clear id="save"ng-show="quoteForm.$dirty" ng-click="save(true)"><i class="icon icon-ok-sign"></i>Save</a>
                 </div>
             
             </div>
@@ -28,10 +28,10 @@
                 <legend>Equipment Cost Information</legend>
                 
                 <label>Total Cost</label>
-                <input type="text" placeholder="0.00" ng-model="quote.totalCost">
+                <input name="quote.totalCost" type="text" placeholder="0.00" ng-model="quote.totalCost">
                 
-                <label>Description of Equiptment</label>
-                <textarea type="text" ng-model="quote.description"></textarea>
+                <label>Description of Equipment</label>
+                <textarea name="quote.description" type="text" ng-model="quote.description"></textarea>
                 
                 <label>Status</label>
                 <div class="btn-group">
@@ -46,19 +46,19 @@
                 <legend>Company Information</legend>
                 
                 <label>Full Legal Business Name</label>
-                <input type="text" placeholder="" ng-model="quote.company.fullLegalBusinessName">
+                <input name="quote.company.fullLegalBusinessName" type="text" placeholder="" ng-model="quote.company.fullLegalBusinessName">
                 
                 <label>Address 1</label>
-                <input type="text" placeholder="" ng-model="quote.company.businessAddress.address1">
+                <input name="quote.company.businessAddress.address1" type="text" placeholder="" ng-model="quote.company.businessAddress.address1">
                 
                 <label>Address 2</label>
-                <input type="text" placeholder="" ng-model="quote.company.businessAddress.address2">
+                <input name="quote.company.businessAddress.address2" type="text" placeholder="" ng-model="quote.company.businessAddress.address2">
                 
                 <label>City</label>
-                <input type="text" placeholder="" ng-model="quote.company.businessAddress.city">
+                <input name="quote.company.businessAddress.city" type="text" placeholder="" ng-model="quote.company.businessAddress.city">
                 
                 <label>State</label>
-                <select class="medium" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
+                <select name="quote.company.businessAddress.state" class="medium" ng-model="quote.company.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
 <!--
                 <select class="medium" ng-model="quote.company.state">
                     <option ng-repeat="item in states" value="{{item.abbreviation}}">{{item.name}}</option>
@@ -66,7 +66,7 @@
 -->
 
                 <label>Zip</label>
-                <input type="text" placeholder="" ng-model="quote.company.businessAddress.zip">
+                <input name="quote.company.businessAddress.zip" type="text" placeholder="" ng-model="quote.company.businessAddress.zip">
                
                 
             </div>
@@ -77,13 +77,13 @@
                 <legend>Contact Information</legend>
             
                 <label>Contact Name</label>
-                <input type="text" placeholder="" ng-model="quote.company.contactPerson.name">
+                <input name="quote.company.contactPerson.name" type="text" placeholder="" ng-model="quote.company.contactPerson.name">
             
                 <label>Email</label>
-                <input type="text" placeholder="" ng-model="quote.company.contactPerson.email">
+                <input name="quote.company.contactPerson.email" type="text" placeholder="" ng-model="quote.company.contactPerson.email">
                 
                 <label>Phone</label>
-                <input type="text" placeholder="" ng-model="quote.company.contactPerson.phone">
+                <input name="quote.company.contactPerson.phone" type="text" placeholder="" ng-model="quote.company.contactPerson.phone">
             
                 <p>Preferred contact method<br/>
                     {{application.leasee.contactPerson.contactMethod}}
@@ -93,7 +93,7 @@
             
         </div>
         
-        <button can-do-action="delete-quote" delete-this id="quote._id" redirect="/dashboard/quotes" model="modelObject"></button>
+        <button can-do-action="delete-quote" delete-this id="quote._id" redirect="/dashboard/quotes" type="Quote" model="modelObject"></button>
         
     </form>
 </div>

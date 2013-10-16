@@ -9,7 +9,8 @@ angular
         'applicationService',
         'vendorService',
         'stateService',
-        function($rootScope, $scope, $location, $routeParams, Auth, Application, Vendor, States) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, Application, Vendor, States, CommonInterface) {
 
             var applicationId;
             $scope.application = {};
@@ -144,9 +145,10 @@ angular
                  * @todo make into a direct
                  *
                  */
-                $scope.activeTab = 0;
-                $scope.isActiveTab = privates.isActiveTab;
-                $scope.changeTab = privates.changeTab;
+                $scope.activeTab          = 0;
+                $scope.isActiveTab        = privates.isActiveTab;
+                $scope.changeTab          = privates.changeTab;
+                $scope.showGlobalErrorMsg = privates.showGlobalErrorMsg;
 
                 $scope.setStatus = function(newStatus) {
                     // this is a hack??? or not, for some reason the unsavedChanges directive moves the form
@@ -213,20 +215,15 @@ angular
             };
 
             // activated when user clicks the save button
-            privates.save = function() {
-                if (!applicationId) {
-
-                    // create new item
-                    Application.add($scope.application).then(function(response) {
-                        //saveChangesPrompt.removeListener();
-                        $location.url('/dashboard/applications');
-                    });
-
-                } else {
-                    // update existing item
-                    Application.update($scope.application);
-                    $location.url('/dashboard/applications');
-                }
+            privates.save = function(doRedirect) {
+                CommonInterface.save({
+                    Model: Application,
+                    instance: $scope.application,
+                    id: applicationId,
+                    form: $scope.$$childTail.applicationForm,
+                    redirectUrl: '/dashboard/applications',
+                    doRedirect: doRedirect
+                });
             };
             
             // activated when user clicks the complete button
@@ -240,12 +237,21 @@ angular
                 return $scope.activeTab == id ? true : false;
             };
 
-
             // used to set active tab
             privates.changeTab = function(tab) {
                 console.log(tab);
                 if (!$scope.application._id) return false;
                 $scope.activeTab = tab;
+            };
+
+            privates.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
             };
 
         }

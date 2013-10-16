@@ -72,8 +72,7 @@ angular
                 });
 
                 function notNum(value) {
-                    if (value) {
-
+                    if (value || value === 0 || value === '0') {
                         // /regex/#match returns an array, the first item of which is
                         // the matched string (e.g. "0.123" in "0.123abc" if the user)
                         // input a string with letters in it, for whatever reason.
@@ -82,10 +81,11 @@ angular
                         // if it doesn't, it's false. The !! operator converts to
                         // boolean, so the return statement will always return 
                         // true or false.
-                        matcher       = value.toString().match(/\d{0,}\.{0,1}\d{0,}/);
+                        matcher       = value.toString().match(/\d{1,}\.{0,1}\d{0,}/);
                         matchedString = matcher[0];
                         input         = matcher.input;
-                        return !!(value && matchedString == input);
+
+                        return matchedString == input;
                     } else {
                         return false;
                     }
@@ -158,12 +158,13 @@ angular
                     });
 
                     function notInt(value) {
-                        if (value) {
+                        if (value || value === 0 || value === '0') {
 
-                            matcher       = value.toString().match(/\d{0,}/);
+                            matcher       = value.toString().match(/\d{1,}/);
                             matchedString = matcher[0];
                             input         = matcher.input;
-                            return !!(value && matchedString == input);
+
+                            return matchedString == input;
                         } else {
                             return false;
                         }

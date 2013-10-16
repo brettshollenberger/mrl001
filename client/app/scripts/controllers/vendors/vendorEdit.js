@@ -231,7 +231,7 @@ angular
                     form: form,
                     redirectUrl: '/dashboard/vendors',
                     doRedirect: doRedirect,
-                    strategy: function() {
+                    preSaveHook: function() {
                         // clear our variables
                         $scope.vendor.programs = []; // clear the program array
                         $scope.vendor.programCustomNames = []; // where we store custom displayName data

@@ -253,7 +253,7 @@ exports.resetPassword = function(req, app) {
         },
         variables: {
             fullName: req.theUser.fullname || req.theUser.name.first || "User",
-            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
+            link: req.protocol + req.headers.host + "/#/login?email=" + req.theUser.email,
             password: req.theUser.password
         }
     };
@@ -270,9 +270,6 @@ exports.resetPassword = function(req, app) {
 //
 // ---------------------------------------
 exports.sendWelcome = function(req, app) {
-
-    var urlData  = req._parsedUrl   || {};
-    var protocol = urlData.protocol || 'http://';
      
     var locals = {
         to: {

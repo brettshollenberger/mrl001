@@ -56,7 +56,7 @@ angular
             $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
 
             // empty program object
-            $scope.program = Program.new();
+            $scope.program = Program.template();
             prepareRateSheetView();
 
             $scope.newOption = {};

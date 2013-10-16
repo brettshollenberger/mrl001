@@ -161,7 +161,7 @@ angular.module('app').factory('programService', ['$http', 'MARLINAPI_CONFIG',
             return _.clone(returnItems, true);
         };
 
-        exports.new = function() {
+        exports.template = function() {
             return {
                 name: "",
                 termPeriod: "Month",

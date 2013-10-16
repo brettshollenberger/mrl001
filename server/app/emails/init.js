@@ -13,8 +13,8 @@ var mongoose = require('mongoose'),
     Application = mongoose.model('Application'),
     User = mongoose.model('User'),
     moment = require('moment'),
-    formatFactory = require('format-number')
-    ;
+    formatFactory = require('format-number'),
+    url           = require('url');
 
 // our formatting for moment.js
 var dateTimeFormat = "dddd, MMMM Do YYYY, h:mm:ss a";
@@ -270,6 +270,9 @@ exports.resetPassword = function(req, app) {
 //
 // ---------------------------------------
 exports.sendWelcome = function(req, app) {
+
+    var urlData  = req._parsedUrl   || {};
+    var protocol = urlData.protocol || 'http://';
      
     var locals = {
         to: {
@@ -278,7 +281,7 @@ exports.sendWelcome = function(req, app) {
         },
         variables: {
             fullName: req.theUser.fullname || req.theUser.name.first || "User",
-            link: 'http://' + req.headers.host + "/#/login?email=" + req.theUser.email,
+            link: protocol + req.headers.host + "/#/login?email=" + req.theUser.email,
             password: req.theUser.password
         }
     };

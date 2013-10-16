@@ -113,6 +113,8 @@ angular
                 $scope.formAction = 'Update';
             }
 
+            $scope.saveAlert = false;
+            
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
 

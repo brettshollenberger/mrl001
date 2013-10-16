@@ -661,6 +661,29 @@ angular
                 } catch(err) {}
                 return isActive;
             };
+            
+            
+            // Get link to quoter tool for given vendor considering current protocol and domain
+            //
+            // --------------------------
+            // @note this is a great example of how the refactoring of controllers to follow the 
+            // <div ng-contorller=""> pattern is amazing. This link code should be part of the quoter tool
+            // rather then being here in vendorEdit. 
+            var base = $location.absUrl().replace($location.path(), '');
+            
+            $scope.launchQuoter = function() {
+    
+                // get the base url by replacing the current absolute url with the current path
+                var base = $location.absUrl().replace($location.path(), '');
+                
+                // remove http 
+                base = base.replace('https://', '').replace('http://', '');    
+                
+                var url = window.location.protocol + '//' + $scope.vendor.slug + '.' + base + '/tools/quoter'; 
+                            
+                return url;
+                
+            };
 
 
             /**

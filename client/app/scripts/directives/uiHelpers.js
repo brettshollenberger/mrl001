@@ -3,11 +3,22 @@ angular
     .directive("mailTo", function() {
         return {
             replace: true,
-            template: '<a ng-show="email" stop-event="click" ng-href="mailto:{{email}}" target="_blank"><i class="icon icon-envelope"></i> {{email}}</a>',
+            // Scope: true creates a child scope that inherits prototypically from
+            // its parent. This is different from isolated scopes, which do not inherit
+            // prototypically, and therefore break associations with the surrounding
+            // scope (they can't update an ng-model, for instance). Scope: true ensures
+            // that if we bind multiple mail-tos on a page that they each receive their
+            // own scope; the one danger is overwriting properties on the parent scope,
+            // so we namespace the property we intend to set here so it's unlikely the
+            // component will interfere with a property on the parent scope.
+            scope: true,
+            template: '<a ng-show="uiHelpers.email" stop-event="click" ng-href="mailto:{{uiHelpers.email}}" target="_blank"><i class="icon icon-envelope"></i>{{uiHelpers.email}}</a>',
             link: function(scope, element, attrs) {
 
                 attrs.$observe('mailTo', function(item) {
-                    scope.email = item;
+                    scope.uiHelpers = {
+                        email: item
+                    };
                 });
 
             }

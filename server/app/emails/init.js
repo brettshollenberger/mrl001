@@ -278,7 +278,7 @@ exports.sendWelcome = function(req, app) {
         },
         variables: {
             fullName: req.theUser.fullname || req.theUser.name.first || "User",
-            link: protocol + req.headers.host + "/#/login?email=" + req.theUser.email,
+            link: req.protocol + req.headers.host + "/#/login?email=" + req.theUser.email,
             password: req.theUser.password
         }
     };

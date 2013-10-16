@@ -103,7 +103,7 @@ var myApp = angular.module('unsavedNew', [])
                         angular.noop();
 
                     // if form is invalid, message user about unsaved changed
-                    if(form.$invalid || form.$dirty) {
+                    if(form && (form.$invalid || form.$dirty)) {
                         if (!allFormsClean()) {
                             if (!confirm(messages.navigate)) {
                                 return false; 

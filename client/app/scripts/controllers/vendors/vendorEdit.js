@@ -1,3 +1,14 @@
+/**
+* This controller is very picky for a number of reasons, be careful when editing anything here! 
+* @note the following list should be considered in a major refactor
+* - Tabs are set in two different arrays
+* - Tool order is decided by api load order, but must match expected pattern below. If the api 
+*   were ever to return tools sorted in a different order, things would get ugly. 
+* - The google map must be re-rendered on tab focus, but this happens based on active tab number
+*   and not the tab map. 
+* - tabs! overall just as hard to debug as modals. 
+*
+*/
 angular
     .module('app')
     .controller('vendorEditController', [
@@ -193,8 +204,8 @@ angular
                 'rateForm',
                 'toolForm',
                 'apiForm',
-                'locationForm',
-                'customizeForm'
+                'customizeForm',
+                'locationForm'
             ];
 
             // Code to automatically make save updates
@@ -217,18 +228,27 @@ angular
                 return showError;
             };
 
-            $scope.save = function(doRedirect) {
-                var form;
-                if (formTabMap[$scope.activeTab] == 'locationForm') {
-                    form = $scope.$$childTail.$$childTail.locationForm;
-                } else {
+            // get current form, using tab map and activeTab
+            // because of a number of isolate scopes created by our directive (unsaved warning, I suspect)
+            // we have forms in different scopes. 
+            // so, we basically check each place a form could be, and if the form is undefined 
+            // we check the next. 
+            var setFormFromActiveTab = function() {
+                var form = $scope.$$childTail.$$childTail.locationForm;
+
+                if(!form) {
                     form = $scope.$$childTail[formTabMap[$scope.activeTab]];
                 }
+                return form;
+            };
+
+            $scope.save = function(doRedirect) {
+
                 CommonInterface.save({
                     Model: Vendor,
                     instance: $scope.vendor,
                     id: vendorId,
-                    form: form,
+                    form: setFormFromActiveTab(),
                     redirectUrl: '/dashboard/vendors',
                     doRedirect: doRedirect,
                     preSaveHook: function() {
@@ -432,11 +452,22 @@ angular
 
             // used to set active tab
             $scope.changeTab = function(tab, name) {
-                // @todo, this will need to be more generic if we make into a directive. 
+                
                 if (!$scope.vendor._id) return false;
-                $scope.tabs[$scope.activeTab].selected = false;
-                $scope.activeTab = tab;
-                $scope.tabs[$scope.activeTab].selected = true;
+                
+                var dataObj = {
+                    callback: function() {
+                        
+                        $scope.tabs[$scope.activeTab].selected = false;
+                        $scope.activeTab = tab;
+                        $scope.tabs[$scope.activeTab].selected = true;
+
+                    },
+                    form: setFormFromActiveTab()
+                };
+
+                $rootScope.$broadcast('$tabChangeStart', dataObj);
+
             };
 
             var watchTab = $scope.$watch('activeTab', function(newValue, oldValue) {

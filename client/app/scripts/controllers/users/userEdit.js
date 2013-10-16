@@ -145,6 +145,16 @@ angular
                 });
             }
 
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
+            };
+
             var formTabMap = [
                 'basicForm',
                 'usersVendors',
@@ -159,9 +169,8 @@ angular
                     id: userId,
                     form: $scope.$$childTail[formTabMap[$scope.activeTab]],
                     redirectUrl: '/dashboard/users',
-                    doRedirect: doRedirect,
-                    strategy: function() {
-                        
+                    doRedirect: doRedirect,                        
+                    preSaveHook: function() {
                         // if we are updating user relationships
                         // we make a mega set of calls to the api,
                         // where for each vendor this user was associated with, we set their rep
@@ -288,12 +297,19 @@ angular
             // used to set active tab
             $scope.changeTab = function(tab) {
 
-                // @todo, this will need to be more generic if we make into a directive. 
-                $scope.tabs[$scope.activeTab].selected = false;
+                var dataObj = {
+                    callback: function() {
+                        
+                        // @todo, this will need to be more generic if we make into a directive. 
+                        $scope.tabs[$scope.activeTab].selected = false;
+                        $scope.activeTab = tab;
+                        $scope.tabs[$scope.activeTab].selected = true;
 
-                $scope.activeTab = tab;
+                    },
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]]
+                };
 
-                $scope.tabs[$scope.activeTab].selected = true;
+                $rootScope.$broadcast('$tabChangeStart', dataObj);
 
             };
 

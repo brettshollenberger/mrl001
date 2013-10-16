@@ -8,7 +8,8 @@ angular
         'authService',
         'quoteService',
         'stateService',
-        function($rootScope, $scope, $location, $routeParams, Auth, Quote, States) {
+        'CommonInterface',
+        function($rootScope, $scope, $location, $routeParams, Auth, Quote, States, CommonInterface) {
 
             $scope.modelObject = Quote;
 
@@ -51,25 +52,30 @@ angular
             }
 
             // activated when user clicks the save button
-            $scope.save = function() {
+            $scope.save = function(doRedirect) {
+                CommonInterface.save({
+                    Model: Quote,
+                    instance: $scope.quote,
+                    id: quoteId,
+                    form: $scope.$$childTail.quoteForm,
+                    redirectUrl: '/dashboard/quotes',
+                    doRedirect: doRedirect,
+                    postSaveHook: function(response) {
+                        if (response && response.meta) { $scope.serverError = "There was an error saving the form."; }
+                        if (response && response.meta && response.meta.message) { $scope.serverError = "Form not saved. The server returned the following error: " + response.meta.message; }
+                        if (!response.meta) { $scope.serverError = ""; }
+                    }
+                });
+            };
 
-                if (!quoteId) {
-
-                    // create new item
-                    Quote.add($scope.quote).then(function(response) {
-                        //saveChangesPrompt.removeListener();
-                        $location.url('/dashboard/quotes');
-                    });
-
-                } else {
-                    // update existing item
-                    Quote.update($scope.quote);
-                    //saveChangesPrompt.removeListener();
-                    $location.url('/dashboard/quotes');
-                }
-
-
-
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
             };
 
             $scope.tabs = ['Basic information'];

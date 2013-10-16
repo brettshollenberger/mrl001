@@ -21,14 +21,23 @@
 
         <div class="row">
 
-            <div class="span9 clearfix alert alert-error" ng-show="(basicForm.$invalid && showGlobalErrorMsg(basicForm.FacultyErrors)) || (formBuyoutOptions.$invalid && saveAlert)">Form not saved. Please ensure all fields are filled out below.</div>
+            <div class="span9 clearfix alert alert-error" ng-show="basicForm.$invalid && showGlobalErrorMsg(basicForm.FacultyErrors)">Please address the errors below.</div>
+
+            <div class="span9 clearfix alert alert-error" ng-show="formBuyoutOptions.$invalid && saveAlert">Form not saved. Please ensure all fields are filled out below.</div>
 
             <div class="span3">
                 
                 <h3>Name</h3>
                 
                 <label>Program Name</label>
-                <input name="program.name" type="text" placeholder="" ng-model="program.name" required ng-blur="Validator.validateField(basicForm['program.name'], basicForm)" >
+                <input 
+                    name="program.name" 
+                    type="text" 
+                    placeholder="" 
+                    ng-model="program.name" 
+                    required 
+                    ng-blur="Validator.validateField(basicForm['program.name'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['program.name'], basicForm)">
 
                 <div ng-show="basicForm.FacultyErrors['program.name']" class="alert alert-error alert-tooltip">
                     {{basicForm.FacultyErrors['program.name']}}
@@ -41,7 +50,12 @@
                 <h3>Private Notes</h3>
                 
                 <label>Private Notes</label>
-                <textarea name="program.privateNotes" type="text" ng-model="program.privateNotes" ng-blur="Validator.validateField(basicForm['vendor.privateNotes'], basicForm)" ></textarea>
+                <textarea 
+                    name="program.privateNotes" 
+                    type="text" 
+                    ng-model="program.privateNotes" 
+                    ng-blur="Validator.validateField(basicForm['vendor.privateNotes'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['vendor.privateNotes'], basicForm)"></textarea>
                 <div ng-show="basicForm.FacultyErrors['vendor.privateNotes']" class="alert alert-error alert-tooltip">
                     {{basicForm.FacultyErrors['vendor.privateNotes']}}
                 </div>
@@ -108,7 +122,8 @@
                         <ng-form name="optionForm">
                             
                             <label>Buyout Name</label>
-                            <input style="width: 50%;" type="text" required ng-model="buyoutOptions.name" name="buyoutOptions.name" ng-blur="Validator.validateField(formBuyoutOptions['buyoutOptions.name'], formBuyoutOptions)" >
+                            <input style="width: 50%;" type="text" required ng-model="buyoutOptions.name" name="buyoutOptions.name" ng-blur="Validator.validateField(formBuyoutOptions['buyoutOptions.name'], formBuyoutOptions)" 
+                            ng-change="Validator.removeInvalidation(formBuyoutOptions['buyoutOptions.name'], formBuyoutOptions)">
 
                             <div ng-show="optionForm.$invalid && optionForm.$dirty" class="alert alert-error alert-tooltip" style="width: 50%;">
                                 Program name can't be blank.

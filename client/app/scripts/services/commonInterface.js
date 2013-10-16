@@ -82,7 +82,7 @@ angular
                         Model.add(instance).then(function(response) {
                             instance = response;
                             id       = instance._id;
-                            postSaveLogic(id);
+                            postSaveLogic({resourceId: id, response: response});
                         });
 
                     // ******* Perform Model.update ******** //
@@ -92,17 +92,19 @@ angular
 
                         Model.update(instance).then(function(response) {
                             instance = response;
-                            postSaveLogic();
+                            postSaveLogic({response: response});
                         });
 
                     }
                 }
 
-                function postSaveLogic(resourceId) {
+                function postSaveLogic(opts) {
+                    resourceId = opts.resourceId || undefined;
+                    response   = opts.response   || undefined;
                     redirectToNewResource(resourceId);
                     handleRedirectOverride();
                     setPristine();
-                    postSaveHook();
+                    postSaveHook(response);
                 }
 
                 function handleRedirectOverride() {

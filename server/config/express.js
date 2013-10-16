@@ -12,6 +12,11 @@ var express = require('express'),
     cors = require('cors');
     
 module.exports = function(app, config, passport, standardReponse) {
+    
+    // configure for use behing proxy such as Varnish or Nginx
+    // which is how Heroku works! 
+    app.enable('trust proxy');
+
     app.set('showStackError', true);
 
     //Should be placed before express.static
@@ -22,20 +27,22 @@ module.exports = function(app, config, passport, standardReponse) {
         level: 9
     }));
 
-    // Middleware to force https:// on non-secure requests when
-    // @note for now we are only limiting this for the live production app
-    //       if we ever have secure test or dev environments we'll need to check for these
+
+    // Middleware to force https:// on non-secure requests
+    // -------------
+    // @note we ignore this redirect on development, since it's tricky to setup SSL with localhost
+    //       This means on testing we might need to accept a self signed SSL
     // 
     var requireHTTPS = function(req, res, next){
-        if (!req.secure) {
-            if(req.get('host')==='www.leaserep.com' || req.get('host') ==='leaserep.com'){
-                return res.redirect('https://' + req.get('host') + req.url);
-            }
+
+        if (req.protocol !== 'https' && env !== 'development') {
+            return res.redirect('https://' + req.get('host') + req.url);
         }
         next();
     };
     
     app.use(requireHTTPS);
+
     
     // cache buster! 
     // @todo this would typically be inplimented with eTag, which would check for new versions of content

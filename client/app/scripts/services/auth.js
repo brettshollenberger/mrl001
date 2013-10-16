@@ -182,7 +182,12 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
         *
         */
         exports.updateCurrentUser = function(newUser) {
-                        
+            
+            // check to make sure this user is the current logged in user 
+            // this can be eliminated if we have a watch on resource alls to the user._id 
+            // endpoint on API 
+            if(newUser._id != userData._id) return;
+            
             userData.currentUser = newUser;
             userData.authLevel = newUser.role;
             

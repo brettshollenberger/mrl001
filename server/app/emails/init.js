@@ -22,6 +22,41 @@ var dateTimeFormat = "dddd, MMMM Do YYYY, h:mm:ss a";
 // our number formatting function
 var format = formatFactory({prefix: '$'});
 
+// fallback addres in cases where salesRep or vendorRep email is not set. 
+var fallbackAddress = 'bwalsh@marlinfinance.com';
+
+// function to check for missing resource association, for example
+// salesRep or VendorRep, returns false if anything is missing
+// @todo this would be more robust if we just got a default sentTo user
+//       for the database and sent email to them
+var checkForMissingAssociations = function(type, resource) {
+
+    if(!resource.salesRep) {
+        // @todo send a default email to system admin!
+        console.warn('A %s was generated for a vendor with no Marlin Sales Rep', type);
+        resource.salesRep = new User();
+    }
+   
+    if(!resource.salesRep.email) {
+        console.warn('A %s was generated for Sales Rep %s who has no email, ', type, resource.salesRep.fullname);
+        resource.salesRep.email = fallbackAddress;
+    }
+
+    if(!resource.vendorRep) {
+        // @todo send a default email to system admin!
+        console.warn('A %s was generated for a vendor with no Vendor Rep', type);
+        resource.vendorRep = new User();
+    }
+   
+    if(!resource.vendorRep.email) {
+        console.warn('A %s was generated for Vendor Rep %s who has no email, ', type, resource.vendorRep.fullname);
+        resource.vendorRep.email = fallbackAddress;
+    }
+
+    return resource;
+
+};
+
 // ---------------------------------------
 // 
 // NEW QUOTE
@@ -35,6 +70,10 @@ exports.newQuoteEndUser = function(req, quote) {
     // @todo this check is in the email.js module, but it throws an error. Should 
     // we change that and eliminate the check here? 
     if(!quote.company.contactPerson.email) return false;
+
+    // checks for missing emails and replaces with fallbacks to prenvet 
+    // notifications for going un heard.
+    quote = checkForMissingAssociations('quote', quote);
     
     var vendorName = quote.vendorId.name || '';
      
@@ -62,28 +101,21 @@ exports.newQuoteEndUser = function(req, quote) {
 // sent to sales rep on new quote
 exports.newQuoteSalesRep = function(req, quote) {
 
-    if(!quote.salesRep) {
-        // @todo send a default email to system admin!
-        console.warn('A quote was generated for a vendor with no Marlin Sales Rep');
-        return;
-    }
-   
-    if(!quote.salesRep.email) {
-        console.warn('A quote was generated for a salesRep who has no email, ' + quote.salesRep.fullname);
-        return;
-    }
+    // checks for missing emails and replaces with fallbacks to prenvet 
+    // notifications for going un heard.
+    quote = checkForMissingAssociations('quote', quote);
      
     var locals = {
         to: {
             email: quote.salesRep.email,
-            fullName: quote.salesRep.fullname
+            fullName: quote.salesRep.fullname || "Sales Rep"
         },
         variables: {
             link: quote.dashboardLink, // a virtual property of quote model
             dateTime: moment(quote.created).format(dateTimeFormat),
             
             vendorName: quote.vendorId.name,
-            salesRepName: quote.salesRep.fullname,
+            salesRepName: quote.salesRep.fullname || "Sales Rep",
             
             quoteCompany: quote.company.fullLegalBusinessName,
             quoteMethod: quote.company.contactPerson.contactMethod,
@@ -102,28 +134,21 @@ exports.newQuoteSalesRep = function(req, quote) {
 // sent to vendor rep on new quote
 exports.newQuoteVendorRep = function(req, quote) {
 
-    if(!quote.vendorRep) {
-        // @todo send a default email to system admin!
-        console.warn('A quote was generated for a vendor with no vendorRep, ' + quote.vendorId.name);
-        return;
-    }
-   
-    if(!quote.vendorRep.email) {
-        console.warn('A quote was generated for a vendorRep who has no email, ' + quote.vendorRep.fullname);
-        return;
-    }
+    // checks for missing emails and replaces with fallbacks to prenvet 
+    // notifications for going un heard.
+    quote = checkForMissingAssociations('quote', quote);
  
     var locals = {
         to: {
             email: quote.vendorRep.email,
-            fullName: quote.vendorRep.fullname
+            fullName: quote.vendorRep.fullname || "Vendor Rep"
         },
         variables: {
             link: quote.dashboardLink, // a virtual property of quote model
             dateTime: moment(quote.created).format(dateTimeFormat),
             
             vendorName: quote.vendorId.name,
-            salesRepName: quote.salesRep.fullname,
+            salesRepName: quote.vendorRep.fullname || "Vendor Rep",
             
             quoteCompany: quote.company.fullLegalBusinessName,
             quoteMethod: quote.company.contactPerson.contactMethod,
@@ -155,9 +180,10 @@ exports.completeAppCredit = function(req, app) {
             app.vendorId.creditEmailAddress : 
             'credit@marlinfinance.com';
      
-        var appSalesRepLocal = app.salesRep ? app.salesRep.fullname : '';
-        var appVendorRepLocal = app.vendorRep ? app.vendorRep.fullname : '';
-     
+        // checks for missing emails and replaces with fallbacks to prenvet 
+        // notifications for going un heard.
+        app = checkForMissingAssociations('app', app);
+
         var locals = {
             to: {
                 email: sendTo,
@@ -166,8 +192,8 @@ exports.completeAppCredit = function(req, app) {
             variables: {
                 
                 appVendorName: app.vendorId.name,
-                appSalesRep: appSalesRepLocal,
-                appVendorRep: appVendorRepLocal,
+                appSalesRep: app.salesRep.fullname || "Sales Rep",
+                appVendorRep: app.vendorRep.fullname || "Vendor Rep",
                 
                 appTotalCost: app.totalCostDisplay,
                 appDesc: app.description,

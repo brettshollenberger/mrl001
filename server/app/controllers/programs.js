@@ -24,6 +24,15 @@ exports.program = function(req, res, next, id) {
  * Create a program
  */
 exports.create = function(req, res) {
+
+    _.each(req.body.rateSheet.buyoutOptions, function(item) {
+        _.each(item.costs, function(cost) {
+            cost.min = cost.min.toString();
+            cost.max = cost.max.toString();
+        }); 
+    });
+    
+
     var program = new Program(req.body);
 
     program.save();
@@ -34,8 +43,16 @@ exports.create = function(req, res) {
  * Update a program
  */
 exports.update = function(req, res) {
+    
     var program = req.program;
-
+    
+    _.each(req.body.rateSheet.buyoutOptions, function(item) {
+        _.each(item.costs, function(cost) {
+            cost.min = cost.min.toString();
+            cost.max = cost.max.toString();
+        }); 
+    });
+    
     program = _.extend(program, req.body);
 
     program.save(function(err) {
@@ -67,7 +84,6 @@ exports.show = function(req, res) {
         _.each(item.costs, function(cost) {
             cost.min = cost.min / 100;
             cost.max = cost.max / 100;
-            console.log(cost);
         }); 
     });
     

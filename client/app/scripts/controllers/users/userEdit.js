@@ -145,6 +145,16 @@ angular
                 });
             }
 
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
+            };
+
             var formTabMap = [
                 'basicForm',
                 'usersVendors',
@@ -160,7 +170,7 @@ angular
                     form: $scope.$$childTail[formTabMap[$scope.activeTab]],
                     redirectUrl: '/dashboard/users',
                     doRedirect: doRedirect,
-                    strategy: function() {
+                    preSaveHook: function() {
                         if ($scope.initialRole !== $scope.user.role) {
                             if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
                                 _.each($scope.vendors, function(item, key) {

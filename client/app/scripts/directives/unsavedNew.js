@@ -102,20 +102,28 @@ var myApp = angular.module('unsavedNew', [])
                         dataObj.callback : 
                         angular.noop();
 
+                    console.log(form);
+
+                    // callback if no form right away
+                    if(!form) callback();
+
                     // if form is invalid, message user about unsaved changed
-                    if(form && (form.$invalid || form.$dirty)) {
+                    if(form.$invalid || form.$dirty) {
                         if (!allFormsClean()) {
                             if (!confirm(messages.navigate)) {
                                 return false; 
                             } else {
                                 callback();
+                                window.onbeforeunload = null;
                             }
                         } else {
                             callback();
+                            window.onbeforeunload = null;
                         }
                     // do callback right away
                     } else {
                         callback();
+                        window.onbeforeunload = null;
                     }
 
                 });

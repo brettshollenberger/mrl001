@@ -3,6 +3,30 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
+Release 0.3.9-pre-release-3 (October 16th, 2013)
+--------
+
+**Bugs**
+
+- [BUG] Fix issue with quoter tool email notifications, where getting a quote for a vendor missing either a salesRep of vendorRep would cause an error and restart the app. 
+- [FEATURE] Send an email to "marketing@marlinfinance.com" in cases where a vendor has no vendorRep or salesRep.
+- [BUG] Fix issue loading Google Maps and Fonts on SSL site
+- [BUG] Force https:// in non-development environments
+- [BUG] Fix issue where quoter tool links pointed to incorrect url for the vendor tools
+- [BUG] Fix issue where email for salesRep and vendorRep was the same on vendor edit page.
+- [BUG] Fix Login and Welcome emails links to support https://
+- [BUG] Fix issue where URLs were not validating in dashboard
+- [BUG] Fix issues with rate sheet editing
+ - Remove extra zeros on min and max range
+ - Fix auto-fill of min value based on previous max value
+ - Fix issue where deleting all the buyout options causes an error
+- [BUG] Fix issue where "send welcme email" button was visible before user was saved.
+- [BUG] Fix issue where saving vendors or users updated information in sidebar nav. 
+- [BUG] Fix issue where the user photo would update in the sidebar even when saving failed because of validation. 
+- [BUG] Fix issue where sidebar blocks don't wrap properly on windows. 
+
+
+
 Release 0.3.8-pre-release-2 (October 15th, 2013)
 --------
 

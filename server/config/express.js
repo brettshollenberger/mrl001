@@ -22,6 +22,10 @@ module.exports = function(app, config, passport, standardReponse) {
         level: 9
     }));
 
+    // Middleware to force https:// on non-secure requests when
+    // @note for now we are only limiting this for the live production app
+    //       if we ever have secure test or dev environments we'll need to check for these
+    // 
     var requireHTTPS = function(req, res, next){
         if (!req.secure) {
             if(req.get('host')==='www.leaserep.com' || req.get('host') ==='leaserep.com'){

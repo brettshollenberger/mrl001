@@ -123,24 +123,24 @@ angular
 
 
             function updateVendorRelationships() {
+            
                 // process each program, checking if its active for the vendor
                 _.each($scope.vendors, function(item, key) {
 
                     // API saves an array of _ids
                     if (item.active) {
 
+                        // now set their proper role
+                        item[$scope.user.role] = $scope.user._id;
+                        
+                    } else {
+                        
                         // check if the user is currently the sales or vendor rep for this vendor
                         if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
                         if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
-
-                        // now set their proper role
-                        item[$scope.user.role] = $scope.user._id;
-                        console.log(item);
-
-                        Vendor.update(item);
-
-                        //Vendor.update();
                     }
+                    
+                    Vendor.update(item);
 
                 });
             }
@@ -312,7 +312,17 @@ angular
                 $rootScope.$broadcast('$tabChangeStart', dataObj);
 
             };
-
-
+            
+            $scope.checkShowVendor = function(item) {
+            
+                if($scope.user.role === 'salesRep' && item.salesRep && item.salesRep._id !== $scope.user._id) {
+                    return true;
+                } else if($scope.user.role === 'vendorRep' && item.vendorRep && item.vendorRep._id !== $scope.user._id) {
+                   return true; 
+                } else {
+                    return false;
+                }
+            };
+            
         }
     ]);

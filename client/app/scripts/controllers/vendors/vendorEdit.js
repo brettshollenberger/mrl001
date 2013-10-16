@@ -267,6 +267,16 @@ angular
                             if (item.active && item.displayName) $scope.vendor.programCustomNames.push(item);
 
                         });
+                        
+                        // get current user from auth service
+                        var theUser = Auth.getCurrentUser();
+                        
+                        // update avatar for current vendor
+                        theUser.vendor = $scope.vendor;
+                        
+                        // save the update
+                        Auth.updateCurrentUser(theUser);
+                        
                     }
                 });
             };

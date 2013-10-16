@@ -21,7 +21,9 @@
 
         <div class="row">
 
-            <div class="span9 clearfix alert alert-error" ng-show="(basicForm.$invalid && showGlobalErrorMsg(basicForm.FacultyErrors)) || (formBuyoutOptions.$invalid && saveAlert)">Form not saved. Please ensure all fields are filled out below.</div>
+            <div class="span9 clearfix alert alert-error" ng-show="basicForm.$invalid && showGlobalErrorMsg(basicForm.FacultyErrors)">Please address the errors below.</div>
+
+            <div class="span9 clearfix alert alert-error" ng-show="formBuyoutOptions.$invalid && saveAlert">Form not saved. Please ensure all fields are filled out below.</div>
 
             <div class="span3">
                 

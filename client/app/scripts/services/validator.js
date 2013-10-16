@@ -181,7 +181,8 @@ angular
       removeInvalidation: function(field, form) {
         var errors = {};
         this.setErrors(field, errors);
-        if (nullValues(errors)) { form.FacultyErrors[field.$name] = null; }
+        if (!form.FacultyErrors) { form.FacultyErrors = {}; }
+        if (nullValues(errors))  { form.FacultyErrors[field.$name] = null; }
       },
 
       validateField: function(field, form) {

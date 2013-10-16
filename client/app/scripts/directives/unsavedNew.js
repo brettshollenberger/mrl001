@@ -90,6 +90,36 @@ var myApp = angular.module('unsavedNew', [])
 
                 });
 
+                /**
+                * Used to call unsaved warning on tab change. 
+                *
+                */
+                $rootScope.$on('$tabChangeStart', function(event, dataObj) {
+
+                    var form = dataObj.form;
+                    var callback = 
+                        dataObj.callback && typeof dataObj.callback === 'function' ? 
+                        dataObj.callback : 
+                        angular.noop();
+
+                    // if form is invalid, message user about unsaved changed
+                    if(form.$invalid || form.$dirty) {
+                        if (!allFormsClean()) {
+                            if (!confirm(messages.navigate)) {
+                                return false; 
+                            } else {
+                                callback();
+                            }
+                        } else {
+                            callback();
+                        }
+                    // do callback right away
+                    } else {
+                        callback();
+                    }
+
+                });
+
             }
         };
     }

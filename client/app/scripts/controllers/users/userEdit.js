@@ -283,12 +283,19 @@ angular
             // used to set active tab
             $scope.changeTab = function(tab) {
 
-                // @todo, this will need to be more generic if we make into a directive. 
-                $scope.tabs[$scope.activeTab].selected = false;
+                var dataObj = {
+                    callback: function() {
+                        
+                        // @todo, this will need to be more generic if we make into a directive. 
+                        $scope.tabs[$scope.activeTab].selected = false;
+                        $scope.activeTab = tab;
+                        $scope.tabs[$scope.activeTab].selected = true;
 
-                $scope.activeTab = tab;
+                    },
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]]
+                };
 
-                $scope.tabs[$scope.activeTab].selected = true;
+                $rootScope.$broadcast('$tabChangeStart', dataObj);
 
             };
 

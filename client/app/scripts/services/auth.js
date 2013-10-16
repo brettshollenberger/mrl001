@@ -15,7 +15,9 @@
  
  * @note we should consider specifiying a "resource" path for the service to call to refrech 
  * data and then having it call this reosurce when we call refreshUser() method.
- * this would eliminate the need to always call updateCurrentUser() in controllers. 
+ * this would eliminate the need to always call updateCurrentUser() in controllers.
+ *
+ * @todo this could be namespaced since it has a number of directive and configs.  
  *
  */
 

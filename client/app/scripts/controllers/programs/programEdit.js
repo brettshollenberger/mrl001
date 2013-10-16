@@ -8,11 +8,45 @@ angular
         'authService',
         'programService',
         'CommonInterface',
-        function($rootScope, $scope, $location, $routeParams, Auth, Program, CommonInterface) {
+        '$anchorScroll',
+        function($rootScope, $scope, $location, $routeParams, Auth, Program, CommonInterface, $anchorScroll) {
 
             var program = {};
             var programId = $routeParams.id;
             var formTabMap;
+
+            ////////////////////////////////////////////////////////////////
+            /// Logic to handle Rate Sheet Serialization/Deserialization ///
+            ////////////////////////////////////////////////////////////////
+
+            var SerializationStrategies = {
+                deserialize: function(array) {
+                    return array.map(function(str) { return {value: str}; });
+                },
+                serialize: function(object) {
+                    return object.map(function(obj) { return obj.value; });
+                }
+            };
+
+            function prepareRateSheetView() {
+                if (rateSheetExists())  { transformBuyoutOptions("deserialize"); }
+            }
+
+            function prepareRateSheetModel() {
+                if (rateSheetExists()) { transformBuyoutOptions("serialize"); }
+            }
+
+            function rateSheetExists() {
+                return $scope.program.rateSheet !== undefined &&
+                    $scope.program.rateSheet.buyoutOptions;
+            }
+
+            function transformBuyoutOptions(strategy) {
+                $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
+                    opt.terms = SerializationStrategies[strategy](opt.terms);
+                    opt.costs.forEach(function(cost) { cost.rates = SerializationStrategies[strategy](cost.rates); });
+                });
+            }
             
             // basic auth protection for this route
             // @todo can we create a global route change auth service? 
@@ -22,7 +56,9 @@ angular
             $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
 
             // empty program object
-            $scope.program = {};
+            $scope.program = Program.new();
+            prepareRateSheetView();
+
             $scope.newOption = {};
             
             // button text
@@ -37,17 +73,22 @@ angular
                 $location.url('/dashboard/programs');
             };
 
-            function prepareRateSheetView() {
-                $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
-                    opt.terms = opt.terms.map(function(term) { return {value: term}; });
-                    opt.costs.forEach(function(cost) {
-                        cost.rates = cost.rates.map(function(rate) {
-                            return {value: rate};
-                        });
-                    });
+            ////////////////////////////////////////////////////////////////
+            //// Logic to handle showing/hiding messages on form save  /////
+            ////////////////////////////////////////////////////////////////
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
                 });
-            }
-            
+                return showError;
+            };
+
+            ////////////////////////////////////////////////////////////////
+            ///////////// Logic to handle initial page setup ///////////////
+            ////////////////////////////////////////////////////////////////
 
             // get and store the program 
             if (programId) {
@@ -67,19 +108,20 @@ angular
                     // would not update when the child is typed into. 
 
                     prepareRateSheetView();
-
-                    formTabMap = [
-                        $scope.$$childTail.basicForm,
-                        $scope.$$childTail.formBuyoutOptions,
-                        $scope.$$childTail.newOptionForm
-                    ];
                 });
 
                 $scope.formAction = 'Update';
             }
 
+            $scope.saveAlert = false;
+            
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
+
+                formTabMap = [
+                    $scope.$$childTail.basicForm,
+                    $scope.$$childTail.formBuyoutOptions
+                ];
 
                 CommonInterface.save({
                     Model: Program,
@@ -88,21 +130,18 @@ angular
                     form: formTabMap,
                     redirectUrl: '/dashboard/programs',
                     doRedirect: doRedirect,
-                    strategy: function() {
+                    preSaveHook: function() {
                         // Map the rates back to a string val to save to the db, since that's
                         // what we have in the model. In the future, we should straight up
                         // change the model to use an object. 
-                        $scope.program.rateSheet.buyoutOptions.forEach(function(opt) {
-                            opt.terms = opt.terms.map(function(term) { return term.value; });
-                            opt.costs.forEach(function(cost) {
-                                cost.rates = cost.rates.map(function(rate) {
-                                    return rate.value;
-                                });
-                            });
-                        });
+                        prepareRateSheetModel();
+                        $scope.saveAlert = true;
+                    },
+                    postSaveHook: function() {
+                        $scope.saveAlert = false;
                     }
                 });
-
+                $anchorScroll();
                 prepareRateSheetView();
             };
 
@@ -200,19 +239,17 @@ angular
             */
             $scope.makeNewOption = function() {
                 
-                console.log($scope);
-                
-                if ($scope.$$childTail.NewOptionForm.$valid) {
+                if ($scope.$$childTail.newOptionForm.$valid) {
                     successCallback();
-                    console.log('Valid New Option form!');
                 } else {
-                    $rootScope.Validator.validateForm($scope.$$childTail.NewOptionForm);
-                    console.log('In Valid New Option form!');
+                    $rootScope.Validator.validateForm($scope.$$childTail.newOptionForm);
                 }
                 
                 function successCallback() {
-                    console.log($scope.newOption);
 
+                    $rootScope.Validator.setPristine($scope.$$childTail.newOptionForm);
+                    $rootScope.Validator.setDirty($scope.$$childTail.formBuyoutOptions);
+                    
                     $scope.newOption.columns = 3;
     
                     var newBuyOut = {

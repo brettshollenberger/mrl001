@@ -383,12 +383,12 @@ select.ng-valid.ng-dirty:focus {
   border-color: @green;
 };
 
-input.ng-invalid.ng-dirty,
-textarea.ng-invalid.ng-dirty,
-select.ng-invalid.ng-dirty,
-input:focus:invalid.ng-dirty,
-textarea:focus:invalid.ng-dirty,
-select:focus:invalid.ng-dirty {
+input.ng-invalid.ng-dirty:not(:focus),
+textarea.ng-invalid.ng-dirty:not(:focus),
+select.ng-invalid.ng-dirty:not(:focus),
+input:focus:invalid.ng-dirty:not(:focus),
+textarea:focus:invalid.ng-dirty:not(:focus),
+select:focus:invalid.ng-dirty:not(:focus) {
   //color: @red;
   border-color: @red;
 };

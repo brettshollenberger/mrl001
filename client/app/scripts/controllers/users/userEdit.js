@@ -163,6 +163,11 @@ angular
                     strategy: function() {
                         
                         // if we are updating user relationships
+                        // we make a mega set of calls to the api,
+                        // where for each vendor this user was associated with, we set their rep
+                        // to null and save this vendor
+                        // @todo move to API
+                        //
                         if ($scope.initialRole !== $scope.user.role) {
                             if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
                                 _.each($scope.vendors, function(item, key) {
@@ -174,9 +179,13 @@ angular
                                     }
                                     Vendor.update(item);
                                 });
-                                updateVendorRelationships();
                             }
                         }
+
+                        // called to update vendor connections as sales rep and vendor rep
+                        // for vendors. This works by iterating through vendors, checking for active status, 
+                        // and then making and API call to update this vendor
+                        updateVendorRelationships();
                         
                         // call auth service to udpate user
                         Auth.updateCurrentUser($scope.user);

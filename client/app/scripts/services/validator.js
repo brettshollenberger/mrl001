@@ -178,6 +178,12 @@ angular
         }
       },
 
+      removeInvalidation: function(field, form) {
+        var errors = {};
+        this.setErrors(field, errors);
+        if (nullValues(errors)) { form.FacultyErrors[field.$name] = null; }
+      },
+
       validateField: function(field, form) {
         var errors = form.FacultyErrors = form.FacultyErrors || {};
         // @note checking for $pristine will prevent errors from being displayed if user

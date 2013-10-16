@@ -7,10 +7,15 @@ angular
         'authService',
         '$timeout',
         '$routeParams',
-        function($rootScope, $scope, $location, Auth, $timeout, $routeParams) {
+        'userService',
+        function($rootScope, $scope, $location, Auth, $timeout, $routeParams, User) {
 
+            // declare variables
+            $scope.email = '';
+            $scope.password = '';
+            
             // we use this to set credentials for demo on initial page screen
-            $rootScope.demoCredentials = {
+            var demoCredentials = {
                 admin: {
                     email: 'bwalsh@marlinfinance.com',
                     password: 'bwalsh'
@@ -24,17 +29,25 @@ angular
                     password: 'vrep'
                 }
             };
-
-
+            
+            /**
+            * Check for email which will be present in reset password links
+            *
+            */
+            if($routeParams.email) {
+                $scope.email = $routeParams.email;
+            }
+            
             /**
              * This allows us to pass credentials into the controller to prefill the login form fields
              * This is useful for demos and dev.
              *
              */
             if ($routeParams.demo) {
-                $scope.email = $rootScope.demoCredentials[$routeParams.demo].email;
-                $scope.password = $rootScope.demoCredentials[$routeParams.demo].password;
+                $scope.email = demoCredentials[$routeParams.demo].email;
+                $scope.password = demoCredentials[$routeParams.demo].password;
             }
+            
 
             /**
              * Runs on success, useful for redirecting etc.
@@ -47,6 +60,11 @@ angular
                 // go to daahboard
                 $location.url('/dashboard');
             }
+            
+             // sets message and removes after timeout
+            var setMessage = function(message) {
+                $scope.message = message;
+            };
 
 
             // used to provide a button specific activity spinner 
@@ -61,18 +79,14 @@ angular
                 Auth.login($scope.email, $scope.password).then(function(response) {
 
                     // @todo make this more robust! 
-                    var loginSuccess = response;
-
                     $scope.isProcessing = false;
+                    loginSuccessCallback();
 
-                    if (!loginSuccess) {
-                        $scope.message = 'Login failed, please try again';
-                    } else {
-                        loginSuccessCallback();
-                    }
-
-                }, function(err) {
+                }, function(err, message) {
+                    setMessage("There was an error logging you in: " + err.data.message + ".");
+                    $rootScope.Validator.validateForm($scope.loginForm);
                     $scope.isProcessing = false;
+                    
                 });
 
             };

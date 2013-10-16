@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
     Application = mongoose.model('Application'),
     Vendor = mongoose.model('Vendor'),
     emailer = require('./../emails/init'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    currency = require('./../helpers/currency');
 
 
 /**
@@ -61,6 +62,15 @@ exports.application = function(req, res, next, id) {
  * Create a application
  */
 exports.create = function(req, res) {
+
+    // format total cost toCents, supporting error callback if conversion fails
+    // @todo move this into a model middleware? for now it allows us to pass same totalCost 
+    // from quote (whose conversion is handled in validateQuoteRequest middleware. 
+    currency.toCents(req.body.totalCost, function(err, result) {
+        if(err) return res.failure(err, 400);
+        req.body.totalCost = result / 100;
+    });
+    
     var application = new Application(req.body);
 
     application.save();
@@ -73,6 +83,12 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
     var application = req.application;
+    
+    // format total cost toCents, supporting error callback if conversion fails
+    currency.toCents(application.totalCost, function(err, result) {
+        if(err) return res.failure(err, 400);
+        application.totalCost = result / 100;
+    });
 
     application = _.extend(application, req.body);
 
@@ -115,6 +131,7 @@ exports.show = function(req, res) {
 exports.all = function(req, res) {
 
     var where = {};
+    var select = '';
 
     // limit quotes to sales rep only. 
     if (req.userHasRole('salesRep')) {
@@ -125,10 +142,13 @@ exports.all = function(req, res) {
         where = {
             vendorRep: req.user._id
         };
+        
+        select = '-guarantorInfo';
     }
 
     Application
         .find(where)
+        .select(select)
         .sort('-status -created')
         .exec(function(err, applications) {
             if (err) {

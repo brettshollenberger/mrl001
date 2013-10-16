@@ -10,18 +10,26 @@ angular
         'vendorService',
         'applicationService',
         'authService',
-        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application, Auth) {
+        'stateService',
+        '$anchorScroll',
+        function($rootScope, $scope, $location, $routeParams, Quote, Program, Vendor, Application, Auth, States, $anchorScroll) {
 
             // empty application object
             $scope.application = {};
+            
+            // get states arrays for forms
+            $scope.states1 = States.states();
+            $scope.states2 = States.states();
 
             // prevents end user from hitting application tool directly
             // comment out to easily test
+            /*
             if ($rootScope.fromQuote !== true) {
                 if (!Auth.canUserDoAction('view-applications')) {
                     $location.url('/tools/quoter');
                 }
             }
+            */
 
             // utility function to go back to the quote list
             // @todo this function is used in many places, find a way to streamline it
@@ -29,66 +37,92 @@ angular
                 $location.url('/tools/quoter');
             };
 
+
             // get quote ID for edit pages
             var applicationId = $routeParams.id;
 
-            // get and store the quote 
+
+            /**
+            * GET APPLICATION BY ID
+            * --------------------------------------
+            *
+            */
             if (applicationId) {
 
                 // get the quote
                 Application.getById(applicationId).then(function(response) {
                     $scope.application = response;
+                    
+                    // if not a valid application, redirect
                     if (!$scope.application) $location.path('/tools/quoter');
 
-                    Vendor.getById($scope.application.vendorId).then(function(response) {
-                        $scope.vendor = response;
-                    });
+                    $scope.vendor = $scope.application.vendorId;
+                    
+                    // if no state is set, set default 
+                    if(!$scope.application.company.businessAddress.state) {
+                        $scope.application.company.businessAddress.state = $scope.states1[0].abbreviation; 
+                    }
+                    
+                    if(!$scope.application.guarantor.homeAddress.state) {
+                        $scope.application.guarantor.homeAddress.state = $scope.states2[0].abbreviation;
+                    }
 
+                }, function() {
+                    // redirect on no application found
+                    $location.url('/tools/quoter');
                 });
 
-                console.log($scope.application);
             }
-
-
-
-            $scope.saveApplication = function() {
-                Application.update($scope.application);
-                $scope.finished = true;
-            };
-
-            $scope.save = function() {
-
-
-                if (!$scope.application.leasee) $scope.application.leasee = {};
-                if (!$scope.application.leasee.contactPerson) $scope.application.leasee.contactPerson = {};
-
-                $scope.application.leasee.contactPerson.contactMethod = $scope.contactMethod;
-                Application.update($scope.application);
-
-                $rootScope.fromQuote = false;
-
-                $location.url('/');
-            };
-
-
-            $scope.message = false;
-
+            
+            /**
+            * LOGIC TO CHECK IF GUARANTOR INFO IS NEEDED
+            * --------------------------------------
+            *
+            */
             $scope.needsMoreInfo = function() {
-
-                console.log($scope.application);
-
-                if (!$scope.application.leasee) return false;
-
-                if ($scope.application.leasee.soleProp === true || ($scope.application.leasee.yearsInBusiness !== '' && $scope.application.leasee.yearsInBusiness < 2)) {
-
+                
+                // if business is sole prop or less than 2 years in business
+                // @note confirm with Brian, I think we changed this to 1 year
+                //
+                if ($scope.application.soleProp === true || ($scope.application.yearsInBusiness !== '' && $scope.application.yearsInBusiness < 2)) {
                     $scope.message = 'Please provide more information to help ensure timely processing of your applicaiton.';
                     return true;
+                } else {
+                    $scope.message = false;
+                    return false;
                 }
-
-                $scope.message = false;
-                return false;
             };
 
 
+            /**
+            * SAVE APPLICATION if valid
+            * --------------------------------------
+            *
+            */
+            $scope.saveApplication = function() {
+                
+                // attempt to validate from
+                if ($scope.ApplicationToolForm.$valid) {
+                    successCallback();
+                } else {
+                    $rootScope.Validator.validateForm($scope.ApplicationToolForm);
+                }
+                
+                // private success callback
+                function successCallback() {
+                    
+                    Application.update($scope.application).then(function(response){
+                        $scope.finished = true;
+                        $scope.message = false;
+                        
+                        // forces scroll to top of page
+                        $anchorScroll();
+                    });
+                    
+                }
+                
+            };
+            
         }
+ 
     ]);

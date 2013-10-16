@@ -4,6 +4,7 @@ angular
         'unsavedNew',
         'uiHelpers',
         'ui.validate',
+        'ui.mask',
         'ui.if',
         'ui.bootstrap',
         'ngCookies',
@@ -62,6 +63,7 @@ angular
     //base_url: 'http://localhost:3000/api/v1/'
     //base_url: 'http://0.0.0.0:3000/api/v1/'
     base_url: 'http://127.0.0.1:3000/api/v1/'
+    //base_url: 'http://10.1.10.48:3000/api/v1/'
 })
 
 /**
@@ -71,8 +73,62 @@ angular
  *       is to set routes in the controllers as needed.
  *
  */
-.config(['$routeProvider',
-    function($router) {
+.config(['$routeProvider', 'MARLINAPI_CONFIG',
+    function($router, MARLINAPI_CONFIG) {
+
+        // find the base url, without any subdomains
+        baseUrl = function() {
+            return MARLINAPI_CONFIG.base_url.replace('api/v1/', '');
+        };
+    
+    
+        // this is a controller. It doesn't do much besides provide a namespace for the resolve method below
+        function MyCtrl($scope, datasets) {
+            
+            // each key from resolve {} will be available to inject as key name
+            // for example, if we had a ctrl.resolve = {item1: function() {}, item2: function() {}}
+            // we could access these resolved items in our controller by injecting item1 and item2
+            // just like we inject $location, $rootScope, etc. 
+            // @note that because our datasets are all promise objects, we'll wait for all
+            // of them to resolve before returning
+            $scope.datasets = datasets;
+        }
+
+        MyCtrl.resolve = {
+            resolvedVendor: function ($q, $route, vendorService, $rootScope, $location, authService) {
+
+                var deferred = $q.defer();
+
+                // called on success by lookup()
+                var lookupVendorCb = function (result) {
+                    if (!result) {
+                        deferred.reject("Vendor Lookup Failed");
+                        
+                        if(authService.isAuthenticated()) {
+                            window.location = baseUrl(); 
+                        } else {
+                            window.location = baseUrl();
+                        }                        
+                        
+                    } else {
+                        deferred.resolve(result);
+                    }
+                };
+                
+                // get slug from $location
+                var slug = $location.host().split('.')[0];
+                console.log("vendorSlug is: ", slug);  
+                
+                if(slug) {
+                    // checks for vendorName, or preforms api query if not set
+                    vendorService.lookupBySlug(slug, lookupVendorCb); 
+                } else {
+                    window.location = baseUrl() + 'tools/quoter';
+                }
+
+                return deferred.promise;
+            }
+        };
 
         $router
 
@@ -82,7 +138,6 @@ angular
             templateUrl: 'app/templates/home.html'
         })
 
-
         .when('/changelog', {
             controller: 'changelogController',
             templateUrl: 'app/templates/changelog.html'
@@ -90,8 +145,7 @@ angular
 
         // general routes
         .when('/login', {
-            controller: 'loginController',
-            templateUrl: 'app/templates/login.html'
+            templateUrl: 'app/templates/authenticate.html'
         })
 
         // general routes
@@ -100,31 +154,43 @@ angular
             templateUrl: 'app/templates/logout.html'
         })
 
+        .when('/tools/api', {
+            controller: 'apiController',
+            templateUrl: 'app/templates/tools/api/documentation.html'
+        })
+
+        .when('/password_reset', {
+            templateUrl: 'app/templates/authenticate.html'
+        })
 
         // Quoter tool!  
         .when('/tools/quoter', {
             controller: 'quoterToolController',
-            templateUrl: 'app/templates/tools/quoter/quoterTool.html'
+            templateUrl: 'app/templates/tools/quoter/quoterTool.html',
+            resolve: MyCtrl.resolve
         })
             .when('/tools/quoter/:id/print', {
                 controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html'
+                templateUrl: 'app/templates/tools/quoter/quoterToolPrint.html',
+                resolve: MyCtrl.resolve
             })
             .when('/tools/quoter/:id', {
                 controller: 'quoterToolController',
-                templateUrl: 'app/templates/tools/quoter/quoterTool.html'
+                templateUrl: 'app/templates/tools/quoter/quoterTool.html',
+                resolve: MyCtrl.resolve
             })
             
-
 
         // Application tool! 
         .when('/tools/application', {
             controller: 'applicationToolController',
-            templateUrl: 'app/templates/tools/application/applicationTool.html'
+            templateUrl: 'app/templates/tools/application/applicationTool.html',
+            resolve: MyCtrl.resolve
         })
             .when('/tools/application/:id', {
                 controller: 'applicationToolController',
-                templateUrl: 'app/templates/tools/application/applicationTool.html'
+                templateUrl: 'app/templates/tools/application/applicationTool.html',
+                resolve: MyCtrl.resolve
             })
 
         // Locator tool! 
@@ -231,22 +297,23 @@ angular
  *       but include them in our app?
  *
  */
-.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker',
-        'FormHelper',
-    function($rootScope, $location, Auth, $document, $http, promiseTracker,
-        FormHelper) {
-
+.run(['$rootScope', '$location', 'authService', '$document', '$http', 'promiseTracker', 'apiService', 'Validator',
+    function($rootScope, $location, Auth, $document, $http, promiseTracker, api, Validator) {
+        
+        // PING the server to check for current status and get XSFR cookie
+        // @todo this could be expanded to check for API down etc.
+        api.ping().then(function() {});
 
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
-        $rootScope.version = '0.3.6';
+        $rootScope.version = '0.3.7';
 
 
         // @note this is related to experimental promisetracker module
         $rootScope.apiTracker = promiseTracker('api');
 
-        $rootScope.FormHelper = FormHelper;
+        $rootScope.Validator = Validator;
         /**
          * Helper functions, which are accessiable anywhere in our app using $rootScope.functionName()
          *
@@ -283,6 +350,19 @@ angular
             } else {
                 return "";
             }
+        };
+        
+        
+        /**
+        * Function that returns true / false if location matches variable
+        * @note you must pass a full path, with a leading slash
+        *
+        * @example isPage('/login') === $location.url('/login')
+        * @example isPage('login') !== $location.url('/login')
+        *
+        */
+        $rootScope.isPage = function(slug) {
+            return $location.path() === slug;
         };
 
         /**

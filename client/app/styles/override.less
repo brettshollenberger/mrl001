@@ -2,6 +2,7 @@
 @import "bootstrap/mixins.less";
 @import "components/sidebar.less";
 @import "components/dashboard.less";
+@import "components/locator.less";
 @import "components/quoter.less";
 @import "components/login.less";
 @import "components/home.less";  
@@ -35,12 +36,21 @@ a[ng-click], button[ng-click], tr[ng-click] {
 a:hover{text-decoration: none;}
 .table{margin: 10px 0;}
 .container{margin-right: 0; margin-left: 0;}
-body.quoter .container, 
-body.login .container, 
-body.home .container, 
-body.application .container,
-body.locator .container{
-    margin-left: auto; margin-right: auto; margin-top: 90px;
+
+
+// Dashboard is left aligned, while rest of site is centered, so
+// we account for this here using margin: auto
+body.quoter, 
+body.login, 
+body.home, 
+body.application,
+body.password_reset,
+body.locator{
+    
+    .container {
+         margin-left: auto; margin-right: auto; margin-top: 90px;
+    }
+   
 }
 
 body.locator .container {
@@ -51,6 +61,15 @@ body.quoter .container, body.application .container {
     margin-top: 20px;
 }
 
+.nav-pills.statuses > li.active > a:hover{
+    background: @blue;
+    color: white;
+}
+.nav-pills.statuses > li > a:hover{
+    background: inherit;
+    color: @blueDark;
+}
+
 body.dashboard {
     background: white;
     
@@ -59,7 +78,7 @@ body.dashboard {
         border-right: 1px solid @niceTan;
         
         width: @gridRowWidth + 40px;
-        
+        min-height: 100%;
         .span10.offset2 {
             margin-left: (@gridColumnWidth * 2) + (@gridGutterWidth * 3) + 10px;
         }
@@ -72,6 +91,12 @@ ul.unstyled li{min-height: 50px;}
 
 h2 {
     font-size: 22.5px; // this should be in 
+}
+
+.default-image {
+    display: inline !important;
+    .opacity(40);
+    
 }
 
 // ---------------------------------------------------
@@ -179,6 +204,7 @@ label {
     
     h3 {
         border-bottom: 1px solid @gray;
+        text-transform: uppercase;
     }
 }
 
@@ -189,6 +215,7 @@ sup.required {
 label sup {
     margin-left: 5px;
 }
+
 
 // ---------------------------------------------------
 // 
@@ -323,10 +350,10 @@ td[colspan*="1"] button {
     margin: 0 auto;
 }
 
-form[name*="formBuyoutOptions"] .ng-invalid {
-  border-color: @red;
-  .box-shadow(0 0 6px #f8b9b7);
-}
+// form[name*="formBuyoutOptions"] .ng-invalid {
+//   border-color: @red;
+//   .box-shadow(0 0 6px #f8b9b7);
+// }
 
 
 
@@ -513,6 +540,3 @@ footer em {
     bottom: 12px;
     padding: 0 20px;
 }
-
-
-@import "./components/dashboard.less";

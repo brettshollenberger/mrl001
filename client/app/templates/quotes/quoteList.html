@@ -13,8 +13,6 @@
         <div class="row">  
             <div class="span10">  
                 <div class="form-inline">
-                    <label>Search cost
-                    <input type="text" class="input-small" placeholder="$$$" ng-model="searchCost"></label>
                     
                     <label>Search description
                     <input type="text" placeholder="Description" ng-model="searchDesc"></label>
@@ -40,11 +38,16 @@
                             <th>Status</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         <tr ng-click="editItem(item._id)" ng-repeat="item in quotes | filter: {totalCost: searchCost, description: searchDesc, vendor.name: searchVend, status: filterStatus}">
+                            
                             <td>${{item.totalCost | number}}</td>
                             <td>{{item.description}}</td>
-                            <td>{{item.vendor.name}}</td>
+                            <td>
+                                <img class="img-tiny" src="{{item.vendor.logo.original}}"/> &nbsp;
+                                {{item.vendor.name}} 
+                            </td>
                             <td>{{item.status}}</td>
                         </tr>
                     </tbody>

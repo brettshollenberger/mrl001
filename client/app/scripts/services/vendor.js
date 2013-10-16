@@ -1,37 +1,28 @@
-angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'userService',
-    function($http, MARLINAPI_CONFIG, User) {
+angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'userService', '$location',
+    function($http, MARLINAPI_CONFIG, User, $location) {
 
         var url = MARLINAPI_CONFIG.base_url;
-
-        /**
-         * Set default terms for vendor if no custom terms are set
-         * @todo move to API where it's more robust?
-         *
-         */
-        var defaultTerms = 'Financing is for equipment that is to be used solely for business purposes, and is calculated using two (2) payments in advance (10% for the 10% Security Deposit purchase option) held as a Security Deposit. Quoted payments do not include Taxes or Insurance. Quotes are subject to credit approval by Marlin Leasing Corporation and may change without notice. Rates are for companies in business 2+ years. Programs available for newer businesses. Please call for rates over $50,000.';
-
-        var setLegalTerms = function(item) {
-
-            if (!item.legalTerms || item.legalTerms === '') {
-                item.legalTerms = defaultTerms;
-            }
-
-            return item;
-        };
-
 
 
         // create and expose service methods
         var exports = {};
+        
+        // Generic find functionality
+        exports.find = function(str) {
+
+            
+            var params = {
+                query: JSON.stringify(str)
+            };
+
+            return $http.get(url + 'vendors/find', {params: params}).then(function(response) {
+                return response.data;
+            });
+        };
 
         // get all items
         exports.getAll = function() {
             return $http.get(url + 'vendors').then(function(response) {
-
-                _.each(response.data, function(item) {
-                    item = setLegalTerms(item);
-                });
-
                 return response.data;
             });
         };
@@ -39,9 +30,6 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
         // get one item by id
         exports.getById = function(id) {
             return $http.get(url + 'vendors/' + id).then(function(response) {
-
-                response.data = setLegalTerms(response.data);
-
                 return response.data;
             });
         };
@@ -78,6 +66,31 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
             return $http.get(url + 'vendors/' + vendorId + '/salesRep').then(function(response) {
                 return response.data;
             });
+        };
+        
+        exports.lookupBySlug = function(slug, callback) {
+                      
+            // Private function that will execute callback if its valid
+            function doCallback(result) {
+                result = result || null;
+                if(callback && typeof callback === 'function') {
+                    callback(result);
+                }
+            }
+            
+            // attempt to find vendor by slug
+            exports.find({ 'slug' : slug }).then(function(response) {
+                
+                if(response && response.length === 1) {
+                    callback(response[0]);
+                } else {
+                    callback();
+                }           
+                
+            });
+            
+            
+            
         };
 
         /**
@@ -203,9 +216,34 @@ angular.module('app').factory('vendorService', ['$http', 'MARLINAPI_CONFIG', 'us
 
         };
         
-        exports.getAllVendorTags = function() {        
-            return $http.get(url + 'vendors/tags').then(function(response) {
+        /**
+         * Returns a list of all unique tags used across all vendors
+         *
+         * tagType will be the DB field name of the tags field
+         *
+         */
+        exports.getAllVendorTags = function(tagType) {
+        
+            var type = tagType || 'tags';
+        
+            return $http.get(url + 'vendors/tags/' + type).then(function(response) {
                 return _.sortBy(response.data);
+            });
+        };
+        
+        /**
+         * Returns an array of industry/counts for all industry tags used
+         *
+         */
+        exports.getIndustryCounts = function() {
+            return $http.get(url + 'vendors/industryCounts').then(function(response) {
+                return response.data;
+            });
+        };
+        
+        exports.getVendorByIndustry = function(industry) {
+            return $http.get(url + 'vendors/getVendorByIndustry/' + industry).then(function(response) {
+                return response.data;
             });
         };
         

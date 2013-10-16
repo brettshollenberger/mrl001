@@ -46,16 +46,131 @@ angular
     })
     .directive('numberOnly', function() {
         return {
-            link: function(scope, ele, attrs) {
-                ele.bind('keypress', function(e) {
-                    var newVal = ele.val() + (e.charCode !== 0 ? String.fromCharCode(e.charCode) : '');
-                    var theCharacter = String.fromCharCode(e.charCode);
+            require: '?ngModel',
+            link: function(scope, ele, attrs, ctrl) {
+                var matcher, matchedString, input;
 
-                    if (theCharacter.search(/\d/) === -1) {
-                        e.preventDefault();
+                if (!ctrl) return;
+
+                // force truthy in case we are on non-input el
+                attrs.numberOnly = true;
+
+                var validator = function(value) {
+                    if (attrs.numberOnly && (notNum(value) || value === false)) {
+                        ctrl.$setValidity('numericality', true);
+                    } else {
+                        ctrl.$setValidity('numericality', false);
                     }
+                    return value;
+                };
+
+                ctrl.$formatters.push(validator);
+                ctrl.$parsers.unshift(validator);
+
+                attrs.$observe('numberOnly', function() {
+                    validator(ctrl.$viewValue);
                 });
+
+                function notNum(value) {
+                    if (value || value === 0 || value === '0') {
+                        // /regex/#match returns an array, the first item of which is
+                        // the matched string (e.g. "0.123" in "0.123abc" if the user)
+                        // input a string with letters in it, for whatever reason.
+                        // The input attribute is the original input, so we check that
+                        // the matched string ("0.123") matches the original input;
+                        // if it doesn't, it's false. The !! operator converts to
+                        // boolean, so the return statement will always return 
+                        // true or false.
+                        matcher       = value.toString().match(/\d{1,}\.{0,1}\d{0,}/);
+                        matchedString = matcher[0];
+                        input         = matcher.input;
+
+                        return matchedString == input;
+                    } else {
+                        return false;
+                    }
+                    
+                }
             }
         };
 
-    });
+    })
+    .directive('isUser', function(userService, Validator) {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input, form;
+
+                    if (!ctrl) return;
+
+                    form = scope.$eval(ele[0].form.name);
+
+                    // force truthy in case we are on non-input el
+                    attrs.isUser = true;
+
+                    var validator = function(value) {
+                        
+                        if(!value) return;
+                    
+                        userService.find({email: value || undefined}).then(function(response, err) {
+                            if (response.data && response.data[0] && response.data[0].email) {
+                                ctrl.$setValidity('isUser', true);
+                            } else {
+                                ctrl.$setValidity('isUser', false);
+                            }
+                            Validator.validateField(form.email, form);
+                        });
+                    };
+
+                    $(ele).on('blur', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                }
+            };
+
+        })
+        .directive('integerOnly', function() {
+            return {
+                require: '?ngModel',
+                link: function(scope, ele, attrs, ctrl) {
+                    var matcher, matchedString, input;
+
+                    if (!ctrl) return;
+
+                    // force truthy in case we are on non-input el
+                    attrs.numberOnly = true;
+
+                    var validator = function(value) {
+                        if (attrs.numberOnly && (notInt(value) || value === false)) {
+                            ctrl.$setValidity('integer', true);
+                        } else {
+                            ctrl.$setValidity('integer', false);
+                        }
+                        return value;
+                    };
+
+                    ctrl.$formatters.push(validator);
+                    ctrl.$parsers.unshift(validator);
+
+                    attrs.$observe('integerOnly', function() {
+                        validator(ctrl.$viewValue);
+                    });
+
+                    function notInt(value) {
+                        if (value || value === 0 || value === '0') {
+
+                            matcher       = value.toString().match(/\d{1,}/);
+                            matchedString = matcher[0];
+                            input         = matcher.input;
+
+                            return matchedString == input;
+                        } else {
+                            return false;
+                        }
+                        
+                    }
+                }
+            };
+
+        });

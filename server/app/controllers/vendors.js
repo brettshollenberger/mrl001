@@ -70,6 +70,11 @@ exports.findByBodyOrParams = function(req, res, next) {
 
     if(req.body && req.body.vendorId) {
         id = req.body.vendorId;
+
+        // sometimes vendorId might be an object if we've called populate('vendorId') on load
+        // in this case we need to get the id only 
+        if (id && id._id) id = id._id;
+
     } else if(req.params && req.params.vendorId) {
         id = req.params.vendorId;
     }

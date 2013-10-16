@@ -242,6 +242,26 @@ angular
                 return form;
             };
 
+            // updates the sidebar with new vendor logo and/ or name
+            function updateSidebar() {
+                // get current user from auth service
+                var theUser = Auth.getCurrentUser();
+                
+                // reset the vendor to be an object
+                // sometimes is appears as an array? 
+                theUser.vendor = {};
+
+                // we only need certain information
+                // so grab this from our vendor
+                // @note if we try to save the whole vendor we run out of cookie room! 
+                theUser.vendor._id  = $scope.vendor._id;
+                theUser.vendor.logo = $scope.vendor.logo;
+                theUser.vendor.name = $scope.vendor.name;
+                
+                // save the update
+                Auth.updateCurrentUser(theUser);
+            }
+
             $scope.save = function(doRedirect) {
 
                 CommonInterface.save({
@@ -268,15 +288,11 @@ angular
 
                         });
                         
-                        // get current user from auth service
-                        var theUser = Auth.getCurrentUser();
-                        
-                        // update avatar for current vendor
-                        theUser.vendor = $scope.vendor;
-                        
-                        // save the update
-                        Auth.updateCurrentUser(theUser);
-                        
+                    },
+                    postSaveHook: function() {
+
+                        updateSidebar();
+
                     }
                 });
             };

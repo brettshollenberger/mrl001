@@ -186,13 +186,18 @@ angular.module('app').factory('authService', ['$http', '$rootScope', 'userServic
             // check to make sure this user is the current logged in user 
             // this can be eliminated if we have a watch on resource alls to the user._id 
             // endpoint on API 
-            if(newUser._id != userData._id) return;
+
+            // only update the user if the object passed mathces the current user ID
+            if(newUser._id == userData.userId) {
+
+                userData.currentUser = newUser;
+                userData.authLevel = newUser.role;
+                
+                // update cookie
+                $cookieStore.put('userData', userData);
+
+            }
             
-            userData.currentUser = newUser;
-            userData.authLevel = newUser.role;
-            
-            // update cookie
-            $cookieStore.put('userData', userData);
         };
 
         /**

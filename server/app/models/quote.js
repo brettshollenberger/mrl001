@@ -74,7 +74,7 @@ var QuoteSchema = new Schema({
 // virtual fields are available anywhere on the server. 
 // They are not passes over the API unless explicitly set. 
 QuoteSchema.virtual('quoterToolLink').get(function() {
-    var protocol = config.secureProtocol || 'https://';
+    var protocol = req.protocol;
     var host     = 'leaserep.com';
     var port     = ':' + config.port || '';
     return protocol + this.vendorId.slug + '.' + host + port + '/tools/quoter/' + this._id;

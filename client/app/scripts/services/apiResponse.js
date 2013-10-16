@@ -36,7 +36,6 @@ angular
                     */
                     function success(response) {
 
-                        console.log('API: success');
                         // check for angular templates, which are loaded through ajax
                         // if response is a template, return and go no further. 
                         if (typeof response.data !== 'object') {
@@ -65,8 +64,6 @@ angular
                     *
                     */
                     function error(response) {
-
-                        console.log('API: failure');
 
                         // meta is our standard response header, and in the case of an error
                         // where result === null, meta contains all the info we need. 

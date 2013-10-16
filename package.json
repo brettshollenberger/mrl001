@@ -74,7 +74,8 @@
     "mongoose-taggable" : "https://github.com/aaronfrey/mongoose-taggable/archive/0.4.0-multiple-tags.tar.gz",
     "mongoose-currency" : "latest",
     "numeral" : "latest",
-    "natural" : "latest"
+    "natural" : "latest",
+    "cors": "~2.1.0"
   },
   "devDependencies": {
     "supertest": "latest",

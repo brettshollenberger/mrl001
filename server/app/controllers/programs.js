@@ -62,6 +62,15 @@ exports.destroy = function(req, res) {
  * Show an program
  */
 exports.show = function(req, res) {
+    
+    _.each(req.program.rateSheet.buyoutOptions, function(item) {
+        _.each(item.costs, function(cost) {
+            cost.min = cost.min / 100;
+            cost.max = cost.max / 100;
+            console.log(cost);
+        }); 
+    });
+    
     res.ok(req.program);
 };
 

@@ -3,7 +3,20 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.7-pre-release (October 15th, 2013)
+Release 0.3.7-pre-release-1 (October 15th, 2013)
+--------
+
+- [BUG] Fix issue where map marker doesn't appear when updating a vendor location
+- [BUG] Refactor how API key is saved - API key is always generated if not present. 
+- [BUG] Fix issue where marker doesn't appear when you update a vendor location. 
+- [CHORE] Refactor the "delete this" button so: 
+ 1. it only appears on basic form and 
+ 2. it reads "Delete This User" or other resource name. 
+- [BUG] Fix issue where user avatar don't crop square. 
+- [BUG] Fix position of version/ copyright info on sidebar.
+
+
+Release 0.3.7-pre-release-1 (October 15th, 2013)
 --------
 This is a pre-release of the sofware. This was a BIGGG release, with a lot of refactoring, features, and bugs. For a complete list view 
 

@@ -232,7 +232,7 @@
                             placeholder="" 
                             ng-model="application.guarantor.contactPerson.name"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.contactPerson.name'], applicationForm)"
-                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.contactPerson.name'], applicationForm)"required>
+                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.contactPerson.name'], applicationForm)">
 
                             <div ng-show="applicationForm.FacultyErrors['application.guarantor.contactPerson.name']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.contactPerson.name']}}</div>
                 
@@ -249,8 +249,7 @@
                             placeholder="" 
                             ng-model="application.guarantor.contactPerson.email"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.contactPerson.email'], applicationForm)"
-                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.contactPerson.email'], applicationForm)"
-                            required>
+                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.contactPerson.email'], applicationForm)">
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.contactPerson.email']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.contactPerson.email']}}</div>
                         
@@ -263,8 +262,7 @@
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.contactPerson.phone'], applicationForm)"
                             ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.contactPerson.phone'], applicationForm)"
                             ui-mask="(999) 999-9999"
-                            ui-validate="{phone: 'Validator.validatePhone($value)'}"
-                            required>
+                            ui-validate="{phone: 'Validator.validatePhone($value)'}">
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.contactPerson.phone']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.contactPerson.phone']}}</div>
                         
@@ -275,8 +273,7 @@
                             placeholder="" 
                             ng-model="application.guarantor.homeAddress.address1"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.homeAddress.address1'], applicationForm)"
-                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.address1'], applicationForm)"
-                            required>
+                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.address1'], applicationForm)">
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.homeAddress.address1']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.homeAddress.address1']}}</div>
                         
@@ -294,8 +291,7 @@
                             placeholder="" 
                             ng-model="application.guarantor.homeAddress.city"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.homeAddress.city'], applicationForm)"
-                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.city'], applicationForm)"
-                            required>
+                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.city'], applicationForm)">
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.homeAddress.city']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.homeAddress.city']}}</div>
                         
@@ -305,8 +301,7 @@
                             ng-model="application.guarantor.homeAddress.state" 
                             ng-options="state.abbreviation as state.name for state in states1"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.homeAddress.state'], applicationForm)"
-                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.state'], applicationForm)"
-                            required></select>
+                            ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.state'], applicationForm)"></select>
 
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.homeAddress.state']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.homeAddress.state']}}</div>
@@ -319,8 +314,7 @@
                             ng-model="application.guarantor.homeAddress.zip"
                             ng-blur="Validator.validateField(applicationForm['application.guarantor.homeAddress.zip'], applicationForm)"
                             ng-change="Validator.removeInvalidation(applicationForm['application.guarantor.homeAddress.zip'], applicationForm)"
-                            ui-validate="{zip: 'Validator.validateZip($value)'}"
-                            required>
+                            ui-validate="{zip: 'Validator.validateZip($value)'}">
 
                         <div ng-show="applicationForm.FacultyErrors['application.guarantor.homeAddress.zip']" class="alert alert-error alert-tooltip">{{applicationForm.FacultyErrors['application.guarantor.homeAddress.zip']}}</div>
                                    

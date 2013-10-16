@@ -52,7 +52,17 @@
                 <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                 
                 <label>Website Url</label>
-                <input name="vendor.website" type="text" class="large" placeholder="Website" ng-model="vendor.website">
+                <input 
+                    name="vendor.website" 
+                    type="url" 
+                    class="large" 
+                    placeholder="Website" 
+                    ng-model="vendor.website"
+                    ng-blur="Validator.validateField(basicForm['vendor.website'], basicForm)"ng-change="Validator.removeInvalidation(basicForm['vendor.website'], basicForm)">
+
+                <div ng-show="basicForm.FacultyErrors['vendor.website']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['vendor.website']}}
+                </div>
                 
                 <label>Business Phone Number</label>
                 <input name="vendor.businessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" ng-change="Validator.removeInvalidation(basicForm['vendor.businessPhone'], basicForm)">

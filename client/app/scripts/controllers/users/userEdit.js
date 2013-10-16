@@ -161,6 +161,8 @@ angular
                     redirectUrl: '/dashboard/users',
                     doRedirect: doRedirect,
                     strategy: function() {
+                        
+                        // if we are updating user relationships
                         if ($scope.initialRole !== $scope.user.role) {
                             if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
                                 _.each($scope.vendors, function(item, key) {
@@ -175,6 +177,10 @@ angular
                                 updateVendorRelationships();
                             }
                         }
+                        
+                        // call auth service to udpate user
+                        Auth.updateCurrentUser($scope.user);
+                        
                     }
                 });
             };

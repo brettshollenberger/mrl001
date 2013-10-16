@@ -155,6 +155,8 @@ exports.completeAppCredit = function(req, app) {
             app.vendorId.creditEmailAddress : 
             'credit@marlinfinance.com';
      
+        var appSalesRepLocal = app.salesRep ? app.salesRep.fullname : '';
+        var appVendorRepLocal = app.vendorRep ? app.vendorRep.fullname : '';
      
         var locals = {
             to: {
@@ -164,8 +166,8 @@ exports.completeAppCredit = function(req, app) {
             variables: {
                 
                 appVendorName: app.vendorId.name,
-                appSalesRep: app.salesRep.fullname,
-                appVendorRep: app.vendorRep.fullname,
+                appSalesRep: appSalesRepLocal,
+                appVendorRep: appVendorRepLocal,
                 
                 appTotalCost: app.totalCostDisplay,
                 appDesc: app.description,

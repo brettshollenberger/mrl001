@@ -196,6 +196,9 @@ angular
                         // and then making and API call to update this vendor
                         updateVendorRelationships();
                         
+                    },
+                    postSaveHook: function() {
+
                         // call auth service to udpate user
                         Auth.updateCurrentUser($scope.user);
                         

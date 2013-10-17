@@ -60,13 +60,14 @@ angular
 
       validationMessages: {
         numericality: "Must be a number.",
-        required: "This field is required.",
-        zip: "A five or nine digit zip code is required.",
-        email: "Please enter a valid email address.",
-        mask: "Please enter a valid phone number",
-        agree: "Please agree to the terms and conditions.",
-        phone: "Please enter a valid phone number.",
-        isUser: "Email not found. Please register or try again."
+        required:     "This field is required.",
+        zip:          "A five or nine digit zip code is required.",
+        email:        "Please enter a valid email address.",
+        mask:         "Please enter a valid phone number",
+        agree:        "Please agree to the terms and conditions.",
+        phone:        "Please enter a valid phone number.",
+        isUser:       "Email not found. Please register or try again.",
+        url:          "Please enter a valid url."
       },
 
       addValidationMessage: function(key, value) {
@@ -181,7 +182,9 @@ angular
       removeInvalidation: function(field, form) {
         var errors = {};
         this.setErrors(field, errors);
-        if (nullValues(errors)) { form.FacultyErrors[field.$name] = null; }
+        if (!form.FacultyErrors)             { form.FacultyErrors = {}; }
+        if (nullValues(errors))              { form.FacultyErrors[field.$name] = null; }
+        if (form.FacultyErrors[field.$name]) { form.FacultyErrors[field.$name] = errors[field.$name]; }
       },
 
       validateField: function(field, form) {

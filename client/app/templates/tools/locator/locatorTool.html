@@ -6,32 +6,36 @@
      
      <!-- Inital Industry Tab -->
      
-     <div ng-show="activeTab == 1">
+     <div class="span12" ng-show="activeTab == 1">
          
-        <div class="span12 text-center">
+        <div class="text-center">
             <img src="img/locator/marlin_locator_logo.png" alt="Marlin Dealer Locator" class="dealerLocatorLogo" />
         </div>
          
-        <div class="span12">
+        <div>
             <img src="img/locator/map.png" class="placeholderMap" alt="Map Placeholder" />
         </div>
-         
-        <div class="span6 industryCount" ng-repeat="industry in industries" ng-click="setIndustry(industry._id.token)">
-         
-            <div class="border">
-         
-                <div class="counts img-circle pull-left">
-                    {{industry.count}}
-                </div>
+        
+        <div class="row">
+        
+            <div class="span6 industryCount" ng-repeat="industry in industries" ng-click="setIndustry(industry._id.token)">
+             
+                <div class="border">
+             
+                    <div class="counts img-circle pull-left">
+                        {{industry.count}}
+                    </div>
+                    
+                    <div class="pull-left">
+                        <h2>{{industry._id.token}}</h2>
+                    </div>
+                    
+                    <p class="pull-right"><i class="icon-arrow-right"></i></p>
                 
-                <div class="pull-left">
-                    <h2>{{industry._id.token}}</h2>
                 </div>
-                
-                <p class="pull-right"><i class="icon-arrow-right"></i></p>
-            
+             
             </div>
-         
+        
         </div>
          
      </div>
@@ -39,7 +43,7 @@
      
      <!-- Secondary Tab to Show after Industry Selection -->
      
-     <div ng-show="activeTab == 2">
+     <div class="span12" ng-show="activeTab == 2">
      
         <div class="row">
             <div class="span12">
@@ -67,7 +71,7 @@
             
         </div>
         
-        <div class="row" ui-if="activeTab == 2">
+        <div class="row" ui-if="mapActive">
         
             <div class="span12">
                 

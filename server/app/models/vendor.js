@@ -385,7 +385,7 @@ VendorSchema.pre('save', function(next) {
     * @todo in the future we should have a function to recreate an API key if admin needs to
     *
     */
-    if(this.isNew) { 
+    if(!this.apiKey || this.apiKey === '') { 
         var key = require('node-uuid')();
         this.apiKey = key; 
     }

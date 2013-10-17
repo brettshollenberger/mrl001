@@ -15,7 +15,7 @@
                     </li>
                 </ul>
                 <div class="actions">
-                    <a ng-show="isToolActive('quoter')" class="btn btn-primary" target="_blank" ng-href="#/tools/quoter?vendor_id={{vendor._id}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
+                    <a ng-show="isToolActive('quoter')" class="btn btn-primary" target="_blank" ng-href="{{launchQuoter()}}"><i class="icon icon-comments-alt"></i> Launch Quoter Tool</a>
 
                     <a class="btn btn-primary" id="cancel" history-back><i class="icon icon-remove-sign"></i>Close</a>
                     <button 
@@ -44,7 +44,7 @@
                 
                 <label>Vendor Name</label>
 
-                <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name" required ng-blur="Validator.validateField(basicForm['vendor.name'], basicForm)" >
+                <input name="vendor.name" type="text" id="name" placeholder="Name" ng-model="vendor.name" required ng-blur="Validator.validateField(basicForm['vendor.name'], basicForm)" ng-change="Validator.removeInvalidation(basicForm['vendor.name'], basicForm)">
 
                 <div ng-show="basicForm.FacultyErrors['vendor.name']" class="alert alert-error alert-tooltip">
                     {{basicForm.FacultyErrors['vendor.name']}}
@@ -52,10 +52,20 @@
                 <!-- <input type="text" placeholder="Vendor ID" disabled="disabled" ng-model="vendor._id"> -->
                 
                 <label>Website Url</label>
-                <input name="vendor.website" type="text" class="large" placeholder="Website" ng-model="vendor.website">
+                <input 
+                    name="vendor.website" 
+                    type="url" 
+                    class="large" 
+                    placeholder="Website" 
+                    ng-model="vendor.website"
+                    ng-blur="Validator.validateField(basicForm['vendor.website'], basicForm)"ng-change="Validator.removeInvalidation(basicForm['vendor.website'], basicForm)">
+
+                <div ng-show="basicForm.FacultyErrors['vendor.website']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['vendor.website']}}
+                </div>
                 
                 <label>Business Phone Number</label>
-                <input name="vendor.businessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" >
+                <input name="vendor.businessPhone" type="text" class="medium" placeholder="Business Phone" class="input-block" ng-model="vendor.businessPhone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.businessPhone'], basicForm)" ng-change="Validator.removeInvalidation(basicForm['vendor.businessPhone'], basicForm)">
 
                 <div ng-show="basicForm.FacultyErrors['vendor.businessPhone']" class="alert alert-error alert-tooltip">                   {{basicForm.FacultyErrors['vendor.businessPhone']}}
                 </div>
@@ -78,7 +88,7 @@
                 
                 <label>Zip</label>
 
-                <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(basicForm['vendor.businessAddress.zip'], basicForm)">
+                <input name="vendor.businessAddress.zip" type="text" class="medium" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField(basicForm['vendor.businessAddress.zip'], basicForm)" ng-change="Validator.removeInvalidation(basicForm['vendor.businessAddress.zip'], basicForm)">
 
                 <div ng-show="basicForm.FacultyErrors['vendor.businessAddress.zip']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.businessAddress.zip']}}</div>
 
@@ -90,12 +100,12 @@
                 <input name="vendor.contactPerson.name" type="text" placeholder="Name" ng-model="vendor.contactPerson.name">
                 
                 <label>Email</label>
-                <input name="vendor.contactPerson.email" type="email" placeholder="Email" ng-model="vendor.contactPerson.email" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.email'], basicForm)">
+                <input name="vendor.contactPerson.email" type="email" placeholder="Email" ng-model="vendor.contactPerson.email" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.email'], basicForm)" ng-change="Validator.removeInvalidation(basicForm['vendor.contactPerson.email'], basicForm)">
 
                 <div ng-show="basicForm.FacultyErrors['vendor.contactPerson.email']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.contactPerson.email']}}</div>
                 
                 <label>Phone</label>
-                <input name="vendor.contactPerson.phone" type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.phone'], basicForm)" ui-validate="{phone: 'Validator.validatePhone($value)'}" >
+                <input name="vendor.contactPerson.phone" type="text" placeholder="Phone" ng-model="vendor.contactPerson.phone" ui-mask="(999) 999-9999" ng-blur="Validator.validateField(basicForm['vendor.contactPerson.phone'], basicForm)" ui-validate="{phone: 'Validator.validatePhone($value)'}" ng-change="Validator.removeInvalidation(basicForm['vendor.contactPerson.phone'], basicForm)">
 
                  <div ng-show="basicForm.FacultyErrors['vendor.contactPerson.phone']" class="alert alert-error alert-tooltip">{{basicForm.FacultyErrors['vendor.contactPerson.phone']}}</div>
             </div>
@@ -155,7 +165,7 @@
                 <div ng-show="vendor.vendorRep">
                     <img class="img-large img-circle pull-left" ng-src="{{vendor.vendorRep.avatar.original}}" ng-show="vendor.vendorRep.avatar.original" default-image="user"/>
                     
-                    <span class="pull-left manage-vendor-rep">
+                    <span class="pull-left manage-sales-rep">
                         <a user-profile="vendor.vendorRep"></a><br />
                         <a mail-to="{{vendor.vendorRep.email}}"></a> <br/>
                         <a call-to="{{vendor.vendorRep.phone}}"></a>
@@ -271,7 +281,7 @@
                 <button ng-click="findMyLocation()" class="btn" >Update Location</button>
                 
                 <label>Address 1</label>
-                <input name="vendor.businessAddress.address1" type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1" required ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.address1'], $$childTail.locationForm)">
+                <input name="vendor.businessAddress.address1" type="text" placeholder="Address 1" ng-model="vendor.businessAddress.address1" required ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.address1'], $$childTail.locationForm)" ng-change="Validator.removeInvalidation($$childTail.locationForm['vendor.businessAddress.address1'], $$childTail.locationForm)">
 
                 <div ng-show="$$childTail.locationForm.FacultyErrors['vendor.businessAddress.address1']" class="alert alert-error alert-tooltip">
                     {{$$childTail.locationForm.FacultyErrors['vendor.businessAddress.address1']}}
@@ -287,7 +297,7 @@
                 <select name="vendor.businessAddress.state" ng-model="vendor.businessAddress.state" ng-options="state.abbreviation as state.name for state in states"></select>
                 
                 <label>Zip</label>
-                <input name="vendor.businessAddress.zip" type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.zip'], $$childTail.locationForm)">
+                <input name="vendor.businessAddress.zip" type="text" placeholder="Zip" ng-model="vendor.businessAddress.zip" ui-validate="{zip: 'Validator.validateZip($value)'}" ng-blur="Validator.validateField($$childTail.locationForm['vendor.businessAddress.zip'], $$childTail.locationForm)" ng-change="Validator.removeInvalidation($$childTail.locationForm['vendor.businessAddress.zip'], $$childTail.locationForm)">
 
                 <div ng-show="$$childTail.locationForm.FacultyErrors['vendor.businessAddress.zip']" class="alert alert-error alert-tooltip">{{$$childTail.locationForm.FacultyErrors['vendor.businessAddress.zip']}}</div>
                     

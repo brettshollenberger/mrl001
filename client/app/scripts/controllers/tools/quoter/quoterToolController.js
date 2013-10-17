@@ -126,11 +126,6 @@ angular
                 
                     $scope.quote = response;
 
-                    // get the vendor
-                    Vendor.getById($scope.quote.vendorId).then(function(response) {
-                        $scope.vendor = response;
-                    });
-
                 }, function(error) {
                     $location.path('/tools/quoter');
                 });
@@ -213,6 +208,9 @@ angular
                     if (!quoteId) {
 
                         $rootScope.previewQuote = true;
+                        
+                        // clear vendorId because its an object and reset
+                        $scope.quote.vendorId = null;
                         $scope.quote.vendorId = $scope.vendor._id;
 
                         // create new quote
@@ -221,6 +219,10 @@ angular
                     } else {
                         
                         $rootScope.previewQuote = true;
+
+                        // clear out the vendor id
+                        $scope.quote.vendorId = null;
+                        $scope.quote.vendorId = $scope.vendor._id;
                         
                         // update existing quote 
                         Quote.update($scope.quote).then(handleReponse);
@@ -286,7 +288,11 @@ angular
                 // quotes have an 'Open' status by default while apps have 'new'
                 // @todo refactor to make consistant 
                 application.status = 'new';
-                
+
+                // clear out the vendor id
+                application.vendorId = null;
+                application.vendorId = $scope.vendor._id;
+
                 // flag user as coming from a quote
                 // if this variable is not true, the application tool currecntly redirects
                 // users back home

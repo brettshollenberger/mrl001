@@ -307,7 +307,7 @@ angular
         // define our version
         // @todo this should be set in package.json, and an api call should be made
         //       to get the version number, rather then setting it here. 
-        $rootScope.version = '0.3.7';
+        $rootScope.version = '0.3.9';
 
 
         // @note this is related to experimental promisetracker module
@@ -326,6 +326,27 @@ angular
          */
         $rootScope.goTo = function(urlToGoTo) {
             $location.url(urlToGoTo);
+        };
+
+        /**
+        * Returns a link to a slugified vendor tool
+        *
+        */
+        $rootScope.linkToTool = function(slug, tool, itemId) {
+            
+            // get the base url by replacing the current absolute url with the current path
+            var base = $location.absUrl().replace($location.path(), '');
+            
+            // remove http 
+            base = base.replace('https://', '').replace('http://', '');    
+            
+            // build base url to tool
+            var url = window.location.protocol + '//' + slug + '.' + base + '/tools/' + tool; 
+
+            // append item id if we have it
+            if(itemId) url += '/' + itemId;
+                        
+            return url;
         };
 
         /**

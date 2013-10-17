@@ -6,6 +6,10 @@ module.exports = {
         db: 'mongodb://localhost/marlindb',
         root: rootPath,
         whitelist: ['*'],
+        protocol: 'http://',
+        secureProtocol: 'https://',
+        host: '127.0.0.1',
+        port: '3000',
         siteUrl: 'http://127.0.0.1:3000',
         redis : {
             port: 17789,
@@ -16,7 +20,7 @@ module.exports = {
             // mailcatcher settings, must have mailcatcher installed and running
             type : 'SMTP',
             settings : {
-                host: "127.0.0.1", 
+                host: "127.0.0.1",
                 port: 1025
             },
             templatesDir : path.join(rootPath, 'app/emails/'),

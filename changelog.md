@@ -3,7 +3,65 @@ MarlinQuoter Changelog
 
 The following documents current release features and bug fixes. It also outlines the project roadmap, indicating planned features you can expect to see.
 
-Release 0.3.7-pre-release (October 15th, 2013)
+Release 0.3.9-pre-release-3 (October 16th, 2013)
+--------
+
+**Bugs**
+
+- [BUG] Fix issue with quoter tool email notifications, where getting a quote for a vendor missing either a salesRep of vendorRep would cause an error and restart the app. 
+- [FEATURE] Send an email to "marketing@marlinfinance.com" in cases where a vendor has no vendorRep or salesRep.
+- [BUG] Fix issue loading Google Maps and Fonts on SSL site
+- [BUG] Force https:// in non-development environments
+- [BUG] Fix issue where quoter tool links pointed to incorrect url for the vendor tools
+- [BUG] Fix issue where email for salesRep and vendorRep was the same on vendor edit page.
+- [BUG] Fix Login and Welcome emails links to support https://
+- [BUG] Fix issue where URLs were not validating in dashboard
+- [BUG] Fix issues with rate sheet editing
+ - Remove extra zeros on min and max range
+ - Fix auto-fill of min value based on previous max value
+ - Fix issue where deleting all the buyout options causes an error
+- [BUG] Fix issue where "send welcme email" button was visible before user was saved.
+- [BUG] Fix issue where saving vendors or users updated information in sidebar nav. 
+- [BUG] Fix issue where the user photo would update in the sidebar even when saving failed because of validation. 
+- [BUG] Fix issue where sidebar blocks don't wrap properly on windows. 
+
+
+
+Release 0.3.8-pre-release-2 (October 15th, 2013)
+--------
+
+**Features**
+
+- [FEATURE] Add direct link to vendor quoter tool from vendor slug. 
+ 1. Slug is generated from vendor name on save.
+ 2. Attempts to access quoter tool without slug will be redirected.
+ 3. Link in vendor dashboard page opens their quoter tool
+
+**Bugs**
+
+- [BUG] Fix issue where map marker doesn't appear when updating a vendor location
+- [BUG] Refactor how API key is saved - API key is always generated if not present. 
+- [BUG] Fix issue where marker doesn't appear when you update a vendor location. 
+- [BUG] Fix issue where user avatar don't crop square. 
+- [BUG] Fix position of version/ copyright info on sidebar.
+- [BUG] Fix issue where Google Map on locator tool doesn't render properly when returning to view. 
+- [BUG] Fix issues with CORS and CSRF tokens
+- [BUG] Fix bug where sidebar information doesn't update when user updates their avatar. 
+
+**Styles**
+
+- [STYLE] Adjust style on Qutoer tool to include white bar on top
+
+**Chores**
+
+- [CHORE] Refactor the "delete this" button so: 
+ 1. it only appears on basic form and 
+ 2. it reads "Delete This User" or other resource name. 
+- [CHORE] Added security redirect for https://www.leaserep.com which redirects to https:// 
+- [CHORE] Refactor validation across all internal dashboard pages. 
+
+
+Release 0.3.7-pre-release-1 (October 15th, 2013)
 --------
 This is a pre-release of the sofware. This was a BIGGG release, with a lot of refactoring, features, and bugs. For a complete list view 
 

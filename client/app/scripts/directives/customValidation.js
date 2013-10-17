@@ -56,10 +56,11 @@ angular
                 attrs.numberOnly = true;
 
                 var validator = function(value) {
-                    if (attrs.numberOnly && (notNum(value) || value === false)) {
-                        ctrl.$setValidity('numericality', true);
-                    } else {
+                    if (notNum(value)) {
+                        // not valid if not number
                         ctrl.$setValidity('numericality', false);
+                    } else {
+                        ctrl.$setValidity('numericality', true);
                     }
                     return value;
                 };
@@ -81,11 +82,16 @@ angular
                         // if it doesn't, it's false. The !! operator converts to
                         // boolean, so the return statement will always return 
                         // true or false.
-                        matcher       = value.toString().match(/\d{1,}\.{0,1}\d{0,}/);
-                        matchedString = matcher[0];
-                        input         = matcher.input;
-
-                        return matchedString == input;
+                        try {
+                            value         = value.toString().replace(/\,/g, "");
+                            matcher       = value.match(/\d{1,}\.{0,1}\d{0,}/);
+                            matchedString = matcher[0];
+                            input         = matcher.input;
+                            console.log(matchedString == input);
+                            return matchedString != input;
+                        } catch(e) {
+                            return false;
+                        }
                     } else {
                         return false;
                     }
@@ -142,10 +148,11 @@ angular
                     attrs.numberOnly = true;
 
                     var validator = function(value) {
-                        if (attrs.numberOnly && (notInt(value) || value === false)) {
-                            ctrl.$setValidity('integer', true);
-                        } else {
+                        if (notInt(value)) {
+                            // not valid if not Integer
                             ctrl.$setValidity('integer', false);
+                        } else {
+                            ctrl.$setValidity('integer', true);
                         }
                         return value;
                     };
@@ -159,12 +166,16 @@ angular
 
                     function notInt(value) {
                         if (value || value === 0 || value === '0') {
+                            try {
+                                value         = value.replace(/\,/g, "");
+                                matcher       = value.toString().match(/\d{1,}\,{0,}/);
+                                matchedString = matcher[0];
+                                input         = matcher.input;
 
-                            matcher       = value.toString().match(/\d{1,}/);
-                            matchedString = matcher[0];
-                            input         = matcher.input;
-
-                            return matchedString == input;
+                                return matchedString != input;
+                            } catch(e) {
+                                return false;
+                            }
                         } else {
                             return false;
                         }

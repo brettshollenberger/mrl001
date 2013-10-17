@@ -23,6 +23,8 @@
 
         <form name="basicForm" class="row" ng-show="isActiveTab(0)" unsaved-warning-form>
 
+             <div class="span9 clearfix alert alert-error" ng-show="basicForm.FacultyErrors && showGlobalErrorMsg(basicForm.FacultyErrors)">Form not saved. Please address the errors below.</div>
+
             <div class="span3" can-do-action="changeAvatar">
                 
                 <h3>Avatar</h3>
@@ -39,10 +41,32 @@
                 <h3>Name</h3>
                 
                 <label>First Name</label>
-                <input name="user.name.first" type="text" placeholder="" ng-model="user.name.first">
+                <input 
+                    name="user.name.first" 
+                    type="text" 
+                    placeholder="" 
+                    ng-model="user.name.first"
+                    ng-blur="Validator.validateField(basicForm['user.name.first'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['user.name.first'], basicForm)"
+                    required>
+
+                <div ng-show="basicForm.FacultyErrors['user.name.first']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['user.name.first']}}
+                </div>
                 
                 <label>Last Name</label>
-                <input name="user.name.last" type="text" placeholder="" ng-model="user.name.last">
+                <input 
+                    name="user.name.last" 
+                    type="text" 
+                    placeholder="" 
+                    ng-model="user.name.last"
+                    ng-blur="Validator.validateField(basicForm['user.name.last'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['user.name.last'], basicForm)"
+                    required>
+
+                <div ng-show="basicForm.FacultyErrors['user.name.last']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['user.name.last']}}
+                </div>
                 
             </div>
 
@@ -51,10 +75,33 @@
                 <h3>Contact</h3>
                 
                 <label>Email</label>
-                <input name="user.email" type="text" placeholder="" ng-model="user.email">
+                <input 
+                    name="user.email" 
+                    type="email" 
+                    placeholder="" 
+                    ng-model="user.email"
+                    ng-blur="Validator.validateField(basicForm['user.email'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['user.email'], basicForm)"
+                    required>
+
+                <div ng-show="basicForm.FacultyErrors['user.email']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['user.email']}}
+                </div>
                 
                 <label>Phone</label>
-                <input name="user.phoneNumber" type="text" placeholder="" ng-model="user.phoneNumber">
+                <input 
+                    name="user.phoneNumber" 
+                    type="text" 
+                    placeholder="" 
+                    ng-model="user.phoneNumber"
+                    ui-mask="(999) 999-9999"
+                    ui-validate="{phone: 'Validator.validatePhone($value)'}"
+                    ng-blur="Validator.validateField(basicForm['user.phoneNumber'], basicForm)"
+                    ng-change="Validator.removeInvalidation(basicForm['user.phoneNumber'], basicForm)">
+
+                <div ng-show="basicForm.FacultyErrors['user.phoneNumber']" class="alert alert-error alert-tooltip">
+                    {{basicForm.FacultyErrors['user.phoneNumber']}}
+                </div>
                 
             </div>
             
@@ -77,13 +124,13 @@
             
             </div>
             
-            <div class="span10" can-do-action="welcomeEmail-users">
+            <div class="span10" ng-show="user._id" can-do-action="welcomeEmail-users">
                 <h3>Send Welcome Email</h3>
                 <div class="row">
                     <div class="span4">
                         <button class="btn btn-primary" ng-click="welcomeEmail()"><i class="icon-envelope"></i>&nbsp;{{buttonText}}<i class='icon icon-spinner icon-spin' ng-show="processing"></i></button>
                         <br /><br />
-                        <p>This will send a welcome email to {{user.fullname}} containing his email and a link to login to the dashboard.</p>
+                        <p>This will send a welcome email to {{user.fullname}} containing their email and a link to login to the dashboard.</p>
                     </div>
                 </div>
             </div>
@@ -95,6 +142,8 @@
         </form>
         
         <form name="usersVendors" class="row" ng-show="isActiveTab(1)" unsaved-warning-form can-do-action="changeVendors-users"> 
+
+            <div class="span9 clearfix alert alert-error" ng-show="userVendors.FacultyErrors && showGlobalErrorMsg(userVendors.FacultyErrors)">Form not saved. Please address the errors below.</div>
             
             <h3>Manage Vendors for this user</h3>
             <table class="table table-rate-sheets">
@@ -106,7 +155,7 @@
                 </thead>
                 
                 <tbody>
-                    <tr ng-repeat="item in vendors | orderBy:'active':false">
+                    <tr ng-repeat="item in vendors" ng-hide="checkShowVendor(item)">
                         <td>
                             <button ng-click="toggleActive(item); usersVendors.$setDirty();" class="btn" ng-class="{'btn-success' : item.active}">
                                 <i class="icon " ng-class="{'icon-check' : item.active, 'icon-check-empty' : !item.active}"></i>
@@ -114,7 +163,6 @@
                         </td>
                         <td>
                             <img class="img-rounded img-medium" ng-show="item.logo.original" ng-src="{{item.logo.original}}" />
-                           
                         </td>
                         <td>
                             <p>{{item.name}}</p>

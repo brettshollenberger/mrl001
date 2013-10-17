@@ -117,10 +117,17 @@ angular
                         $scope.currentIndustry = industry;
                         
                         // set the active tab to show the filtered map results
+                        
                         $scope.activeTab = 2;
+                        
+                        $timeout(function() {
+                            $scope.mapActive = true;
+                        }, 0);
+                        
                         filterMarkers();
                     });   
                 } else {
+                    $scope.mapActive = false;
                     $scope.vendors = [];
                     $scope.activeTab = 1;
                 }

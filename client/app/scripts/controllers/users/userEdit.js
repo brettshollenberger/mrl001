@@ -123,27 +123,37 @@ angular
 
 
             function updateVendorRelationships() {
+            
                 // process each program, checking if its active for the vendor
                 _.each($scope.vendors, function(item, key) {
 
                     // API saves an array of _ids
                     if (item.active) {
 
+                        // now set their proper role
+                        item[$scope.user.role] = $scope.user._id;
+                        
+                    } else {
+                        
                         // check if the user is currently the sales or vendor rep for this vendor
                         if (item.salesRep && item.salesRep._id == $scope.user._id) item.salesRep = null;
                         if (item.vendorRep && item.vendorRep._id == $scope.user._id) item.vendorRep = null;
-
-                        // now set their proper role
-                        item[$scope.user.role] = $scope.user._id;
-                        console.log(item);
-
-                        Vendor.update(item);
-
-                        //Vendor.update();
                     }
+                    
+                    Vendor.update(item);
 
                 });
             }
+
+            $scope.showGlobalErrorMsg = function(form) {
+                var showError = false;
+                _.each(form, function(val, key) {
+                    if (val !== null) {
+                        showError = true;
+                    }
+                });
+                return showError;
+            };
 
             var formTabMap = [
                 'basicForm',
@@ -159,8 +169,14 @@ angular
                     id: userId,
                     form: $scope.$$childTail[formTabMap[$scope.activeTab]],
                     redirectUrl: '/dashboard/users',
-                    doRedirect: doRedirect,
-                    strategy: function() {
+                    doRedirect: doRedirect,                        
+                    preSaveHook: function() {
+                        // if we are updating user relationships
+                        // we make a mega set of calls to the api,
+                        // where for each vendor this user was associated with, we set their rep
+                        // to null and save this vendor
+                        // @todo move to API
+                        //
                         if ($scope.initialRole !== $scope.user.role) {
                             if (confirm('Changing a users role will remove all their vendor associations. Are you sure you wish to continue?')) {
                                 _.each($scope.vendors, function(item, key) {
@@ -172,9 +188,20 @@ angular
                                     }
                                     Vendor.update(item);
                                 });
-                                updateVendorRelationships();
                             }
                         }
+
+                        // called to update vendor connections as sales rep and vendor rep
+                        // for vendors. This works by iterating through vendors, checking for active status, 
+                        // and then making and API call to update this vendor
+                        updateVendorRelationships();
+                        
+                    },
+                    postSaveHook: function() {
+
+                        // call auth service to udpate user
+                        Auth.updateCurrentUser($scope.user);
+                        
                     }
                 });
             };
@@ -273,15 +300,32 @@ angular
             // used to set active tab
             $scope.changeTab = function(tab) {
 
-                // @todo, this will need to be more generic if we make into a directive. 
-                $scope.tabs[$scope.activeTab].selected = false;
+                var dataObj = {
+                    callback: function() {
+                        
+                        // @todo, this will need to be more generic if we make into a directive. 
+                        $scope.tabs[$scope.activeTab].selected = false;
+                        $scope.activeTab = tab;
+                        $scope.tabs[$scope.activeTab].selected = true;
 
-                $scope.activeTab = tab;
+                    },
+                    form: $scope.$$childTail[formTabMap[$scope.activeTab]]
+                };
 
-                $scope.tabs[$scope.activeTab].selected = true;
+                $rootScope.$broadcast('$tabChangeStart', dataObj);
 
             };
-
-
+            
+            $scope.checkShowVendor = function(item) {
+            
+                if($scope.user.role === 'salesRep' && item.salesRep && item.salesRep._id !== $scope.user._id) {
+                    return true;
+                } else if($scope.user.role === 'vendorRep' && item.vendorRep && item.vendorRep._id !== $scope.user._id) {
+                   return true; 
+                } else {
+                    return false;
+                }
+            };
+            
         }
     ]);

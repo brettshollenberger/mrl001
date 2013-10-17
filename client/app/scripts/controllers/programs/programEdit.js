@@ -56,7 +56,7 @@ angular
             $scope.termPeriodOptions = ['Month', 'Year', 'Quarter', 'Bi-Annual'];
 
             // empty program object
-            $scope.program = Program.new();
+            $scope.program = Program.template();
             prepareRateSheetView();
 
             $scope.newOption = {};
@@ -113,6 +113,8 @@ angular
                 $scope.formAction = 'Update';
             }
 
+            $scope.saveAlert = false;
+            
             // activated when user clicks the save button
             $scope.save = function(doRedirect) {
 
@@ -185,6 +187,8 @@ angular
                 var newMin;
                 if (_.last(theProgram.costs).max) {
                     newMin = parseInt(_.last(theProgram.costs).max, 10) + 1;
+                    // parse this back to a string so it will be properly converted to currency on the server
+                    newMin = newMin.toString();
                 } else {
                     newMin = '';
                 }
@@ -313,12 +317,13 @@ angular
              */
             $scope.remove = function(type, index, options) {
 
-                console.log(options);
+                //console.log(options);
+                //console.log(type);
 
-                if (type === 'column') {
+                if (type === 'column' && options.terms.length > 1) {
 
-                    console.log(options.terms[index]);
-                    console.log(options);
+                    //console.log(options.terms[index]);
+                    //console.log(options);
 
                     // remove costs at this index
                     _.each(options.costs, function(item) {
@@ -328,7 +333,7 @@ angular
                     // remove label
                     options.terms.splice(index, 1);
 
-                } else if (type === 'row') {
+                } else if (type === 'row' && options.costs.length > 1) {
 
                     // remove costs at this index
                     options.costs.splice(index, 1);
